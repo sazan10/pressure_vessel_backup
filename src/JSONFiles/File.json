@@ -1,0 +1,242 @@
+{
+  "Files": [
+    {
+      "id": 0,
+      "title": "New",
+      "selected": false,
+      "key": "File"
+    },
+    {
+      "id": 1,
+      "title": "Vessel Wizard",
+      "selected": false,
+      "key": "File"
+    },
+    {
+      "id": 2,
+      "title": "Open",
+      "selected": false,
+      "key": "File"
+    },
+    {
+      "id": 3,
+      "title": "Close",
+      "selected": false,
+      "key": "File"
+    },
+    {
+      "id": 4,
+      "title": "Save",
+      "selected": false,
+      "key": "File"
+    },
+    {
+      "id": 5,
+      "title": "Save As",
+      "selected": false,
+      "key": "File"
+    },
+    {
+      "id": 6,
+      "title": "Save All",
+      "selected": false,
+      "key": "File"
+    },
+    {
+      "id": 7,
+      "title": "Save Vessel Picture",
+      "selected": false,
+      "key": "File"
+    },
+    {
+      "id": 8,
+      "title": "Export",
+      "selected": false,
+      "key": "File"
+    },
+    {
+      "id": 9,
+      "title": "HTRI Interface",
+      "selected": false,
+      "key": "File"
+    },
+    {
+      "id": 10,
+      "title": "Print",
+      "selected": false,
+      "key": "File"
+    },
+    {
+      "id": 11,
+      "title": "Exit",
+      "selected": false,
+      "key": "File"
+    }
+  ],
+  "Component": [
+    {
+      "id": 0,
+      "title": "Cylinder",
+      "selected": false,
+      "key": "Component"
+    },
+    {
+      "id": 1,
+      "title": "Transition",
+      "selected": false,
+      "key": "Component"
+    },
+    {
+      "id": 2,
+      "title": "Ellipsoidal Head",
+      "selected": false,
+      "key": "Component"
+    },
+    {
+      "id": 3,
+      "title": "F & D Head",
+      "selected": false,
+      "key": "Component"
+    },
+    {
+      "id": 4,
+      "title": "Hemi Head",
+      "selected": false,
+      "key": "Component"
+    },
+    {
+      "id": 5,
+      "title": "Dished Cover",
+      "selected": false,
+      "key": "Component"
+    },
+    {
+      "id": 6,
+      "title": "ASME B169 Pipe Cap",
+      "selected": false,
+      "key": "Component"
+    },
+    {
+      "id": 7,
+      "title": "Bolted Cover",
+      "selected": false,
+      "key": "Component"
+    },
+    {
+      "id": 8,
+      "title": "Wielded Cover",
+      "selected": false,
+      "key": "Component"
+    },
+    {
+      "id": 9,
+      "title": "Body Flang",
+      "selected": false,
+      "key": "Component"
+    },
+    {
+      "id": 10,
+      "title": "Ring",
+      "selected": false,
+      "key": "Component"
+    },
+    {
+      "id": 11,
+      "title": "Heat Exchanger",
+      "selected": false,
+      "key": "Component"
+    }
+  ],
+  "Actions": [
+    {
+      "id": 0,
+      "title": "Undo",
+      "selected": false,
+      "key": "Actions"
+    },
+    {
+      "id": 1,
+      "title": "Redo",
+      "selected": false,
+      "key": "Actions"
+    },
+    {
+      "id": 2,
+      "title": "Edit",
+      "selected": false,
+      "key": "Actions"
+    },
+    {
+      "id": 3,
+      "title": "Delete",
+      "selected": false,
+      "key": "Actions"
+    },
+    {
+      "id": 4,
+      "title": "Insert",
+      "selected": false,
+      "key": "Actions"
+    },
+    {
+      "id": 5,
+      "title": "Set Datum",
+      "selected": false,
+      "key": "Actions"
+    }
+  ],
+  "Nozzle": [
+    {
+      "id": 0,
+      "title": "Detailed Design",
+      "selected": false,
+      "key": "Nozzle"
+    },
+    {
+      "id": 1,
+      "title": "Quick Design",
+      "selected": false,
+      "key": "Nozzle"
+    }
+  ],
+  "File": [],
+  "Attach": [],
+  "Support": [
+    {
+      "id": 0,
+      "title": "Skirt",
+      "selected": false,
+      "key": "Support"
+    },
+    {
+      "id": 1,
+      "title": "Saddles",
+      "selected": false,
+      "key": "Support"
+    },
+    {
+      "id": 2,
+      "title": "Legs",
+      "selected": false,
+      "key": "Support"
+    },
+    {
+      "id": 3,
+      "title": "Lugs/ Ring Girder Support",
+      "selected": false,
+      "key": "Support"
+    },
+    {
+      "id": 0,
+      "title": "Skirt Base Ring",
+      "selected": false,
+      "key": "Support"
+    }
+  ],
+  "Codes": [],
+  "Loads": [],
+  "Materials": [],
+  "Forms": [],
+  "Window": [],
+  "Help": []
+}

@@ -35,6 +35,7 @@ class Dropdown extends Component{
   }
 
   selectItem(title, id, stateKey){
+    console.log(title + " " + id + " " + stateKey);
     this.setState({
       headerTitle: title,
       listOpen: false
@@ -54,10 +55,10 @@ class Dropdown extends Component{
       <div className="dd-wrapper">
         <div className="dd-header" onClick={() => this.toggleList()}>
           <div className="dd-header-title">{headerTitle}</div>
-          {listOpen
+          {/* {listOpen
             ? <FontAwesome name="angle-up" size="2x"/>
             : <FontAwesome name="angle-down" size="2x"/>
-          }
+          } */}
         </div>
         {listOpen && <ul className="dd-list" onClick={e => e.stopPropagation()}>
           {list.map((item)=> (
