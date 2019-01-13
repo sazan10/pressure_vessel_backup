@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
+import {connect} from 'react-redux';
 import './DropDown.css';
+import * as actions from '../../../store/actions/index';
 
 class Dropdown extends Component{
   constructor(props){
@@ -35,11 +37,12 @@ class Dropdown extends Component{
   }
 
   selectItem(title, id, stateKey){
-    console.log(title + " " + id + " " + stateKey);
+    console.log("DropDown" + title + " " + id + " " + stateKey);
     this.setState({
       headerTitle: title,
       listOpen: false
-    }, this.props.resetThenSet(id, stateKey))
+    });
+    this.props.onMenuClick(title, id, stateKey);
   }
 
   toggleList(){
@@ -70,4 +73,10 @@ class Dropdown extends Component{
   }
 }
 
-export default Dropdown;
+const mapDispatchToProps = dispatch => {
+  return {
+      onMenuClick: ( title, id, stateKey ) => dispatch( actions.clickMenu( title, id, stateKey ) ),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Dropdown);

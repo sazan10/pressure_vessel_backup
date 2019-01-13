@@ -1,28 +1,13 @@
-import React from 'react';
-import Report from 'bv-react-data-report';
+import React, { Component } from "react";
 
-const example =  [
-        {
-            "id": 0,
-            "title": "New",
-            "selected": false,
-            "key": "File"
-        },
-        {
-            "id": 1,
-            "title": "Vessel Wizard",
-            "selected": false,
-            "key": "File"
-        }
-
-    ];
-
-
-const Component1 = () => (
-    <div>
-        <Report data={example} />
+class Component1 extends Component {
+  render() {
+    return (
+      <div>
         <h1>Hello from the other side</h1>
-    </div>
-);
+      </div>
+    );
+  }
+}
 
 export default Component1;
