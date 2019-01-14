@@ -69,9 +69,6 @@ class Parameter1 extends Component {
 
     form = (
       <div>
-        <div className={classes.Input}>
-          <label className={classes.Label3}>Hello</label>
-        </div>
         <form>
           <div className={classes.Input}>
             <label className={classes.Label}>Material</label>
