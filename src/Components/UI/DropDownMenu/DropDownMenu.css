@@ -1,4 +1,6 @@
 .body {
     display: inline-flex;
-    align-content: flex-start;
+    /* width: 100%; */
+    /* align-content: flex-start;
+    justify-content: flex-start; */
 }

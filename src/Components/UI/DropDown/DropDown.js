@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
 import {connect} from 'react-redux';
-import './DropDown.css';
+import classes from './DropDown.css';
 import * as actions from '../../../store/actions/index';
 
 class Dropdown extends Component{
@@ -55,17 +55,17 @@ class Dropdown extends Component{
     const{list} = this.props
     const{listOpen, headerTitle} = this.state
     return(
-      <div className="dd-wrapper">
-        <div className="dd-header" onClick={() => this.toggleList()}>
-          <div className="dd-header-title">{headerTitle}</div>
+      <div className={classes.dd_wrapper}>
+        <div className={classes.dd_header} onClick={() => this.toggleList()}>
+          <div className={classes.dd_header_title}>{headerTitle}</div>
           {/* {listOpen
             ? <FontAwesome name="angle-up" size="2x"/>
             : <FontAwesome name="angle-down" size="2x"/>
           } */}
         </div>
-        {listOpen && <ul className="dd-list" onClick={e => e.stopPropagation()}>
+        {listOpen && <ul className={classes.dd_list} onClick={e => e.stopPropagation()}>
           {list.map((item)=> (
-            <li className="dd-list-item" key={item.id} onClick={() => this.selectItem(item.title, item.id, item.key)}>{item.title} {item.selected && <FontAwesome name="check"/>}</li>
+            <li className={classes.dd_list_item} key={item.id} onClick={() => this.selectItem(item.title, item.id, item.key)}>{item.title} {item.selected && <FontAwesome name="check"/>}</li>
           ))}
         </ul>}
       </div>

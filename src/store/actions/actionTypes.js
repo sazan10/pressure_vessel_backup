@@ -1,2 +1,4 @@
 export const CLICK_MENU = 'CLICK_MENU';
+export const CYLINDER_PARAM1 = "CYLINDER_PARAM1"
+export const CYLINDER_PARAM2 = "CYLINDER_PARAM2"
 

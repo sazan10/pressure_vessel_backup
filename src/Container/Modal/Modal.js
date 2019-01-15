@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Modal.css';
+import classes from './Modal.css';
 
 const propTypes = {
     id: PropTypes.string.isRequired
@@ -15,7 +15,7 @@ class Modal extends React.Component {
         // open modal specified by id
         let modal = Modal.modals.find(x => x.props.id === id);
         modal.setState({ isOpen: true });
-        document.body.classList.add('jw-modal-open');
+        document.body.classList.add('jw_modal_open');
     }
 
     static close = (id) => (e) => {
@@ -24,7 +24,7 @@ class Modal extends React.Component {
         // close modal specified by id
         let modal = Modal.modals.find(x => x.props.id === id);
         modal.setState({ isOpen: false });
-        document.body.classList.remove('jw-modal-open');
+        document.body.classList.remove('jw_modal_open');
     }
 
     constructor(props) {
@@ -51,7 +51,7 @@ class Modal extends React.Component {
 
     handleClick(e) {
         // close modal on background click
-        if (e.target.className === 'jw-modal') {
+        if (e.target.className === 'jw_modal') {
             Modal.close(this.props.id)(e);
         }
     }
@@ -59,8 +59,8 @@ class Modal extends React.Component {
     render() {
         return (
             <div style={{display: + this.state.isOpen ? '' : 'none'}} onClick={this.handleClick} ref={el => this.element = el}>
-                <div className="jw-modal">
-                    <div className="jw-modal-body">
+                <div className={classes.jw_modal}>
+                    <div className={classes.jw_modal_body}>
                         {this.props.children}
                     </div>
                 </div>

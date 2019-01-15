@@ -1,6 +1,6 @@
 /* MODAL STYLES
 -------------------------------*/
-.jw-modal {
+.jw_modal {
     /* modal container fixed across whole screen */
     position: fixed;
     z-index: 500;
@@ -16,7 +16,7 @@
     transition: all 0.3s ease-out;
 }
 
-.jw-modal-body {
+.jw_modal_body {
     padding: 20px;
     background: #fff;
 
@@ -24,7 +24,7 @@
     /* margin: 40px; */
 }
 
-.jw-modal-background {
+.jw_modal_background {
     /* modal background fixed across whole screen */
     position: fixed;
     top: 0;
@@ -40,7 +40,7 @@
     z-index: 900;
 }
 
-body.jw-modal-open {
+body.jw_modal_open {
     /* body overflow is hidden to hide main scrollbar when modal window is open */
     overflow: hidden;
 }

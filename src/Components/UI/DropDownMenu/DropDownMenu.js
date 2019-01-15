@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import DropDown from "../DropDown/DropDown";
-import "./DropDownMenu.css";
+import classes from "./DropDownMenu.css";
 import * as data from "../../../JSONFiles/File.json";
 import * as actions from '../../../store/actions/index';
 
@@ -16,7 +16,7 @@ class DropDownMenu extends Component {
         list={d[Object.keys(d)]}
       />
     ));
-    return <div className="body">{menu}</div>;
+    return <div className={classes.body}>{menu}</div>;
   }
 }
 

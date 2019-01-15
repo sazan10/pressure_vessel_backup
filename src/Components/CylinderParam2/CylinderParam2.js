@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Aux from "../../hoc/Aux/Aux";
 import Button from "../UI/Button/Button";
-import classes from "./CylinderParam1.css";
+import classes from "./CylinderParam2.css";
 import Select from "react-select";
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
@@ -16,7 +16,7 @@ const inputVar = [
   { label: "Corrosion Outer", type: "number", id: 7 }
 ];
 
-class Parameter1 extends Component {
+class Parameter2 extends Component {
   state = {
     params: {
       material: "",
@@ -192,8 +192,8 @@ class Parameter1 extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-      onSubmit: ( data ) => dispatch( actions.cylinderParams1 ( data ) ),
+      onSubmit: ( data ) => dispatch( actions.cylinderParams2 ( data ) ),
       
   };
 };
-export default connect(null, mapDispatchToProps) (Parameter1);
+export default connect(null, mapDispatchToProps) (Parameter2);
