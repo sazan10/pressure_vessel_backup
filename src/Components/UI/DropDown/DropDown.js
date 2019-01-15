@@ -9,7 +9,7 @@ class Dropdown extends Component{
     super(props)
     this.state = {
       listOpen: false,
-      headerTitle: this.props.title
+      headerTitle: this.props.titleHead
     }
     this.close = this.close.bind(this)
   }
@@ -39,7 +39,7 @@ class Dropdown extends Component{
   selectItem(title, id, stateKey){
     console.log("DropDown" + title + " " + id + " " + stateKey);
     this.setState({
-      headerTitle: title,
+      headerTitle: stateKey,
       listOpen: false
     });
     this.props.onMenuClick(title, id, stateKey);

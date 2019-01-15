@@ -12,7 +12,7 @@ class DropDownMenu extends Component {
     const menu = data.menu.map(d => (
       <DropDown
         key={Object.keys(d)}
-        title={Object.keys(d)}
+        titleHead={Object.keys(d)}
         list={d[Object.keys(d)]}
       />
     ));

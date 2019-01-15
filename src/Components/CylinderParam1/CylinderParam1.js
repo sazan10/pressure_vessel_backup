@@ -3,8 +3,8 @@ import Aux from "../../hoc/Aux/Aux";
 import Button from "../UI/Button/Button";
 import classes from "./CylinderParam1.css";
 import Select from "react-select";
-import { connect } from 'react-redux';
-import * as actions from '../../store/actions/index';
+import { connect } from "react-redux";
+import * as actions from "../../store/actions/index";
 
 const inputVar = [
   { label: "Material", type: "dropdown", id: 1 },
@@ -71,7 +71,7 @@ class Parameter1 extends Component {
 
     form = (
       <div>
-        <form>
+        <form className={classes.body}>
           <div className={classes.Input}>
             <label className={classes.Label}>Material</label>
             <Select
@@ -125,10 +125,11 @@ class Parameter1 extends Component {
               />
             </div>
           </div>
-
+          <div className={classes.Input1}>
+            <label className={classes.Label1}>Corrosion</label>
+          </div>
           <div className={classes.Input1}>
             <div className={classes.Input}>
-              <label className={classes.Label1}>Corrosion</label>
               <label className={classes.Label}>Internal</label>
               <input
                 name="ic"
@@ -186,14 +187,16 @@ class Parameter1 extends Component {
 //       title: state.navigation.title,
 //       id: state.navigation.id,
 //       stateKey: state.navigation.stateKey,
-      
+
 //   };
 // };
 
 const mapDispatchToProps = dispatch => {
   return {
-      onSubmit: ( data ) => dispatch( actions.cylinderParams1 ( data ) ),
-      
+    onSubmit: data => dispatch(actions.cylinderParams1(data))
   };
 };
-export default connect(null, mapDispatchToProps) (Parameter1);
+export default connect(
+  null,
+  mapDispatchToProps
+)(Parameter1);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classes from './App.css';
+import { connect } from 'react-redux';
 import DropDownMenu from './Components/UI/DropDownMenu/DropDownMenu';
 import { Modal } from './Container/Modal/Modal';
 import ComponentGroup from './Components/ComponentGroup';
@@ -25,4 +26,13 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+      title: state.navigation.title,
+      id: state.navigation.id,
+      stateKey: state.navigation.stateKey,
+      
+  };
+};
+
+export default connect(mapStateToProps) (App);
