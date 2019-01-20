@@ -2,3 +2,9 @@ export const CLICK_MENU = 'CLICK_MENU';
 export const CYLINDER_PARAM1 = "CYLINDER_PARAM1"
 export const CYLINDER_PARAM2 = "CYLINDER_PARAM2"
 
+export const AUTH_START = 'AUTH_START';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAIL = 'AUTH_FAIL';
+export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+
+export const SET_AUTH_REDIRECT_PATH = 'SET_AUTH_REDIRECT_PATH';

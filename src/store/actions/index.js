@@ -5,4 +5,11 @@ export {
 export{
     cylinderParams1,
     cylinderParams2
-} from './cylinderParams'
+} from './cylinderParams';
+
+export {
+    auth,
+    logout,
+    setAuthRedirectPath,
+    authCheckState
+} from './auth';

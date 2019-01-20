@@ -1,32 +1,37 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-import * as serviceWorker from './serviceWorker';
-import thunk from 'redux-thunk';
-import navigationReducer from './store/reducers/navigation';
-import cylinderReducer from './store/reducers/cylinderParams';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import { Provider } from "react-redux";
+import { HashRouter } from "react-router-dom";
+import { createStore, applyMiddleware, compose, combineReducers } from "redux";
+import * as serviceWorker from "./serviceWorker";
+import thunk from "redux-thunk";
+import navigationReducer from "./store/reducers/navigation";
+import cylinderReducer from "./store/reducers/cylinderParams";
+import authReducer from './store/reducers/auth';
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
-    navigation: navigationReducer,
-    cylinder: cylinderReducer
+  navigation: navigationReducer,
+  cylinder: cylinderReducer,
+  auth: authReducer
 });
 
-const store = createStore(rootReducer, composeEnhancers(
-    applyMiddleware(thunk)
-));
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 const app = (
-    <Provider store={store}>
-        
-            <App />
-        
-    </Provider>
+  <Provider store={store}>
+    <HashRouter basename="/">
+      <App />
+    </HashRouter>
+  </Provider>
 );
-ReactDOM.render(app, document.getElementById('root'));
+ReactDOM.render(app, document.getElementById("root"));
 // registerServiceWorker();
 
 // If you want your app to work offline and load faster, you can change
