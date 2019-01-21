@@ -175,4 +175,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect( mapStateToProps, mapDispatchToProps )( withErrorHandler( Auth, axios) );
+export default connect( mapStateToProps, mapDispatchToProps )(  Auth );

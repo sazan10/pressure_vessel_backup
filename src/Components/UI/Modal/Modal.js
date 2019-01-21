@@ -20,8 +20,8 @@ class Modal extends Component {
                 <div
                     className={classes.Modal}
                     style={{
-                        transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
-                        opacity: this.props.show ? '1' : '0'
+                        transform: true ? 'translateY(0)' : 'translateY(-100vh)',
+                        opacity: true ? '1' : '0'
                     }}>
                     <CylinderParam1 />
                 </div>

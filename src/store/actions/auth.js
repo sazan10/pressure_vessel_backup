@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../axios-orders";
 
 import * as actionTypes from "./actionTypes";
 
@@ -38,13 +38,20 @@ export const authWithToken = () => {
   const userId = localStorage.getItem('userId');
 //   console.log(token);
 
-  
+  // const data = null;
   const data = {
     token: token
   };
   let url = "http://192.168.10.94:3000/refresh-token-auth/";
+  // let url = "http://192.168.10.94:3000/api/data/";
+
+  var headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'JWT' + token 
+  }
+
   return dispatch => {
-    axios.post(url, data).then(response => {
+    axios.post(url, data, {headers: headers}).then(response => {
       console.log(response.data.token);
       const expirationDate = new Date(
         new Date().getTime() + response.data.expiresIn * 1000
@@ -76,10 +83,10 @@ export const auth = (email, password, isSignup) => {
       password: password,
       returnSecureToken: true
     };
-    let url = "http://192.168.10.94:3000/token-auth/";
+    let url = "http://192.168.1.9:3000/token-auth/";
 
     if (!isSignup) {
-      url = "http://192.168.10.94:3000/token-auth/";
+      url = "http://192.168.1.9:3000/token-auth/";
     }
     axios
       .post(url, authData)

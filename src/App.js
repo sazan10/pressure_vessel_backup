@@ -1,27 +1,18 @@
 import React, { Component } from "react";
-import Auth from './Container/Auth/Auth';
-import {Route, Switch, withRouter, Redirect, HashRouter, Link} from "react-router-dom";
+import Auth from "./Container/Auth/Auth";
+import { Route, Switch, withRouter } from "react-router-dom";
 import classes from "./App.css";
 import { connect } from "react-redux";
-import DropDownMenu from "./Components/UI/DropDownMenu/DropDownMenu";
-import Modal from "./Components/UI/Modal/Modal";
-import CylinderParam1 from "./Components/CylinderParam1/CylinderParam1";
+import VesselBuilder from "./Container/VesselBuilder/VesselBuilder";
+
 class App extends Component {
   render() {
-    let show = "/";
-
-    console.log(this.props.title);
-    if (this.props.title === "Cylinder") {
-      console.log("redirect");
-      show = <Redirect to="/cylinderParam1" />;
-    }
-
     return (
       <div className={classes.App}>
-        <DropDownMenu />
-        <Route path="/" component={Auth} />
-        <Route path="/cylinderParam1" component={CylinderParam1} />
-        {show}
+        <Switch>
+          <Route path="/builder" component={VesselBuilder} />
+          <Route exact path="/" component={Auth} />
+        </Switch>
       </div>
     );
   }
@@ -35,4 +26,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));

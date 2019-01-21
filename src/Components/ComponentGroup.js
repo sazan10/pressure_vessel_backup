@@ -13,7 +13,7 @@ class ComponentGroup extends Component {
     render() {
         const {title, id, stateKey} = this.props.tag;
         console.log(title + " " + id + " " + stateKey);
-       const TagName = this.components['cylinder'];
+       const TagName = this.components[`${stateKey}`];
     // const $component = 'Cylinder'.toLowerCase();
     // return <$component />;
        return <TagName />

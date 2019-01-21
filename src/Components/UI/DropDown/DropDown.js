@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import classes from './DropDown.css';
 import * as actions from '../../../store/actions/index';
@@ -65,7 +66,7 @@ class Dropdown extends Component{
         </div>
         {listOpen && <ul className={classes.dd_list} onClick={e => e.stopPropagation()}>
           {list.map((item)=> (
-            <li className={classes.dd_list_item} key={item.id} onClick={() => this.selectItem(item.title, item.id, item.key)}>{item.title} {item.selected && <FontAwesome name="check"/>}</li>
+            <li className={classes.dd_list_item} key={item.id} onClick={() => this.selectItem(item.title, item.id, item.key)}><Link to={"/builder/" + item.title}>{item.title}</Link> {item.selected && <FontAwesome name="check"/>}</li>
           ))}
         </ul>}
       </div>
