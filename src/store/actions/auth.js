@@ -42,7 +42,7 @@ export const authWithToken = () => {
   const data = {
     token: token
   };
-  let url = "http://192.168.10.94:3000/refresh-token-auth/";
+  let url = "http://192.168.1.9:3000/refresh-token-auth/";
   // let url = "http://192.168.10.94:3000/api/data/";
 
   var headers = {
@@ -91,7 +91,7 @@ export const auth = (email, password, isSignup) => {
     axios
       .post(url, authData)
       .then(response => {
-        console.log(response.data.expiresIn);
+        console.log(response);
         const expirationDate = new Date(
           new Date().getTime() + response.data.expiresIn * 1000
         );

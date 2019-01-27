@@ -52,6 +52,7 @@
     "react-select": "^2.2.0",
     "reactjs-dropdown-component": "^1.0.6",
     "redux": "^4.0.1",
+    "redux-form": "^8.1.0",
     "redux-thunk": "^2.3.0",
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
