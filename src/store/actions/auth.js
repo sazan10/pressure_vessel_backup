@@ -1,5 +1,6 @@
 import axios from "../../axios-orders";
-
+import base64 from 'base-64';
+import utf8 from 'utf8';
 import * as actionTypes from "./actionTypes";
 
 export const authStart = () => {
@@ -52,15 +53,21 @@ export const authWithToken = () => {
 
   return dispatch => {
     axios.post(url, data, {headers: headers}).then(response => {
-      console.log(response.data.token);
-      const expirationDate = new Date(
-        new Date().getTime() + response.data.expiresIn * 1000
-      );
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("expirationDate", expirationDate);
-      localStorage.setItem("userId", response.data.user.username);
-      dispatch(authSuccess(response.token,response.data.user.username));
-      dispatch(checkAuthTimeout(response.data.expiresIn));
+        
+        const data = response.data.token.split('.');
+        console.log(data);
+
+        let tokenDecoded = base64.decode(data[1]);
+        tokenDecoded = utf8.decode(tokenDecoded);
+        tokenDecoded = JSON.parse(tokenDecoded, null, 2);
+
+        const expirationTime = tokenDecoded.exp - tokenDecoded.orig_iat;
+        console.log(expirationTime);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("expirationDate", tokenDecoded.exp);
+        localStorage.setItem("userId", tokenDecoded.username);
+        dispatch(authSuccess(response.data.token, tokenDecoded.username));
+        dispatch(checkAuthTimeout(expirationTime));
     });
   };
 };
@@ -83,23 +90,34 @@ export const auth = (email, password, isSignup) => {
       password: password,
       returnSecureToken: true
     };
-    let url = "http://192.168.1.9:3000/token-auth/";
+    let url = "http://192.168.1.12:3000/token-auth/";
 
     if (!isSignup) {
-      url = "http://192.168.1.9:3000/token-auth/";
+      url = "http://192.168.1.12:3000/token-auth/";
+    }
+
+    var headers = {
+      'Content-Type': 'application/json',
     }
     axios
-      .post(url, authData)
+      .post(url, authData,{headers: headers})
       .then(response => {
         console.log(response);
-        const expirationDate = new Date(
-          new Date().getTime() + response.data.expiresIn * 1000
-        );
+
+        const data = response.data.token.split('.');
+        console.log(data);
+
+        let tokenDecoded = base64.decode(data[1]);
+        tokenDecoded = utf8.decode(tokenDecoded);
+        tokenDecoded = JSON.parse(tokenDecoded, null, 2);
+
+        const expirationTime = tokenDecoded.exp - tokenDecoded.orig_iat;
+        console.log(expirationTime);
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("expirationDate", expirationDate);
-        localStorage.setItem("userId", response.data.user.username);
-        dispatch(authSuccess(response.data.token, response.data.user.username));
-        dispatch(checkAuthTimeout(response.data.expiresIn));
+        localStorage.setItem("expirationDate", tokenDecoded.exp);
+        localStorage.setItem("userId", tokenDecoded.username);
+        dispatch(authSuccess(response.data.token, tokenDecoded.username));
+        dispatch(checkAuthTimeout(expirationTime));
       })
       .catch(err => {
         dispatch(authFail(err.response.data.error));

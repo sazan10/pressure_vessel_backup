@@ -79,7 +79,9 @@ class Modal extends Component {
 
   render() {   
     console.log(this.props.model + " Model"); 
-    return (
+    let modall = null;
+    if(this.props.model) {
+    modall = (
       <Aux>
         {/* <Backdrop show={true} clicked={this.props.modalClosed} /> */}
         <div
@@ -99,6 +101,12 @@ class Modal extends Component {
       }}/>
         </div>
       </Aux>
+    );
+    }
+    return (
+      <div>
+        {modall}
+      </div>
     );
   }
 }
