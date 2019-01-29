@@ -11,71 +11,26 @@ class Modal extends Component {
   }
 
   state = {
-    data: [
-      {
-        id: 1,
-        name: "a",
-        age: 29,
-        qualification: "B.Com",
-        rating: 3,
-        gender: "male",
-        city: "Kerala",
-        skills: ["reactjs", "angular", "vuejs"]
-      },
-      {
-        id: 2,
-        name: "b",
-        age: 35,
-        qualification: "B.Sc",
-        rating: 5,
-        gender: "female",
-        city: "Mumbai",
-        skills: ["reactjs", "angular"]
-      },
-      {
-        id: 3,
-        name: "c",
-        age: 42,
-        qualification: "B.E",
-        rating: 3,
-        gender: "female",
-        city: "Bangalore",
-        skills: ["reactjs"]
-      }
-    ],
     current: {},
-    component: null, 
-    change: false
   };
 
   onSubmit = model => {
     console.log(model);
-    let data = [];
-    if (model.id) {
-      data = this.state.data.filter(d => {
-        return d.id !== model.id;
-      });
-    } else {
-      model.id = +new Date();
-      data = this.state.data.slice();
-    }
+    this.props.onDataSend(model);
+    // let data = [];
+    // if (model.id) {
+    //   data = this.state.data.filter(d => {
+    //     return d.id !== model.id;
+    //   });
+    // } else {
+    //   model.id = +new Date();
+    //   data = this.state.data.slice();
+    // }
 
-    this.setState({
-      data: [model, ...data]
-    });
-  };
-
-  onEdit = id => {
-    let record = this.state.data.find(d => {
-      return d.id === id;
-    });
-    alert(JSON.stringify(record));
-    this.setState({
-      current: record
-    });
-  };
-
-  
+    // this.setState({
+    //   data: [model, ...data]
+    // });
+  };  
 
   render() {   
     console.log(this.props.model + " Model"); 
@@ -118,11 +73,10 @@ const mapStateToProps = state => {
   };
 };
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//       onAuth: ( email, password, isSignup ) => dispatch( actions.auth( email, password, isSignup ) ),
-//       onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/'))
-//   };
-// };
+const mapDispatchToProps = dispatch => {
+  return {
+    onDataSend: (data) => dispatch(actions.onDataSend(data))
+  };
+};
 
-export default connect( mapStateToProps)( Modal);
+export default connect( mapStateToProps, mapDispatchToProps)( Modal);

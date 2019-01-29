@@ -1,6 +1,6 @@
 import axios from "../../axios-orders";
-import base64 from 'base-64';
-import utf8 from 'utf8';
+import base64 from "base-64";
+import utf8 from "utf8";
 import * as actionTypes from "./actionTypes";
 
 export const authStart = () => {
@@ -36,39 +36,20 @@ export const logout = () => {
 
 export const authWithToken = () => {
   const token = localStorage.getItem("token");
-  const userId = localStorage.getItem('userId');
-//   console.log(token);
-
-  // const data = null;
-  const data = {
-    token: token
-  };
+  
   let url = "http://192.168.1.9:3000/refresh-token-auth/";
-  // let url = "http://192.168.10.94:3000/api/data/";
-
-  var headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'JWT' + token 
-  }
-
+  
   return dispatch => {
-    axios.post(url, data, {headers: headers}).then(response => {
-        
-        const data = response.data.token.split('.');
-        console.log(data);
+    var headers = {
+      "Content-Type": "application/json",
+      Authorization: "JWT" + token
+    };
 
-        let tokenDecoded = base64.decode(data[1]);
-        tokenDecoded = utf8.decode(tokenDecoded);
-        tokenDecoded = JSON.parse(tokenDecoded, null, 2);
+    const data = {
+      token: token
+    };
 
-        const expirationTime = tokenDecoded.exp - tokenDecoded.orig_iat;
-        console.log(expirationTime);
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("expirationDate", tokenDecoded.exp);
-        localStorage.setItem("userId", tokenDecoded.username);
-        dispatch(authSuccess(response.data.token, tokenDecoded.username));
-        dispatch(checkAuthTimeout(expirationTime));
-    });
+    dispatch(axiosAuth(data, url, headers));
   };
 };
 
@@ -95,16 +76,29 @@ export const auth = (email, password, isSignup) => {
     if (!isSignup) {
       url = "http://192.168.1.12:3000/token-auth/";
     }
+    const headers = {
+      "Content-Type": "application/json"
+    };
+    dispatch(axiosAuth(authData, url, headers));
+  };
+};
 
-    var headers = {
-      'Content-Type': 'application/json',
-    }
+export const setAuthRedirectPath = path => {
+  return {
+    type: actionTypes.SET_AUTH_REDIRECT_PATH,
+    path: path
+  };
+};
+
+export const axiosAuth = (authData, url, headers) => {
+  return dispatch => {
+    
     axios
-      .post(url, authData,{headers: headers})
+      .post(url, authData, { headers: headers })
       .then(response => {
         console.log(response);
 
-        const data = response.data.token.split('.');
+        const data = response.data.token.split(".");
         console.log(data);
 
         let tokenDecoded = base64.decode(data[1]);
@@ -117,18 +111,11 @@ export const auth = (email, password, isSignup) => {
         localStorage.setItem("expirationDate", tokenDecoded.exp);
         localStorage.setItem("userId", tokenDecoded.username);
         dispatch(authSuccess(response.data.token, tokenDecoded.username));
-        dispatch(checkAuthTimeout(expirationTime));
+        dispatch(checkAuthTimeout(expirationTime - 3));
       })
       .catch(err => {
         dispatch(authFail(err.response.data.error));
       });
-  };
-};
-
-export const setAuthRedirectPath = path => {
-  return {
-    type: actionTypes.SET_AUTH_REDIRECT_PATH,
-    path: path
   };
 };
 

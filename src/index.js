@@ -8,15 +8,15 @@ import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import * as serviceWorker from "./serviceWorker";
 import thunk from "redux-thunk";
 import navigationReducer from "./store/reducers/navigation";
-import cylinderReducer from "./store/reducers/cylinderParams";
 import authReducer from './store/reducers/auth';
+import componentDataReducer from './store/reducers/componentData';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   navigation: navigationReducer,
-  cylinder: cylinderReducer,
-  auth: authReducer
+  auth: authReducer,
+  componentData: componentDataReducer
 });
 
 const store = createStore(
