@@ -4,9 +4,6 @@ import {connect} from 'react-redux';
 import Aux from "../../../hoc/Aux/Aux";
 import DynamicForm from "../../Forms/Forms";
 import * as actions from '../../../store/actions/index';
-import CommonParam from "../../../JSONFiles/CommonParam.json";
-import CylinderParam2 from "../../../JSONFiles/CylinderParam2.json"
-import EllipsoidParam2 from "../../../JSONFiles/EllipsoidParam2.json"
 class Modal extends Component {
 
   componentWillReceiveProps() {
@@ -80,22 +77,8 @@ class Modal extends Component {
 
   
 
-  render() {
-    let comp = null;
-
-
-    import(`../../../JSONFiles/${this.props.title}Param2.json`)
-    .then(function(response) {
-      console.log(response.default);
-      console.log(response);
-      this.setState({component:response.default});
-      this.setState({change: true});
-    });
-    console.log("Render" + this.state.component);
-    console.log(this.props.title);
-    // comp = 
-    // console.log(comp + " Here");
-    
+  render() {   
+    console.log(this.props.model + " Model"); 
     return (
       <Aux>
         {/* <Backdrop show={true} clicked={this.props.modalClosed} /> */}
@@ -110,7 +93,7 @@ class Modal extends Component {
           className="form"
           title="Registration"
           defaultValues={this.state.current}
-          model={this.state.component}
+          model={this.props.model}
           onSubmit={model => {
             this.onSubmit(model);
       }}/>
@@ -122,7 +105,8 @@ class Modal extends Component {
 
 const mapStateToProps = state => {
   return {
-      title: state.navigation.title
+      title: state.navigation.title,
+      model: state.navigation.model
   };
 };
 

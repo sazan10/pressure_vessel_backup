@@ -66,7 +66,7 @@ export default  class DynamicForm extends React.Component {
 
 
     renderForm = () => {
-        console.log("Form" + this.props.model);
+        console.log("Form " + this.props.model);
         if(this.props.model !== null ) {
         let model = this.props.model;
         let defaultValues = this.props.defaultValues;

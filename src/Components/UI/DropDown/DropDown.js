@@ -44,6 +44,7 @@ class Dropdown extends Component{
       listOpen: false
     });
     this.props.onMenuClick(title, id, stateKey);
+    this.props.importModel(title,id, stateKey);
   }
 
   toggleList(){
@@ -77,6 +78,7 @@ class Dropdown extends Component{
 const mapDispatchToProps = dispatch => {
   return {
       onMenuClick: ( title, id, stateKey ) => dispatch( actions.clickMenu( title, id, stateKey ) ),
+      importModel: (title, id, stateKey) => dispatch( actions.importModel( title, id, stateKey ) )
   };
 };
 

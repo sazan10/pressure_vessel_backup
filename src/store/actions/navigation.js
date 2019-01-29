@@ -9,3 +9,21 @@ export const clickMenu = (title, id, stateKey) => {
     stateKey: stateKey
   };
 };
+
+export const importModel = (title, id, stateKey) => {
+  return dispatch => {
+    console.log("Inside actions " + title );
+  import(`../../JSONFiles/${title.replace(' ','')}Param2.json`)
+    .then(function(response) {
+      console.log(response);
+      dispatch(returnModel(response.default));
+    });
+  };
+};
+
+export const returnModel = (model) => {
+  return {
+    type: actionTypes.IMPORT_MODEL,
+    model: model
+  };
+};
