@@ -15,7 +15,8 @@ export default  class DynamicForm extends React.Component {
             // If we don't do this, React will throw the error
             // that Input elements should not switch from uncontrolled to controlled 
             // or (vice versa)
-
+            // console.log(nextProps.model);
+            if(nextProps.model !== null && nextProps.model.type === Object){
             let initialState = nextProps.model.reduce((acc, m) => {
                 acc[m.key] = m.value ? m.value : "";
                 return acc;
@@ -24,6 +25,9 @@ export default  class DynamicForm extends React.Component {
             return {
                 ...initialState
             }
+        } else {
+            return null;
+        }
         }
     }
 
@@ -62,9 +66,11 @@ export default  class DynamicForm extends React.Component {
 
 
     renderForm = () => {
+        console.log("Form" + this.props.model);
+        if(this.props.model !== null ) {
         let model = this.props.model;
         let defaultValues = this.props.defaultValues;
-        // console.log(model);
+        console.log(model);
         let formUI = model.map((m) => {
             // console.log(m);
             let superKey = null;
@@ -170,6 +176,9 @@ export default  class DynamicForm extends React.Component {
                 <div key={superKey} className={classes.line}>{formComponent}</div>);
         });
         return formUI;
+    } else {
+        return null;
+    }
     
     }
 
@@ -178,7 +187,7 @@ export default  class DynamicForm extends React.Component {
 
         return (
             <div >
-                {/* <h3 className={classes.form_title}>{title}</h3> */}
+                <h3 className={classes.form_title}>{title}</h3>
                 <form className={classes.dynamic_form} onSubmit={(e)=>{this.onSubmit(e)}}>
                     {this.renderForm()}
                     <div className={classes.form_actions}>

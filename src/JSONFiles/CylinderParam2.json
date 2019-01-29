@@ -1,0 +1,5 @@
+[
+    [{ "key": "SD", "label": "Shell Diameter", "type": "number", "required": true }],
+    [{ "key": "Lngth", "label": "Length", "type": "number", "required": true }],
+    [{ "key": "Thickness", "label": "Thickness", "type": "number", "required": true }],
+    [{ "key": "Number", "label": "Number", "type": "number", "required": true }]]

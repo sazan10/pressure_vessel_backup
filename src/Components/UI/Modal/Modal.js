@@ -1,9 +1,18 @@
 import React, { Component } from "react";
 import classes from "./Modal.css";
+import {connect} from 'react-redux';
 import Aux from "../../../hoc/Aux/Aux";
 import DynamicForm from "../../Forms/Forms";
-import CylinderParam1 from '../../../JSONFiles/CylinderParam.json';
+import * as actions from '../../../store/actions/index';
+import CommonParam from "../../../JSONFiles/CommonParam.json";
+import CylinderParam2 from "../../../JSONFiles/CylinderParam2.json"
+import EllipsoidParam2 from "../../../JSONFiles/EllipsoidParam2.json"
 class Modal extends Component {
+
+  componentWillReceiveProps() {
+    console.log("COmponntDIdUpdate" + this.state.component);
+  }
+
   state = {
     data: [
       {
@@ -37,7 +46,9 @@ class Modal extends Component {
         skills: ["reactjs"]
       }
     ],
-    current: {}
+    current: {},
+    component: null, 
+    change: false
   };
 
   onSubmit = model => {
@@ -67,7 +78,24 @@ class Modal extends Component {
     });
   };
 
+  
+
   render() {
+    let comp = null;
+
+
+    import(`../../../JSONFiles/${this.props.title}Param2.json`)
+    .then(function(response) {
+      console.log(response.default);
+      console.log(response);
+      this.setState({component:response.default});
+      this.setState({change: true});
+    });
+    console.log("Render" + this.state.component);
+    console.log(this.props.title);
+    // comp = 
+    // console.log(comp + " Here");
+    
     return (
       <Aux>
         {/* <Backdrop show={true} clicked={this.props.modalClosed} /> */}
@@ -78,19 +106,31 @@ class Modal extends Component {
             opacity: true ? "1" : "0"
           }}
         >
-          <DynamicForm
-            className="form"
-            title="Registration"
-            defaultValues={this.state.current}
-            model={CylinderParam1}
-            onSubmit={model => {
-              this.onSubmit(model);
-            }}
-          />
+        <DynamicForm
+          className="form"
+          title="Registration"
+          defaultValues={this.state.current}
+          model={this.state.component}
+          onSubmit={model => {
+            this.onSubmit(model);
+      }}/>
         </div>
       </Aux>
     );
   }
 }
 
-export default Modal;
+const mapStateToProps = state => {
+  return {
+      title: state.navigation.title
+  };
+};
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//       onAuth: ( email, password, isSignup ) => dispatch( actions.auth( email, password, isSignup ) ),
+//       onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/'))
+//   };
+// };
+
+export default connect( mapStateToProps)( Modal);

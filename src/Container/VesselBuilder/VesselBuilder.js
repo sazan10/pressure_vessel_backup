@@ -3,9 +3,7 @@ import { Switch, Route, withRouter } from "react-router-dom";
 import DropDownMenu from "../../Components/UI/DropDownMenu/DropDownMenu";
 import Modal from "../../Components/UI/Modal/Modal";
 import * as data from "../../JSONFiles/File.json";
-import CylinderParam1 from '../../Components/CylinderParam1/CylinderParam1';
 class VesselBuilder extends Component {
-  
   render() {
     const title = `Modal`;
     const menu = data.menu.map(d =>
@@ -13,11 +11,20 @@ class VesselBuilder extends Component {
         <Route path={"/builder/" + dd.title} component={Modal} />
       ))
     );
+    const RoutesMisc = (
+      <div>
+        <Route path={"/builder/cylinderParam2"} component={Modal} />
+        <Route path={"/builder/ellipsoidParam2"} component={Modal} />
+      </div>
+    );
     return (
       <div>
         <DropDownMenu />
-        <Switch>{menu}</Switch>
-        
+        <Switch>
+          {menu}
+          <Route path={"/builder/cylinderParam2"} component={Modal} />
+          <Route path={"/builder/ellipsoidParam2"} component={Modal} /> 
+        </Switch>
       </div>
     );
   }

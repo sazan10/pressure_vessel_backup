@@ -4,7 +4,8 @@ import { updateObject } from '../utility';
 const initialState = {
     title: null,
     id: null,
-    stateKey: null
+    stateKey: null,
+    model: null
 };
 
 const clickMenu = ( state, action ) => {

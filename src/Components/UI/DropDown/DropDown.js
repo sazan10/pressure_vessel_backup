@@ -66,7 +66,7 @@ class Dropdown extends Component{
         </div>
         {listOpen && <ul className={classes.dd_list} onClick={e => e.stopPropagation()}>
           {list.map((item)=> (
-            <li className={classes.dd_list_item} key={item.id} onClick={() => this.selectItem(item.title, item.id, item.key)}><Link to={"/builder/" + item.title}>{item.title}</Link> {item.selected && <FontAwesome name="check"/>}</li>
+            <Link to={"/builder/" + item.title} key={item.id}><li className={classes.dd_list_item}  onClick={() => this.selectItem(item.title, item.id, item.key)}>{item.title}{item.selected && <FontAwesome name="check"/>}</li></Link>
           ))}
         </ul>}
       </div>
