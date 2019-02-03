@@ -37,7 +37,7 @@ export const logout = () => {
 export const authWithToken = () => {
   const token = localStorage.getItem("token");
   
-  let url = "http://192.168.1.9:3000/refresh-token-auth/";
+  let url = "http://192.168.1.12:8000/refresh-token-auth";
   
   return dispatch => {
     var headers = {
@@ -63,23 +63,19 @@ export const checkAuthTimeout = expirationTime => {
   };
 };
 
-export const auth = (email, password, isSignup) => {
+export const auth = (data, isSignup) => {
   return dispatch => {
     dispatch(authStart());
-    const authData = {
-      username: email,
-      password: password,
-      returnSecureToken: true
-    };
-    let url = "http://192.168.1.12:3000/token-auth/";
+    console.log(data);
+    let url = "http://192.168.1.12:8000/api/users";
 
     if (!isSignup) {
-      url = "http://192.168.1.12:3000/token-auth/";
+      url = "http://192.168.1.12:8000/auth/token-auth";
     }
     const headers = {
       "Content-Type": "application/json"
     };
-    dispatch(axiosAuth(authData, url, headers));
+    dispatch(axiosAuth(data, url, headers));
   };
 };
 
@@ -92,13 +88,13 @@ export const setAuthRedirectPath = path => {
 
 export const axiosAuth = (authData, url, headers) => {
   return dispatch => {
-    
+    console.log("Reached yeah");
     axios
       .post(url, authData, { headers: headers })
       .then(response => {
         console.log(response);
 
-        const data = response.data.token.split(".");
+        const data = response.data.data.token.split(".");
         console.log(data);
 
         let tokenDecoded = base64.decode(data[1]);
@@ -114,7 +110,7 @@ export const axiosAuth = (authData, url, headers) => {
         dispatch(checkAuthTimeout(expirationTime - 3));
       })
       .catch(err => {
-        dispatch(authFail(err.response.data.error));
+        dispatch(authFail(err.response));
       });
   };
 };
