@@ -44,7 +44,7 @@ class Dropdown extends Component{
       listOpen: false
     });
     this.props.onMenuClick(title, id, stateKey);
-    this.props.importModel(title,id, stateKey);
+    this.props.importModel(title, this.props.num);
   }
 
   toggleList(){
@@ -75,11 +75,16 @@ class Dropdown extends Component{
   }
 }
 
+const mapStateToProps = state => {
+  return {
+      num: state.navigation.num
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
       onMenuClick: ( title, id, stateKey ) => dispatch( actions.clickMenu( title, id, stateKey ) ),
-      importModel: (title, id, stateKey) => dispatch( actions.importModel( title, id, stateKey ) )
+      importModel: (title, id, stateKey, num) => dispatch( actions.importModel( title, id, stateKey, num ) )
   };
 };
 
-export default connect(null, mapDispatchToProps)(Dropdown);
+export default connect(mapStateToProps, mapDispatchToProps)(Dropdown);

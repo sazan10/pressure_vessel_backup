@@ -11,26 +11,43 @@ export const onDataSendFail = error => {
 export const onDataSend = (data) => {
   
     return dispatch => {
-      console.log("Reached");
-        const url = "http://192.168.1.12:3000/cylinder/thickness/";
+      console.log(data);
+      const data1 = {
+        cylinderParam : data
+      };
+      console.log(data1);
+      
+      const dataa = {
+        cylinderParam: {
+          spec_num: "SA-516",
+          type_grade: "70",
+          temp1: "150",
+          ip: "40",
+          sd: "50",
+          ic: "60"
+        }
+      }
+        const url = "http://192.168.1.12:8000/api/cylinder/data";
         const token = localStorage.getItem("token");
+        console.log(token);
         const headers = {
             "Content-Type": "application/json",
-            "token" : "JWT " + token
+            "Authorization" : "JWT " + token
           };
-        dispatch(axiosDataSend(data,url, headers));
+        dispatch(axiosDataSend(dataa,url, headers));
     }
 };
 
 export const axiosDataSend = (data, url, headers) => {
     return dispatch => {
-        
+      
       axios
         .post(url, data, { headers: headers })
         .then(response => { 
+          console.log(response);
             return {
                 type: actionTypes.DATA_SEND,
-                response: response
+                component: response
               };
         })
         .catch(err => {

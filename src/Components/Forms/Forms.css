@@ -12,7 +12,7 @@
 .dynamic_form .form_group {
     padding: .5em;
     display: flex;
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
 }
@@ -26,6 +26,7 @@
     /* margin-top: 5px; */
     /* line-height: 20px; */
     display: block;
+    /* width: 80%; */
 }
 
 .dynamic_form select{
@@ -83,4 +84,10 @@
 
 .line {
     display: inline-flex;
+}
+
+@media (max-width: 700px) {
+    .line {
+        flex-wrap: wrap;
+    }
 }

@@ -1,0 +1,21 @@
+[
+    [{ "key": "material", "label": "Material","type":"select", "value": "SA-516 60",
+    "options": [
+      { "key": "", "label": "" ,"value": ""},
+      { "key": "SA-516 60", "label": "SA-516 60" ,"value": "SA-516 60"},
+      { "key": "SA-516 70", "label": "SA-516 70" ,"value": "SA-516 70"},
+      { "key": "SA-524 II Smis Pipe", "label": "SA-524 II Smis Pipe", "value": "SA-524 II Smis Pipe"},
+      { "key": "SA-53 EA Wld Pipe", "label": "SA-53 EA Wld Pipe", "value": "SA-53 EA Wld Pipe" }
+      ]}],
+    [{ "key": "ip", "label": "Internal Pressure", "type": "number", "required": true },
+      { "key": "temp1", "label": "@", "type": "number", "required": true }
+    ],
+    [{ "key": "ep", "label": "External Pressure", "type": "number", "required": true },
+      { "key": "temp2", "label": "@", "type": "number", "required": true }
+    ],
+    [{ "key": "ec", "label": "C External", "type": "number", "required": true },
+      { "key": "ic", "label": "C Internal", "type": "number", "required": true }
+    ],
+  [{"key": "cancel", "label": "Cancel", "type": "button", "actionType": "cancel"},
+    {"key": "next", "label": "Next", "type": "button", "actionType": "submit"}
+    ]]

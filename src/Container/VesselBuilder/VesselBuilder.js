@@ -14,7 +14,7 @@ class VesselBuilder extends Component {
     const RoutesMisc = (
       <div>
         <Route path={"/builder/cylinderParam2"} component={Modal} />
-        <Route path={"/builder/ellipsoidParam2"} component={Modal} />
+        <Route path={"/builder/ellipsoidalHeadParam2"} component={Modal} />
       </div>
     );
     return (
@@ -23,7 +23,7 @@ class VesselBuilder extends Component {
         <Switch>
           {menu}
           <Route path={"/builder/cylinderParam2"} component={Modal} />
-          <Route path={"/builder/ellipsoidParam2"} component={Modal} /> 
+          <Route path={"/builder/ellipsoidalHeadParam2"} component={Modal} /> 
         </Switch>
       </div>
     );

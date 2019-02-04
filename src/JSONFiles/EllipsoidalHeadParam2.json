@@ -1,6 +1,9 @@
 [
-    [{ "key": "HD", "label": "Head Diameter", "type": "number", "required": true }],
-    [{ "key": "MHT", "label": "Minimum Head Thickness", "type": "number", "required": true }],
- [{ "key": "SRL", "label": "Straight Range Length", "type": "number", "required": true }],
-      [{ "key": "NSRT", "label": "Nominal Str Range Thickness", "type": "number", "required": true }],
-   [{ "key": "HR", "label": "Head Ratio", "type": "number", "required": true }]]
+   [{ "key": "HD", "label": "Head Diameter", "type": "number", "required": true }],
+   [{ "key": "MHT", "label": "Minimum Head Thickness", "type": "number", "required": true }],
+   [{ "key": "SRL", "label": "Straight Range Length", "type": "number", "required": true }],
+   [{ "key": "NSRT", "label": "Nominal Str Range Thickness", "type": "number", "required": true }],
+   [{ "key": "HR", "label": "Head Ratio", "type": "number", "required": true }],
+   [{"key": "previous", "label": "Previous", "type": "button", "actionType": "previous"},
+   {"key": "ok", "label": "ok", "type": "button", "actionType": "submit"}]
+]

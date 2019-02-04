@@ -1,5 +1,8 @@
 [
-    [{ "key": "SD", "label": "Shell Diameter", "type": "number", "required": true }],
-    [{ "key": "Lngth", "label": "Length", "type": "number", "required": true }],
-    [{ "key": "Thickness", "label": "Thickness", "type": "number", "required": true }],
-    [{ "key": "Number", "label": "Number", "type": "number", "required": true }]]
+    [{ "key": "sd", "label": "Shell Diameter", "type": "number", "required": true }],
+    [{ "key": "length", "label": "Length", "type": "number", "required": true }],
+    [{ "key": "thickness", "label": "Thickness", "type": "number", "required": true }],
+    [{ "key": "number", "label": "Number", "type": "number", "required": true }],
+    [{"key": "previous", "label": "Previous", "type": "button", "actionType": "previous"},
+    {"key": "ok", "label": "ok", "type": "button", "actionType": "submit"}
+    ]]

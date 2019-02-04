@@ -1,7 +1,10 @@
 export {
     clickMenu,
     importModel,
-    returnModel
+    returnModel,
+    loadNext,
+    loadPrevious,
+    updateNum
 } from './navigation';
 
 export {

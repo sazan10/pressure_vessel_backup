@@ -100,13 +100,13 @@ export const axiosAuth = (authData, url, headers) => {
         let tokenDecoded = base64.decode(data[1]);
         tokenDecoded = utf8.decode(tokenDecoded);
         tokenDecoded = JSON.parse(tokenDecoded, null, 2);
-
+        console.log(response.data.data.token);
         const expirationTime = tokenDecoded.exp - tokenDecoded.orig_iat;
         console.log(expirationTime);
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("token", response.data.data.token);
         localStorage.setItem("expirationDate", tokenDecoded.exp);
         localStorage.setItem("userId", tokenDecoded.username);
-        dispatch(authSuccess(response.data.token, tokenDecoded.username));
+        dispatch(authSuccess(response.data.data.token, tokenDecoded.username));
         dispatch(checkAuthTimeout(expirationTime - 3));
       })
       .catch(err => {

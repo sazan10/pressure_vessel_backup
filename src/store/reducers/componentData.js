@@ -15,7 +15,7 @@ const onDataSend = ( state, action ) => {
 
 const onDataSendFail = (state, action) => {
     return updateObject(state, {error: action.error});
-}
+};
 
 
 const reducer = ( state = initialState, action ) => {
