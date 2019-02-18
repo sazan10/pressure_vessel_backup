@@ -1,0 +1,40 @@
+{
+    "Icons": [
+        {
+            "id": 0,
+            "src": "../../../assets/iconnavbar/1.png",
+            "selected": false,
+            "key": "1"
+        },
+        {
+            "id": 1,
+            "src": "../../../assets/iconnavbar/2.png",
+            "selected": false,
+            "key": "2"
+        },
+        {
+            "id": 2,
+            "src": "../../../assets/iconnavbar/3.png",
+            "selected": false,
+            "key": "3"
+        },
+        {
+            "id": 3,
+            "src": "../../../assets/iconnavbar/1.png",
+            "selected": false,
+            "key": "4"
+        },
+        {
+            "id": 4,
+            "src": "../../../assets/iconnavbar/2.png",
+            "selected": false,
+            "key": "5"
+        },
+        {
+            "id": 5,
+            "src": "../../../assets/iconnavbar/3.png",
+            "selected": false,
+            "key": "6"
+        }
+    ]
+}

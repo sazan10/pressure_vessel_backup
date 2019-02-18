@@ -1,0 +1,20 @@
+.icons {
+    display: inline-flex;
+    /* border: 1px solid #000000; */
+    /* padding: 0; */
+    margin: 0;
+}
+
+.iconsI {
+    height: 25px;
+    width: 25px;
+    padding: 3px;
+    /* margin: 3px; */
+}
+.icons:hover {
+    background-color: #cccccc;
+}
+
+.iconsII {
+    margin: 0;
+}

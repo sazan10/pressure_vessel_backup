@@ -72,14 +72,26 @@
     text-overflow: ellipsis;
     text-align: left;
   }
+  
+  
+  .dd_list_item:visited {
+    color: blue;
+  }
+
   .dd_list_item.selected {
     color: #fff;
     background-color: #0c70e2;
   }
+
   .dd_list_item:hover {
     color: #fff;
     background-color: #0c70e2;
   }
+
+  a:visited {
+    color: blue;
+  }
+
   .dd_wrapper_single {
     -webkit-user-select: none;
        -moz-user-select: none;

@@ -17,6 +17,10 @@ const onDataSendFail = (state, action) => {
     return updateObject(state, {error: action.error});
 };
 
+const onComponentAdd = (state, action) => {
+    
+}
+
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {

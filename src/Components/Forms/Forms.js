@@ -14,34 +14,41 @@ class DynamicForm extends React.Component {
     
 
     // static getDerivedStateFromProps(nextProps, prevState) {
+
     //     console.log("Derived state from props");
-    //     if (nextProps.defaultValues && Object.keys(nextProps.defaultValues).length) {
-    //         return {
-    //             ...nextProps.defaultValues
-    //         }
-    //     } else {
-    //         // Assign default values of "" to our controlled input
-    //         // If we don't do this, React will throw the error
-    //         // that Input elements should not switch from uncontrolled to controlled 
-    //         // or (vice versa)
-    //         // console.log(nextProps.model);
-    //         if (nextProps.model !== null && nextProps.model.type === Object) {
-    //             let initialState = nextProps.model.reduce((acc, m) => {
-    //                 acc[m.key] = m.value ? m.value : "";
-    //                 return acc;
-    //             }, {});
-    //             // console.log("initialState: ", initialState);
-    //             return {
-    //                 ...initialState
-    //             }
-    //         } else {
-    //             return null;
-    //         }
-    //     }
+    //     return null;
+        // return initialState;
+        // if (nextProps.defaultValues && Object.keys(nextProps.defaultValues).length) {
+        //     return {
+        //         ...nextProps.defaultValues
+        //     }
+        // } else {
+        //     // Assign default values of "" to our controlled input
+        //     // If we don't do this, React will throw the error
+        //     // that Input elements should not switch from uncontrolled to controlled 
+        //     // or (vice versa)
+        //     // console.log(nextProps.model);
+        //     if (nextProps.model !== null && nextProps.model.type === Object) {
+        //         let initialState = nextProps.model.reduce((acc, m) => {
+        //             acc[m.key] = m.value ? m.value : "";
+        //             return acc;
+        //         }, {});
+        //         // console.log("initialState: ", initialState);
+        //         return {
+        //             ...initialState
+        //         }
+        //     } else {
+        //         return null;
+        //     }
+        // }
     // }
     
     componentDidMount() {
         console.log("COmponent DId Mount Form");
+    }
+
+    componentDidUpdate() {
+        console.log("Component Did Update");
     }
 
 
@@ -50,13 +57,16 @@ class DynamicForm extends React.Component {
         e.preventDefault();
         console.log(this.state);
         console.log(initialState);
-        if (this.props.onSubmit) this.props.onSubmit(this.state);
+        // if (this.props.onSubmit) this.props.onSubmit(this.state);
         this.setState(initialState);
         if(this.props.num === 1) {
             this.props.importModel(this.props.title, 2);
+            this.props.updateNum(2);
+        } else {
+            this.props.history.push('/builder');
+            this.props.updateNum(1);
         }
-        this.props.updateNum(2);
-        // this.props.history.push(`/builder/${this.props.title}Param2`)
+        
     }
 
     onChange = (e, key, type = "single") => {
