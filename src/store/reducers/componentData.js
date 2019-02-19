@@ -9,21 +9,27 @@ const initialState = {
     error: null
 };
 
-const onDataSend = ( state, action ) => {
-    return updateObject( state, { component: action.component} );
+const onDataSend = (state, action) => {
+    return updateObject(state, { component: action.component });
 };
 
 const onDataSendFail = (state, action) => {
-    return updateObject(state, {error: action.error});
+    return updateObject(state, { error: action.error });
 };
 
 const onComponentAdd = (state, action) => {
-    
+    if (action.name === "cylinder") {
+        updateObject(state.cylinder, action.component ).then(d => {
+            
+            return updateObject(state.component, state.cylinder)
+        }   
+        );
+    }
 }
 
 
-const reducer = ( state = initialState, action ) => {
-    switch ( action.type ) {
+const reducer = (state = initialState, action) => {
+    switch (action.type) {
         case actionTypes.DATA_SEND: return onDataSend(state, action);
         case actionTypes.DATA_SEND_FAIL: return onDataSendFail(state, action);
         default:

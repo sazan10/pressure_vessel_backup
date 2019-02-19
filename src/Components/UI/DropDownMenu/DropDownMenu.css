@@ -4,3 +4,9 @@
     /* align-content: flex-start;
     justify-content: flex-start; */
 }
+
+/* @media screen and (max-width: 450px) {
+    .body {
+        display: none;
+    }
+} */
