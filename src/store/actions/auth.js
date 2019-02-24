@@ -37,7 +37,7 @@ export const logout = () => {
 export const authWithToken = () => {
   const token = localStorage.getItem("token");
   
-  let url = "http://192.168.1.12:8000/refresh-token-auth";
+  let url = "/refresh-token-auth";
   
   return dispatch => {
     var headers = {
@@ -56,7 +56,7 @@ export const authWithToken = () => {
 export const checkAuthTimeout = expirationTime => {
   return dispatch => {
     setTimeout(() => {
-      console.log("Logging out with timeout");
+      // console.log("Logging out with timeout");
       //dispatch(logout());
       dispatch(authWithToken());
     }, expirationTime * 1000);
@@ -66,11 +66,11 @@ export const checkAuthTimeout = expirationTime => {
 export const auth = (data, isSignup) => {
   return dispatch => {
     dispatch(authStart());
-    console.log(data);
-    let url = "http://192.168.1.12:8000/api/users";
+    // console.log(data);
+    let url = "/api/users";
 
     if (!isSignup) {
-      url = "http://192.168.1.12:8000/auth/token-auth";
+      url = "/auth/token-auth";
     }
     const headers = {
       "Content-Type": "application/json"
@@ -88,21 +88,21 @@ export const setAuthRedirectPath = path => {
 
 export const axiosAuth = (authData, url, headers) => {
   return dispatch => {
-    console.log("Reached yeah");
+    // console.log("Reached yeah");
     axios
       .post(url, authData, { headers: headers })
       .then(response => {
         console.log(response);
 
         const data = response.data.data.token.split(".");
-        console.log(data);
+        // console.log(data);
 
         let tokenDecoded = base64.decode(data[1]);
         tokenDecoded = utf8.decode(tokenDecoded);
         tokenDecoded = JSON.parse(tokenDecoded, null, 2);
-        console.log(response.data.data.token);
+        // console.log(response.data.data.token);
         const expirationTime = tokenDecoded.exp - tokenDecoded.orig_iat;
-        console.log(expirationTime);
+        // console.log(expirationTime);
         localStorage.setItem("token", response.data.data.token);
         localStorage.setItem("expirationDate", tokenDecoded.exp);
         localStorage.setItem("userId", tokenDecoded.username);

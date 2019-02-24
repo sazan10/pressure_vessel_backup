@@ -16,6 +16,7 @@ export {
 
 export {
     onDataSend,
+    
     onDataSendFail,
     axiosDataSend
 } from './componentData';

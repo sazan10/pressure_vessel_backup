@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import {withRouter} from 'react-router-dom';
 import * as actions from '../../store/actions/index';
 import classes from './Forms.css';
@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 const initialState ={};
 class DynamicForm extends React.Component {
     constructor() {
+        // console.log("Form Refreshed");
         super();
         this.state = initialState;
     }
@@ -44,21 +45,22 @@ class DynamicForm extends React.Component {
     // }
     
     componentDidMount() {
-        console.log("COmponent DId Mount Form");
+        // console.log("COmponent DId Mount Form");
     }
 
     componentDidUpdate() {
-        console.log("Component Did Update");
+        // console.log("Component Did Update");
     }
 
 
 
     onSubmit = (e) => {
         e.preventDefault();
+        console.log("Inside onSubmit");
         console.log(this.state);
-        console.log(initialState);
-        // if (this.props.onSubmit) this.props.onSubmit(this.state);
-        this.setState(initialState);
+        // console.log(initialState);
+        if (this.props.onSubmit) this.props.onSubmit(this.state);
+        // this.setState(initialState);
         if(this.props.num === 1) {
             this.props.importModel(this.props.title, 2);
             this.props.updateNum(2);
@@ -70,14 +72,15 @@ class DynamicForm extends React.Component {
     }
 
     onChange = (e, key, type = "single") => {
-        console.log(this.state);
+        // console.log(this.state);
         // console.log(`${key} changed ${e.target.value} type ${type}`);
         if (type === "single") {
             if (key === "material") {
                 const mat = e.target.value.split(" ");
                 this.setState({
                     spec_num: mat[0],
-                    type_grade: mat[1]
+                    type_grade: mat[1],
+                    component: this.props.title
                 })
             } else {
                 this.setState({
@@ -106,7 +109,7 @@ class DynamicForm extends React.Component {
 
     onCancel = (e) => {
         e.preventDefault();
-        console.log("On cancel");
+        // console.log("On cancel");
         this.setState(initialState);
         this.props.updateNum(1);
         this.props.history.push('/builder');
@@ -124,11 +127,11 @@ class DynamicForm extends React.Component {
     }
 
     renderForm = () => {
-        console.log("Form " + this.props.model);
+        // console.log("Form " + this.props.model);
         if (this.props.model !== null) {
             let model = this.props.model;
-            let defaultValues = this.props.defaultValues;
-            console.log(model);
+            // let defaultValues = this.props.defaultValues;
+            // console.log(model);
             let formUI = model.map((m) => {
                 // console.log(m);
                 let superKey = null;
@@ -149,6 +152,7 @@ class DynamicForm extends React.Component {
                         type={type}
                         key={key}
                         name={name}
+                        placeholder={mmm.placeholder}
                         onChange={(e) => { this.onChange(e, target) }}
                     />;
 
@@ -175,7 +179,7 @@ class DynamicForm extends React.Component {
 
                     if (type === "select") {
                         input = mmm.options.map((o) => {
-                            let checked = o.value === value;
+                            // let checked = o.value === value;
                             // console.log("select: ", o.value, value);
                             return (
                                 <option {...props}
@@ -198,7 +202,7 @@ class DynamicForm extends React.Component {
                             if (value && value.length > 0) {
                                 checked = value.indexOf(o.value) > -1 ? true : false;
                             }
-                            console.log("Checkbox: ", checked);
+                            // console.log("Checkbox: ", checked);
                             return (
                                 <React.Fragment key={"cfr" + o.key}>
                                     <input {...props}

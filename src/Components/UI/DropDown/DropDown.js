@@ -38,7 +38,7 @@ class Dropdown extends Component{
   }
 
   selectItem(title, id, stateKey){
-    console.log("DropDown" + title + " " + id + " " + stateKey);
+    // console.log("DropDown" + title + " " + id + " " + stateKey);
     this.setState({
       headerTitle: stateKey,
       listOpen: false

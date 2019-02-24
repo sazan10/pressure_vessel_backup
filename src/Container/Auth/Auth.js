@@ -7,8 +7,8 @@ import Button from '../../Components/UI/Button/Button';
 import Spinner from '../../Components/UI/Spinner/Spinner';
 import classes from './Auth.css';
 import * as actions from '../../store/actions/index';
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import axios from '../../axios-orders';
+// import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+// import axios from '../../axios-orders';
 class Auth extends Component {
     state = {
         controls: {
@@ -277,6 +277,7 @@ class Auth extends Component {
             }
         }
 
+
         let form = formElementsArray.map(formElement => (
             <Input
                 key={formElement.id}
@@ -308,7 +309,7 @@ class Auth extends Component {
 
 
 
-        console.log("Inside Auth" + this.props.isAuthenticated);
+        // console.log("Inside Auth" + this.props.isAuthenticated);
         return (
             <div className={classes.Auth}>
                 {authRedirect}

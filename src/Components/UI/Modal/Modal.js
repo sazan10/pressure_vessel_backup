@@ -7,16 +7,16 @@ import * as actions from '../../../store/actions/index';
 class Modal extends Component {
 
   componentWillReceiveProps() {
-    console.log("COmponntDIdUpdate" + this.state.component);
+    // console.log("COmponntDIdUpdate" + this.state.component);
   }
 
   state = {
     current: {},
   };
 
-  onSubmit = model => {
-    console.log(model);
-    this.props.onDataSend(model);
+  onSubmit = data => {
+    // console.log(model);
+    this.props.onDataSend(data);
     // let data = [];
     // if (model.id) {
     //   data = this.state.data.filter(d => {
@@ -33,7 +33,7 @@ class Modal extends Component {
   };  
 
   render() {   
-    console.log(this.props.model + " Model"); 
+    // console.log(this.props.model + " Model"); 
     let modall = null;
     if(this.props.model) {
     modall = (
@@ -51,8 +51,8 @@ class Modal extends Component {
           title="Registration"
           defaultValues={this.state.current}
           model={this.props.model}
-          onSubmit={model => {
-            this.onSubmit(model);
+          onSubmit={data => {
+            this.onSubmit(data);
       }}/>
         </div>
       </Aux>

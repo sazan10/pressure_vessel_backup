@@ -6,26 +6,27 @@ const initialState = {
     cylinder: null,
     ellipsoidalHead: null,
     nozzle: null,
-    error: null
+    error: null,
+    id: 0
 };
 
 const onDataSend = (state, action) => {
-    return updateObject(state, { component: action.component });
+    console.log("insdie onDataSend");
+    // if (action.component.component === "cylinder") {
+        return updateObject(state, { component: action.component });
+        
+    // }
+    // return updateObject(state, { component: action.component });
 };
 
 const onDataSendFail = (state, action) => {
-    return updateObject(state, { error: action.error });
+    // return updateObject(state, { error: action.error });
+    return updateObject(state, { id:1 });
 };
 
-const onComponentAdd = (state, action) => {
-    if (action.name === "cylinder") {
-        updateObject(state.cylinder, action.component ).then(d => {
-            
-            return updateObject(state.component, state.cylinder)
-        }   
-        );
-    }
-}
+// const onComponentAdd = (state, action) => {
+    
+// }
 
 
 const reducer = (state = initialState, action) => {
