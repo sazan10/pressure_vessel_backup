@@ -15,21 +15,7 @@ class Modal extends Component {
   };
 
   onSubmit = data => {
-    // console.log(model);
-    this.props.onDataSend(data);
-    // let data = [];
-    // if (model.id) {
-    //   data = this.state.data.filter(d => {
-    //     return d.id !== model.id;
-    //   });
-    // } else {
-    //   model.id = +new Date();
-    //   data = this.state.data.slice();
-    // }
-
-    // this.setState({
-    //   data: [model, ...data]
-    // });
+    this.props.onDataSend(data, this.props.projectID);
   };  
 
   render() {   
@@ -70,13 +56,14 @@ const mapStateToProps = state => {
   return {
       title: state.navigation.title,
       model: state.navigation.model,
-      num: state.navigation.num
+      num: state.navigation.num,
+      projectID: state.componentData.projectID
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onDataSend: (data) => dispatch(actions.onDataSend(data))
+    onDataSend: (data, id) => dispatch(actions.onDataSend(data, id))
   };
 };
 

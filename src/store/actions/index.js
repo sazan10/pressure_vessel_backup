@@ -16,7 +16,18 @@ export {
 
 export {
     onDataSend,
-    
     onDataSendFail,
-    axiosDataSend
+    dataUpdate,
+    axiosDataSend,
+    requestReport,
+    axiosReport,
+    requestFail,
+    onReportIDReceive
 } from './componentData';
+
+// export {
+//     requestReport,
+//     axiosReport,
+//     requestFail,
+//     onReportIDReceive
+// } from './report';

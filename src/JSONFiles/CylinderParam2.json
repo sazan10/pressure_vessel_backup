@@ -5,4 +5,5 @@
     [{ "key": "number", "label": "Number", "type": "number", "required": true }],
     [{"key": "previous", "label": "Previous", "type": "button", "actionType": "previous"},
     {"key": "ok", "label": "ok", "type": "button", "actionType": "submit"}
-    ]]
+    ],
+    [{"key":"send","label": "send","send": false}]]

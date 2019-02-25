@@ -16,6 +16,10 @@
     [{ "key": "ec", "label": "C External", "type": "number", "required": true },
       { "key": "ic", "label": "C Internal", "type": "number", "required": true }
     ],
+    [{"key": "sdd", "label": "Head Diameter", "type": "number", "required": true}
+    ],
   [{"key": "cancel", "label": "Cancel", "type": "button", "actionType": "cancel"},
     {"key": "next", "label": "Next", "type": "button", "actionType": "submit"}
-    ]]
+    ],
+    
+    [{"key":"send","label": "send","send": true}]]

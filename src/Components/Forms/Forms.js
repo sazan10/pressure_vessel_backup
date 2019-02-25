@@ -1,49 +1,49 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import * as actions from '../../store/actions/index';
 import classes from './Forms.css';
 import { connect } from 'react-redux';
 
-const initialState ={};
+const initialState = {};
 class DynamicForm extends React.Component {
     constructor() {
         // console.log("Form Refreshed");
         super();
         this.state = initialState;
     }
-    
+
 
     // static getDerivedStateFromProps(nextProps, prevState) {
 
     //     console.log("Derived state from props");
     //     return null;
-        // return initialState;
-        // if (nextProps.defaultValues && Object.keys(nextProps.defaultValues).length) {
-        //     return {
-        //         ...nextProps.defaultValues
-        //     }
-        // } else {
-        //     // Assign default values of "" to our controlled input
-        //     // If we don't do this, React will throw the error
-        //     // that Input elements should not switch from uncontrolled to controlled 
-        //     // or (vice versa)
-        //     // console.log(nextProps.model);
-        //     if (nextProps.model !== null && nextProps.model.type === Object) {
-        //         let initialState = nextProps.model.reduce((acc, m) => {
-        //             acc[m.key] = m.value ? m.value : "";
-        //             return acc;
-        //         }, {});
-        //         // console.log("initialState: ", initialState);
-        //         return {
-        //             ...initialState
-        //         }
-        //     } else {
-        //         return null;
-        //     }
-        // }
+    // return initialState;
+    // if (nextProps.defaultValues && Object.keys(nextProps.defaultValues).length) {
+    //     return {
+    //         ...nextProps.defaultValues
+    //     }
+    // } else {
+    //     // Assign default values of "" to our controlled input
+    //     // If we don't do this, React will throw the error
+    //     // that Input elements should not switch from uncontrolled to controlled 
+    //     // or (vice versa)
+    //     // console.log(nextProps.model);
+    //     if (nextProps.model !== null && nextProps.model.type === Object) {
+    //         let initialState = nextProps.model.reduce((acc, m) => {
+    //             acc[m.key] = m.value ? m.value : "";
+    //             return acc;
+    //         }, {});
+    //         // console.log("initialState: ", initialState);
+    //         return {
+    //             ...initialState
+    //         }
+    //     } else {
+    //         return null;
+    //     }
     // }
-    
+    // }
+
     componentDidMount() {
         // console.log("COmponent DId Mount Form");
     }
@@ -56,19 +56,26 @@ class DynamicForm extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        console.log("Inside onSubmit");
-        console.log(this.state);
+        const doSend = this.props.model[this.props.model.length - 1][0].send;
+        // const isSend = send[0].send;
+        // console.log(send);
+        // console.log("Inside onSubmit");
+        // console.log(this.state);
         // console.log(initialState);
-        if (this.props.onSubmit) this.props.onSubmit(this.state);
         // this.setState(initialState);
-        if(this.props.num === 1) {
+        if(doSend) {
+            if (this.props.onSubmit) this.props.onSubmit(this.state);
+        } else {
+            if (this.props.onSubmit) this.props.dataUpdate(this.state);
+        }
+        if (this.props.num === 1) {
             this.props.importModel(this.props.title, 2);
             this.props.updateNum(2);
         } else {
             this.props.history.push('/builder');
             this.props.updateNum(1);
         }
-        
+
     }
 
     onChange = (e, key, type = "single") => {
@@ -120,7 +127,7 @@ class DynamicForm extends React.Component {
         this.setState(initialState);
         // if (this.props.onSubmit) this.props.onSubmit(this.state);
         // this.props.history.push('/builder');
-        if(this.props.num === 2) {
+        if (this.props.num === 2) {
             this.props.importModel(this.props.title, 1);
         }
         this.props.updateNum(1);
@@ -147,14 +154,17 @@ class DynamicForm extends React.Component {
                     let target = key;
                     value = this.state[target];
 
-                    let input = <input {...props}
-                        className={classes.form_input}
-                        type={type}
-                        key={key}
-                        name={name}
-                        placeholder={mmm.placeholder}
-                        onChange={(e) => { this.onChange(e, target) }}
-                    />;
+                    let input = null;
+                    if (label !== "send") {
+                        input = <input {...props}
+                            className={classes.form_input}
+                            type={type}
+                            key={key}
+                            name={name}
+                            placeholder={mmm.placeholder}
+                            onChange={(e) => { this.onChange(e, target) }}
+                        />;
+                    }
 
                     if (type === "radio") {
                         input = mmm.options.map((o) => {
@@ -223,28 +233,28 @@ class DynamicForm extends React.Component {
 
                     if (type === "button") {
 
-                        if(mmm.actionType === "submit") {
-                        input =
-                            <React.Fragment key={'fr' + key}>
-                                <button 
-                                    type={mmm.actionType}
-                                    onClick = {(e) => {this.onSubmit(e)}}
-                                >{label}</button>
-                                
-                            </React.Fragment>
-                        } else if(mmm.actionType ===  "cancel") {
+                        if (mmm.actionType === "submit") {
+                            input =
+                                <React.Fragment key={'fr' + key}>
+                                    <button
+                                        type={mmm.actionType}
+                                        onClick={(e) => { this.onSubmit(e) }}
+                                    >{label}</button>
+
+                                </React.Fragment>
+                        } else if (mmm.actionType === "cancel") {
                             input = <React.Fragment key={'fr' + key}>
-                                <button 
-                                    onClick = {(e) => { this.onCancel(e) }}    
+                                <button
+                                    onClick={(e) => { this.onCancel(e) }}
                                 >{label}</button>
-                                
+
                             </React.Fragment>
-                        } else if(mmm.actionType === "previous") {
+                        } else if (mmm.actionType === "previous") {
                             input = <React.Fragment key={'fr' + key}>
-                                <button 
-                                    onClick = {(e) => { this.onPrevious(e) }}    
+                                <button
+                                    onClick={(e) => { this.onPrevious(e) }}
                                 >{label}</button>
-                                
+
                             </React.Fragment>
                         }
 
@@ -252,18 +262,19 @@ class DynamicForm extends React.Component {
                         input = <div className={classes.form_actions}>{input}</div>;
                     }
                     if (type !== "button") {
-                        input = <div  className={classes.form_group}>
-                                    <label className={classes.form_label}
-                                        key={"l" + key}
-                                        htmlFor={key}>
-                                        {mmm.label}
-                                    </label>
-                                    {input}
-                                </div>
+                        input = <div className={classes.form_group}>
+                            <label className={classes.form_label}
+                                key={"l" + key}
+                                htmlFor={key}>
+                                {mmm.label}
+                            </label>
+                            {input}
+                        </div>
                     }
+                    if(label === "send") return null;
                     return (
                         <div key={'g' + key}>
-                        {input}
+                            {input}
                         </div>
                     );
                 });
@@ -297,15 +308,16 @@ const mapStateToProps = state => {
         model: state.navigation.model,
         num: state.navigation.num
     };
-  };
-  
-  const mapDispatchToProps = dispatch => {
-    return {
-      onNext: (title, num) => dispatch(actions.loadNext(title, num)),
-      onPrevious: () => dispatch(actions.loadPrevious()),
-      updateNum: (num) => dispatch(actions.updateNum(num)),
-      importModel: (title, num) => dispatch(actions.importModel(title, num))
-    };
-  };
+};
 
-export default connect(mapStateToProps,mapDispatchToProps)  (withRouter(DynamicForm));
+const mapDispatchToProps = dispatch => {
+    return {
+        onNext: (title, num) => dispatch(actions.loadNext(title, num)),
+        onPrevious: () => dispatch(actions.loadPrevious()),
+        updateNum: (num) => dispatch(actions.updateNum(num)),
+        importModel: (title, num) => dispatch(actions.importModel(title, num)),
+        dataUpdate : (data) => dispatch(actions.dataUpdate(data))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(DynamicForm));

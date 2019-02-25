@@ -6,7 +6,9 @@ const initialState = {
     userId: null,
     error: null,
     loading: false,
-    authRedirectPath: '/builder'
+    authRedirectPath: '/builder',
+    id: null,
+    isAuthenticated: true
 };
 
 const authStart = ( state, action ) => {
@@ -14,24 +16,27 @@ const authStart = ( state, action ) => {
 };
 
 const authSuccess = (state, action) => {
-    console.log("SUcess AUth");
+    console.log("Success Auth");
     return updateObject( state, { 
         token: action.idToken,
         userId: action.userId,
         error: null,
-        loading: false
+        loading: false,
+        isAuthenticated: true,
+        id: action.id
      } );
 };
 
 const authFail = (state, action) => {
     return updateObject( state, {
         error: action.error,
-        loading: false
+        loading: false,
+        isAuthenticated: false
     });
 };
 
 const authLogout = (state, action) => {
-    return updateObject(state, { token: null, userId: null });
+    return updateObject(state, { token: null, userId: null, isAuthenticated: false });
 };
 
 const setAuthRedirectPath = (state, action) => {

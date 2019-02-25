@@ -19,4 +19,5 @@
     [{ "key": "sd", "label": "Shell Diameter", "type": "number", "required": true }],
   [{"key": "cancel", "label": "Cancel", "type": "button", "actionType": "cancel"},
     {"key": "next", "label": "Next", "type": "button", "actionType": "submit"}
-    ]]
+    ],
+  [{"key":"send","label": "send","send": true}]]

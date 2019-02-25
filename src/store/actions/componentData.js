@@ -16,24 +16,40 @@ export const onDataSendTo = (response, data) => {
   };
 };
 
-export const onDataSend = (data) => {
+export const dataUpdate = (data) => {
+  return {
+    type: actionTypes.DATA_UPDATE,
+    data: data
+  }
+}
+
+export const onDataSend = (data,id) => {
 
   return dispatch => {
     // console.log(data);
-    const data1 = {
-      cylinderParam: data
-    };
-    console.log(data1);
+    let data1 = null;
+    if (data.component === "Cylinder") {
+      data1 = {
+        cylinderParam: data,
+        projectID: id
+      };
+    } else if(data.component === "Ellipsoidal Head"){
+      data1 = {
+        headParam: data,
+        projectID: id
+      };
+    }
+console.log(data1);
 
 
-    const url = "/api/cylinder/data";
-    const token = localStorage.getItem("token");
-    // console.log(token);
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": "JWT " + token
-    };
-    dispatch(axiosDataSend(data1, url, headers));
+const url = "/api/cylinder/data";
+const token = localStorage.getItem("token");
+// console.log(token);
+const headers = {
+  "Content-Type": "application/json",
+  "Authorization": "JWT " + token
+};
+dispatch(axiosDataSend(data1, url, headers));
   }
 };
 
@@ -48,5 +64,54 @@ export const axiosDataSend = (data, url, headers) => {
       .catch(err => {
         dispatch(onDataSendFail(err.response));
       });
+  };
+};
+
+
+
+//////REPORT
+
+export const requestReport = () => {
+  return dispatch => {
+      const url = "/report/reports/";
+      const token = localStorage.getItem("token");
+      const headers = {
+          "Content-Type": "application/json",
+          "Authorization": "JWT " + token
+      };
+      const data = {
+          "report_type": "vessel"
+      }
+      return dispatch(axiosReport(data, url, headers));
+  }
+
+};
+
+export const onReportIDReceive = projectID => {
+  return {
+    type: actionTypes.REQUEST_REPORT,
+    projectID: projectID
+  };
+};
+
+export const axiosReport = (authData, url, headers) => {
+  return dispatch => {
+      axios
+          .post(url, authData, { headers: headers })
+          .then(response => {
+              console.log("report");
+              console.log(response.data.id);
+              dispatch(onReportIDReceive(response.data.id))
+          })
+          .catch(err => {
+              dispatch(requestFail(err.response));
+          });
+  };
+};
+
+export const requestFail = (error) => {
+  return {
+      type: actionTypes.REPORT_FAIL,
+      error: error
   };
 };

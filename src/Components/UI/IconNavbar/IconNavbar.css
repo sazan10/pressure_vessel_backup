@@ -18,3 +18,19 @@
 .iconsII {
     margin: 0;
 }
+
+.btn {
+    background-color: rgb(252, 253, 253); /* Blue background */
+    border: none; /* Remove borders */
+    height: 25px;
+    width: 25px;
+    /* color: white; White text */
+    padding: 0px; /* Some padding */
+    /* font-size: 16px; Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+  }
+  
+  /* Darker background on mouse-over */
+.btn:hover {
+    background-color: RoyalBlue;
+  }

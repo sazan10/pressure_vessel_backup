@@ -13,8 +13,13 @@ export const DATA_SEND = 'DATA_SEND';
 
 export const DATA_SEND_FAIL = 'DATA_SEND_FAIL';
 
+export const DATA_UPDATE = 'DATA_UPDATE';
+
 export const LOAD_NEXT = 'LOAD_NEXT';
 export const LOAD_PREVIOUS = 'LOAD_PREVIOUS';
 
 export const UPDATE_NUM = 'UPDATE_NUM';
+
+export const REQUEST_REPORT = "REQUEST_REPORT";
+export const REPORT_FAIL = "REPORT_FAIL";
 

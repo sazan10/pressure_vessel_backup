@@ -10,13 +10,15 @@ import thunk from "redux-thunk";
 import navigationReducer from "./store/reducers/navigation";
 import authReducer from './store/reducers/auth';
 import componentDataReducer from './store/reducers/componentData';
+// import reportReducer from './store/reducers/report';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   navigation: navigationReducer,
   auth: authReducer,
-  componentData: componentDataReducer
+  componentData: componentDataReducer,
+  // report: reportReducer
 });
 
 const store = createStore(

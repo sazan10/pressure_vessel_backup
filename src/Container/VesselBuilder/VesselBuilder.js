@@ -5,7 +5,17 @@ import Modal from "../../Components/UI/Modal/Modal";
 import * as navbarData from "../../JSONFiles/File.json";
 import IconNavbar from '../../Components/UI/IconNavbar/IconNavbar';
 import * as iconData from '../../JSONFiles/IconNavbar.json';
+import { connect } from 'react-redux';
+import {Redirect} from 'react-router-dom';
 class VesselBuilder extends Component {
+
+  componentDidMount() {
+    console.log("ComponentDidMount");
+    console.log(this.props.isAuthenticated);
+      if(!this.props.isAuthenticated) {
+        this.props.history.push("/");
+      } 
+  }
   render() {
     const menu = navbarData.menu.map(d =>
       d[Object.keys(d)].map(dd => (
@@ -29,4 +39,10 @@ class VesselBuilder extends Component {
   }
 }
 
-export default withRouter(VesselBuilder);
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated
+  };
+};
+
+export default connect(mapStateToProps, null) (withRouter(VesselBuilder));
