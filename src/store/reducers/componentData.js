@@ -8,14 +8,16 @@ const initialState = {
     nozzle: null,
     error: null,
     id: 0,
-    projectID: null
+    projectID: null,
+    thickness: null
 };
 
 const onDataSend = (state, action) => {
     console.log("insdie onDataSend");
     console.log(action);
+    
     // state.component.push(action.component);
-    return state;
+    return updateObject(state, {thickness: action.resp});
 };
 
 const onDataSendFail = (state, action) => {
@@ -24,11 +26,19 @@ const onDataSendFail = (state, action) => {
 
 const updateData = (state, action) => {
     if(action.data.component === "Cylinder") {
-        for(let i = 0; i< action.data.number; i++) {
-            state.component.push(action.data);
+        let comp = action.data;
+        const num = action.data.number;
+        comp = updateObject(comp, {thickness: state.thickness.toString(), number: 1});
+        for(let i = 0; i< num; i++) {
+            state.component.push(comp);
         }
-    } else {
+    } else if(action.data.component === "Nozzle") {
         state.component.push(action.data);
+    }
+    else {
+        let comp = action.data;
+        comp = updateObject(comp, {thickness: state.thickness.toString()})
+        state.component.push(comp);
     }
     return state;
 }

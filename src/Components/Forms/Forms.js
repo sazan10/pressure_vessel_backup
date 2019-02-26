@@ -56,6 +56,7 @@ class DynamicForm extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        console.log(this.state);
         const doSend = this.props.model[this.props.model.length - 1][0].send;
         // const isSend = send[0].send;
         // console.log(send);
@@ -63,12 +64,14 @@ class DynamicForm extends React.Component {
         // console.log(this.state);
         // console.log(initialState);
         // this.setState(initialState);
-        if(doSend) {
+        if(doSend && this.props.model[this.props.model.length - 1][0].end) {
+            if (this.props.onSubmit) this.props.onSubmitAndUpdate(this.state);
+        }else if(doSend) {
             if (this.props.onSubmit) this.props.onSubmit(this.state);
         } else {
             if (this.props.onSubmit) this.props.dataUpdate(this.state);
         }
-        if (this.props.num === 1) {
+        if (this.props.num === 1 && !this.props.model[this.props.model.length - 1][0].end) {
             this.props.importModel(this.props.title, 2);
             this.props.updateNum(2);
         } else {
@@ -82,13 +85,16 @@ class DynamicForm extends React.Component {
         // console.log(this.state);
         // console.log(`${key} changed ${e.target.value} type ${type}`);
         if (type === "single") {
+            this.setState({
+                component: this.props.title
+            });
             if (key === "material") {
                 const mat = e.target.value.split(" ");
                 this.setState({
                     spec_num: mat[0],
                     type_grade: mat[1],
                     component: this.props.title
-                })
+                });
             } else {
                 this.setState({
                     [key]: e.target.value
@@ -316,7 +322,9 @@ const mapDispatchToProps = dispatch => {
         onPrevious: () => dispatch(actions.loadPrevious()),
         updateNum: (num) => dispatch(actions.updateNum(num)),
         importModel: (title, num) => dispatch(actions.importModel(title, num)),
-        dataUpdate : (data) => dispatch(actions.dataUpdate(data))
+        dataUpdate : (data) => dispatch(actions.dataUpdate(data)),
+        onSubmitAndUpdate : (data) => dispatch(actions.onSubmitAndUpdate(data))
+
     };
 };
 

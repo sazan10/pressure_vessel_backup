@@ -23,43 +23,87 @@ export const dataUpdate = (data) => {
   }
 }
 
-export const onDataSend = (data,id) => {
+export const onDataSend = (data, id) => {
 
   return dispatch => {
-    // console.log(data);
+    console.log(data);
+    let url = "/api/cylinder/data";
     let data1 = null;
     if (data.component === "Cylinder") {
+      console.log("Inside Cylinder");
       data1 = {
         cylinderParam: data,
         projectID: id
       };
-    } else if(data.component === "Ellipsoidal Head"){
+    } else if (data.component === "Ellipsoidal Head") {
+      console.log("Inside Head");
       data1 = {
         headParam: data,
         projectID: id
       };
+      url = "/api/head/data";
+    } else if (data.component === "Nozzle") {
+      console.log("Inside Nozzle");
+      data1 = {
+        nozzleParam: data,
+        projectID: id
+      };
+      url = "/api/nozzle/data";
     }
-console.log(data1);
+    console.log(data1);
 
-
-const url = "/api/cylinder/data";
-const token = localStorage.getItem("token");
-// console.log(token);
-const headers = {
-  "Content-Type": "application/json",
-  "Authorization": "JWT " + token
-};
-dispatch(axiosDataSend(data1, url, headers));
+    const token = localStorage.getItem("token");
+    // console.log(token);
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": "JWT " + token
+    };
+    dispatch(axiosDataSend(data1, url, headers));
   }
 };
+
+export const onSubmitAndUpdate = (data) => {
+  return dispatch => {
+    let url = null;
+    console.log(data);
+    if (data.component === "Nozzle") {
+      url = "/api/nozzle/data";
+    }
+
+    const data1 = {
+      nozzleParam: data,
+      projectID: 1
+    };
+    const token = localStorage.getItem("token");
+    // console.log(token);
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": "JWT " + token
+    };
+    axios
+      .post(url, data1, { headers: headers })
+      .then(response => {
+        console.log(response.data);
+        const data1 = {
+          ...data,
+          ...{thickness: response.data.thickness}
+        };
+        dispatch(dataUpdate(data1));
+      })
+      .catch(err => {
+        dispatch(onDataSendFail(err.response));
+      });
+  }
+}
 
 export const axiosDataSend = (data, url, headers) => {
   return dispatch => {
     axios
       .post(url, data, { headers: headers })
       .then(response => {
-        console.log(response.data.thickness);
+        console.log(response.data);
         dispatch(onDataSendTo(response.data.thickness, data));
+        console.log("after dispatch");
       })
       .catch(err => {
         dispatch(onDataSendFail(err.response));
@@ -73,16 +117,16 @@ export const axiosDataSend = (data, url, headers) => {
 
 export const requestReport = () => {
   return dispatch => {
-      const url = "/report/reports/";
-      const token = localStorage.getItem("token");
-      const headers = {
-          "Content-Type": "application/json",
-          "Authorization": "JWT " + token
-      };
-      const data = {
-          "report_type": "vessel"
-      }
-      return dispatch(axiosReport(data, url, headers));
+    const url = "/report/reports/";
+    const token = localStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": "JWT " + token
+    };
+    const data = {
+      "report_type": "vessel"
+    }
+    return dispatch(axiosReport(data, url, headers));
   }
 
 };
@@ -96,22 +140,22 @@ export const onReportIDReceive = projectID => {
 
 export const axiosReport = (authData, url, headers) => {
   return dispatch => {
-      axios
-          .post(url, authData, { headers: headers })
-          .then(response => {
-              console.log("report");
-              console.log(response.data.id);
-              dispatch(onReportIDReceive(response.data.id))
-          })
-          .catch(err => {
-              dispatch(requestFail(err.response));
-          });
+    axios
+      .post(url, authData, { headers: headers })
+      .then(response => {
+        console.log("report");
+        console.log(response.data.id);
+        dispatch(onReportIDReceive(response.data.id))
+      })
+      .catch(err => {
+        dispatch(requestFail(err.response));
+      });
   };
 };
 
 export const requestFail = (error) => {
   return {
-      type: actionTypes.REPORT_FAIL,
-      error: error
+    type: actionTypes.REPORT_FAIL,
+    error: error
   };
 };

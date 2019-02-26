@@ -94,6 +94,12 @@
       "key": "Component"
     },
     {
+      "id": 12,
+      "title": "Nozzle",
+      "selected": false,
+      "key": "Component"
+    },
+    {
       "id": 3,
       "title": "F & D Head",
       "selected": false,

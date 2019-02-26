@@ -140,7 +140,7 @@ class Auth extends Component {
                 touched: false
             }
         },
-        isSignup: true,
+        isSignup: false,
         passMatch: false,
         valid: true,
         message: ""

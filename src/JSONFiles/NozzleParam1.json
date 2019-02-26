@@ -1,0 +1,21 @@
+[
+    [{ "key": "type_name", "label": "Type","type":"select", "value": "LWN",
+    "options": [
+      { "key": "", "label": "" ,"value": ""},
+      { "key": "LWN", "label": "LWN" ,"value": "LWN"},
+      { "key": "HB", "label": "HB" ,"value": "HB"},
+      { "key": "F", "label": "F", "value": "F"}
+      ]}],
+    [{ "key": "nps", "label": "NPS", "type": "number", "required": true, "placeholder": "2" }
+    ],
+    [{ "key": "sch", "label": "Schedule", "type": "number", "required": true, "placeholder": "10" }
+    ],
+    [{ "key": "orientation", "label": "Angle", "type": "number", "required": true, "placeholder": "0" },
+      { "key": "height", "label": "Height", "type": "number", "required": true, "placeholder": "1" }
+    ],
+    [{ "key": "length", "label": "Length", "type": "number", "required": true, "placeholder": "1" }
+    ],
+    [{"key": "cancel", "label": "Cancel", "type": "button", "actionType": "cancel"},
+      {"key": "submit", "label": "Submit", "type": "button", "actionType": "submit"}
+      ],
+  [{"key":"send","label": "send","send": true, "end": true}]]

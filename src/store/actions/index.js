@@ -18,6 +18,7 @@ export {
     onDataSend,
     onDataSendFail,
     dataUpdate,
+    onSubmitAndUpdate,
     axiosDataSend,
     requestReport,
     axiosReport,
