@@ -30,11 +30,7 @@ const updateData = (state, action) => {
     } else {
         state.component.push(action.data);
     }
-    
     return state;
-    // const data = updateObject(state.component[0],action.data);
-    // console.log(data);
-    // return updateObject(state, {component: data});
 }
 
 const reportFail = (state, action) => {
