@@ -6,6 +6,7 @@ import * as navbarData from "../../JSONFiles/File.json";
 import IconNavbar from '../../Components/UI/IconNavbar/IconNavbar';
 import * as iconData from '../../JSONFiles/IconNavbar.json';
 import { connect } from 'react-redux';
+import Scene from '../Scene/Scene';
 import {Redirect} from 'react-router-dom';
 class VesselBuilder extends Component {
 
@@ -34,6 +35,7 @@ class VesselBuilder extends Component {
           {menu}
           {/* {iconMenu} */}
         </Switch>
+        <Scene></Scene>
       </div>
     );
   }

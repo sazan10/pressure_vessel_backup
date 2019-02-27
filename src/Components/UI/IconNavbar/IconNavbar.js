@@ -57,7 +57,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onClick1: () => dispatch(actions.requestReport())
+        //onClick1: () => dispatch(actions.requestReport())
         
     };
 };

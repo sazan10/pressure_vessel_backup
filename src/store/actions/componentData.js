@@ -8,10 +8,10 @@ export const onDataSendFail = error => {
   };
 };
 
-export const onDataSendTo = (response, data) => {
+export const onDataSendTo = (data) => {
   return {
     type: actionTypes.DATA_SEND,
-    resp: response,
+   // resp: response,
     component: data
   };
 };
@@ -58,7 +58,8 @@ export const onDataSend = (data, id) => {
       "Content-Type": "application/json",
       "Authorization": "JWT " + token
     };
-    dispatch(axiosDataSend(data1, url, headers));
+   // dispatch(axiosDataSend(data1, url, headers));
+   dispatch(onDataSendTo(data));
   }
 };
 
@@ -80,56 +81,56 @@ export const onSubmitAndUpdate = (data) => {
       "Content-Type": "application/json",
       "Authorization": "JWT " + token
     };
-    axios
-      .post(url, data1, { headers: headers })
-      .then(response => {
-        console.log(response.data);
-        const data1 = {
-          ...data,
-          ...{thickness: response.data.thickness}
-        };
-        dispatch(dataUpdate(data1));
-      })
-      .catch(err => {
-        dispatch(onDataSendFail(err.response));
-      });
+    // axios
+    //   .post(url, data1, { headers: headers })
+    //   .then(response => {
+    //     console.log(response.data);
+    //     const data1 = {
+    //       ...data,
+    //       ...{thickness: response.data.thickness}
+    //     };
+    //     dispatch(dataUpdate(data1));
+    //   })
+    //   .catch(err => {
+    //     dispatch(onDataSendFail(err.response));
+    //   });
   }
 }
 
-export const axiosDataSend = (data, url, headers) => {
-  return dispatch => {
-    axios
-      .post(url, data, { headers: headers })
-      .then(response => {
-        console.log(response.data);
-        dispatch(onDataSendTo(response.data.thickness, data));
-        console.log("after dispatch");
-      })
-      .catch(err => {
-        dispatch(onDataSendFail(err.response));
-      });
-  };
-};
+// export const axiosDataSend = (data, url, headers) => {
+//   return dispatch => {
+//     axios
+//       .post(url, data, { headers: headers })
+//       .then(response => {
+//         console.log(response.data);
+//         dispatch(onDataSendTo(response.data.thickness, data));
+//         console.log("after dispatch");
+//       })
+//       .catch(err => {
+//         dispatch(onDataSendFail(err.response));
+//       });
+//   };
+// };
 
 
 
 //////REPORT
 
-export const requestReport = () => {
-  return dispatch => {
-    const url = "/report/reports/";
-    const token = localStorage.getItem("token");
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": "JWT " + token
-    };
-    const data = {
-      "report_type": "vessel"
-    }
-    return dispatch(axiosReport(data, url, headers));
-  }
+// export const requestReport = () => {
+//   return dispatch => {
+//     const url = "/report/reports/";
+//     const token = localStorage.getItem("token");
+//     const headers = {
+//       "Content-Type": "application/json",
+//       "Authorization": "JWT " + token
+//     };
+//     const data = {
+//       "report_type": "vessel"
+//     }
+//     return dispatch(axiosReport(data, url, headers));
+//   }
 
-};
+// };
 
 export const onReportIDReceive = projectID => {
   return {
@@ -138,20 +139,20 @@ export const onReportIDReceive = projectID => {
   };
 };
 
-export const axiosReport = (authData, url, headers) => {
-  return dispatch => {
-    axios
-      .post(url, authData, { headers: headers })
-      .then(response => {
-        console.log("report");
-        console.log(response.data.id);
-        dispatch(onReportIDReceive(response.data.id))
-      })
-      .catch(err => {
-        dispatch(requestFail(err.response));
-      });
-  };
-};
+// export const axiosReport = (authData, url, headers) => {
+//   return dispatch => {
+//     axios
+//       .post(url, authData, { headers: headers })
+//       .then(response => {
+//         console.log("report");
+//         console.log(response.data.id);
+//         dispatch(onReportIDReceive(response.data.id))
+//       })
+//       .catch(err => {
+//         dispatch(requestFail(err.response));
+//       });
+//   };
+// };
 
 export const requestFail = (error) => {
   return {
