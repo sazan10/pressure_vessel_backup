@@ -37,7 +37,7 @@ export const logout = () => {
 export const authWithToken = () => {
   const token = localStorage.getItem("token");
   
-  let url = "/refresh-token-auth";
+  let url = "/auth/refresh-token-auth";
   
   return dispatch => {
     var headers = {

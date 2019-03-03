@@ -1,8 +1,8 @@
 [
     
-    [{ "key": "length", "label": "Length", "type": "number", "required": true }],
-    [{ "key": "thickness", "label": "Thickness", "type": "number", "required": true }],
-    [{ "key": "number", "label": "Number", "type": "number", "required": true }],
+    [{ "key": "length", "label": "Length", "type": "number", "required": true, "step": "any" }],
+    [{ "key": "thickness", "label": "Thickness", "type": "number", "required": true, "step": "any" }],
+    [{ "key": "number", "label": "Number", "type": "number", "required": true, "step": "any" }],
     [{"key": "previous", "label": "Previous", "type": "button", "actionType": "previous"},
     {"key": "ok", "label": "ok", "type": "button", "actionType": "submit"}
     ],

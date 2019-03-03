@@ -167,6 +167,7 @@ class DynamicForm extends React.Component {
                             type={type}
                             key={key}
                             name={name}
+                            step = {mmm.step}
                             placeholder={mmm.placeholder}
                             onChange={(e) => { this.onChange(e, target) }}
                         />;
