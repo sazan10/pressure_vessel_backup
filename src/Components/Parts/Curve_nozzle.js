@@ -3,7 +3,7 @@ import { toCSG, fromCSG } from 'three-2-csg';
   const Curve_nozzle =(length_)=> {
     
    
-     var material = new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });
+     var material = new THREE.MeshPhongMaterial({ color: '#d4ac0d', side: THREE.DoubleSide });
 
 var length_of_pipe=1;
 var length_of_cone=0.4;
@@ -61,8 +61,10 @@ group.add(mesh_test1);
 group.add( mesh_ind2 );
 group.add( mesh_ind3 );
 group.add( mesh_ind4 );
-group.translateX(1).rotateZ(-3.14/2).rotateY(3.14);
-return group;
+group.translateZ(-1).rotateZ(-3.14/2).rotateY(3.14).rotateX(3.14/2);
+var group2=new THREE.Group();
+group2.add(group);
+return group2;
 
   
 }
@@ -71,7 +73,7 @@ return group;
 
     const create_component=(outer_upper_rad, outer_lower_rad, inner_upper_rad,inner_lower_rad,length,translateX,translateY,translateZ,rotateX,rotateY,rotateZ)=>
     {
-     var material = new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });
+     var material = new THREE.MeshPhongMaterial({ color: '#d4ac0d', side: THREE.DoubleSide });
 
       //sphere
 
@@ -97,10 +99,10 @@ return mesh_test;
 
 
 const create_flange=(radius_outer,radius_inner,extrude_length,translateX,translateY,translateZ,rotateX,rotateY,rotateZ)=>{
-  var material = new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });
+  var material = new THREE.MeshPhongMaterial({ color: '#d4ac0d', side: THREE.DoubleSide });
 
       var material_extrude = new THREE.MeshPhongMaterial({
-        color: '#0b7dba',
+        color: '#d4ac0d',
         shading: THREE.SmoothShading,
         specular: 0xffffff,
         shininess: 1.0,

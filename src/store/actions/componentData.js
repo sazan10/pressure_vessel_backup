@@ -59,7 +59,7 @@ export const onDataSend = (data, id) => {
       "Authorization": "JWT " + token
     };
    // dispatch(axiosDataSend(data1, url, headers));
-   dispatch(onDataSendTo(data));
+   dispatch(onDataSendTo(data1));
   }
 };
 
@@ -89,7 +89,7 @@ export const onSubmitAndUpdate = (data) => {
     //       ...data,
     //       ...{thickness: response.data.thickness}
     //     };
-    //     dispatch(dataUpdate(data1));
+        dispatch(dataUpdate(data1));
     //   })
     //   .catch(err => {
     //     dispatch(onDataSendFail(err.response));

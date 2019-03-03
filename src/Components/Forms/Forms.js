@@ -123,7 +123,7 @@ class DynamicForm extends React.Component {
     onCancel = (e) => {
         e.preventDefault();
         // console.log("On cancel");
-        this.setState(initialState);
+        this.setState(initialState);;
         this.props.updateNum(1);
         this.props.history.push('/builder');
     }

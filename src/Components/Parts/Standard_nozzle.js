@@ -1,9 +1,10 @@
 import * as THREE from 'three'
 import { toCSG, fromCSG } from 'three-2-csg';
-  
-const Standard_nozzle=()=> {
-    
-var length_of_pipe=1;
+  import math from 'mathjs';
+const Standard_nozzle=(length1)=> {
+
+
+var length_of_pipe=parseFloat(length1);
 var length_of_cone=0.4;
 
 var radius_outer_pipe_top=0.2;
@@ -21,11 +22,12 @@ var mesh_ind1=new THREE.Mesh();
 var mesh_ind2=new THREE.Mesh();
 var mesh_ind3=new THREE.Mesh();
 var mesh_ind4=new THREE.Mesh();
-var material=new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });;
+var material=new THREE.MeshPhongMaterial({ color: '#0d93b3', emissive: 0x072534, side: THREE.DoubleSide });;
 var center_of_torus=1;
 var length_of_pipe2=0.1;
-mesh_ind1=create_component(radius_outer_pipe_top,radius_outer_pipe_bottom,radius_inner_pipe_top,radius_inner_pipe_bottom,length_of_pipe,0,0,0,0,0,3.14/2);
-var position_of_cone=length_of_cone/2+length_of_pipe/2;//+0.08;
+var position_of_pipe=length_of_pipe/2;
+mesh_ind1=create_component(radius_outer_pipe_top,radius_outer_pipe_bottom,radius_inner_pipe_top,radius_inner_pipe_bottom,length_of_pipe,position_of_pipe,0,0,0,0,3.14/2);
+var position_of_cone=position_of_pipe+length_of_cone/2+length_of_pipe/2;//+0.08;
 mesh_ind2=create_component(radius_outer_cone_top,radius_outer_cone_bottom,radius_inner_cone_top,radius_inner_cone_bottom,length_of_cone,position_of_cone,0,0,0,0,3.14/2);
 var position_of_second_cylinder=position_of_cone+length_of_cone/2;
 var extrude_length=0.1;
@@ -40,13 +42,15 @@ group.add(mesh_ind1);
 group.add( mesh_ind2 );
 group.add( mesh_ind3 );
 group.add( mesh_ind4 );
-
+group.rotateY(math.PI/2);
+var group2=new THREE.Group();
+group2.add(group);
+return group2;
 
 //this.create_component(radius_outer_pipe_top,radius_outer_pipe_bottom,radius_inner_pipe_top,radius_inner_pipe_bottom,length_of_pipe2,0,0,0,0,0,3.14/2);
 
   // this.scene.add(pointclod);
- 
-  return group;
+
 }
 
 
@@ -54,7 +58,7 @@ group.add( mesh_ind4 );
     const create_component=(outer_upper_rad, outer_lower_rad, inner_upper_rad,inner_lower_rad,length,translateX,translateY,translateZ,rotateX,rotateY,rotateZ)=>
     {
       //sphere
-      var material =new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });
+      var material =new THREE.MeshPhongMaterial({ color: '#0d93b3', emissive: 0x072534, side: THREE.DoubleSide });
 var cylinder_cone = new THREE.CylinderGeometry(outer_upper_rad,outer_lower_rad,length,100);
 var cylinderconeMesh = new THREE.Mesh( cylinder_cone, material );
 var coneCSG = toCSG( cylinderconeMesh ); // converting ThreeJS object to CSG
@@ -79,12 +83,12 @@ return mesh_test;
     const create_flange=(radius_outer,radius_inner,extrude_length,translateX,translateY,translateZ,rotateX,rotateY,rotateZ)=>{
 
       var material_extrude = new THREE.MeshPhongMaterial({
-        color: '#0b7dba',
+        color: '#0d93b3',
         shading: THREE.SmoothShading,
         specular: 0xffffff,
         shininess: 1.0,
       });
-      var material =new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });
+      var material =new THREE.MeshPhongMaterial({ color: '#0d93b3', emissive: 0x072534, side: THREE.DoubleSide });
       var depth_flange3=0.1;
       var radius_hole3=0.05;
       var radius_central3=0.15;

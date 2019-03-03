@@ -62,6 +62,7 @@ class Scene extends Component {
       this.first=0;
       this.head_no=0;
       this.height_position=0;
+      this.radial_position=0;
       // this.mesh= new THREE.Mesh();
       // this.mesh=Shell();
       // this.mesh.translateX(1.5);
@@ -73,7 +74,7 @@ class Scene extends Component {
  
       this.length=0;
       this.start();
-
+    
     
     }
 
@@ -117,11 +118,13 @@ class Scene extends Component {
         if(this.props.component.length>=0)
         {
           
+          
+          console.log("component",this.props.component);
           console.log("length",this.props.component.length);
         for (let i =0 ; i<this.props.component.length;i++)
         {
         
-         //console.log("component",this.props.component[i]);
+         console.log("component",this.props.component[i].component);
           
         if( this.props.component[i].length && this.props.component[i].component==="Cylinder"){
           console.log("title",this.props.component[i],i);
@@ -134,14 +137,14 @@ class Scene extends Component {
                 console.log("thickness:",thickness, "diameter:",diameter,"length:",this.length,"number:",number);
                 shell = Shell(thickness,diameter,this.length);
                 console.log("before adddition of cylinder",this.height_position);
-                if(this.first==1){
+                if(this.first==1 || this.first==0){
                 this.height_position=this.height_position+this.length/2;
                 }
                 else{
                   this.height_position=this.height_position+this.length;
                 }
                 console.log("position of cylinder",this.height_position);
-                shell.translateY(this.height_position)//this.height_position);  
+                shell.translateY(this.height_position);//this.height_position);  
                 //this.scene.add(shell);
               
                 this.group.add(shell);
@@ -151,11 +154,13 @@ class Scene extends Component {
             //   this.start();
             // }
             this.props.component[i].length=0;
+            this.radial_position=diameter/2+thickness;
           }
           else if(this.props.component[i] && this.props.component[i].component==="Ellipsoidal Head" && this.props.component[i].MHT){
             var diameter=parseFloat(this.props.component[i].sd);
-            var head_thickness= parseFloat(this.props.component[i].MHT);
-            var head = new THREE.Mesh();
+           var head_thickness= parseFloat(this.props.component[i].MHT);
+           //var head_thickness= parseFloat(this.props.component[i].thickness);
+           var head = new THREE.Mesh();
 
 
             var radius=diameter/2;
@@ -177,9 +182,8 @@ class Scene extends Component {
             if (this.head_no==0  && this.first==0)
             {
               head = Head(new_radius);
-              head.rotateZ(3.14);
+              head.rotateZ(3.14).translateY(-r2);
               this.scene.add(head);
-              this.height_position=this.height_position-r2;
               this.first=this.first+1;
               this.props.component[i].MHT=null;
               this.head_no=1;
@@ -194,14 +198,37 @@ class Scene extends Component {
               this.props.component[i].MHT=null;
               //head.translateY(this.height_position);
             }
-           
-            console.log("r1",r1);
-            
-           
-           
-            
-            
+            this.radial_position=rad;
+            console.log("r1",r1);  
           }
+         else if(this.props.component[i].nozzleParam){
+           
+           if(this.props.component[i].nozzleParam.component==="Nozzle" && this.props.component[i].nozzleParam.type_name==="LWN"){
+            var length=this.props.component[i].nozzleParam.length;
+            var orientation=this.props.component[i].nozzleParam.orientation;            
+            var orientation_in_rad=(orientation/180)*math.pi;
+            var nozzle_height=this.props.component[i].nozzleParam.height;
+            var nozzle= new THREE.Mesh();
+            
+             nozzle=Standard_nozzle(length);
+             //nozzle.rotateY((orientation/180)*math.pi);
+             nozzle.translateZ(-this.radial_position*math.cos(orientation_in_rad)).translateX(this.radial_position*math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
+             console.log("nozzle",nozzle);
+            this.scene.add(nozzle);
+          }
+          if(this.props.component[i].nozzleParam.component==="Nozzle" && this.props.component[i].nozzleParam.type_name==="HB"){
+            var length=this.props.component[i].nozzleParam.length;
+            var orientation=this.props.component[i].nozzleParam.orientation;            
+            var orientation_in_rad=(orientation/180)*math.pi;
+            var nozzle_height=this.props.component[i].nozzleParam.height;
+            var nozzle= new THREE.Mesh();
+             nozzle=Curve_nozzle(length);
+            // nozzle.translateY(4);
+            nozzle.translateZ(-this.radial_position*math.cos(orientation_in_rad)).translateX(this.radial_position*math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
+             console.log("nozzle",nozzle);
+            this.scene.add(nozzle);
+          }
+       }
         
       }
 
