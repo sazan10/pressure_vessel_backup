@@ -1,8 +1,8 @@
 import * as THREE from 'three'
 import { toCSG, fromCSG } from 'three-2-csg';
-  const Curve_nozzle =(length_)=> {
-    
-   
+  const Curve_nozzle =(length_,scaler1=10)=> {
+  
+   var scaler=parseFloat(scaler1);
      var material = new THREE.MeshPhongMaterial({ color: '#d4ac0d', side: THREE.DoubleSide });
 
 var length_of_pipe=1;
@@ -61,8 +61,11 @@ group.add(mesh_test1);
 group.add( mesh_ind2 );
 group.add( mesh_ind3 );
 group.add( mesh_ind4 );
+
 group.translateZ(-1).rotateZ(-3.14/2).rotateY(3.14).rotateX(3.14/2);
+
 var group2=new THREE.Group();
+group2.scale.set(scaler/3,scaler/3,scaler/3);
 group2.add(group);
 return group2;
 

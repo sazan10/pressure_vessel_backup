@@ -12,7 +12,7 @@ export const clickMenu = (title, id, stateKey) => {
 
 export const importModel = (title, num) => {
   return dispatch => {
-    // console.log("Inside actions " + title );
+    console.log("Inside actions " + title );
   import(`../../JSONFiles/${title.replace(' ','')}Param${num}.json`)
   // import(`../../JSONFiles/CommonParam.json`)
     .then(function(response) {

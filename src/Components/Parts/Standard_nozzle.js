@@ -1,10 +1,12 @@
 import * as THREE from 'three'
 import { toCSG, fromCSG } from 'three-2-csg';
   import math from 'mathjs';
-const Standard_nozzle=(length1)=> {
+const Standard_nozzle=(length1,diameter=10)=> {
 
 
-var length_of_pipe=parseFloat(length1);
+var length_of_pipe1=parseFloat(length1);
+var scaler= parseFloat(diameter);
+var length_of_pipe=length_of_pipe1/10;
 var length_of_cone=0.4;
 
 var radius_outer_pipe_top=0.2;
@@ -42,6 +44,7 @@ group.add(mesh_ind1);
 group.add( mesh_ind2 );
 group.add( mesh_ind3 );
 group.add( mesh_ind4 );
+group.scale.set(scaler/3,scaler/3,scaler/3);
 group.rotateY(math.PI/2);
 var group2=new THREE.Group();
 group2.add(group);
@@ -72,8 +75,9 @@ var cylinderCSG = toCSG( cylinderMesh ); // converting ThreeJS object to CSG
 var subtractCSG = coneCSG.subtract( cylinderCSG );
 var result = fromCSG(subtractCSG); // converting CSG back into ThreeJS object
  var mesh_test= new THREE.Mesh(result,material);
+
  mesh_test.translateX(translateX).translateY(translateY).translateZ(translateZ).rotateX(rotateX).rotateY(rotateY).rotateZ(rotateZ);
-//result.geometry.computeVertexNormals();
+ //result.geometry.computeVertexNormals();
  console.log("result",result);
 //this.scene.add( mesh_test);
 return mesh_test;

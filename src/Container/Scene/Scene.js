@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import * as THREE from 'three'
 import * as TrackballControls from 'three-trackballcontrols';
@@ -29,7 +28,7 @@ class Scene extends Component {
         1000
       );
       this.camera.position.z = 5;
-      console.log("scene rendered completely");
+            console.log("scene rendered completely");
       //ADD SCENE
   
       //ADD RENDERER
@@ -51,7 +50,7 @@ class Scene extends Component {
       this.controls.dynamicDampingFactor = 0.3;
       this.controls.keys = [65, 83, 68];
   
-  
+
       var ambient = new THREE.AmbientLight(0xbbbbbb);
       this.scene.add(ambient);
   
@@ -113,12 +112,12 @@ class Scene extends Component {
         this.renderer.render(this.scene, this.camera);
       }
       render() {
-        
+        var scaler=0;
         //console.log("component",this.props.component);
         if(this.props.component.length>=0)
         {
           
-          
+          var rad=0;
           console.log("component",this.props.component);
           console.log("length",this.props.component.length);
         for (let i =0 ; i<this.props.component.length;i++)
@@ -132,6 +131,8 @@ class Scene extends Component {
           this.length=parseFloat(this.props.component[i].length);
           var number=parseFloat(this.props.component[i].number);
           var thickness =parseFloat(this.props.component[i].thickness);
+          this.scaler =diameter+thickness;
+          console.log("scaler for cylinder",scaler);
              //for (let i = 0; i < number; i++) {
                 var shell= new THREE.Mesh();
                 console.log("thickness:",thickness, "diameter:",diameter,"length:",this.length,"number:",number);
@@ -155,21 +156,28 @@ class Scene extends Component {
             // }
             this.props.component[i].length=0;
             this.radial_position=diameter/2+thickness;
+            if(this.camera)
+          {
+          this.camera.position.z=(this.length+rad)*1.8;
+
+          }
           }
           else if(this.props.component[i] && this.props.component[i].component==="Ellipsoidal Head" && this.props.component[i].MHT){
             var diameter=parseFloat(this.props.component[i].sd);
-           var head_thickness= parseFloat(this.props.component[i].MHT);
+           var head_thickness= parseFloat(this.props.component[i].thickness);
            //var head_thickness= parseFloat(this.props.component[i].thickness);
            var head = new THREE.Mesh();
 
-
+            
             var radius=diameter/2;
             var arc=1.1*(radius+head_thickness);
             var height_head=2*radius*math.pow(math.sin(arc/(2*radius)),2);
          
 
 
-            var rad=radius+head_thickness;
+            rad=radius+head_thickness;
+           // this.scaler=diameter+thickness;
+          
             console.log("upper radius",rad);
             var alpha= (math.pi-1.1)/2;
             var chord= (rad)/math.sin(alpha);
@@ -200,41 +208,54 @@ class Scene extends Component {
             }
             this.radial_position=rad;
             console.log("r1",r1);  
+            if(this.camera)
+            {
+            this.camera.position.z=(this.length+rad)*1.8;
+            }
           }
-         else if(this.props.component[i].nozzleParam){
+         else if(this.props.component[i]){
            
-           if(this.props.component[i].nozzleParam.component==="Nozzle" && this.props.component[i].nozzleParam.type_name==="LWN"){
-            var length=this.props.component[i].nozzleParam.length;
-            var orientation=this.props.component[i].nozzleParam.orientation;            
+           if(this.props.component[i].component==="Nozzle" && this.props.component[i].type_name==="LWN"){
+            var length=this.props.component[i].length;
+            var orientation=this.props.component[i].orientation;            
             var orientation_in_rad=(orientation/180)*math.pi;
-            var nozzle_height=this.props.component[i].nozzleParam.height;
+            var nozzle_height=this.props.component[i].height;
             var nozzle= new THREE.Mesh();
-            
-             nozzle=Standard_nozzle(length);
+            console.log("normal scaler",scaler);
+             nozzle=Standard_nozzle(length,this.scaler);
+            // nozzle.scale.set(length,length,length);
              //nozzle.rotateY((orientation/180)*math.pi);
              nozzle.translateZ(-this.radial_position*math.cos(orientation_in_rad)).translateX(this.radial_position*math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
              console.log("nozzle",nozzle);
             this.scene.add(nozzle);
+        
           }
-          if(this.props.component[i].nozzleParam.component==="Nozzle" && this.props.component[i].nozzleParam.type_name==="HB"){
-            var length=this.props.component[i].nozzleParam.length;
-            var orientation=this.props.component[i].nozzleParam.orientation;            
+          if(this.props.component[i].component==="Nozzle" && this.props.component[i].type_name==="HB"){
+            var length=this.props.component[i].length;
+            var orientation=this.props.component[i].orientation;            
             var orientation_in_rad=(orientation/180)*math.pi;
-            var nozzle_height=this.props.component[i].nozzleParam.height;
+            var nozzle_height=this.props.component[i].height;
             var nozzle= new THREE.Mesh();
-             nozzle=Curve_nozzle(length);
+            console.log("curve scaler",this.scaler);
+             nozzle=Curve_nozzle(length,this.scaler);
             // nozzle.translateY(4);
             nozzle.translateZ(-this.radial_position*math.cos(orientation_in_rad)).translateX(this.radial_position*math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
              console.log("nozzle",nozzle);
             this.scene.add(nozzle);
+           
+          
           }
-       }
+          if(this.camera)
+          {
+            this.camera.position.z=(this.length+rad)*1.8;
+            }
         
       }
 
           
-          //this.camera.position.z=(number*length)*2.5;
-         // this.start();
+          this.start();
+          }
+          
         }
         //console.log(this.props.component);
         return ( <div
@@ -261,4 +282,4 @@ class Scene extends Component {
   // };
 
   
-  export default connect(mapStateToProps, null)(Scene);
+export default connect(mapStateToProps, null)(Scene);

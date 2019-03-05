@@ -28,7 +28,7 @@ const updateData = (state, action) => {
     if(action.data.component === "Cylinder") {
         let comp = action.data;
         const num = action.data.number;
-      //  comp = updateObject(comp, {thickness: state.thickness.toString(), number: 1});
+        comp = updateObject(comp, {thickness: state.thickness.toString(), number: 1});
         for(let i = 0; i< num; i++) {
             state.component.push(comp);
         }
@@ -37,7 +37,7 @@ const updateData = (state, action) => {
     }
     else {
         let comp = action.data;
-       // comp = updateObject(comp, {thickness: state.thickness.toString()})
+        comp = updateObject(comp, {thickness: state.thickness.toString()})
         state.component.push(comp);
     }
     return state;

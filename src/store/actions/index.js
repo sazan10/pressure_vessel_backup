@@ -19,10 +19,10 @@ export {
     onDataSendFail,
     dataUpdate,
     onSubmitAndUpdate,
-   // axiosDataSend,
-    //requestReport,
-    //axiosReport,
-    //requestFail,
+    axiosDataSend,
+    requestReport,
+    axiosReport,
+    requestFail,
     onReportIDReceive
 } from './componentData';
 

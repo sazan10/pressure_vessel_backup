@@ -1,0 +1,24 @@
+[
+    [{ "key": "type_name", "label": "Type","type":"select", "value": "LWN",
+    "options": [
+      { "key": "", "label": "" ,"value": ""},
+      { "key": "LWN", "label": "LWN" ,"value": "LWN"},
+      { "key": "HB", "label": "HB" ,"value": "HB"},
+      { "key": "F", "label": "F", "value": "F"}
+      ]}],
+    [{ "key": "nominal_pipe_size", "label": "nominal_pipe_size", "type": "number", "required": true, "placeholder": "1" }
+    ],
+    [{ "key": "schedules", "label": "schedules", "type": "number", "required": true, "placeholder": "10" }
+    ],
+    [{ "key": "orientation", "label": "Angle", "type": "number", "required": true, "placeholder": "0" },
+      { "key": "height", "label": "Height", "type": "number", "required": true, "placeholder": "1" }
+    ],
+    [{ "key": "length", "label": "Length", "type": "number", "required": true, "placeholder": "1" }
+    ],
+    [{ "key": "class_value", "label": "class_value", "type": "number", "required": true, "placeholder": "150" }
+    ]
+    ,
+    [{"key": "cancel", "label": "Cancel", "type": "button", "actionType": "cancel"},
+      {"key": "submit", "label": "Submit", "type": "button", "actionType": "submit"}
+      ],
+  [{"key":"send","label": "send","send": false, "end": true}]]
