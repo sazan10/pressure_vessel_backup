@@ -23,3 +23,4 @@ export const UPDATE_NUM = 'UPDATE_NUM';
 export const REQUEST_REPORT = "REQUEST_REPORT";
 export const REPORT_FAIL = "REPORT_FAIL";
 
+export const DOWNLOAD_REPORT = "DOWNLOAD_REPORT";

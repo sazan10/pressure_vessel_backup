@@ -22,6 +22,7 @@ export {
     axiosDataSend,
     requestReport,
     axiosReport,
+    downloadReport,
     requestFail,
     onReportIDReceive
 } from './componentData';

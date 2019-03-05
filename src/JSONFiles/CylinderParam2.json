@@ -1,5 +1,4 @@
 [
-    
     [{ "key": "length", "label": "Length", "type": "number", "required": true, "step": "any" }],
     [{ "key": "thickness", "label": "Thickness", "type": "number", "required": true, "step": "any" }],
     [{ "key": "number", "label": "Number", "type": "number", "required": true, "step": "any" }],

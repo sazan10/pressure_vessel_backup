@@ -51,6 +51,9 @@ const requestReport = (state, action) => {
     return updateObject(state, { projectID: action.projectID })
     
 }
+const downloadReport = (state, action) => {
+    
+}
 
 
 const reducer = (state = initialState, action) => {
@@ -60,7 +63,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.DATA_UPDATE: return updateData(state, action);
         case actionTypes.REPORT_FAIL: return reportFail(state, action);
         case actionTypes.REQUEST_REPORT: return requestReport(state, action);
-        
+        case actionTypes.DOWNLOAD_REPORT: return downloadReport(state, action);
         default:
             return state;
     }
