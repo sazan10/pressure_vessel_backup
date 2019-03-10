@@ -1,10 +1,6 @@
 import axios from "../../axios-orders";
 import * as actionTypes from "./actionTypes";
-import FileSaver from 'file-saver';
-import FileDownload from 'js-file-download';
-import Download from 'downloadjs';
-import base64 from "base-64";
-import pako from 'pako';
+
 
 export const onDataSendFail = error => {
   return {
