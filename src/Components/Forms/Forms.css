@@ -6,6 +6,7 @@
     /* margin: 10px 2px; */
     max-width: 80%;
     padding: 5%;
+    display: block;
     /* margin: 10%; */
     
 }
@@ -67,9 +68,22 @@
 }
 
 .form_actions {
-    display: flex;
+    display: block;
 }
 .form_actions button {
+    width: 80px;
+
+    line-height: 1.5em;
+    background-color: #3498DB;
+    color: white;
+    border-radius: 4px;
+    border:0;
+    margin-top: 15px;
+    margin-left: 5px;
+    margin-bottom:5px;
+}
+.button {
+    display: block;
     width: 80px;
 
     line-height: 1.5em;

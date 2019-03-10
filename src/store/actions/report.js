@@ -17,6 +17,25 @@ export const requestReport = () => {
 
 };
 
+export const downloadReport = (id) => {
+    return dispatch => {
+        const url = "/report/generate";
+        const token = localStorage.getItem("token");
+        const headers = {
+            "Content-Type": "application/json",
+            "Authorization": "JWT " + token
+        };
+        const data = {
+            projectID: id
+        }
+        axios
+            .post(url, data, { headers: headers })
+            .then(response => {
+                console.log(response);
+            });
+    }
+}
+
 export const onReportIDReceive = id => {
     return {
       type: actionTypes.REQUEST_REPORT,

@@ -1,5 +1,10 @@
 import axios from "../../axios-orders";
 import * as actionTypes from "./actionTypes";
+import FileSaver from 'file-saver';
+import FileDownload from 'js-file-download';
+import Download from 'downloadjs';
+import base64 from "base-64";
+import pako from 'pako';
 
 export const onDataSendFail = error => {
   return {
@@ -87,7 +92,7 @@ export const onSubmitAndUpdate = (data) => {
         console.log(response.data);
         const data1 = {
           ...data,
-          ...{thickness: response.data.thickness}
+          ...{ thickness: response.data.thickness }
         };
         dispatch(dataUpdate(data1));
       })
@@ -167,8 +172,8 @@ export const downloadReport = (id) => {
     const token = localStorage.getItem("token");
     const headers = {
       "Content-Type": "application/json",
-      "Authorization": "JWT " + token
-      // "responseType": 'arraybuffer'
+      "Authorization": "JWT " + token,
+      "responseType": 'arraybuffer'
       // 'Accept': 'application/pdf'
     };
     const data = {
@@ -180,7 +185,33 @@ export const downloadReport = (id) => {
         console.log("Inside axios post");
         console.log(response.data);
         const reportUrl = "http://192.168.10.82:8000/" + response.data;
+        // const pdfData = base64.decode(response.data);
+        // const pdfData = pako.deflate(response.data);
+        // console.log(pdfData);
+        // const file = new Blob(
+        //   [pdfData], 
+        //   {type: 'application/pdf'});
+        // Download(file, "report.pdf");
+
+        // const fileURL = URL.createObjectURL(file);
+        // console.log(response);
+
         window.open(reportUrl);
+        // const file = new Blob(
+        //   [response.data],
+        //   { type: 'application/pdf' });
+        // window.open("http://192.168.10.82:8000/report/generate?Authorization=JWT " + token + "&projectID=" + id);
+        
       });
   }
+}
+
+const _base64ToArrayBuffer = (base64) => {
+  var binary_string =  window.atob(base64);
+  var len = binary_string.length;
+  var bytes = new Uint8Array( len );
+  for (var i = 0; i < len; i++)        {
+      bytes[i] = binary_string.charCodeAt(i);
+  }
+  return bytes.buffer;
 }

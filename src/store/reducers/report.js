@@ -15,6 +15,10 @@ const requestReport = (state, action) => {
     
 }
 
+const downloadReport = (state, action) => {
+    
+}
+
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.REPORT_FAIL: return reportFail(state, action);

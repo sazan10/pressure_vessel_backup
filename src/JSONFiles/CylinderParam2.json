@@ -1,8 +1,7 @@
 [
-    
-    [{ "key": "length", "label": "Length", "type": "number", "required": true, "step": "any" }],
-    [{ "key": "thickness", "label": "Thickness", "type": "number", "required": true, "step": "any" }],
-    [{ "key": "number", "label": "Number", "type": "number", "required": true, "step": "any" }],
+    [{ "key": "length", "label": "Length", "type": "number", "required": true, "step": "any", "placeholder": "100 inch"}],
+    [{ "key": "thickness", "label": "Thickness", "type": "number", "required": true, "step": "any", "placeholder": "1 inch" }],
+    [{ "key": "number", "label": "Number", "type": "number", "required": true, "step": "any", "placeholder":"1" }],
     [{"key": "previous", "label": "Previous", "type": "button", "actionType": "previous"},
     {"key": "ok", "label": "ok", "type": "button", "actionType": "submit"}
     ],
