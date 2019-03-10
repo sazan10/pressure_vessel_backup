@@ -40,7 +40,7 @@ class IconNavBar extends Component {
         return (
             <div>
                 <div className={classes.icons}>
-                    <button className={classes.btn} onClick={this.click1}><FontAwesomeIcon icon="igloo" /></button>
+                    <button className={classes.btn} onClick={this.click1}>New</button>
                     <button className={classes.btn} onClick={this.click2}><FontAwesomeIcon icon="igloo" /></button>
                     <button className={classes.btn} onClick={this.click3}><FontAwesomeIcon icon="igloo" /></button>
                     <button className={classes.btn} onClick={this.click4}><FontAwesomeIcon icon="igloo" /></button>

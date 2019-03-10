@@ -225,9 +225,9 @@ class Auth extends Component {
             data = {
                 user: {
                     username: this.state.signUp.username.value,
-                    firstName: this.state.signUp.firstName.value,
-                    middleName: this.state.signUp.middleName.value,
-                    lastName: this.state.signUp.lastName.value,
+                    first_name: this.state.signUp.firstName.value,
+                    middle_name: this.state.signUp.middleName.value,
+                    last_name: this.state.signUp.lastName.value,
                     email: this.state.signUp.email.value,
                     password: this.state.signUp.password.value
                 }
@@ -278,6 +278,7 @@ class Auth extends Component {
         }
 
 
+        // console.log(formElementsArray);
         let form = formElementsArray.map(formElement => (
             <Input
                 key={formElement.id}
@@ -297,8 +298,14 @@ class Auth extends Component {
         let errorMessage = null;
 
         if (this.props.error) {
+            let message = null;
+            if (!this.state.isSignup) {
+                message = this.props.error.data.errors.error[0]
+            } else {
+                message = this.props.error.data.errors.username[0]
+            }
             errorMessage = (
-                <p>{this.props.error.message}</p>
+                <p>{message}</p>
             );
         }
 
@@ -313,12 +320,14 @@ class Auth extends Component {
         return (
             <div className={classes.Auth}>
                 {authRedirect}
-                {errorMessage}
+
                 <form onSubmit={this.submitHandler}>
                     {form}
                     {this.state.message}
+                    {errorMessage}
                     <Button btnType="Success" disabled="true">SUBMIT</Button>
                 </form>
+
                 <Button
                     clicked={this.switchAuthModeHandler}
                     btnType="Danger">SWITCH TO {this.state.isSignup ? 'SIGNIN' : 'SIGNUP'}</Button>
@@ -332,7 +341,8 @@ const mapStateToProps = state => {
         loading: state.auth.loading,
         error: state.auth.error,
         isAuthenticated: state.auth.token !== null,
-        authRedirectPath: state.auth.authRedirectPath
+        authRedirectPath: state.auth.authRedirectPath,
+        error: state.auth.error
     };
 };
 

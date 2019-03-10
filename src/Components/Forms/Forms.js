@@ -141,6 +141,7 @@ class DynamicForm extends React.Component {
 
     renderForm = () => {
         // console.log("Form " + this.props.model);
+        
         if (this.props.model !== null) {
             let model = this.props.model;
             // let defaultValues = this.props.defaultValues;
@@ -171,6 +172,12 @@ class DynamicForm extends React.Component {
                             placeholder={mmm.placeholder}
                             onChange={(e) => { this.onChange(e, target) }}
                         />;
+                        if(key === "thickness") {
+                            input = <div style={{display: 'flex'}}>
+                                {input}
+                                <span style={{margin: '5px'}}>{this.props.thickness?this.props.thickness:0} inch </span>
+                            </div>
+                        }
                     }
 
                     if (type === "radio") {
@@ -264,9 +271,10 @@ class DynamicForm extends React.Component {
 
                             </React.Fragment>
                         }
+                        return input;
 
 
-                        input = <div className={classes.form_actions}>{input}</div>;
+                        // input = <div className={classes.form_actions}>{input}</div>;
                     }
                     if (type !== "button") {
                         input = <div className={classes.form_group}>
@@ -280,7 +288,7 @@ class DynamicForm extends React.Component {
                     }
                     if(label === "send") return null;
                     return (
-                        <div key={'g' + key}>
+                        <div style ={{display: 'inline'}}key={'g' + key}>
                             {input}
                         </div>
                     );
@@ -288,6 +296,7 @@ class DynamicForm extends React.Component {
                 return (
                     <div key={superKey} className={classes.line}>{formComponent}</div>);
             });
+            // console.log(formUI);
             return formUI;
         } else {
             return null;
@@ -313,7 +322,8 @@ const mapStateToProps = state => {
     return {
         title: state.navigation.title,
         model: state.navigation.model,
-        num: state.navigation.num
+        num: state.navigation.num,
+        thickness: state.componentData.thickness
     };
 };
 

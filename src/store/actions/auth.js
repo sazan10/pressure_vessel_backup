@@ -37,7 +37,7 @@ export const logout = () => {
 export const authWithToken = () => {
   const token = localStorage.getItem("token");
   
-  let url = "/auth/refresh-token-auth";
+  let url = "/auth/token-auth-refresh";
   
   return dispatch => {
     var headers = {
@@ -54,12 +54,13 @@ export const authWithToken = () => {
 };
 
 export const checkAuthTimeout = expirationTime => {
+  // console.log("in check auth timeout", expirationTime);
   return dispatch => {
     setTimeout(() => {
       // console.log("Logging out with timeout");
       //dispatch(logout());
       dispatch(authWithToken());
-    }, expirationTime * 1000);
+    }, expirationTime);
   };
 };
 
@@ -67,7 +68,7 @@ export const auth = (data, isSignup) => {
   return dispatch => {
     dispatch(authStart());
     // console.log(data);
-    let url = "/api/users";
+    let url = "/user/user-create";
 
     if (!isSignup) {
       url = "/auth/token-auth";
@@ -107,6 +108,7 @@ export const axiosAuth = (authData, url, headers) => {
         localStorage.setItem("expirationDate", tokenDecoded.exp);
         localStorage.setItem("userId", tokenDecoded.username);
         dispatch(authSuccess(response.data.data.token, tokenDecoded.username));
+        console.log("In axios auth", expirationTime);
         dispatch(checkAuthTimeout(expirationTime - 3));
       })
       .catch(err => {
@@ -129,7 +131,7 @@ export const authCheckState = () => {
         dispatch(authSuccess(token, userId));
         dispatch(
           checkAuthTimeout(
-            (expirationDate.getTime() - new Date().getTime()) / 1000
+            (expirationDate.getTime() - new Date().getTime())
           )
         );
       }
