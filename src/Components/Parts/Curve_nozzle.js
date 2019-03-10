@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { toCSG, fromCSG } from 'three-2-csg';
-  const Curve_nozzle =(length_,scaler1=10)=> {
+  const Curve_nozzle =(length_,scaler1=2)=> {
   
    var scaler=parseFloat(scaler1);
      var material = new THREE.MeshPhongMaterial({ color: '#d4ac0d', side: THREE.DoubleSide });

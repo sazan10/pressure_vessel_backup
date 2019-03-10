@@ -1,8 +1,8 @@
 [
-   [{ "key": "MHT", "label": "Minimum Head Thickness", "type": "number", "required": true }],
-   [{ "key": "SRL", "label": "Straight Range Length", "type": "number", "required": true }],
-   [{ "key": "NSRT", "label": "Nominal Str Range Thickness", "type": "number", "required": true }],
-   [{ "key": "HR", "label": "Head Ratio", "type": "number", "required": true }],
+   [{ "key": "MHT", "label": "Minimum Head Thickness", "type": "number", "required": true, "step": "any" }],
+   [{ "key": "SRL", "label": "Straight Range Length", "type": "number", "required": true, "step": "any" }],
+   [{ "key": "NSRT", "label": "Nominal Str Range Thickness", "type": "number", "required": true, "step": "any" }],
+   [{ "key": "HR", "label": "Head Ratio", "type": "number", "required": true, "step": "any" }],
    [{"key": "previous", "label": "Previous", "type": "button", "actionType": "previous"},
    {"key": "ok", "label": "ok", "type": "button", "actionType": "submit"}],
    [{"key":"send","label": "send","send": false, "end": true}]

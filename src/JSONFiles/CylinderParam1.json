@@ -7,14 +7,14 @@
       { "key": "SA-524 II Smis Pipe", "label": "SA-524 II Smis Pipe", "value": "SA-524 II Smis Pipe"},
       { "key": "SA-53 EA Wld Pipe", "label": "SA-53 EA Wld Pipe", "value": "SA-53 EA Wld Pipe" }
       ]}],
-    [{ "key": "ip", "label": "Internal Pressure", "type": "number", "required": true, "placeholder": "45" },
-      { "key": "temp1", "label": "@", "type": "number", "required": true, "placeholder": "150" }
+    [{ "key": "ip", "label": "Internal Pressure", "type": "number", "required": true, "placeholder": "45", "step": "any" },
+      { "key": "temp1", "label": "@", "type": "number", "required": true, "placeholder": "150", "step": "any" }
     ],
-    [{ "key": "ep", "label": "External Pressure", "type": "number", "required": true, "placeholder": "45" },
-      { "key": "temp2", "label": "@", "type": "number", "required": true, "placeholder": "150" }
+    [{ "key": "ep", "label": "External Pressure", "type": "number", "required": true, "placeholder": "45", "step": "any" },
+      { "key": "temp2", "label": "@", "type": "number", "required": true, "placeholder": "150", "step": "any" }
     ],
-    [{ "key": "ec", "label": "C External", "type": "number", "required": true, "placeholder": "45" },
-      { "key": "ic", "label": "C Internal", "type": "number", "required": true, "placeholder": "45"}
+    [{ "key": "ec", "label": "C External", "type": "number", "required": true, "placeholder": "0.125", "step": "any" },
+      { "key": "ic", "label": "C Internal", "type": "number", "required": true, "placeholder": "0.125", "step": "any"}
     ],
     [{ "key": "sd", "label": "Shell Diameter", "type": "number", "required": true }],
   [{"key": "cancel", "label": "Cancel", "type": "button", "actionType": "cancel"},

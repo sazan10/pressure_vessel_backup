@@ -21,6 +21,7 @@ export {
     onSubmitAndUpdate,
     axiosDataSend,
     requestReport,
+    downloadReport,
     axiosReport,
     requestFail,
     onReportIDReceive

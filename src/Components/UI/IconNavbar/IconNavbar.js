@@ -20,6 +20,7 @@ class IconNavBar extends Component {
     }
     click2 = () => {
         console.log("click2");
+        this.props.onClick2(this.props.id);
     }
     click3 = () => {
         console.log("click3");
@@ -51,13 +52,14 @@ class IconNavBar extends Component {
 
 const mapStateToProps = state => {
     return {
-        id: state.componentData.id
+        id: state.componentData.projectID
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        //onClick1: () => dispatch(actions.requestReport())
+        onClick1: () => dispatch(actions.requestReport()),
+        onClick2: (id) => dispatch(actions.downloadReport(id))
         
     };
 };

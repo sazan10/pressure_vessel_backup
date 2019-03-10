@@ -160,3 +160,27 @@ export const requestFail = (error) => {
     error: error
   };
 };
+
+export const downloadReport = (id) => {
+  return dispatch => {
+    const url = "/report/generate";
+    const token = localStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": "JWT " + token
+      // "responseType": 'arraybuffer'
+      // 'Accept': 'application/pdf'
+    };
+    const data = {
+      projectID: id
+    };
+    console.log(data);
+    axios.post(url, data, { headers: headers })
+      .then(response => {
+        console.log("Inside axios post");
+        console.log(response.data);
+        const reportUrl = "http://192.168.10.82:8000/" + response.data;
+        window.open(reportUrl);
+      });
+  }
+}

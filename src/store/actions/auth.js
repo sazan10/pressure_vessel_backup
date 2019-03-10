@@ -37,7 +37,7 @@ export const logout = () => {
 export const authWithToken = () => {
   const token = localStorage.getItem("token");
   
-  let url = "/refresh-token-auth";
+  let url = "/auth/token-auth-refresh";
   
   return dispatch => {
     var headers = {
@@ -54,11 +54,12 @@ export const authWithToken = () => {
 };
 
 export const checkAuthTimeout = expirationTime => {
+  console.log(expirationTime);
   return dispatch => {
     setTimeout(() => {
       // console.log("Logging out with timeout");
       //dispatch(logout());
-      dispatch(authWithToken());
+      //dispatch(authWithToken());
     }, expirationTime * 1000);
   };
 };
@@ -67,7 +68,7 @@ export const auth = (data, isSignup) => {
   return dispatch => {
     dispatch(authStart());
     // console.log(data);
-    let url = "/api/users";
+    let url = "/api/user-create";
 
     if (!isSignup) {
       url = "/auth/token-auth";

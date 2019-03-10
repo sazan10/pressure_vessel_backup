@@ -6,7 +6,7 @@ const Standard_nozzle=(length1,diameter=10)=> {
 
 var length_of_pipe1=parseFloat(length1);
 var scaler= parseFloat(diameter);
-var length_of_pipe=length_of_pipe1/10;
+var length_of_pipe=length_of_pipe1/15;
 var length_of_cone=0.4;
 
 var radius_outer_pipe_top=0.2;
