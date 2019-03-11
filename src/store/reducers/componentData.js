@@ -8,7 +8,7 @@ const initialState = {
     nozzle: null,
     error: null,
     id: 0,
-    projectID: 4,
+    projectID: null,
     thickness: null
 };
 

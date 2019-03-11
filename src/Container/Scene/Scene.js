@@ -32,7 +32,7 @@ class Scene extends Component {
       this.camera.position.z = 5;
             console.log("scene rendered completely");
       //ADD SCENE
-  
+      
       //ADD RENDERER
       this.renderer = new THREE.WebGLRenderer();
       this.renderer.setSize(width, height);
@@ -74,6 +74,8 @@ class Scene extends Component {
       console.log("component",this.props.component);
         this.shell_diameter=0;
       this.length=0;
+      this.lengths=[];
+      this.cylinder_lengths=[];
       this.start();
     
     
@@ -133,30 +135,46 @@ class Scene extends Component {
           var diameter=parseFloat(this.props.component[i].sd);
           this.shell_diameter=diameter;
           this.length=parseFloat(this.props.component[i].length);
+          this.cylinder_lengths.push(this.lengths);
+          this.lengths.push(this.length);
           var number=parseFloat(this.props.component[i].number);
           var thickness =parseFloat(this.props.component[i].thickness);
-          if((i-1)>=0)
-          {
-            if(this.props.component[i-1].component==="Cylinder")
-          {
-            var boundary=Shell(thickness,diameter,0.1,new THREE.MeshPhongMaterial({color:"#000000"}));
-            boundary.translateY(this.height_position);
-            this.height=this.height_position+0.1;
-            this.scene.add(boundary);
-          }
-          }
+          // if((i-1)>=0)
+          // {
+          //   if(this.props.component[i-1].component==="Cylinder")
+          // {
+          //   var boundary=Shell(thickness,diameter,0.1,new THREE.MeshPhongMaterial({color:"#000000"}));
+          //   boundary.translateY(this.height_position);
+          //   this.height=this.height_position+0.1;
+          //   this.scene.add(boundary);
+          // }
+          // }
           this.scaler =diameter+thickness;
           console.log("scaler for cylinder",scaler);
              //for (let i = 0; i < number; i++) {
                 var shell= new THREE.Mesh();
-                console.log("thickness:",thickness, "diameter:",diameter,"length:",this.length,"number:",number);
+                console.log("thickness:",thickness, "diameter:",diameter,"length:",this.length,"number:",i);
                 shell = Shell(thickness,diameter,this.length);
                 console.log("before adddition of cylinder",this.height_position);
-                if(this.first==0 || this.first==1){
+                if((i-1)>=0)
+                {
+                if(this.props.component[i-1].component==="Ellipsoidal Head" || this.first==0){
                 this.height_position=this.height_position+this.length/2;
                 }
-                else{
-                  this.height_position=this.height_position+this.length;
+                else if (this.props.component[i-1].component==="Cylinder"){
+                  
+                  var ringgeometry = new THREE.RingGeometry( 0, (parseFloat(this.props.component[i-1].sd)/2)+parseFloat(this.props.component[i-1].thickness)+0.4,40);
+                  var ringmaterial = new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide } );
+                  var ringmesh = new THREE.Mesh( ringgeometry, ringmaterial );
+                  this.height_position=this.height_position+this.length/2+this.lengths[i-1]/2;
+                  ringmesh.translateY(this.height_position-this.length/2).rotateX(math.pi/2);
+                  this.scene.add( ringmesh );
+                
+                }
+              }
+              else if 
+            ( this.first==0){
+                this.height_position=this.height_position+this.length/2;
                 }
                 console.log("position of cylinder",this.length,this.height_position);
                 shell.translateY(this.height_position);//this.height_position);  
@@ -168,7 +186,7 @@ class Scene extends Component {
               this.scene.add(this.group);
             //   this.start();
             // }
-            this.props.component[i].length=0;
+           this.props.component[i].length=0;
             this.radial_position=diameter/2+thickness;
             if(this.camera)
           {
@@ -183,7 +201,7 @@ class Scene extends Component {
            var minor = diameter/ratio;
            var major = diameter+head_thickness;
            var srl=parseFloat(this.props.component[i].SRL);
-           
+           this.lengths.push(minor);
            //var head_thickness= parseFloat(this.props.component[i].thickness);
            
             /* for sphere head, to calculate height_of chord

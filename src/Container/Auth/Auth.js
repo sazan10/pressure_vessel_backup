@@ -302,7 +302,10 @@ class Auth extends Component {
             if (!this.state.isSignup) {
                 message = this.props.error.data.errors.error[0]
             } else {
-                message = this.props.error.data.errors.username[0]
+                message = this.props.error.data.errors.error.map(da => {
+                    return <div>{da}</div>;}
+                )
+                
             }
             errorMessage = (
                 <p>{message}</p>
