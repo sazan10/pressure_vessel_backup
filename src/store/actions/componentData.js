@@ -1,10 +1,6 @@
 import axios from "../../axios-orders";
 import * as actionTypes from "./actionTypes";
-import FileSaver from 'file-saver';
-import FileDownload from 'js-file-download';
-import Download from 'downloadjs';
-import base64 from "base-64";
-import pako from 'pako';
+
 
 export const onDataSendFail = error => {
   return {
@@ -22,6 +18,7 @@ export const onDataSendTo = (response, data) => {
 };
 
 export const dataUpdate = (data) => {
+
   return {
     type: actionTypes.DATA_UPDATE,
     data: data
@@ -73,27 +70,35 @@ export const onSubmitAndUpdate = (data) => {
     console.log(data);
     if (data.component === "Nozzle") {
       url = "/api/nozzle/data";
+    } else if(data.component === "Cylinder") {
+      url = "/api/cylinder/data";
     }
 
     const data1 = {
-      nozzleParam: data,
+      cylinderParam: data,
       projectID: 1
     };
     const token = localStorage.getItem("token");
-    // console.log(token);
     const headers = {
       "Content-Type": "application/json",
       "Authorization": "JWT " + token
     };
     axios
-      .post(url, data1, { headers: headers })
+      .post(url, data1, {
+        headers: headers
+      })
       .then(response => {
         console.log(response.data);
-        const data1 = {
-          ...data,
-          ...{ thickness: response.data.thickness }
-        };
-        dispatch(dataUpdate(data1));
+        if (response.data.thicknesss !== null) {
+          const data1 = {
+            ...data,
+            ...{
+              thickness: response.data.thickness
+            }
+          };
+          dispatch(dataUpdate(data1));
+        }
+        dispatch(onDataSendFail("No thickness received"));
       })
       .catch(err => {
         dispatch(onDataSendFail(err.response));
@@ -104,7 +109,9 @@ export const onSubmitAndUpdate = (data) => {
 export const axiosDataSend = (data, url, headers) => {
   return dispatch => {
     axios
-      .post(url, data, { headers: headers })
+      .post(url, data, {
+        headers: headers
+      })
       .then(response => {
         console.log(response.data);
         dispatch(onDataSendTo(response.data.thickness, data));
@@ -145,7 +152,9 @@ export const onReportIDReceive = projectID => {
 export const axiosReport = (authData, url, headers) => {
   return dispatch => {
     axios
-      .post(url, authData, { headers: headers })
+      .post(url, authData, {
+        headers: headers
+      })
       .then(response => {
         console.log("report");
         console.log(response.data.id);
@@ -178,11 +187,13 @@ export const downloadReport = (id) => {
       projectID: id
     };
     console.log(data);
-    axios.post(url, data, { headers: headers })
+    axios.post(url, data, {
+        headers: headers
+      })
       .then(response => {
         console.log("Inside axios post");
         console.log(response.data);
-        const reportUrl = "http://192.168.10.82:8000/" + response.data;
+        const reportUrl = "http://192.168.1.12:8000/" + response.data;
         // const pdfData = base64.decode(response.data);
         // const pdfData = pako.deflate(response.data);
         // console.log(pdfData);
@@ -199,17 +210,17 @@ export const downloadReport = (id) => {
         //   [response.data],
         //   { type: 'application/pdf' });
         // window.open("http://192.168.10.82:8000/report/generate?Authorization=JWT " + token + "&projectID=" + id);
-        
+
       });
   }
 }
 
 const _base64ToArrayBuffer = (base64) => {
-  var binary_string =  window.atob(base64);
+  var binary_string = window.atob(base64);
   var len = binary_string.length;
-  var bytes = new Uint8Array( len );
-  for (var i = 0; i < len; i++)        {
-      bytes[i] = binary_string.charCodeAt(i);
+  var bytes = new Uint8Array(len);
+  for (var i = 0; i < len; i++) {
+    bytes[i] = binary_string.charCodeAt(i);
   }
   return bytes.buffer;
 }

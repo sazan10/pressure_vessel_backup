@@ -6,15 +6,18 @@
       { "key": "HB", "label": "HB" ,"value": "HB"},
       { "key": "F", "label": "F", "value": "F"}
       ]}],
-    [{ "key": "nps", "label": "NPS", "type": "number", "required": true, "placeholder": "2" }
+    [{ "key": "nominal_pipe_size", "label": "nominal_pipe_size", "type": "number", "required": true, "placeholder": "1", "step": "any" }
     ],
-    [{ "key": "sch", "label": "Schedule", "type": "number", "required": true, "placeholder": "10" }
+    [{ "key": "schedules", "label": "schedules", "type": "number", "required": true, "placeholder": "10", "step": "any" }
     ],
-    [{ "key": "orientation", "label": "Angle", "type": "number", "required": true, "placeholder": "0" },
-      { "key": "height", "label": "Height", "type": "number", "required": true, "placeholder": "1" }
+    [{ "key": "orientation", "label": "Angle", "type": "number", "required": true, "placeholder": "0", "step": "any" },
+      { "key": "height", "label": "Height", "type": "number", "required": true, "placeholder": "1", "step": "any" }
     ],
-    [{ "key": "length", "label": "Length", "type": "number", "required": true, "placeholder": "1" }
+    [{ "key": "length", "label": "Length", "type": "number", "required": true, "placeholder": "1", "step": "any" }
     ],
+    [{ "key": "class_value", "label": "class_value", "type": "number", "required": true, "placeholder": "150", "step": "any" }
+    ]
+    ,
     [{"key": "cancel", "label": "Cancel", "type": "button", "actionType": "cancel"},
       {"key": "submit", "label": "Submit", "type": "button", "actionType": "submit"}
       ],

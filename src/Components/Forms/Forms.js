@@ -43,31 +43,23 @@ class DynamicForm extends React.Component {
 
     onSubmitHandler = (e) => {
         e.preventDefault();
-        // console.log(this.state.form);
-        let data = {};
+        let data = {
+            "component": this.props.title
+        };
         for (let key in this.state.form) {
             data = {
                 ...data,
-                [key]: this.state.form[key]
+                [key]: this.state.form[key].value
             }
-            // data.push({
-            //     name: key,
-            //     value: this.state.form[key].value
-            // });
         }
-        // console.log(data);
+        console.log("Data",data);        
 
         let valid = this.state.valid;
-        console.log(this.state.form["ip"].valid);
         for (let key in this.state.form) {
-            console.log(this.state.form[key].valid);
             valid = valid & (this.state.form[key].valid);
-            if(!this.state.form[key].valid) {
-                console.log(this.state.form[key].valid)
-            }
         }
-        if (valid || !this.state.form) {
-            // this.props.onAuth(data, this.state.form);
+        if (valid) {
+            this.props.onSubmitAndUpdate(data);
             this.setState({ message: null });
         } else {
             this.setState({ message: <p>Data not valid</p> });
@@ -194,7 +186,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         importModel: (title, num) => dispatch(actions.importModel(title, num)),
-        dataUpdate: (data) => dispatch(actions.dataUpdate(data)),
         onSubmitAndUpdate: (data) => dispatch(actions.onSubmitAndUpdate(data))
 
     };

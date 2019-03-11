@@ -25,22 +25,46 @@ const onDataSendFail = (state, action) => {
 };
 
 const updateData = (state, action) => {
+    console.log("Inside update Data (Before)",state, action);
+    let data = null;
     if(action.data.component === "Cylinder") {
         let comp = action.data;
         const num = action.data.number;
+        try{
         comp = updateObject(comp, {thickness: state.thickness.toString(), number: 1});
-        for(let i = 0; i< num; i++) {
-            state.component.push(comp);
         }
-    } else if(action.data.component === "Nozzle") {
-        state.component.push(action.data);
+        catch(err)
+        {
+            console.log(err);
+        }
+        data = [
+            ...state.component
+        ];
+        console.log(data);
+        for(let i = 0; i< num; i++) {
+            data.push(comp);
+        }
+    } else if(action.data.component === "Nozzle" ) {
+        data = [
+            ...state.component
+        ];
+        data.push(action.data);
     }
     else {
         let comp = action.data;
-        comp = updateObject(comp, {thickness: state.thickness.toString()})
-        state.component.push(comp);
+        try {comp = updateObject(comp, {thickness: state.thickness.toString()})}
+        catch(err)
+        {
+            console.log(err);
+        }
+        data = [
+            ...state.component
+        ]
+        data.push(comp);
     }
-    return state;
+    console.log("Inside update Data (AFter)",data);
+
+    return updateObject(state, {component: data });
 }
 
 const reportFail = (state, action) => {

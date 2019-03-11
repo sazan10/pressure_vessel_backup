@@ -24,12 +24,12 @@
             ]
         },
         "validation": {
-            "required": false
+            "required": true
         },
         "label": "Material",
         "value": "SA-516 60",
         
-        "valid": false
+        "valid": true
         
     },
     "ip": {
@@ -44,7 +44,7 @@
         "value": "45",
         "label": "Internal Pressure",
         "step": "any",
-        "valid": false
+        "valid": true
     },
     "temp1": {
         "elementType": "input",
@@ -58,7 +58,7 @@
         "value": "300",
         "label": "Temp1",
         "step": "any",
-        "valid": false
+        "valid": true
     },
     "ep": {
         "elementType": "input",
@@ -72,7 +72,7 @@
         "value": "300",
         "label": "External Pressure",
         "step": "any",
-        "valid": false
+        "valid": true
     },
     "temp2": {
         "elementType": "input",
@@ -86,7 +86,7 @@
         "value": "300",
         "label": "Temp2",
         "step": "any",
-        "valid": false
+        "valid": true
     },
     "ic": {
         "elementType": "input",
@@ -100,7 +100,7 @@
         "value": "0.125",
         "label": "Corrosion Internal",
         "step": "any",
-        "valid": false
+        "valid": true
     },
     "sd": {
         "elementType": "input",
@@ -114,7 +114,7 @@
         "value": "300",
         "label": "Shell Diameter",
         "step": "any",
-        "valid": false
+        "valid": true
     }
     
 }
