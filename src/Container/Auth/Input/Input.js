@@ -47,9 +47,10 @@ const input = ( props ) => {
                 onChange={props.changed} />;
     }
 
+    // className={classes.Input}
     return (
-        <div className={classes.Input}>
-            <label className={classes.Label}>{props.label}</label>
+        <div>
+            {/* <label className={classes.Label}>{props.label}</label> */}
             {inputElement}
         </div>
     );

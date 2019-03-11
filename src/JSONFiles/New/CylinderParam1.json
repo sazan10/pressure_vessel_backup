@@ -115,6 +115,48 @@
         "label": "Shell Diameter",
         "step": "any",
         "valid": true
+    },
+    "length": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "100 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "100",
+        "label": "Length",
+        "step": "any",
+        "valid": true
+    },
+    "thickness": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "0.5 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "0.5",
+        "label": "Thickness",
+        "step": "any",
+        "valid": true
+    },
+    "number": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "1"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "1",
+        "label": "Number",
+        "step": "any",
+        "valid": true
     }
-    
+   
 }

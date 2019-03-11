@@ -105,3 +105,9 @@
         flex-wrap: wrap;
     }
 }
+
+.Label {
+    display: block;
+    /* margin-bottom: 8px; */
+    font-size: small
+}

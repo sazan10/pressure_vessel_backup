@@ -64,9 +64,10 @@ export const onDataSend = (data, id) => {
   }
 };
 
-export const onSubmitAndUpdate = (data) => {
+export const onSubmitAndUpdate = (data, id) => {
   return dispatch => {
     let url = null;
+    let data1 = null
     // console.log(data.material);
     if (data.material !== null) {
       const mat = data.material.split(" ");
@@ -77,16 +78,21 @@ export const onSubmitAndUpdate = (data) => {
       }
     }
     console.log(data);
-    if (data.component === "Nozzle") {
+    if (data.component === "Ellipsoidal Head") {
+      data1 = {
+        headParam: data,
+        projectID: id
+      };
       url = "/api/nozzle/data";
     } else if (data.component === "Cylinder") {
       url = "/api/cylinder/data";
+      data1 = {
+        cylinderParam: data,
+        projectID: 1
+      };
     }
 
-    const data1 = {
-      cylinderParam: data,
-      projectID: 1
-    };
+    
     const token = localStorage.getItem("token");
     const headers = {
       "Content-Type": "application/json",

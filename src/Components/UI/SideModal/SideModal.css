@@ -1,0 +1,18 @@
+.Modal {
+    /* float: left; */
+    position: relative;
+    z-index: 50;
+    background-color: white;
+    /* width: 20%; */
+    height: 100%;
+    border: 1px solid #ccc;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+/* @media (min-width: 750px) {
+    .Modal {
+        width: 750px;
+        left: calc(50% - 400px);
+    }
+} */

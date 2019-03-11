@@ -59,11 +59,12 @@ class DynamicForm extends React.Component {
             valid = valid & (this.state.form[key].valid);
         }
         if (valid) {
-            this.props.onSubmitAndUpdate(data);
+            this.props.onSubmitAndUpdate(data, this.props.projectID);
             this.setState({ message: null });
         } else {
             this.setState({ message: <p>Data not valid</p> });
         }
+        this.props.history.push('/builder');
 
     }
 
@@ -125,8 +126,10 @@ class DynamicForm extends React.Component {
             });
         }
         // console.log(formElementsArray);
-        let form = formElementsArray.map(formElement => ( <
-            Input key = {
+        let form = formElementsArray.map(formElement => (
+            <tr key = {formElement.id} >
+            <td style={{width: '60%'}}><label style={{margin: 0}} className={classes.Label}>{formElement.config.label}</label></td>
+            <td><Input style= {{padding: 0}} key = {
                 formElement.id
             }
             elementType = {
@@ -150,19 +153,20 @@ class DynamicForm extends React.Component {
             changed = {
                 (event) => this.inputChangedHandler(event, formElement.id)
             }
-            />
+            /></td>
+            </tr>
         ));
         // console.log(form);
-        return form;
+        return <table><tbody>{form}</tbody></table>;
 
 
     }
 
     render() {
         let title = this.props.title || "Dynamic Form";
-
+        let errorMessage = null;
         return ( 
-            <div className={classes.dynamic_form}>
+            <div >
             <form onSubmit={this.onSubmitHandler}>
                     {this.renderForm()}
                     {this.state.message}
@@ -179,7 +183,9 @@ const mapStateToProps = state => {
         title: state.navigation.title,
         model: state.navigation.model,
         num: state.navigation.num,
-        thickness: state.componentData.thickness
+        thickness: state.componentData.thickness,
+        projectID: state.componentData.projectID,
+        error: state.componentData.error
     };
 };
 
@@ -187,7 +193,6 @@ const mapDispatchToProps = dispatch => {
     return {
         importModel: (title, num) => dispatch(actions.importModel(title, num)),
         onSubmitAndUpdate: (data) => dispatch(actions.onSubmitAndUpdate(data))
-
     };
 };
 
