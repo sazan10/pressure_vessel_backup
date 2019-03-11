@@ -1,0 +1,120 @@
+{
+    "material": {
+        "elementType": "select",
+        "elementConfig": {
+            "type": "select",
+            "placeholder": "",
+            "options": [
+                {
+                    "displayValue": "SA-516 60",
+                    "value": "SA-516 60"
+                },
+                {
+                    "displayValue": "SA-516 70",
+                    "value": "SA-516 70"
+                },
+                {
+                    "displayValue": "SA-524 II Smis Pipe",
+                    "value": "SA-524 II Smis Pipe"
+                },
+                {
+                    "displayValue": "SA-53 EA Wld Pipe",
+                    "value": "SA-53 EA Wld Pipe"
+                }
+            ]
+        },
+        "validation": {
+            "required": false
+        },
+        "label": "Material",
+        "value": "SA-516 60",
+        
+        "valid": false
+        
+    },
+    "ip": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "45 Kpsi"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "45",
+        "label": "Internal Pressure",
+        "step": "any",
+        "valid": false
+    },
+    "temp1": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "150 F"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "300",
+        "label": "Temp1",
+        "step": "any",
+        "valid": false
+    },
+    "ep": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "45 Kpsi"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "300",
+        "label": "External Pressure",
+        "step": "any",
+        "valid": false
+    },
+    "temp2": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "45 Kpsi"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "300",
+        "label": "Temp2",
+        "step": "any",
+        "valid": false
+    },
+    "ic": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "0.125 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "0.125",
+        "label": "Corrosion Internal",
+        "step": "any",
+        "valid": false
+    },
+    "sd": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "50 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "300",
+        "label": "Shell Diameter",
+        "step": "any",
+        "valid": false
+    }
+    
+}

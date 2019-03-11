@@ -10,6 +10,7 @@ export {
 export {
     auth,
     logout,
+    importAuthModel,
     setAuthRedirectPath,
     authCheckState
 } from './auth';

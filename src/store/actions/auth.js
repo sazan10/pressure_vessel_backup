@@ -24,6 +24,24 @@ export const authFail = error => {
   };
 };
 
+export const importAuthModel = (isSignup) => {
+  return dispatch => {
+    // console.log("Inside actions " + title );
+  import(`../../JSONFiles/New/Auth`)
+    .then(function(response) {
+      console.log("Auth model",response.default);
+      dispatch(returnModel(response.default));
+    });
+  };
+};
+
+export const returnModel = (model) => {
+  return {
+    type: actionTypes.IMPORT_AUTH_MODEL,
+    model: model
+  };
+};
+
 export const logout = () => {
   console.log("Logging out");
   // localStorage.removeItem('token');

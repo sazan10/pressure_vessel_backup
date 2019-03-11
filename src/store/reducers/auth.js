@@ -8,7 +8,8 @@ const initialState = {
     loading: false,
     authRedirectPath: '/builder',
     id: null,
-    isAuthenticated: true
+    isAuthenticated: true,
+    model: null
 };
 
 const authStart = ( state, action ) => {
@@ -43,6 +44,10 @@ const setAuthRedirectPath = (state, action) => {
     return updateObject(state, { authRedirectPath: action.path })
 }
 
+const importModel = (state, action) => {
+    return updateObject(state,{model: action.model});
+};
+
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.AUTH_START: return authStart(state, action);
@@ -50,6 +55,7 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.AUTH_FAIL: return authFail(state, action);
         case actionTypes.AUTH_LOGOUT: return authLogout(state, action);
         case actionTypes.SET_AUTH_REDIRECT_PATH: return setAuthRedirectPath(state,action);
+        case actionTypes.IMPORT_AUTH_MODEL: return importModel(state, action);
         default:
             return state;
     }

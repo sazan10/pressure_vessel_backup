@@ -133,7 +133,6 @@ export const requestReport = () => {
     }
     return dispatch(axiosReport(data, url, headers));
   }
-
 };
 
 export const onReportIDReceive = projectID => {

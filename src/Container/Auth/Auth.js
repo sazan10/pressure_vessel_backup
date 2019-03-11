@@ -11,7 +11,7 @@ import * as actions from '../../store/actions/index';
 // import axios from '../../axios-orders';
 class Auth extends Component {
     state = {
-        controls: {
+        signIn: {
             username: {
                 elementType: 'input',
                 elementConfig: {
@@ -41,109 +41,16 @@ class Auth extends Component {
             }
         },
         signUp: {
-            username: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'input',
-                    placeholder: 'Username'
-                },
-                value: '',
-                validation: {
-                    required: true
-
-                },
-                valid: false,
-                touched: false
-            },
-            firstName: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'input',
-                    placeholder: 'First Name'
-                },
-                value: '',
-                validation: {
-                    required: true
-
-                },
-                valid: false,
-                touched: false
-            },
-            middleName: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'input',
-                    placeholder: 'Middle Name'
-                },
-                value: '',
-                validation: {
-                    required: false
-
-                },
-                valid: true,
-                touched: false
-            },
-            lastName: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'input',
-                    placeholder: 'Last Name'
-                },
-                value: '',
-                validation: {
-                    required: true
-                },
-                valid: false,
-                touched: false
-            },
-            email: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'email',
-                    placeholder: '123@domain.com'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    isEmail: true
-                },
-                valid: false,
-                touched: false
-            },
-            password: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'password',
-                    placeholder: 'Password'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 8
-                },
-                valid: false,
-                touched: false
-            },
-            confirmPassword: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'password',
-                    placeholder: 'Confirm Password'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 8,
-                    match: true
-                },
-                valid: true,
-                touched: false
-            }
+            
         },
         isSignup: false,
         passMatch: false,
         valid: true,
         message: ""
+    }
+
+    componentDidMount() {
+        this.props.importAuthModel(!this.state.isSignup);
     }
 
     // componentDidMount() {
@@ -190,7 +97,7 @@ class Auth extends Component {
 
     inputChangedHandler = (event, controlName) => {
         if (this.state.isSignup) {
-            const updatedControls = {
+            const updatedsignIn = {
                 ...this.state.signUp,
                 [controlName]: {
                     ...this.state.signUp[controlName],
@@ -199,18 +106,18 @@ class Auth extends Component {
                     touched: true
                 }
             };
-            this.setState({ signUp: updatedControls });
+            this.setState({ signUp: updatedsignIn });
         } else {
-            const updatedControls = {
-                ...this.state.controls,
+            const updatedSignIn = {
+                ...this.state.signIn,
                 [controlName]: {
-                    ...this.state.controls[controlName],
+                    ...this.state.signIn[controlName],
                     value: event.target.value,
-                    valid: this.checkValidity(event.target.value, this.state.controls[controlName].validation),
+                    valid: this.checkValidity(event.target.value, this.state.signIn[controlName].validation),
                     touched: true
                 }
             };
-            this.setState({ controls: updatedControls });
+            this.setState({ signIn: updatedSignIn });
 
 
         }
@@ -236,8 +143,8 @@ class Auth extends Component {
 
         } else {
             data = {
-                username: this.state.controls.username.value,
-                password: this.state.controls.password.value,
+                username: this.state.signIn.username.value,
+                password: this.state.signIn.password.value,
             }
         }
         let valid = this.state.valid;
@@ -254,12 +161,16 @@ class Auth extends Component {
     }
 
     switchAuthModeHandler = () => {
+        if(!this.state.isSignup) {
+            this.setState({signUp: this.props.model});
+        }
         this.setState(prevState => {
             return { isSignup: !prevState.isSignup };
         });
     }
 
     render() {
+        // console.log(this.state.signIn);
         const formElementsArray = [];
         if (this.state.isSignup) {
             for (let key in this.state.signUp) {
@@ -269,10 +180,10 @@ class Auth extends Component {
                 });
             }
         } else {
-            for (let key in this.state.controls) {
+            for (let key in this.state.signIn) {
                 formElementsArray.push({
                     id: key,
-                    config: this.state.controls[key]
+                    config: this.state.signIn[key]
                 });
             }
         }
@@ -302,7 +213,9 @@ class Auth extends Component {
             if (!this.state.isSignup) {
                 message = this.props.error.data.errors.error[0]
             } else {
-                message = this.props.error.data.errors.username[0]
+                message = this.props.error.data.errors.error.map(d => {
+                    return <div key={d}>{d}</div>
+                })
             }
             errorMessage = (
                 <p>{message}</p>
@@ -342,14 +255,16 @@ const mapStateToProps = state => {
         error: state.auth.error,
         isAuthenticated: state.auth.token !== null,
         authRedirectPath: state.auth.authRedirectPath,
-        error: state.auth.error
+        error: state.auth.error,
+        model: state.auth.model
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onAuth: (email, password, isSignup) => dispatch(actions.auth(email, password, isSignup)),
-        onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/'))
+        onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/')),
+        importAuthModel: (isSignup) => dispatch(actions.importAuthModel(isSignup))
     };
 };
 

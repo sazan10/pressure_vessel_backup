@@ -1,11 +1,23 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
-import { withRouter } from 'react-router-dom';
+import {
+    withRouter
+} from 'react-router-dom';
 import * as actions from '../../store/actions/index';
 import classes from './Forms.css';
-import { connect } from 'react-redux';
+import {
+    connect
+} from 'react-redux';
+import Input from '../../Container/Auth/Input/Input';
+import Button from '../UI/Button/Button';
 
-const initialState = {};
+const initialState = {
+    form: {},
+    data: {},
+    passMatch: false,
+    valid: true,
+    message: ""
+};
 class DynamicForm extends React.Component {
     constructor() {
         // console.log("Form Refreshed");
@@ -13,306 +25,158 @@ class DynamicForm extends React.Component {
         this.state = initialState;
     }
 
+    state = {
+        form: {},
+        data: {},
+        passMatch: false,
+        valid: true,
+        message: ""
+    }
 
-    // static getDerivedStateFromProps(nextProps, prevState) {
-
-    //     console.log("Derived state from props");
-    //     return null;
-    // return initialState;
-    // if (nextProps.defaultValues && Object.keys(nextProps.defaultValues).length) {
-    //     return {
-    //         ...nextProps.defaultValues
-    //     }
-    // } else {
-    //     // Assign default values of "" to our controlled input
-    //     // If we don't do this, React will throw the error
-    //     // that Input elements should not switch from uncontrolled to controlled 
-    //     // or (vice versa)
-    //     // console.log(nextProps.model);
-    //     if (nextProps.model !== null && nextProps.model.type === Object) {
-    //         let initialState = nextProps.model.reduce((acc, m) => {
-    //             acc[m.key] = m.value ? m.value : "";
-    //             return acc;
-    //         }, {});
-    //         // console.log("initialState: ", initialState);
-    //         return {
-    //             ...initialState
-    //         }
-    //     } else {
-    //         return null;
-    //     }
-    // }
-    // }
 
     componentDidMount() {
         // console.log("COmponent DId Mount Form");
+        this.setState({
+            form: this.props.model
+        });
     }
 
-    componentDidUpdate() {
-        // console.log("Component Did Update");
-    }
-
-
-
-    onSubmit = (e) => {
+    onSubmitHandler = (e) => {
         e.preventDefault();
-        console.log(this.state);
-        const doSend = this.props.model[this.props.model.length - 1][0].send;
-        // const isSend = send[0].send;
-        // console.log(send);
-        // console.log("Inside onSubmit");
-        // console.log(this.state);
-        // console.log(initialState);
-        // this.setState(initialState);
-        if(doSend && this.props.model[this.props.model.length - 1][0].end) {
-            if (this.props.onSubmit) this.props.onSubmitAndUpdate(this.state);
-        }else if(doSend) {
-            if (this.props.onSubmit) this.props.onSubmit(this.state);
-        } else {
-            if (this.props.onSubmit) this.props.dataUpdate(this.state);
-        }
-        if (this.props.num === 1 && !this.props.model[this.props.model.length - 1][0].end) {
-            this.props.importModel(this.props.title, 2);
-            this.props.updateNum(2);
-        } else {
-            this.props.history.push('/builder');
-            this.props.updateNum(1);
-        }
-
-    }
-
-    onChange = (e, key, type = "single") => {
-        // console.log(this.state);
-        // console.log(`${key} changed ${e.target.value} type ${type}`);
-        if (type === "single") {
-            this.setState({
-                component: this.props.title
-            });
-            if (key === "material") {
-                const mat = e.target.value.split(" ");
-                this.setState({
-                    spec_num: mat[0],
-                    type_grade: mat[1],
-                    component: this.props.title
-                });
-            } else {
-                this.setState({
-                    [key]: e.target.value
-                });
+        // console.log(this.state.form);
+        let data = {};
+        for (let key in this.state.form) {
+            data = {
+                ...data,
+                [key]: this.state.form[key]
             }
-        } else {
-            // Array of values (e.g. checkbox): TODO: Optimization needed.
-            let found = this.state[key] ?
-                this.state[key].find((d) => d === e.target.value) : false;
+            // data.push({
+            //     name: key,
+            //     value: this.state.form[key].value
+            // });
+        }
+        // console.log(data);
 
-            if (found) {
-                let data = this.state[key].filter((d) => {
-                    return d !== found;
-                });
-                this.setState({
-                    [key]: data
-                });
-            } else {
-                this.setState({
-                    [key]: [e.target.value, ...this.state[key]]
-                });
+        let valid = this.state.valid;
+        console.log(this.state.form["ip"].valid);
+        for (let key in this.state.form) {
+            console.log(this.state.form[key].valid);
+            valid = valid & (this.state.form[key].valid);
+            if(!this.state.form[key].valid) {
+                console.log(this.state.form[key].valid)
             }
         }
-    }
-
-    onCancel = (e) => {
-        e.preventDefault();
-        // console.log("On cancel");
-        this.setState(initialState);
-        this.props.updateNum(1);
-        this.props.history.push('/builder');
-    }
-
-    onPrevious = (e) => {
-        e.preventDefault();
-        this.setState(initialState);
-        // if (this.props.onSubmit) this.props.onSubmit(this.state);
-        // this.props.history.push('/builder');
-        if (this.props.num === 2) {
-            this.props.importModel(this.props.title, 1);
+        if (valid || !this.state.form) {
+            // this.props.onAuth(data, this.state.form);
+            this.setState({ message: null });
+        } else {
+            this.setState({ message: <p>Data not valid</p> });
         }
-        this.props.updateNum(1);
+
+    }
+
+    checkValidity(value, rules) {
+        let isValid = true;
+        if (!rules) {
+            return true;
+        }
+
+        if (rules.required) {
+            isValid = value.trim() !== '' && isValid;
+        }
+
+        if (rules.minLength) {
+            isValid = value.length >= rules.minLength && isValid
+        }
+
+        if (rules.maxLength) {
+            isValid = value.length <= rules.maxLength && isValid
+        }
+
+        if (rules.isEmail) {
+            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+            isValid = pattern.test(value) && isValid
+        }
+
+        if (rules.isNumeric) {
+            const pattern = /^\d+$/;
+            isValid = pattern.test(value) && isValid
+        }
+
+        return isValid;
+    }
+
+    inputChangedHandler = (event, controlName) => {
+        console.log(event, controlName);
+        const updatedForm = {
+            ...this.state.form,
+            [controlName]: {
+                ...this.state.form[controlName],
+                value: event.target.value,
+                valid: this.checkValidity(event.target.value, this.state.form[controlName].validation),
+                touched: true
+            }
+        };
+        this.setState({
+            form: updatedForm
+        });
+
     }
 
     renderForm = () => {
-        // console.log("Form " + this.props.model);
-        
-        if (this.props.model !== null) {
-            let model = this.props.model;
-            // let defaultValues = this.props.defaultValues;
-            // console.log(model);
-            let formUI = model.map((m) => {
-                // console.log(m);
-                let superKey = null;
-                let formComponent = m.map((mmm) => {
-
-                    let key = mmm.key;
-                    superKey = key;
-                    let type = mmm.type || "text";
-                    let props = mmm.props || {};
-                    let name = mmm.name;
-                    let value = mmm.value;
-                    let label = mmm.label
-                    let target = key;
-                    value = this.state[target];
-
-                    let input = null;
-                    if (label !== "send") {
-                        input = <input {...props}
-                            className={classes.form_input}
-                            type={type}
-                            key={key}
-                            name={name}
-                            step = {mmm.step}
-                            placeholder={mmm.placeholder}
-                            onChange={(e) => { this.onChange(e, target) }}
-                        />;
-                        if(key === "thickness") {
-                            input = <div style={{display: 'flex'}}>
-                                {input}
-                                <span style={{margin: '5px'}}>{this.props.thickness?this.props.thickness:0} inch </span>
-                            </div>
-                        }
-                    }
-
-                    if (type === "radio") {
-                        input = mmm.options.map((o) => {
-                            let checked = o.value === value;
-                            return (
-                                <React.Fragment key={'fr' + o.key}>
-                                    <input {...props}
-                                        className={classes.form_input}
-                                        type={type}
-                                        key={o.key}
-                                        name={o.name}
-                                        checked={checked}
-                                        value={o.value}
-                                        onChange={(e) => { this.onChange(e, o.name) }}
-                                    />
-                                    <label key={"ll" + o.key}>{o.label}</label>
-                                </React.Fragment>
-                            );
-                        });
-                        input = <div className={classes.form_group_radio}>{input}</div>;
-                    }
-
-                    if (type === "select") {
-                        input = mmm.options.map((o) => {
-                            // let checked = o.value === value;
-                            // console.log("select: ", o.value, value);
-                            return (
-                                <option {...props}
-                                    className={classes.form_input}
-                                    key={o.key}
-                                    value={o.value}
-                                >{o.value}</option>
-                            );
-                        });
-
-                        // console.log("Select default: ", value);
-                        input = <select value={value} onChange={(e) => { this.onChange(e, mmm.key) }}>{input}</select>;
-                    }
-
-                    if (type === "checkbox") {
-                        input = mmm.options.map((o) => {
-
-                            let checked = o.value === value;
-                            // let checked = false;
-                            if (value && value.length > 0) {
-                                checked = value.indexOf(o.value) > -1 ? true : false;
-                            }
-                            // console.log("Checkbox: ", checked);
-                            return (
-                                <React.Fragment key={"cfr" + o.key}>
-                                    <input {...props}
-                                        className={classes.form_input}
-                                        type={type}
-                                        key={o.key}
-                                        name={o.name}
-                                        checked={checked}
-                                        value={o.value}
-                                        onChange={(e) => { this.onChange(e, m.key, "multiple") }}
-                                    />
-                                    <label key={"ll" + o.key}>{o.label}</label>
-                                </React.Fragment>
-                            );
-                        });
-                        input = <div className={classes.form_group_checkbox}>{input}</div>;
-                    }
-
-                    if (type === "button") {
-
-                        if (mmm.actionType === "submit") {
-                            input =
-                                <React.Fragment key={'fr' + key}>
-                                    <button
-                                        type={mmm.actionType}
-                                        onClick={(e) => { this.onSubmit(e) }}
-                                    >{label}</button>
-
-                                </React.Fragment>
-                        } else if (mmm.actionType === "cancel") {
-                            input = <React.Fragment key={'fr' + key}>
-                                <button
-                                    onClick={(e) => { this.onCancel(e) }}
-                                >{label}</button>
-
-                            </React.Fragment>
-                        } else if (mmm.actionType === "previous") {
-                            input = <React.Fragment key={'fr' + key}>
-                                <button
-                                    onClick={(e) => { this.onPrevious(e) }}
-                                >{label}</button>
-
-                            </React.Fragment>
-                        }
-                        return input;
-
-
-                        // input = <div className={classes.form_actions}>{input}</div>;
-                    }
-                    if (type !== "button") {
-                        input = <div className={classes.form_group}>
-                            <label className={classes.form_label}
-                                key={"l" + key}
-                                htmlFor={key}>
-                                {mmm.label}
-                            </label>
-                            {input}
-                        </div>
-                    }
-                    if(label === "send") return null;
-                    return (
-                        <div style ={{display: 'inline'}}key={'g' + key}>
-                            {input}
-                        </div>
-                    );
-                });
-                return (
-                    <div key={superKey} className={classes.line}>{formComponent}</div>);
+        // console.log(this.state.form);
+        const formElementsArray = [];
+        for (let key in this.state.form) {
+            formElementsArray.push({
+                id: key,
+                config: this.state.form[key]
             });
-            // console.log(formUI);
-            return formUI;
-        } else {
-            return null;
         }
+        // console.log(formElementsArray);
+        let form = formElementsArray.map(formElement => ( <
+            Input key = {
+                formElement.id
+            }
+            elementType = {
+                formElement.config.elementType
+            }
+            elementConfig = {
+                formElement.config.elementConfig
+            }
+            value = {
+                formElement.config.value
+            }
+            invalid = {
+                !formElement.config.valid
+            }
+            shouldValidate = {
+                formElement.config.validation
+            }
+            touched = {
+                formElement.config.touched
+            }
+            changed = {
+                (event) => this.inputChangedHandler(event, formElement.id)
+            }
+            />
+        ));
+        // console.log(form);
+        return form;
+
 
     }
 
     render() {
         let title = this.props.title || "Dynamic Form";
 
-        return (
-            <div >
-                <h3 className={classes.form_title}>{title}</h3>
-                <form className={classes.dynamic_form} >
+        return ( 
+            <div className={classes.dynamic_form}>
+            <form onSubmit={this.onSubmitHandler}>
                     {this.renderForm()}
-                </form>
+                    {this.state.message}
+                    
+                    <Button btnType="Success" disabled="true">SUBMIT</Button>
+            </form>
             </div>
         )
     }
@@ -329,12 +193,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onNext: (title, num) => dispatch(actions.loadNext(title, num)),
-        onPrevious: () => dispatch(actions.loadPrevious()),
-        updateNum: (num) => dispatch(actions.updateNum(num)),
         importModel: (title, num) => dispatch(actions.importModel(title, num)),
-        dataUpdate : (data) => dispatch(actions.dataUpdate(data)),
-        onSubmitAndUpdate : (data) => dispatch(actions.onSubmitAndUpdate(data))
+        dataUpdate: (data) => dispatch(actions.dataUpdate(data)),
+        onSubmitAndUpdate: (data) => dispatch(actions.onSubmitAndUpdate(data))
 
     };
 };
