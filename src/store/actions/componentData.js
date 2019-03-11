@@ -67,10 +67,19 @@ export const onDataSend = (data, id) => {
 export const onSubmitAndUpdate = (data) => {
   return dispatch => {
     let url = null;
+    // console.log(data.material);
+    if (data.material !== null) {
+      const mat = data.material.split(" ");
+      data = {
+        ...data,
+        spec_num: mat[0],
+        type_grade: mat[1],
+      }
+    }
     console.log(data);
     if (data.component === "Nozzle") {
       url = "/api/nozzle/data";
-    } else if(data.component === "Cylinder") {
+    } else if (data.component === "Cylinder") {
       url = "/api/cylinder/data";
     }
 
@@ -97,8 +106,9 @@ export const onSubmitAndUpdate = (data) => {
             }
           };
           dispatch(dataUpdate(data1));
+        } else {
+          dispatch(onDataSendFail("No thickness received"));
         }
-        dispatch(onDataSendFail("No thickness received"));
       })
       .catch(err => {
         dispatch(onDataSendFail(err.response));

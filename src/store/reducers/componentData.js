@@ -29,9 +29,10 @@ const updateData = (state, action) => {
     let data = null;
     if(action.data.component === "Cylinder") {
         let comp = action.data;
-        const num = action.data.number;
+        // const num = action.data.number;
+        const num = 1;
         try{
-        comp = updateObject(comp, {thickness: state.thickness.toString(), number: 1});
+        comp = updateObject(comp, {thickness: action.data.thickness.toString(), number: 1});
         }
         catch(err)
         {
