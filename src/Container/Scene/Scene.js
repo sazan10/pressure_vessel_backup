@@ -32,7 +32,7 @@ class Scene extends Component {
       this.camera.position.z = 5;
             console.log("scene rendered completely");
       //ADD SCENE
-      
+      document.addEventListener( 'click', this.onDocumentMouseDown, false );
       //ADD RENDERER
       this.renderer = new THREE.WebGLRenderer();
       this.renderer.setSize(width, height);
@@ -52,7 +52,7 @@ class Scene extends Component {
       this.controls.dynamicDampingFactor = 0.3;
       this.controls.keys = [65, 83, 68];
   
-
+      this.shapes=[];
       var ambient = new THREE.AmbientLight(0xbbbbbb);
       this.scene.add(ambient);
   
@@ -80,7 +80,49 @@ class Scene extends Component {
     
     
     }
+    onDocumentMouseDown=(event)=> {
+      var projector = new THREE.Projector();
+      var tube;
+console.log("mouse pressed");
+        var vector = new THREE.Vector3(( event.clientX / window.innerWidth ) * 2 - 1, -( event.clientY / window.innerHeight ) * 2 + 1, 0.5);
+        projector.unprojectVector(vector, this.camera);
 
+        var raycaster = new THREE.Raycaster(this.camera.position, vector.sub(this.camera.position).normalize());
+        if(this.shapes.length>=1)
+        {
+          console.log(this.shapes);
+          
+        var intersects = raycaster.intersectObjects(this.shapes);
+        console.log("intersects",intersects);
+        if (intersects.length > 0) {
+            intersects[0].object.material.transparent = true;
+            console.log("pressed cylinder");
+            if (intersects[0].object.material.opacity === 0.5) {
+                intersects[0].object.material.opacity = 1;
+            } else {
+                intersects[0].object.material.opacity = 0.5;
+            }
+
+
+            var points = [];
+            points.push(new THREE.Vector3(this.camera.position.x, this.camera.position.y - 0.2, this.camera.position.z));
+            points.push(intersects[0].point);
+
+            var mat = new THREE.MeshBasicMaterial({color: 0xff0000, transparent: true, opacity: 0.6});
+            var tubeGeometry = new THREE.TubeGeometry(new THREE.SplineCurve3(points), 60, 0.001);
+
+            if (tube) this.scene.remove(tube);
+
+            // if (controls.showRay) {
+            //     tube = new THREE.Mesh(tubeGeometry, mat);
+            //     this.scene.add(tube);
+            // }
+
+          }
+        }
+        this.controls.update();
+      
+      }
     
     componentWillReceiveProps(nextProps) {
     
@@ -192,6 +234,7 @@ class Scene extends Component {
           {
           this.camera.position.z=(this.length+rad)*1.8;
           }
+          this.shapes.push(shell);
           }
           else if(this.props.component[i] && this.props.component[i].component==="Ellipsoidal Head" && this.props.component[i].MHT){
             var diameter=parseFloat(this.props.component[i].sd)/2;
@@ -237,6 +280,7 @@ class Scene extends Component {
               head.translateY(-srl).rotateZ(3.14);
               grouper.add(head);
               this.scene.add(grouper);
+              this.shapes.push(head);
               this.first=this.first+1;
               this.props.component[i].MHT=null;
               this.head_no=1;
@@ -289,21 +333,27 @@ class Scene extends Component {
             var raised_face_diameter=this.props.component[i].value.raised_face_diameter;
             var raised_face_thickness=this.props.component[i].value.raised_face_thickness;
         
-
-
+            let shell_rad=this.shell_diameter/2;
+            let phi=math.asin((barrel_outer_diameter/2/shell_rad));
+ 
+           
+            let x_displace=(shell_rad)*math.cos(phi);   
+            console.log("this.shell_diameter",this.shell_diameter,"barrel_out_diameter",barrel_outer_diameter,"nozzle_position",phi/3.124*180,x_displace);
             console.log("normal scaler",scaler);
             //nozzle=Standard_nozzle();
              nozzle=Standard_nozzle(length,0,barrel_outer_diameter,bore,0,flange_outer_diameter,raised_face_diameter,raised_face_thickness,flange_thickness,bolt_hole_number,bolt_circle_diameter,bolt_hole_size);
             // nozzle.scale.set(length,length,length);
              //nozzle.rotateY((orientation/180)*math.pi);
-             nozzle.translateZ(-this.radial_position*math.cos(orientation_in_rad)).translateX(this.radial_position*math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
+             nozzle.translateZ(-x_displace*math.cos(orientation_in_rad)).translateX(x_displace*math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
+          // nozzle.translateX(x_displace).translateY(nozzle_height).rotateY(-orientation_in_rad);
              console.log("nozzle",nozzle);
             this.scene.add(nozzle);
         
           }
           if(this.props.component[i].component==="Nozzle" && this.props.component[i].type_name==="HB"){
             var length=this.props.component[i].length;
-            var orientation=this.props.component[i].orientation;            
+            var orientation=this.props.component[i].orientation;  
+       
             var orientation_in_rad=(orientation/180)*math.pi;
             var nozzle_height=this.props.component[i].height;
             var nozzle= new THREE.Mesh();
