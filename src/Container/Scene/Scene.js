@@ -270,13 +270,30 @@ class Scene extends Component {
          else if(this.props.component[i]){
            
            if(this.props.component[i].component==="Nozzle" && this.props.component[i].type_name==="LWN"){
+
             var length=this.props.component[i].length;
             var orientation=this.props.component[i].orientation;            
             var orientation_in_rad=(orientation/180)*math.pi;
             var nozzle_height=this.props.component[i].height;
             var nozzle= new THREE.Mesh();
+            var barrel_outer_diameter=this.props.component[i].value.barrel_outer_diameter;
+            var bolt_circle_diameter=this.props.component[i].value.blot_circle_diameter;
+            var bolt_hole_number=this.props.component[i].value.blot_hole_number;
+            var bolt_hole_size=this.props.component[i].value.blot_hole_size;
+            var bore=this.props.component[i].value.bore;
+            var flange_outer_diameter=this.props.component[i].value.flange_outer_diameter;
+            var flange_thickness=this.props.component[i].value.flange_thickness;
+            var neck_thickness=this.props.component[i].value.neck_thickness;
+            var nominal_pipe_size=this.props.component[i].value.nominal_pipe_size;
+            var nut_stop_diameter=this.props.component[i].value.nut_stop_diameter;
+            var raised_face_diameter=this.props.component[i].value.raised_face_diameter;
+            var raised_face_thickness=this.props.component[i].value.raised_face_thickness;
+        
+
+
             console.log("normal scaler",scaler);
-             nozzle=Standard_nozzle(length,this.scaler);
+            //nozzle=Standard_nozzle();
+             nozzle=Standard_nozzle(length,0,barrel_outer_diameter,bore,0,flange_outer_diameter,raised_face_diameter,raised_face_thickness,flange_thickness,bolt_hole_number,bolt_circle_diameter,bolt_hole_size);
             // nozzle.scale.set(length,length,length);
              //nozzle.rotateY((orientation/180)*math.pi);
              nozzle.translateZ(-this.radial_position*math.cos(orientation_in_rad)).translateX(this.radial_position*math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
