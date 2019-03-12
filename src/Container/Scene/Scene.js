@@ -27,12 +27,12 @@ class Scene extends Component {
         75,
         width / height,
         0.1,
-        1000
+        1000000
       );
       this.camera.position.z = 5;
             console.log("scene rendered completely");
       //ADD SCENE
-      document.addEventListener( 'click', this.onDocumentMouseDown, false );
+   //   document.addEventListener( 'click', this.onDocumentMouseDown, false );
       //ADD RENDERER
       this.renderer = new THREE.WebGLRenderer();
       this.renderer.setSize(width, height);
@@ -76,6 +76,7 @@ class Scene extends Component {
       this.length=0;
       this.lengths=[];
       this.cylinder_lengths=[];
+      this.first_shell=true;
       this.start();
     
     
@@ -159,6 +160,8 @@ console.log("mouse pressed");
       }
       render() {
         try{
+   this.first_shell=true;
+          this.height_position=0;
         var scaler=0;
         //console.log("component",this.props.component);
         if(this.props.component.length>=0)
@@ -198,26 +201,27 @@ console.log("mouse pressed");
                 console.log("thickness:",thickness, "diameter:",diameter,"length:",this.length,"number:",i);
                 shell = Shell(thickness,diameter,this.length);
                 console.log("before adddition of cylinder",this.height_position);
-                if((i-1)>=0)
+                if 
+                ( this.first_shell){
+                    this.height_position=this.height_position+this.length/2;
+                    this.first_shell=false;
+                    }
+                else if((i-1)>=0)
                 {
-                if(this.props.component[i-1].component==="Ellipsoidal Head" || this.first==0){
-                this.height_position=this.height_position+this.length/2;
-                }
-                else if (this.props.component[i-1].component==="Cylinder"){
+                
+               if (this.props.component[i-1].component==="Cylinder" || !this.first_shell){
                   
                   var ringgeometry = new THREE.RingGeometry( 0, (parseFloat(this.props.component[i-1].sd)/2)+parseFloat(this.props.component[i-1].thickness)+0.4,40);
                   var ringmaterial = new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide } );
                   var ringmesh = new THREE.Mesh( ringgeometry, ringmaterial );
-                  this.height_position=this.height_position+this.length/2+this.lengths[i-1]/2;
+                  let lengths= this.props.component[i-1].length;
+                  this.height_position=this.height_position+this.length/2+lengths/2;
                   ringmesh.translateY(this.height_position-this.length/2).rotateX(math.pi/2);
                   this.scene.add( ringmesh );
                 
                 }
               }
-              else if 
-            ( this.first==0){
-                this.height_position=this.height_position+this.length/2;
-                }
+    
                 console.log("position of cylinder",this.length,this.height_position);
                 shell.translateY(this.height_position);//this.height_position);  
                 //this.scene.add(shell);
@@ -228,7 +232,7 @@ console.log("mouse pressed");
               this.scene.add(this.group);
             //   this.start();
             // }
-           this.props.component[i].length=0;
+           //this.props.component[i].length=0;
             this.radial_position=diameter/2+thickness;
             if(this.camera)
           {
