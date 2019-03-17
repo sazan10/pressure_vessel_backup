@@ -10,6 +10,7 @@ export const onDataSendFail = error => {
 };
 
 export const onDataSendTo = (response, data) => {
+  console.log("nozzle data",data);
   return {
     type: actionTypes.DATA_SEND,
     resp: response,
@@ -131,7 +132,7 @@ export const axiosDataSend = (data, url, headers) => {
       })
       .then(response => {
         console.log(response.data);
-        dispatch(onDataSendTo(response.data.thickness, data));
+        dispatch(onDataSendTo(response.data.thickness,data));
         console.log("after dispatch");
       })
       .catch(err => {

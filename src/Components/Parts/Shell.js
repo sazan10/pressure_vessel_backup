@@ -36,7 +36,7 @@ var result = fromCSG(subtractCSG); // converting CSG back into ThreeJS object
 group.rotateX(0);
 //this.scene.add(cylinderMesh2)
  //this.scene.add( group );
-  return group;  
+  return mesh_test;  
 }
 
 export default Shell;
