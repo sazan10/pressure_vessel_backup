@@ -1,25 +1,21 @@
 import React, { Component } from "react";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Grid from '@material-ui/core/Grid';
+
 import { Switch, Route, withRouter } from "react-router-dom";
-import DropDownMenu from "../../Components/UI/DropDownMenu/DropDownMenu";
-import Modal from "../../Components/UI/Modal/Modal";
-import * as navbarData from "../../JSONFiles/File.json";
-import IconNavbar from '../../Components/UI/IconNavbar/IconNavbar';
-import * as iconData from '../../JSONFiles/IconNavbar.json';
+
 import { connect } from 'react-redux';
 import Scene from '../Scene/Scene';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import SideModal from '../../Components/UI/SideModal/SideModal';
+import Menu from '../Menu/Menu';
 class VesselBuilder extends Component {
 
   componentDidMount() {
     console.log("ComponentDidMount");
     console.log(this.props.isAuthenticated);
-      if(!this.props.isAuthenticated) {
-        this.props.history.push("/");
-      } 
+    if (!this.props.isAuthenticated) {
+      this.props.history.push("/");
+    }
   }
   render() {
     // const menu = navbarData.menu.map(d =>
@@ -33,19 +29,21 @@ class VesselBuilder extends Component {
 
     return (
       <div>
-        <DropDownMenu />
-        <IconNavbar/>
-        {/* <Switch>
-          {menu}
-          {/* {iconMenu} */}
-        {/* </Switch>  */}
-        <Container fluid={true}>
-          <Row >
-            <Col  style={{margin: 0,padding: 0}} lg={2} md={3} xs={4} ><SideModal/></Col>
-            <Col  style={{margin: 0,padding: 0}}  lg={10} md={9} xs={8} ><Scene></Scene></Col>
-          </Row>
-        </Container>
-        
+        <Grid container spacing={0}>
+          <Grid item lg={12} sm={12} xs={4}>
+            <Menu />
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={0}>
+          <Grid item lg={2} md={2} sm={3} xs={4}>
+            <SideModal />
+          </Grid>
+          <Grid item lg={10} md={10} sm={9} xs={8}>
+            <Scene></Scene>
+          </Grid>
+        </Grid>
+
       </div>
     );
   }
@@ -57,4 +55,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, null) (withRouter(VesselBuilder));
+// .propTypes = {
+//   classes: PropTypes.object.isRequired,
+// };
+
+
+export default connect(mapStateToProps, null)(withRouter(VesselBuilder));

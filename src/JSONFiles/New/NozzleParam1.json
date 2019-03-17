@@ -1,0 +1,113 @@
+{
+  "type_name": {
+    "elementType": "select",
+    "elementConfig": {
+      "type": "select",
+      "placeholder": "",
+      "options": [
+        {
+          "displayValue": "LWN",
+          "value": "LWN"
+        },
+        {
+          "displayValue": "HB",
+          "value": "HB"
+        },
+        {
+          "displayValue": "F",
+          "value": "F"
+        }
+      ]
+    },
+    "validation": {
+      "required": true
+    },
+    "label": "Type",
+    "value": "LWN",
+    "valid": true
+  },
+  "nominal_pipe_size": {
+    "elementType": "input",
+    "elementConfig": {
+      "type": "input",
+      "placeholder": "10"
+    },
+    "validation": {
+      "required": true
+    },
+    "value": "10",
+    "label": "Nominal Pipe Size",
+    "step": "any",
+    "valid": true
+  },
+  "schedules": {
+    "elementType": "input",
+    "elementConfig": {
+      "type": "input",
+      "placeholder": "10"
+    },
+    "validation": {
+      "required": true
+    },
+    "value": "10",
+    "label": "Schedules",
+    "step": "any",
+    "valid": true
+  },
+  "orientation": {
+    "elementType": "input",
+    "elementConfig": {
+      "type": "input",
+      "placeholder": "10"
+    },
+    "validation": {
+      "required": true
+    },
+    "value": "10",
+    "label": "Orientation",
+    "step": "any",
+    "valid": true
+  },
+  "height": {
+    "elementType": "input",
+    "elementConfig": {
+      "type": "input",
+      "placeholder": "10"
+    },
+    "validation": {
+      "required": true
+    },
+    "value": "10",
+    "label": "Height",
+    "step": "any",
+    "valid": true
+  },
+  "length": {
+    "elementType": "input",
+    "elementConfig": {
+      "type": "input",
+      "placeholder": "10"
+    },
+    "validation": {
+      "required": true
+    },
+    "value": "10",
+    "label": "Length",
+    "step": "any",
+    "valid": true
+  },
+  "class_value": {
+    "elementType": "input",
+    "elementConfig": {
+      "type": "input",
+      "placeholder": "10"
+    },
+    "validation": {
+      "required": true
+    },
+    "value": "10",
+    "label": "Class Value",
+    "step": "any",
+    "valid": true
+  }
+}

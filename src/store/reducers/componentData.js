@@ -32,7 +32,7 @@ const updateData = (state, action) => {
         // const num = action.data.number;
         const num = 1;
         try{
-        comp = updateObject(comp, {thickness: action.data.thickness.toString(), number: 1});
+        comp = updateObject(comp, {thickness: action.data.thickness.toString(), number: 1,id:action.data.id});
         }
         catch(err)
         {

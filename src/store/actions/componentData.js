@@ -68,7 +68,7 @@ export const onSubmitAndUpdate = (data, id) => {
   return dispatch => {
     let url = null;
     let data1 = null
-    // console.log(data.material);
+    console.log("onSUbmitUpdate");
     if (data.material !== null) {
       const mat = data.material.split(" ");
       data = {
@@ -77,13 +77,14 @@ export const onSubmitAndUpdate = (data, id) => {
         type_grade: mat[1],
       }
     }
-    console.log(data);
+    url = "/api/cylinder/data";
+    
     if (data.component === "Ellipsoidal Head") {
       data1 = {
         headParam: data,
         projectID: id
       };
-      url = "/api/nozzle/data";
+      url = "/api/head/data";
     } else if (data.component === "Cylinder") {
       url = "/api/cylinder/data";
       data1 = {
@@ -92,7 +93,7 @@ export const onSubmitAndUpdate = (data, id) => {
       };
     }
 
-    
+    console.log(data1);
     const token = localStorage.getItem("token");
     const headers = {
       "Content-Type": "application/json",
@@ -209,7 +210,7 @@ export const downloadReport = (id) => {
       .then(response => {
         console.log("Inside axios post");
         console.log(response.data);
-        const reportUrl = "http://192.168.1.12:8000/" + response.data;
+        const reportUrl = "http://192.168.1.12:8001/" + response.data;
         // const pdfData = base64.decode(response.data);
         // const pdfData = pako.deflate(response.data);
         // console.log(pdfData);

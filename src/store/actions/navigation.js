@@ -16,7 +16,7 @@ export const importModel = (title, num) => {
   import(`../../JSONFiles/New/${title.replace(' ','')}Param${num}.json`)
   // import(`../../JSONFiles/CommonParam.json`)
     .then(function(response) {
-      console.log(response.default);
+      // console.log(response.default);
       dispatch(returnModel(response.default));
     });
   };

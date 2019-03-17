@@ -35,7 +35,7 @@ class DynamicForm extends React.Component {
 
 
     componentDidMount() {
-        // console.log("COmponent DId Mount Form");
+        console.log("COmponent DId Mount Form");
         this.setState({
             form: this.props.model
         });
@@ -66,6 +66,11 @@ class DynamicForm extends React.Component {
         }
         this.props.history.push('/builder');
 
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.model !== this.props.model) { 
+            this.setState({form: this.props.model});
+        }
     }
 
     checkValidity(value, rules) {
@@ -100,7 +105,7 @@ class DynamicForm extends React.Component {
     }
 
     inputChangedHandler = (event, controlName) => {
-        console.log(event, controlName);
+        // console.log(event, controlName);
         const updatedForm = {
             ...this.state.form,
             [controlName]: {
@@ -156,7 +161,6 @@ class DynamicForm extends React.Component {
             /></td>
             </tr>
         ));
-        // console.log(form);
         return <table><tbody>{form}</tbody></table>;
 
 
@@ -164,7 +168,8 @@ class DynamicForm extends React.Component {
 
     render() {
         let title = this.props.title || "Dynamic Form";
-        let errorMessage = null;
+        // console.log(this.props.model);
+
         return ( 
             <div >
             <form onSubmit={this.onSubmitHandler}>

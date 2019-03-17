@@ -1,0 +1,222 @@
+{
+    "material": {
+        "elementType": "select",
+        "elementConfig": {
+            "type": "select",
+            "placeholder": "",
+            "options": [
+                {
+                    "displayValue": "SA-516 60",
+                    "value": "SA-516 60"
+                },
+                {
+                    "displayValue": "SA-516 70",
+                    "value": "SA-516 70"
+                },
+                {
+                    "displayValue": "SA-524 II Smis Pipe",
+                    "value": "SA-524 II Smis Pipe"
+                },
+                {
+                    "displayValue": "SA-53 EA Wld Pipe",
+                    "value": "SA-53 EA Wld Pipe"
+                }
+            ]
+        },
+        "validation": {
+            "required": true
+        },
+        "label": "Material",
+        "value": "SA-516 60",
+        
+        "valid": true
+        
+    },
+    "ip": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "45 Kpsi"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "45",
+        "label": "Internal Pressure",
+        "step": "any",
+        "valid": true
+    },
+    "temp1": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "150 F"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "300",
+        "label": "Temp1",
+        "step": "any",
+        "valid": true
+    },
+    "ep": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "45 Kpsi"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "300",
+        "label": "External Pressure",
+        "step": "any",
+        "valid": true
+    },
+    "temp2": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "45 Kpsi"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "300",
+        "label": "Temp2",
+        "step": "any",
+        "valid": true
+    },
+    "ic": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "0.125 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "0.125",
+        "label": "Corrosion Internal",
+        "step": "any",
+        "valid": true
+    },
+    "sd": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "50 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "300",
+        "label": "Shell Diameter",
+        "step": "any",
+        "valid": true
+    },
+    "thickness": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "0.5 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "0.5",
+        "label": "Thickness",
+        "step": "any",
+        "valid": true
+    },
+    "number": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "1"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "1",
+        "label": "Number",
+        "step": "any",
+        "valid": true
+    },
+    "mht": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "1"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "1",
+        "label": "Minimum Head Thickness",
+        "step": "any",
+        "valid": true
+    },
+    "srl": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "1"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "1",
+        "label": "Straight Range Length",
+        "step": "any",
+        "valid": true
+    },
+    "nsrt": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "1"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "1",
+        "label": "Nominal Str Range Thickness",
+        "step": "any",
+        "valid": true
+    },
+    "hr": {
+        "elementType": "select",
+        "elementConfig": {
+            "type": "select",
+            "placeholder": "",
+            "options": [
+                {
+                    "displayValue": "1:1",
+                    "value": "1:1"
+                },
+                {
+                    "displayValue": "2:1",
+                    "value": "2:1"
+                },
+                {
+                    "displayValue": "3:1",
+                    "value": "3:1"
+                },
+                {
+                    "displayValue": "4:1",
+                    "value": "4:1"
+                }
+            ]
+        },
+        "validation": {
+            "required": true
+        },
+        "label": "Head Ratio",
+        "value": "1:1",
+        
+        "valid": true
+        
+    }   
+}

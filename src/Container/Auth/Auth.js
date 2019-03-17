@@ -7,8 +7,7 @@ import Button from '../../Components/UI/Button/Button';
 import Spinner from '../../Components/UI/Spinner/Spinner';
 import classes from './Auth.css';
 import * as actions from '../../store/actions/index';
-// import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-// import axios from '../../axios-orders';
+
 class Auth extends Component {
     state = {
         signIn: {

@@ -1,5 +1,5 @@
 {
-  "menu" : [{
+  
   "Files": [
     {
       "id": 0,
@@ -72,9 +72,9 @@
       "title": "Exit",
       "selected": false,
       "key": "File"
-    }
-  ]},
-  {"Component": [
+    }]
+  ,
+  "Component": [
     {
       "id": 0,
       "title": "Cylinder",
@@ -153,8 +153,8 @@
       "selected": false,
       "key": "Component"
     }
-  ]},
-  {"Actions": [
+  ],
+  "Actions": [
     {
       "id": 0,
       "title": "Undo",
@@ -191,8 +191,8 @@
       "selected": false,
       "key": "Actions"
     }
-  ]},
-  {"Nozzle": [
+  ],
+  "Nozzle": [
     {
       "id": 0,
       "title": "Detailed Design",
@@ -205,9 +205,9 @@
       "selected": false,
       "key": "Nozzle"
     }
-  ]},
-  {"Attach": []},
-  {"Support": [
+  ],
+  "Attach": [],
+  "Support": [
     {
       "id": 0,
       "title": "Skirt",
@@ -238,12 +238,11 @@
       "selected": false,
       "key": "Support"
     }
-  ]},
-  {"Codes": []},
-  {"Loads": []},
-  {"Materials": []},
-  {"Forms": []},
-  {"Window": []},
-  {"Help": []}
-]
+  ],
+  "Codes": [],
+  "Loads": [],
+  "Materials": [],
+  "Forms": [],
+  "Window": [],
+  "Help": []
 }
