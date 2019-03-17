@@ -1,4 +1,63 @@
 {
+  "material": {
+    "elementType": "select",
+    "elementConfig": {
+      "type": "select",
+      "placeholder": "",
+      "options": [
+        {
+          "displayValue": "SA-516 60",
+          "value": "SA-516 60"
+        },
+        {
+          "displayValue": "SA-516 70",
+          "value": "SA-516 70"
+        },
+        {
+          "displayValue": "SA-524 II Smis Pipe",
+          "value": "SA-524 II Smis Pipe"
+        },
+        {
+          "displayValue": "SA-53 EA Wld Pipe",
+          "value": "SA-53 EA Wld Pipe"
+        }
+      ]
+    },
+    "validation": {
+      "required": true
+    },
+    "label": "Material",
+    "value": "SA-516 60",
+    "valid": true
+  },
+  "ip": {
+    "elementType": "input",
+    "elementConfig": {
+      "type": "input",
+      "placeholder": "45 Kpsi"
+    },
+    "validation": {
+      "required": true
+    },
+    "value": "45",
+    "label": "Internal Pressure",
+    "step": "any",
+    "valid": true
+  },
+  "temp1": {
+    "elementType": "input",
+    "elementConfig": {
+      "type": "input",
+      "placeholder": "150 F"
+    },
+    "validation": {
+      "required": true
+    },
+    "value": "300",
+    "label": "Temp1",
+    "step": "any",
+    "valid": true
+  },
   "type_name": {
     "elementType": "select",
     "elementConfig": {
@@ -82,7 +141,7 @@
     "step": "any",
     "valid": true
   },
-  "length": {
+  "externalNozzleProjection": {
     "elementType": "input",
     "elementConfig": {
       "type": "input",
@@ -92,7 +151,21 @@
       "required": true
     },
     "value": "10",
-    "label": "Length",
+    "label": "External Proj",
+    "step": "any",
+    "valid": true
+  },
+  "internalNozzleProjection": {
+    "elementType": "input",
+    "elementConfig": {
+      "type": "input",
+      "placeholder": "10"
+    },
+    "validation": {
+      "required": true
+    },
+    "value": "10",
+    "label": "Internal Proj",
     "step": "any",
     "valid": true
   },
@@ -107,6 +180,48 @@
     },
     "value": "10",
     "label": "Class Value",
+    "step": "any",
+    "valid": true
+  },
+  "cylinderDiameter": {
+    "elementType": "input",
+    "elementConfig": {
+      "type": "input",
+      "placeholder": "10"
+    },
+    "validation": {
+      "required": true
+    },
+    "value": "10",
+    "label": "Cylinder Diameter",
+    "step": "any",
+    "valid": true
+  },
+  "cylinderThickness": {
+    "elementType": "input",
+    "elementConfig": {
+      "type": "input",
+      "placeholder": "10"
+    },
+    "validation": {
+      "required": true
+    },
+    "value": "10",
+    "label": "Cylinder Thickness",
+    "step": "any",
+    "valid": true
+  },
+  "nozzleDiameter": {
+    "elementType": "input",
+    "elementConfig": {
+      "type": "input",
+      "placeholder": "0.125 inch"
+    },
+    "validation": {
+      "required": true
+    },
+    "value": "0.125",
+    "label": "Nozzle Diameter",
     "step": "any",
     "valid": true
   }

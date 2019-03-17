@@ -197,7 +197,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         importModel: (title, num) => dispatch(actions.importModel(title, num)),
-        onSubmitAndUpdate: (data) => dispatch(actions.onSubmitAndUpdate(data))
+        onSubmitAndUpdate: (data, id) => dispatch(actions.onSubmitAndUpdate(data, id))
     };
 };
 

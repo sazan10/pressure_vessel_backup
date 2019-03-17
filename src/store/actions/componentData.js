@@ -70,7 +70,7 @@ export const onSubmitAndUpdate = (data, id) => {
     let url = null;
     let data1 = null
     console.log("onSUbmitUpdate");
-    if (data.material !== null) {
+    if (data.material !== undefined) {
       const mat = data.material.split(" ");
       data = {
         ...data,
@@ -90,7 +90,13 @@ export const onSubmitAndUpdate = (data, id) => {
       url = "/api/cylinder/data";
       data1 = {
         cylinderParam: data,
-        projectID: 1
+        projectID: id
+      };
+    } else if (data.component === "Nozzle") {
+      url = "/api/nozzle/data";
+      data1 = {
+        nozzleParam: data,
+        projectID: id
       };
     }
 
