@@ -16,7 +16,6 @@ export {
 } from './auth';
 
 export {
-    onDataSend,
     onDataSendFail,
     dataUpdate,
     onSubmitAndUpdate,
