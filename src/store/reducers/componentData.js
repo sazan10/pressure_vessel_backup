@@ -7,7 +7,7 @@ const initialState = {
     ellipsoidalHead: null,
     nozzle: null,
     error: null,
-    id: 0,
+    componentID: 0,
     projectID: 13,
     thickness: null
 };
@@ -28,14 +28,16 @@ const updateData = (state, action) => {
     console.log("Inside update Data (Before)", state, action);
     let data = null;
     let comp = action.data;
-    const componentID = state.id;
+    const componentID = action.componentID;
     console.log(componentID);
+    console.log(action);
     if (action.data.component === "Cylinder") {
         // let comp = action.data;
+        console.log("CYLINDER");
         const num = action.data.number;
         // const num = 1;
         try {
-            comp = updateObject(comp, { thickness: action.data.thickness.toString(), number: 1, id: componentID });
+            comp = updateObject(comp, { thickness: action.data.thickness.toString(), number: 1, componentID: action.componentID });
         }
         catch (err) {
             console.log(err);
@@ -49,8 +51,9 @@ const updateData = (state, action) => {
         }
         console.log(data);
     } else if (action.data.component === "Nozzle") {
+        console.log("NOZZLE");
         try {
-            comp = updateObject(comp, { id: componentID });
+            comp = updateObject(comp, { componentID: action.componentID });
         }
         catch (err) {
             console.log(err);
@@ -61,22 +64,37 @@ const updateData = (state, action) => {
         data.push(action.data);
     }
     else {
+        console.log("ELIPSOIDAL HEAD");
         let comp = action.data;
-        try { comp = updateObject(comp, { thickness: action.data.thickness.toString(), id: componentID }) }
+        try { comp = updateObject(comp, { thickness: action.data.thickness.toString(), componentID: action.componentID }) }
         catch (err) {
             console.log(err);
         }
+        console.log("aa", comp, data, state.component);
         data = [
             ...state.component
         ]
+        console.log("aaaa");
         data.push(comp);
+        console.log("aaaaaa");
     }
     console.log("hello fuckers");
-    // console.log("Inside update Data (AFter)");
-    // componentID += 1;
-    // updateObject(state,{id: componentID});
-    console.log("Inside update Data (AFter)");
+    console.log(componentID);
     return updateObject(state, { component: data });
+}
+
+const idUpdate = (state, action) => {
+    return updateObject(state, {componentID: action.id});
+}
+
+const componentUpdate = (state, action) => {
+    // console.log(action.data.componentID);
+    const data = [
+        ...state.component
+    ];
+    data[action.data.componentID] = action.data;
+    console.log(data);
+    return updateObject(state, {component: data});
 }
 
 const reportFail = (state, action) => {
@@ -97,6 +115,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.DATA_SEND: return onDataSend(state, action);
         case actionTypes.DATA_SEND_FAIL: return onDataSendFail(state, action);
         case actionTypes.DATA_UPDATE: return updateData(state, action);
+        case actionTypes.ID_UPDATE: return idUpdate(state, action);
+        case actionTypes.COMPONENT_UPDATE: return componentUpdate(state, action);
         case actionTypes.REPORT_FAIL: return reportFail(state, action);
         case actionTypes.REQUEST_REPORT: return requestReport(state, action);
         case actionTypes.DOWNLOAD_REPORT: return downloadReport(state, action);

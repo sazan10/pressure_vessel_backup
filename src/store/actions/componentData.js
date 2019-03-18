@@ -10,7 +10,7 @@ export const onDataSendFail = error => {
 };
 
 export const onDataSendTo = (response, data) => {
-  console.log("nozzle data",data);
+  console.log("nozzle data", data);
   return {
     type: actionTypes.DATA_SEND,
     resp: response,
@@ -18,19 +18,20 @@ export const onDataSendTo = (response, data) => {
   };
 };
 
-export const dataUpdate = (data) => {
+export const dataUpdate = (data, componentID) => {
 
   return {
     type: actionTypes.DATA_UPDATE,
-    data: data
+    data: data,
+    componentID: componentID
   }
 }
 
-export const onSubmitAndUpdate = (data, id) => {
+export const onSubmitAndUpdate = (data, id, componentID) => {
   return dispatch => {
     let url = null;
     let data1 = null
-    console.log("onSUbmitUpdate");
+    console.log("onSubmitUpdate", data);
     if (data.material !== undefined) {
       const mat = data.material.split(" ");
       data = {
@@ -40,7 +41,7 @@ export const onSubmitAndUpdate = (data, id) => {
       }
     }
     url = "/api/cylinder/data";
-    
+
     if (data.component === "Ellipsoidal Head") {
       data1 = {
         headParam: data,
@@ -80,7 +81,16 @@ export const onSubmitAndUpdate = (data, id) => {
               thickness: response.data.thickness
             }
           };
-          dispatch(dataUpdate(data1));
+          if (data.componentID < componentID) {
+            console.log("UPDATE COMPONENT");
+            dispatch(updateComponent(data1));
+          } else {
+            console.log("ADD COMPONENT");
+            dispatch(dataUpdate(data1, componentID));
+            const newID = componentID + 1;
+            dispatch(updateComponentID(newID));
+          }
+
         } else {
           dispatch(onDataSendFail("No thickness received"));
         }
@@ -88,6 +98,20 @@ export const onSubmitAndUpdate = (data, id) => {
       .catch(err => {
         dispatch(onDataSendFail(err.response));
       });
+  }
+}
+
+export const updateComponentID = (id) => {
+  return {
+    type: actionTypes.ID_UPDATE,
+    id: id
+  }
+}
+
+export const updateComponent = (data) => {
+  return {
+    type: actionTypes.COMPONENT_UPDATE,
+    data: data
   }
 }
 
@@ -99,7 +123,7 @@ export const axiosDataSend = (data, url, headers) => {
       })
       .then(response => {
         console.log(response.data);
-        dispatch(onDataSendTo(response.data.thickness,data));
+        dispatch(onDataSendTo(response.data.thickness, data));
         console.log("after dispatch");
       })
       .catch(err => {
@@ -173,8 +197,8 @@ export const downloadReport = (id) => {
     };
     console.log(data);
     axios.post(url, data, {
-        headers: headers
-      })
+      headers: headers
+    })
       .then(response => {
         console.log("Inside axios post");
         console.log(response.data);
