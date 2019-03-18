@@ -13,7 +13,7 @@ const initialState = {
 };
 
 const onDataSend = (state, action) => {
-    console.log("insdie onDataSend");
+    console.log("inside onDataSend");
     console.log(action);
     
     // state.component.push(action.component);
@@ -29,8 +29,8 @@ const updateData = (state, action) => {
     let data = null;
     if(action.data.component === "Cylinder") {
         let comp = action.data;
-        // const num = action.data.number;
-        const num = 1;
+        const num = action.data.number;
+        // const num = 1;
         try{
         comp = updateObject(comp, {thickness: action.data.thickness.toString(), number: 1,id:action.data.id});
         }

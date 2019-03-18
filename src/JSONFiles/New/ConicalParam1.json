@@ -102,17 +102,45 @@
         "step": "any",
         "valid": true
     },
-    "sd": {
+    "sd_l": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "50 inch"
+            "placeholder": "400 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "400",
+        "label": "Shell Diameter Top",
+        "step": "any",
+        "valid": true
+    },
+    "sd_s": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "300 inch"
         },
         "validation": {
             "required": true
         },
         "value": "300",
-        "label": "Shell Diameter",
+        "label": "Shell Diameter Bottom",
+        "step": "any",
+        "valid": true
+    },
+    "length": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "100 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "100",
+        "label": "Length",
         "step": "any",
         "valid": true
     },
@@ -129,119 +157,6 @@
         "label": "Thickness",
         "step": "any",
         "valid": true
-    },
-    "number": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "1"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "1",
-        "label": "Number",
-        "step": "any",
-        "valid": true
-    },
-    "mht": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "1"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "1",
-        "label": "Minimum Head Thickness",
-        "step": "any",
-        "valid": true
-    },
-    "srl": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "1"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "1",
-        "label": "Straight Range Length",
-        "step": "any",
-        "valid": true
-    },
-    "nsrt": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "1"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "1",
-        "label": "Nominal Str Range Thickness",
-        "step": "any",
-        "valid": true
-    },
-    "hr": {
-        "elementType": "select",
-        "elementConfig": {
-            "type": "select",
-            "placeholder": "",
-            "options": [
-                {
-                    "displayValue": "1:1",
-                    "value": "1:1"
-                },
-                {
-                    "displayValue": "2:1",
-                    "value": "2:1"
-                },
-                {
-                    "displayValue": "3:1",
-                    "value": "3:1"
-                },
-                {
-                    "displayValue": "4:1",
-                    "value": "4:1"
-                }
-            ]
-        },
-        "validation": {
-            "required": true
-        },
-        "label": "Head Ratio",
-        "value": "2:1",
-        
-        "valid": true
-        
     }   
-    ,
-    "position": {
-        "elementType": "select",
-        "elementConfig": {
-            "type": "select",
-            "placeholder": "",
-            "options": [
-                {
-                    "displayValue": "bottom",
-                    "value": "0"
-                },
-                {
-                    "displayValue": "top",
-                    "value": "1"
-                }
-            ]
-        },
-        "validation": {
-            "required": true
-        },
-        "label": "Position",
-        "value": "0",
-        "valid": true
-        
-    }   
+   
 }

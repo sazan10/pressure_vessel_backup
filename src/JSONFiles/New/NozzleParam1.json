@@ -30,7 +30,7 @@
     "value": "SA-516 60",
     "valid": true
   },
-  "ip": {
+  "designPressure": {
     "elementType": "input",
     "elementConfig": {
       "type": "input",
@@ -40,7 +40,7 @@
       "required": true
     },
     "value": "45",
-    "label": "Internal Pressure",
+    "label": "Design Pressure",
     "step": "any",
     "valid": true
   },
@@ -89,12 +89,12 @@
     "elementType": "input",
     "elementConfig": {
       "type": "input",
-      "placeholder": "10"
+      "placeholder": "1"
     },
     "validation": {
       "required": true
     },
-    "value": "10",
+    "value": "1",
     "label": "Nominal Pipe Size",
     "step": "any",
     "valid": true
@@ -117,12 +117,12 @@
     "elementType": "input",
     "elementConfig": {
       "type": "input",
-      "placeholder": "10"
+      "placeholder": "90 deg"
     },
     "validation": {
       "required": true
     },
-    "value": "10",
+    "value": "90",
     "label": "Orientation",
     "step": "any",
     "valid": true
@@ -159,12 +159,12 @@
     "elementType": "input",
     "elementConfig": {
       "type": "input",
-      "placeholder": "10"
+      "placeholder": "0"
     },
     "validation": {
       "required": true
     },
-    "value": "10",
+    "value": "0",
     "label": "Internal Proj",
     "step": "any",
     "valid": true
@@ -173,12 +173,12 @@
     "elementType": "input",
     "elementConfig": {
       "type": "input",
-      "placeholder": "10"
+      "placeholder": "150"
     },
     "validation": {
       "required": true
     },
-    "value": "10",
+    "value": "150",
     "label": "Class Value",
     "step": "any",
     "valid": true
@@ -224,5 +224,20 @@
     "label": "Nozzle Diameter",
     "step": "any",
     "valid": true
+  },
+  "corrosionAllowance":{
+      "elementType": "input",
+      "elementConfig": {
+        "type": "input",
+        "placeholder": "0.125 inch"
+      },
+      "validation": {
+        "required": true
+      },
+      "value": "0.125",
+      "label": "corrosion Allowance",
+      "step": "any",
+      "valid": true
+
   }
 }
