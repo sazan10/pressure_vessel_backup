@@ -43,10 +43,11 @@ const updateData = (state, action) => {
         data = [
             ...state.component
         ];
-        console.log(data);
+        // 
         for (let i = 0; i < num; i++) {
             data.push(comp);
         }
+        console.log(data);
     } else if (action.data.component === "Nozzle") {
         try {
             comp = updateObject(comp, { id: componentID });
@@ -61,7 +62,7 @@ const updateData = (state, action) => {
     }
     else {
         let comp = action.data;
-        try { comp = updateObject(comp, { thickness: state.thickness.toString(), id: componentID }) }
+        try { comp = updateObject(comp, { thickness: action.data.thickness.toString(), id: componentID }) }
         catch (err) {
             console.log(err);
         }
@@ -70,9 +71,11 @@ const updateData = (state, action) => {
         ]
         data.push(comp);
     }
-    componentID += 1;
-    updateObject(state,{id: componentID});
-    console.log("Inside update Data (AFter)", data);
+    console.log("hello fuckers");
+    // console.log("Inside update Data (AFter)");
+    // componentID += 1;
+    // updateObject(state,{id: componentID});
+    console.log("Inside update Data (AFter)");
     return updateObject(state, { component: data });
 }
 
