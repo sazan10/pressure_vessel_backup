@@ -18,6 +18,11 @@
     [{ "key": "class_value", "label": "class_value", "type": "number", "required": true, "placeholder": "150", "step": "any" }
     ]
     ,
+    [{ "key": "corrosionAllowance", "label": "cor_allow", "type": "number", "required": true, "placeholder": "150", "step": "any" }
+    ],
+    [{ "key": "designPressure", "label": "dgn_pressure", "type": "number", "required": true, "placeholder": "150", "step": "any" }
+    ]
+    ,
     [{"key": "cancel", "label": "Cancel", "type": "button", "actionType": "cancel"},
       {"key": "submit", "label": "Submit", "type": "button", "actionType": "submit"}
       ],

@@ -61,6 +61,13 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
         projectID: id
       };
     }
+    else if (data.component === "Conical") {
+      url = "/api/conicalCylinder/data";
+      data1 = {
+        conicalParam: data,
+        projectID: id
+      };
+    }
 
     console.log(data1);
     const token = localStorage.getItem("token");
@@ -78,7 +85,8 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
           const data1 = {
             ...data,
             ...{
-              thickness: response.data.thickness
+              thickness: response.data.thickness,
+              value:response.data
             }
           };
           if (data.componentID < componentID) {
@@ -202,7 +210,7 @@ export const downloadReport = (id) => {
       .then(response => {
         console.log("Inside axios post");
         console.log(response.data);
-        const reportUrl = "http://192.168.1.12:8001/" + response.data;
+        const reportUrl = "http://192.168.1.12:8000/" + response.data;
         // const pdfData = base64.decode(response.data);
         // const pdfData = pako.deflate(response.data);
         // console.log(pdfData);

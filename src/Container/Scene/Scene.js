@@ -175,10 +175,20 @@ console.log("mouse pressed");
         
          console.log("component",this.props.component[i].component);
           
-        if( this.props.component[i].length && this.props.component[i].component==="Cylinder"){
+        if( this.props.component[i].length && (this.props.component[i].component==="Cylinder" || this.props.component[i].component==="Conical")){
           console.log("title",this.props.component[i],i);
-          var diameter=parseFloat(this.props.component[i].sd);
-          this.shell_diameter=diameter;
+          var diameter_bot=0;
+          var diameter_top=0;
+          if(this.props.component[i].component==="Cylinder"){
+          diameter_bot=parseFloat(this.props.component[i].sd);
+          diameter_top=diameter_bot;
+          }
+          else
+          {
+          diameter_bot=parseFloat(this.props.component[i].sd_l);
+          diameter_top=parseFloat(this.props.component[i].sd_s);
+          }
+          this.shell_diameter=diameter_bot;
           this.length=parseFloat(this.props.component[i].length);
           this.cylinder_lengths.push(this.lengths);
           this.lengths.push(this.length);
@@ -194,12 +204,12 @@ console.log("mouse pressed");
           //   this.scene.add(boundary);
           // }
           // }
-          this.scaler =diameter+thickness;
-          console.log("scaler for cylinder",scaler);
+       
+      
              //for (let i = 0; i < number; i++) {
                 var shell= new THREE.Mesh();
                 console.log("thickness:",thickness, "diameter:",diameter,"length:",this.length,"number:",i);
-                shell = Shell(thickness,diameter,this.length);
+                shell = Shell(thickness,diameter_bot,diameter_top,this.length);
                 console.log("before adddition of cylinder",this.height_position);
                 if 
                 ( this.first_shell){
@@ -209,16 +219,20 @@ console.log("mouse pressed");
                 else if((i-1)>=0)
                 {
                 
-               if (this.props.component[i-1].component==="Cylinder" || !this.first_shell){
-                  
-                  var ringgeometry = new THREE.RingGeometry( 0, (parseFloat(this.props.component[i-1].sd)/2)+parseFloat(this.props.component[i-1].thickness)+0.4,40);
+               if (this.props.component[i-1].component==="Cylinder" || !this.first_shell || this.props.component[i-1]==="Conical"){
+                  //var ringgeometry = new THREE.RingGeometry((parseFloat(this.props.component[i-1].sd)/2) , (parseFloat(this.props.component[i-1].sd)/2)+parseFloat(this.props.component[i-1].thickness)+3,400);
                   var ringmaterial = new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide } );
-                  var ringmesh = new THREE.Mesh( ringgeometry, ringmaterial );
+                  let diameter=(parseFloat(this.props.component[i-1].sd)+parseFloat(this.props.component[i-1].thickness)) || (parseFloat(this.props.component[i-1].sd_l)+parseFloat(this.props.component[i-1].thickness));
+                  let ringgeometry= Shell(1,diameter,diameter,10,ringmaterial);
+                
+                 // var ringmesh = new THREE.Mesh( ringgeometry, ringmaterial );
                   let lengths= this.props.component[i-1].length;
                   this.height_position=this.height_position+this.length/2+lengths/2;
-                  ringmesh.translateY(this.height_position-this.length/2).rotateX(math.pi/2);
-                  this.scene.add( ringmesh );
-                
+                 //ringmesh.translateY(this.height_position-this.length/2).rotateX(math.pi/2);
+                 ringgeometry.translateY(this.height_position-this.length/2);
+                  
+                 //this.scene.add( ringmesh );
+                  this.scene.add( ringgeometry);
                 }
               }
     
@@ -234,20 +248,20 @@ console.log("mouse pressed");
             // }
            //this.props.component[i].length=0;
             this.radial_position=diameter/2+thickness;
-            if(this.camera)
-          {
-          this.camera.position.z=(this.length+rad)*1.8;
-          }
+          //   if(this.camera)
+          // {
+          // this.camera.position.z=(this.length+rad)*1.8;
+          // }
           this.shapes.push(shell);
           }
-          else if(this.props.component[i] && this.props.component[i].component==="Ellipsoidal Head" && this.props.component[i].MHT){
+          else if(this.props.component[i] && this.props.component[i].component==="Ellipsoidal Head" ){
             var diameter=parseFloat(this.props.component[i].sd)/2;
            var head_thickness= parseFloat(this.props.component[i].thickness);
            this.shell_diameter=parseFloat(this.props.component[i].sd);
-           var ratio=parseFloat(this.props.component[i].HR);
+           var ratio=parseFloat(this.props.component[i].hr);
            var minor = diameter/ratio;
            var major = diameter+head_thickness;
-           var srl=parseFloat(this.props.component[i].SRL);
+           var srl=parseFloat(this.props.component[i].srl);
            this.lengths.push(minor);
            //var head_thickness= parseFloat(this.props.component[i].thickness);
            
@@ -269,8 +283,9 @@ console.log("mouse pressed");
             var new_radius=r1+r2;
             */
                         
-            if (this.head_no==0  && this.first==0)
-            {
+           // if (this.head_no==0  && this.first==0)
+           if(this.props.component[i].position==='0') 
+           {
               console.log(major,minor,major-head_thickness,minor-minor/3);
               let inner_maj=major-head_thickness;
               var head1 = new SpheroidHeadBufferGeometry(major,minor,inner_maj,minor-minor/3,400);
@@ -286,11 +301,12 @@ console.log("mouse pressed");
               this.scene.add(grouper);
               this.shapes.push(head);
               this.first=this.first+1;
-              this.props.component[i].MHT=null;
+         
               this.head_no=1;
          
             }
-            else if (this.first!=0)
+            //else if (this.first!=0)
+            else 
             {
               var head1 = new SpheroidHeadBufferGeometry(major,minor,major-head_thickness,minor-head_thickness,400);
               var material = new THREE.MeshPhongMaterial( { color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide});
@@ -305,7 +321,7 @@ console.log("mouse pressed");
               grouper2.add(head);
               grouper2.translateY(this.height_position);
               this.scene.add(grouper2);
-              this.props.component[i].MHT=null;
+        
               //head.translateY(this.height_position);
             }
            // this.radial_position=rad;
@@ -319,7 +335,7 @@ console.log("mouse pressed");
            
            if(this.props.component[i].component==="Nozzle" && this.props.component[i].type_name==="LWN"){
 
-            var length=this.props.component[i].length;
+            var length=this.props.component[i].externalNozzleProjection;
             var orientation=this.props.component[i].orientation;            
             var orientation_in_rad=(orientation/180)*math.pi;
             var nozzle_height=this.props.component[i].height;
@@ -370,10 +386,10 @@ console.log("mouse pressed");
            
           
           }
-          if(this.camera)
-          {
-            this.camera.position.z=(this.length+rad)*1.8;
-            }
+          // if(this.camera)
+          // {
+          //   this.camera.position.z=(this.length+rad)*1.8;
+          //   }
         
       }
 

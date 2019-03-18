@@ -22,6 +22,7 @@ class Menu extends Component {
         switch (e) {
             case "Cylinder":
             case "Ellipsoidal Head":
+            case "Conical":
             case "Nozzle":
                 this.props.importModel(e, 1);
                 break;

@@ -13,7 +13,7 @@ const initialState = {
 };
 
 const onDataSend = (state, action) => {
-    console.log("insdie onDataSend");
+    console.log("inside onDataSend");
     console.log(action);
 
     // state.component.push(action.component);
