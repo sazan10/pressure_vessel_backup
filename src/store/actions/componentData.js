@@ -79,7 +79,7 @@ export const onSubmitAndUpdate = (data, id) => {
         headers: headers
       })
       .then(response => {
-        console.log(response.data);
+        console.log("Response", response.data);
         if (response.data.thicknesss !== null) {
           const data1 = {
             ...data,
