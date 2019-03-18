@@ -26,45 +26,6 @@ export const dataUpdate = (data) => {
   }
 }
 
-export const onDataSend = (data, id) => {
-
-  return dispatch => {
-    console.log(data);
-    let url = "/api/cylinder/data";
-    let data1 = null;
-    if (data.component === "Cylinder") {
-      console.log("Inside Cylinder");
-      data1 = {
-        cylinderParam: data,
-        projectID: id
-      };
-    } else if (data.component === "Ellipsoidal Head") {
-      console.log("Inside Head");
-      data1 = {
-        headParam: data,
-        projectID: id
-      };
-      url = "/api/head/data";
-    } else if (data.component === "Nozzle") {
-      console.log("Inside Nozzle");
-      data1 = {
-        nozzleParam: data,
-        projectID: id
-      };
-      url = "/api/nozzle/data";
-    }
-    console.log(data1);
-
-    const token = localStorage.getItem("token");
-    // console.log(token);
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": "JWT " + token
-    };
-    dispatch(axiosDataSend(data1, url, headers));
-  }
-};
-
 export const onSubmitAndUpdate = (data, id) => {
   return dispatch => {
     let url = null;
