@@ -18,6 +18,7 @@ export {
 export {
     onDataSendFail,
     dataUpdate,
+    dataUpdate1,
     updateComponentID,
     updateComponent,
     onSubmitAndUpdate,

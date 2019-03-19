@@ -20,6 +20,14 @@ const onDataSend = (state, action) => {
     return updateObject(state, { thickness: action.resp });
 };
 
+const updateData1 = (state, action) => {
+    console.log("inside onDataSend");
+    console.log(action);
+
+    // state.component.push(action.component);
+   
+    return updateObject(state, {height: action.height });
+};
 const onDataSendFail = (state, action) => {
     return updateObject(state, { error: action.error });
 };
@@ -120,6 +128,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.REPORT_FAIL: return reportFail(state, action);
         case actionTypes.REQUEST_REPORT: return requestReport(state, action);
         case actionTypes.DOWNLOAD_REPORT: return downloadReport(state, action);
+        case actionTypes.DATA_UPDATE1: return updateData1(state,action);
         default:
             return state;
     }

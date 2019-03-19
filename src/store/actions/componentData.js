@@ -18,15 +18,26 @@ export const onDataSendTo = (response, data) => {
   };
 };
 
-export const dataUpdate = (data, componentID) => {
-
+export const dataUpdate1 = (data, componentID,height1) => {
+ 
+console.log("height compo",data);
+//onsole.log("data",data);
   return {
-    type: actionTypes.DATA_UPDATE,
-    data: data,
+    type: actionTypes.DATA_UPDATE1,
+    data : data,
+    height:height1,
     componentID: componentID
+
   }
 }
 
+export const dataUpdate = (data, componentID) => {
+    return {
+      type: actionTypes.DATA_UPDATE,
+      data : data,
+      componentID: componentID
+    }
+  }
 export const onSubmitAndUpdate = (data, id, componentID) => {
   return dispatch => {
     let url = null;

@@ -39,6 +39,7 @@
     "for": "^0.1.0",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "7.0.0",
+    "get-closest": "0.0.4",
     "html-webpack-plugin": "4.0.0-alpha.2",
     "i": "^0.3.6",
     "identity-obj-proxy": "3.0.0",

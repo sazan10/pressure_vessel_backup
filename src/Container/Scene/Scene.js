@@ -11,6 +11,10 @@ import Saddle from '../../Components/Parts/Saddle';
 import Standard_nozzle from '../../Components/Parts/Standard_nozzle';
 import comparator from './comparator';
 import math from 'mathjs';
+import height_checker from './height_checker';
+import getClosest from 'get-closest'
+import height_comparator from './height_comparator';
+import returnKey from './returnKey';
 
 import {
   connect
@@ -35,7 +39,7 @@ class Scene extends Component {
       0.1,
       1000000
     );
-    this.camera.position.z = 50;
+    this.camera.position.z = 400;
     console.log("scene rendered completely");
     //ADD SCENE
     //   document.addEventListener( 'click', this.onDocumentMouseDown, false );
@@ -78,15 +82,17 @@ class Scene extends Component {
     // this.mesh=Shell();
     // this.mesh.translateX(1.5);
     // this.scene.add(this.mesh);
-    this.axesHelper = new THREE.AxesHelper(200);
+    this.axesHelper = new THREE.AxesHelper(1000);
     this.scene.add(this.axesHelper);
     //this.scene.add(this.mesh2);
     console.log("component", this.props.component);
     this.shell_diameter = 0;
     this.length = 0;
     this.lengths = [];
+    this.heights = {};
     this.cylinder_lengths = [];
     this.first_shell = true;
+    this.heights_only=[];
     this.start();
 
 
@@ -225,6 +231,19 @@ class Scene extends Component {
             console.log("before adddition of cylinder", this.height_position);
             if (this.first_shell) {
               this.height_position = this.height_position + this.length / 2;
+              if (!height_checker(this.props.component[i])) {
+                {if(!(this.props.component[i].componentID in this.heights))
+                  {
+                    
+                  this.heights[this.props.component[i].componentID]= this.height_position;
+                  };
+
+                  //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+                }
+              
+                //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+              }
+              console.log("height present or not", height_checker(this.props.component[i]));
               this.first_shell = false;
             } else if ((i - 1) >= 0) {
               console.log("number of cylinders in array", this.props.component.filter(comparator).length);
@@ -243,6 +262,19 @@ class Scene extends Component {
                 // var ringmesh = new THREE.Mesh( ringgeometry, ringmaterial );
                 let lengths = this.props.component[i].length; //length of current cylinder
                 this.height_position = this.height_position + this.cylinder_lengths[i - 1] / 2 + lengths / 2; //update height position 
+                console.log("height present or not", height_checker(this.props.component[i]), this.height_position);
+                if (!height_checker(this.props.component[i])) {
+                  {if(!(this.props.component[i].componentID in this.heights))
+                    {
+                     
+                    this.heights[this.props.component[i].componentID]= this.height_position;
+                    };
+  
+                    //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+                  }
+                
+                  //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+                }
                 //ringmesh.translateY(this.height_position-this.length/2).rotateX(math.pi/2);
                 ringgeometry.translateY(this.height_position - this.length / 2);
 
@@ -322,6 +354,20 @@ class Scene extends Component {
 
               this.head_no = 1;
 
+
+              if (!height_checker(this.props.component[i])) {
+                {if(!(this.props.component[i].componentID in this.heights))
+                  {
+                   
+                  this.heights[this.props.component[i].componentID]= this.height_position;
+                  };
+
+                  //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+                }
+              
+                //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+              }
+
             }
             //else if (this.first!=0)
             else {
@@ -335,16 +381,42 @@ class Scene extends Component {
               //this.height_position=this.height_position-r2+this.length/2;
               //head.translateY(this.height_position);
               this.height_position = this.height_position + this.length / 2 + srl / 2;
+              console.log("height present or not", height_checker(this.props.component[i]));
+              if (!height_checker(this.props.component[i])) {
+                {if(!(this.props.component[i].componentID in this.heights))
+                  {
+                    
+                  this.heights[this.props.component[i].componentID]= this.height_position;
+                  };
+
+                  //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+                }
+              
+                //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+              }
               var grouper2 = new THREE.Group();
-              var flange2 = Shell(head_thickness, this.shell_diameter, this.shell_diameter,srl, this.material);
+              var flange2 = Shell(head_thickness, this.shell_diameter, this.shell_diameter, srl, this.material);
               head.translateY(srl / 2);
               grouper2.add(flange2);
               grouper2.add(head);
               grouper2.translateY(this.height_position);
               this.scene.add(grouper2);
+              if (!height_checker(this.props.component[i])) {
+                {if(!(this.props.component[i].componentID in this.heights))
+                  {
+                   
+                  this.heights[this.props.component[i].componentID]= this.height_position;
+                  };
+
+                  //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+                }
+              
+                //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+              }
 
               //head.translateY(this.height_position);
             }
+            
             // this.radial_position=rad;
 
             if (this.camera) {
@@ -354,10 +426,31 @@ class Scene extends Component {
 
             if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "LWN") {
 
+
+
               var length = this.props.component[i].externalNozzleProjection;
               var orientation = this.props.component[i].orientation;
               var orientation_in_rad = (orientation / 180) * math.pi;
               var nozzle_height = this.props.component[i].height;
+          
+              for (var key in this.heights) {
+                console.log("key value",this.heights[key]);
+                let i =this.heights[key];
+                console.log(i);
+                this.heights_only.splice(key,0,i);
+               
+              }
+              
+
+              console.log("heights only",this.heights_only);
+              let closest_index = getClosest.number(nozzle_height, this.heights_only);
+              console.log("heights",this.heights);
+              let closest_value = this.heights[closest_index];
+              console.log("closest value", closest_value,closest_index);
+              let index_key=returnKey(this.heights,closest_value);
+              console.log("index_key",index_key);
+              //console.log("nozlle height",this.props.component.filter(height_comparator(nozzle_height)));
+              //console.log("closest hidht",closest_height);
               var nozzle = new THREE.Mesh();
               var barrel_outer_diameter = this.props.component[i].value.barrel_outer_diameter;
               var bolt_circle_diameter = this.props.component[i].value.blot_circle_diameter;
@@ -371,7 +464,8 @@ class Scene extends Component {
               var nut_stop_diameter = this.props.component[i].value.nut_stop_diameter;
               var raised_face_diameter = this.props.component[i].value.raised_face_diameter;
               var raised_face_thickness = this.props.component[i].value.raised_face_thickness;
-              let shell_rad = this.shell_diameter / 2;
+              //let shell_rad = this.shell_diameter / 2;
+              let shell_rad = this.props.component[index_key].sd / 2;
               let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
               let x_displace = (shell_rad) * math.cos(phi);
               console.log("this.shell_diameter", this.shell_diameter, "barrel_out_diameter", barrel_outer_diameter, "nozzle_position", phi / 3.124 * 180, x_displace);
@@ -384,6 +478,20 @@ class Scene extends Component {
               // nozzle.translateX(x_displace).translateY(nozzle_height).rotateY(-orientation_in_rad);
               console.log("nozzle", nozzle);
               this.scene.add(nozzle);
+
+              if (!height_checker(this.props.component[i])) {
+                {if(!(this.props.component[i].componentID in this.heights))
+                  {
+                   
+                  this.heights[this.props.component[i].componentID]= this.height_position;
+                  };
+
+                  //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+                }
+              
+                //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+              }
+              
 
             }
             if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "HB") {
@@ -400,7 +508,18 @@ class Scene extends Component {
               console.log("nozzle", nozzle);
               this.scene.add(nozzle);
 
+              if (!height_checker(this.props.component[i])) {
+                {if(!(this.props.component[i].componentID in this.heights))
+                  {
+                   
+                  this.heights[this.props.component[i].componentID]= this.height_position;
+                  };
 
+                  //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+                }
+              
+                //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+              }
             }
             // if(this.camera)
             // {
@@ -416,6 +535,20 @@ class Scene extends Component {
             let skirt = Shell(thickness, sd, sd, length);
             skirt.translateY(-length);
             this.scene.add(skirt);
+
+
+            if (!height_checker(this.props.component[i])) {
+              {if(!(this.props.component[i].componentID in this.heights))
+                {
+                 
+                this.heights[this.props.component[i].componentID]= this.height_position;
+                };
+
+                //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+              }
+            
+              //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+            }
           }
 
 
@@ -457,5 +590,15 @@ const mapStateToProps = state => {
 //     };
 // };
 
+const mapDispatchToProps = dispatch => {
+  return {
 
-export default connect(mapStateToProps, null)(Scene);
+    onDataUpdateonDataUpdate: (data, componentID, height) => {
+      console.log("height value compo", height);
+      dispatch(actions.dataUpdate1(data, componentID, height))
+    }
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Scene);
