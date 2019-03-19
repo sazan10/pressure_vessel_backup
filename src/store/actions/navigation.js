@@ -10,6 +10,12 @@ export const clickMenu = (title, id, stateKey) => {
   };
 };
 
+export const disableNew = () => {
+  return {
+    type: actionTypes.DISABLE_NEW
+  }
+}
+
 export const importModel = (title, num) => {
   return dispatch => {
     // console.log("Inside actions " + title );

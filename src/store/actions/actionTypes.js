@@ -1,5 +1,6 @@
 export const CLICK_MENU = 'CLICK_MENU';
 
+export const DISABLE_NEW = 'DISABLE_NEW';
 export const AUTH_START = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAIL = 'AUTH_FAIL';
@@ -20,6 +21,8 @@ export const DATA_UPDATE1 = 'DATA_UPDATE1';
 export const ID_UPDATE = 'ID_UPDATE';
 
 export const COMPONENT_UPDATE = 'COMPONENT_UPDATE';
+
+export const SEND_COMPONENT_ID = 'SEND_COMPONENT_ID';
 
 export const LOAD_NEXT = 'LOAD_NEXT';
 export const LOAD_PREVIOUS = 'LOAD_PREVIOUS';

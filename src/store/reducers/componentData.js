@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
+import { sendComponentID } from '../actions';
 
 const initialState = {
     component: [],
@@ -54,9 +55,9 @@ const updateData = (state, action) => {
             ...state.component
         ];
         // 
-        for (let i = 0; i < num; i++) {
-            data.push(comp);
-        }
+        // for (let i = 0; i < num; i++) {
+        data.push(comp);
+        // }
         console.log(data);
     } else if (action.data.component === "Nozzle") {
         console.log("NOZZLE");
@@ -92,7 +93,7 @@ const updateData = (state, action) => {
 }
 
 const idUpdate = (state, action) => {
-    return updateObject(state, {componentID: action.id});
+    return updateObject(state, { componentID: action.id });
 }
 
 const componentUpdate = (state, action) => {
@@ -102,8 +103,9 @@ const componentUpdate = (state, action) => {
     ];
     data[action.data.componentID] = action.data;
     console.log(data);
-    return updateObject(state, {component: data});
+    return updateObject(state, { component: data });
 }
+
 
 const reportFail = (state, action) => {
     return updateObject(state, { error: action.error })

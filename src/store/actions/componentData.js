@@ -1,6 +1,6 @@
 import axios from "../../axios-orders";
 import * as actionTypes from "./actionTypes";
-
+import base64 from 'base-64';
 
 export const onDataSendFail = error => {
   return {
@@ -57,29 +57,33 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
     if (data.component === "Ellipsoidal Head") {
       data1 = {
         headParam: data,
-        projectID: id
+        projectID: id,
+        componentID: componentID
       };
       url = "/api/head/data";
     } else if (data.component === "Cylinder") {
       url = "/api/cylinder/data";
       data1 = {
         cylinderParam: data,
-        projectID: id
+        projectID: id,
+        componentID: componentID
       };
     } else if (data.component === "Nozzle") {
       url = "/api/nozzle/data";
       data1 = {
         nozzleParam: data,
-        projectID: id
+        projectID: id,
+        componentID: componentID
       };
     }
     else if (data.component === "Conical") {
       url = "/api/conicalCylinder/data";
       data1 = {
         conicalParam: data,
-        projectID: id
+        projectID: id,
+        componentID: componentID
       };
-      
+
     }
     else if (data.component === "Skirt") {
       url = "/api/skirt/data";
@@ -106,17 +110,25 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
             ...data,
             ...{
               thickness: response.data.thickness,
-              value:response.data
+              value: response.data
             }
           };
           if (data.componentID < componentID) {
             console.log("UPDATE COMPONENT");
             dispatch(updateComponent(data1));
           } else {
-            console.log("ADD COMPONENT");
-            dispatch(dataUpdate(data1, componentID));
-            const newID = componentID + 1;
-            dispatch(updateComponentID(newID));
+            if (data1.component === "Cylinder") {
+              console.log("ADD COMPONENT");
+              for (let i = 0; i < data1.number; i++) {
+                dispatch(dataUpdate(data1, componentID));
+                componentID = componentID + 1;
+                dispatch(updateComponentID(componentID));
+              }
+            } else {
+              dispatch(dataUpdate(data1, componentID));
+              componentID = componentID + 1;
+              dispatch(updateComponentID(componentID));
+            }
           }
 
         } else {
@@ -126,6 +138,24 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
       .catch(err => {
         dispatch(onDataSendFail(err.response));
       });
+  }
+}
+
+export const sendComponentID = (componentType, componentID, projectID) => {
+
+  return dispatch => {
+    const data = {
+      type: componentType,
+      react_component_id: componentID,
+      projectID: projectID
+    };
+    const token = localStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": "JWT " + token
+    };
+    const url = '/api/components/'
+    dispatch(axiosDataSend(data, url, headers));
   }
 }
 
@@ -150,9 +180,9 @@ export const axiosDataSend = (data, url, headers) => {
         headers: headers
       })
       .then(response => {
-        console.log(response.data);
-        dispatch(onDataSendTo(response.data.thickness, data));
-        console.log("after dispatch");
+        // console.log(response.data);
+        // dispatch(onDataSendTo(response.data.thickness, data));
+        // console.log("after dispatch");
       })
       .catch(err => {
         dispatch(onDataSendFail(err.response));
@@ -230,8 +260,13 @@ export const downloadReport = (id) => {
       .then(response => {
         console.log("Inside axios post");
         console.log(response.data);
-        const reportUrl = "http://192.168.1.12:8000/" + response.data;
-        // const pdfData = base64.decode(response.data);
+        const reportUrl = "http://192.168.1.21:8000/" + response.data;
+
+
+        let pdfData = base64.decode(response.data);
+        console.log(pdfData);
+        // const d = pdfData.decode('utf-8');
+        // console.log(d);
         // const pdfData = pako.deflate(response.data);
         // console.log(pdfData);
         // const file = new Blob(
