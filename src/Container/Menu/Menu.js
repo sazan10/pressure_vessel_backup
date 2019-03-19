@@ -26,10 +26,13 @@ class Menu extends Component {
             case "Skirt":
             case "Nozzle":
                 this.props.importModel(e, 1);
+                this.props.sendComponentID(e, this.props.componentID, this.props.projectID);
                 break;
             case "New":
                 this.props.requestReport();
                 break;
+            case "Print":
+                this.props.downloadReport(this.props.projectID);
         }
     }
 
@@ -64,23 +67,21 @@ class Menu extends Component {
     }
 }
 
-// const mapStateToProps = state => {
-//     return {
-//         loading: state.auth.loading,
-//         error: state.auth.error,
-//         isAuthenticated: state.auth.token !== null,
-//         authRedirectPath: state.auth.authRedirectPath,
-//         error: state.auth.error,
-//         model: state.auth.model
-//     };
-// };
+const mapStateToProps = state => {
+    return {
+        componentID: state.componentData.componentID,
+        projectID: state.componentData.projectID
+    };
+};
 
 const mapDispatchToProps = dispatch => {
     return {
         onMenuClick: ( title) => dispatch( actions.clickMenu( title) ),
         requestReport: () => dispatch(actions.requestReport()),
-        importModel: (title, num) => dispatch(actions.importModel(title, num))
+        downloadReport: (projectID) => dispatch(actions.downloadReport(projectID)),
+        importModel: (title, num) => dispatch(actions.importModel(title, num)),
+        sendComponentID : (componentType, componentID, projectID) =>  dispatch(actions.sendComponentID(componentType, componentID, projectID))
     };
 };
 
-export default connect(null, mapDispatchToProps)(Menu);
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);

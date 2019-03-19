@@ -1,6 +1,7 @@
 export {
     clickMenu,
     importModel,
+    disableNew,
     returnModel,
     loadNext,
     loadPrevious,
@@ -21,6 +22,7 @@ export {
     updateComponentID,
     updateComponent,
     onSubmitAndUpdate,
+    sendComponentID,
     axiosDataSend,
     requestReport,
     downloadReport,

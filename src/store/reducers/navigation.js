@@ -7,7 +7,8 @@ const initialState = {
     id: null,
     stateKey: null,
     model: null,
-    num: 1
+    num: 1,
+    new: false
 };
 
 const clickMenu = ( state, action ) => {
@@ -15,8 +16,12 @@ const clickMenu = ( state, action ) => {
 };
 
 const importModel = (state, action) => {
-    return updateObject(state,{model: action.model});
+    return updateObject(state,{model: action.model, new: true});
 };
+
+const disableNew = (state, actions) => {
+    return updateObject(state, {new: false});
+}
 
 const loadNext = (state, action) => {
     return updateObject(state,{previousTitle: state.title, title: action.title,num: action.num});
@@ -34,6 +39,7 @@ const reducer = ( state = initialState, action ) => {
     
     switch ( action.type ) {
         case actionTypes.CLICK_MENU: return clickMenu(state, action);
+        case actionTypes.DISABLE_NEW: return disableNew(state, action);
         case actionTypes.IMPORT_MODEL: return importModel(state, action);
         case actionTypes.LOAD_NEXT: return loadNext(state, action);
         case actionTypes.LOAD_PREVIOUS: return loadPrevious(state, action);
