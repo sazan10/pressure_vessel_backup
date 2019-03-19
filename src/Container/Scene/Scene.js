@@ -7,7 +7,7 @@ import Head from '../../Components/Parts/Head';
 import Curve_nozzle from '../../Components/Parts/Curve_nozzle';
 import Saddle from '../../Components/Parts/Saddle';
 import Standard_nozzle from '../../Components/Parts/Standard_nozzle';
-
+import  comparator from './comparator';
 import math from 'mathjs';
 
 import {connect} from 'react-redux';
@@ -29,7 +29,7 @@ class Scene extends Component {
         0.1,
         1000000
       );
-      this.camera.position.z = 5;
+      this.camera.position.z = 50;
             console.log("scene rendered completely");
       //ADD SCENE
    //   document.addEventListener( 'click', this.onDocumentMouseDown, false );
@@ -62,7 +62,7 @@ class Scene extends Component {
       this.material = new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });
       this.first=0;
       this.head_no=0;
-      this.height_position=0;
+
       this.radial_position=0;
       // this.mesh= new THREE.Mesh();
       // this.mesh=Shell();
@@ -155,6 +155,7 @@ console.log("mouse pressed");
         this.frameId = window.requestAnimationFrame(this.animate);
       }
     
+
       renderScene = () => {
         this.renderer.render(this.scene, this.camera);
       }
@@ -164,6 +165,7 @@ console.log("mouse pressed");
           this.height_position=0;
         var scaler=0;
         //console.log("component",this.props.component);
+        console.log("NEW LOOP");
         if(this.props.component.length>=0)
         {
           
@@ -190,7 +192,7 @@ console.log("mouse pressed");
           }
           this.shell_diameter=diameter_bot;
           this.length=parseFloat(this.props.component[i].length);
-          this.cylinder_lengths.push(this.lengths);
+          this.cylinder_lengths.push(this.length);
           this.lengths.push(this.length);
           var number=parseFloat(this.props.component[i].number);
           var thickness =parseFloat(this.props.component[i].thickness);
@@ -218,16 +220,19 @@ console.log("mouse pressed");
                     }
                 else if((i-1)>=0)
                 {
+                  console.log("number of cylinders in array",this.props.component.filter(comparator).length);
                 
-               if (this.props.component[i-1].component==="Cylinder" || !this.first_shell || this.props.component[i-1]==="Conical"){
+             //  if (this.props.component[i-1].component==="Cylinder" || !this.first_shell || this.props.component[i-1]==="Conical"){
+             if(!this.first_shell && this.props.component.filter(comparator).length>=2){  
+             console.log("before clac",this.height_position);
                   //var ringgeometry = new THREE.RingGeometry((parseFloat(this.props.component[i-1].sd)/2) , (parseFloat(this.props.component[i-1].sd)/2)+parseFloat(this.props.component[i-1].thickness)+3,400);
                   var ringmaterial = new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide } );
-                  let diameter=(parseFloat(this.props.component[i-1].sd)+parseFloat(this.props.component[i-1].thickness)) || (parseFloat(this.props.component[i-1].sd_l)+parseFloat(this.props.component[i-1].thickness));
-                  let ringgeometry= Shell(1,diameter,diameter,10,ringmaterial);
+                  let diameter=(parseFloat(this.props.component[i].sd)+parseFloat(this.props.component[i].thickness)) || (parseFloat(this.props.component[i].sd_s)+parseFloat(this.props.component[i].thickness));
+                  let ringgeometry= Shell(1,diameter,diameter,1,ringmaterial);
                 
                  // var ringmesh = new THREE.Mesh( ringgeometry, ringmaterial );
-                  let lengths= this.props.component[i-1].length;
-                  this.height_position=this.height_position+this.length/2+lengths/2;
+                  let lengths= this.props.component[i].length; //length of current cylinder
+                  this.height_position=this.height_position+this.cylinder_lengths[i-1]/2+lengths/2; //update height position 
                  //ringmesh.translateY(this.height_position-this.length/2).rotateX(math.pi/2);
                  ringgeometry.translateY(this.height_position-this.length/2);
                   
@@ -290,9 +295,11 @@ console.log("mouse pressed");
               let inner_maj=major-head_thickness;
               var head1 = new SpheroidHeadBufferGeometry(major,minor,inner_maj,minor-minor/3,400);
               var material = new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide});
-              var flange=Shell(head_thickness,this.shell_diameter,srl,this.material);
+              var flange=Shell(head_thickness,this.shell_diameter,this.diameter,srl,this.material);
               var head = new THREE.Mesh(head1,material);
               console.log(head);
+              this.height_position=this.height_position;
+              console.log("nannnnnnnn",this.height_position);
               var grouper= new THREE.Group();
               flange.translateY(-srl/2);
               grouper.add(flange)
@@ -391,6 +398,16 @@ console.log("mouse pressed");
           //   this.camera.position.z=(this.length+rad)*1.8;
           //   }
         
+      }
+      if(this.props.component[i].component==="Skirt")
+      {
+        let length=parseFloat(this.props.component[i].length);
+        let sd=parseFloat(this.props.component[i].sd);
+        let thickness=parseFloat(this.props.component[i].thickness);
+        let response=this.props.component[i].value.thicknessResponse;
+        let skirt= Shell(thickness,sd,sd,length);
+        skirt.translateY(-length);
+        this.scene.add(skirt);
       }
 
           

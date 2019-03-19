@@ -32,20 +32,6 @@
         "valid": true
         
     },
-    "ip": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "45 Kpsi"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "45",
-        "label": "Internal Pressure",
-        "step": "any",
-        "valid": true
-    },
     "temp1": {
         "elementType": "input",
         "elementConfig": {
@@ -57,34 +43,6 @@
         },
         "value": "300",
         "label": "Temp1",
-        "step": "any",
-        "valid": true
-    },
-    "ep": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "45 Kpsi"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "300",
-        "label": "External Pressure",
-        "step": "any",
-        "valid": true
-    },
-    "temp2": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "45 Kpsi"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "300",
-        "label": "Temp2",
         "step": "any",
         "valid": true
     },
@@ -102,7 +60,7 @@
         "step": "any",
         "valid": true
     },
-    "sd_l": {
+    "sd": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -112,21 +70,7 @@
             "required": true
         },
         "value": "400",
-        "label": "Shell Diameter Top",
-        "step": "any",
-        "valid": true
-    },
-    "sd_s": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "300 inch"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "300",
-        "label": "Shell Diameter Bottom",
+        "label": "Shell Diameter",
         "step": "any",
         "valid": true
     },
@@ -134,13 +78,13 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "10 feet"
+            "placeholder": "100 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "10",
-        "label": "Length(feet)",
+        "value": "100",
+        "label": "Length",
         "step": "any",
         "valid": true
     },

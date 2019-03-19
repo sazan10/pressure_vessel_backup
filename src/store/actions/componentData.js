@@ -33,6 +33,7 @@ export const onSubmitAndUpdate = (data, id) => {
     console.log("onSUbmitUpdate");
     if (data.material !== undefined) {
       const mat = data.material.split(" ");
+      data.length = data.length * 12;
       data = {
         ...data,
         spec_num: mat[0],
@@ -64,6 +65,14 @@ export const onSubmitAndUpdate = (data, id) => {
       url = "/api/conicalCylinder/data";
       data1 = {
         conicalParam: data,
+        projectID: id
+      };
+      
+    }
+    else if (data.component === "Skirt") {
+      url = "/api/skirt/data";
+      data1 = {
+        skirtParam: data,
         projectID: id
       };
     }

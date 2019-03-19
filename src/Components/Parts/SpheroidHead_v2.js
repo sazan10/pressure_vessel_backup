@@ -134,14 +134,14 @@ function SpheroidHeadBufferGeometry (
     }
     verticesRow.push(lenVerticesSpheroidAndRing);
     grid2.push(verticesRow);
-    console.log(grid);
-    console.log(outerVertices.length/3);
-    console.log(ringVertices.length/3);
-    console.log(lenVerticesSpheroidAndRing);
-    console.log(grid2);
-    console.log(innerVertices);
-    console.log(outerVertices);
-    console.log(ringVertices);
+    // console.log(grid);
+    // console.log(outerVertices.length/3);
+    // console.log(ringVertices.length/3);
+    // console.log(lenVerticesSpheroidAndRing);
+    // console.log(grid2);
+    // console.log(innerVertices);
+    // console.log(outerVertices);
+    // console.log(ringVertices);
     
     const tempArray =[];
     const vertices = tempArray.concat(outerVertices,ringVertices,innerVertices);
@@ -194,14 +194,14 @@ function SpheroidHeadBufferGeometry (
             indices.push(d,c,b);
         }
     }
-    console.log(indices);
+  //  console.log(indices);
 
 	this.setIndex( indices );
     this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
     // this.addAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
     // this.computeVertexNormals();
     this.addAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
-    console.log(normals);
+   // console.log(normals);
     
 }
 
