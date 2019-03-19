@@ -52,14 +52,14 @@ class DynamicForm extends React.Component {
                 [key]: this.state.form[key].value
             }
         }
-        console.log("Data",data);        
+        console.log("Data", data);
 
         let valid = this.state.valid;
         for (let key in this.state.form) {
             valid = valid & (this.state.form[key].valid);
         }
         if (valid) {
-            this.props.onSubmitAndUpdate(data, this.props.projectID);
+            this.props.onSubmitAndUpdate(data, this.props.projectID, this.props.componentID);
             this.setState({ message: null });
         } else {
             this.setState({ message: <p>Data not valid</p> });
@@ -68,8 +68,11 @@ class DynamicForm extends React.Component {
 
     }
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.model !== this.props.model) { 
-            this.setState({form: this.props.model});
+        if (prevProps.model !== this.props.model) {
+            console.log(this.props.model.componentID.placeholder);
+            this.props.model.componentID.placeholder = this.props.componentID;
+            this.props.model.componentID.value = this.props.componentID;
+            this.setState({ form: this.props.model });
         }
     }
 
@@ -130,35 +133,40 @@ class DynamicForm extends React.Component {
                 config: this.state.form[key]
             });
         }
-        // console.log(formElementsArray);
+        // // formElementsArray[0]
+        // if (formElementsArray[0] !== undefined) {
+        //     console.log(formElementsArray[0].config);
+        //     formElementsArray[0].config.placeholder = this.props.componentID;
+        //     formElementsArray[0].config.value = this.props.componentID;
+        // }
         let form = formElementsArray.map(formElement => (
-            <tr key = {formElement.id} >
-            <td style={{width: '60%'}}><label style={{margin: 0}} className={classes.Label}>{formElement.config.label}</label></td>
-            <td><Input style= {{padding: 0}} key = {
-                formElement.id
-            }
-            elementType = {
-                formElement.config.elementType
-            }
-            elementConfig = {
-                formElement.config.elementConfig
-            }
-            value = {
-                formElement.config.value
-            }
-            invalid = {
-                !formElement.config.valid
-            }
-            shouldValidate = {
-                formElement.config.validation
-            }
-            touched = {
-                formElement.config.touched
-            }
-            changed = {
-                (event) => this.inputChangedHandler(event, formElement.id)
-            }
-            /></td>
+            <tr key={formElement.id} >
+                <td style={{ width: '60%' }}><label style={{ margin: 0 }} className={classes.Label}>{formElement.config.label}</label></td>
+                <td><Input style={{ padding: 0 }} key={
+                    formElement.id
+                }
+                    elementType={
+                        formElement.config.elementType
+                    }
+                    elementConfig={
+                        formElement.config.elementConfig
+                    }
+                    value={
+                        formElement.config.value
+                    }
+                    invalid={
+                        !formElement.config.valid
+                    }
+                    shouldValidate={
+                        formElement.config.validation
+                    }
+                    touched={
+                        formElement.config.touched
+                    }
+                    changed={
+                        (event) => this.inputChangedHandler(event, formElement.id)
+                    }
+                /></td>
             </tr>
         ));
         return <table><tbody>{form}</tbody></table>;
@@ -170,14 +178,14 @@ class DynamicForm extends React.Component {
         let title = this.props.title || "Dynamic Form";
         // console.log(this.props.model);
 
-        return ( 
+        return (
             <div >
-            <form onSubmit={this.onSubmitHandler}>
+                <form onSubmit={this.onSubmitHandler}>
                     {this.renderForm()}
                     {this.state.message}
-                    
+
                     <Button btnType="Success" disabled="true">SUBMIT</Button>
-            </form>
+                </form>
             </div>
         )
     }
@@ -190,14 +198,15 @@ const mapStateToProps = state => {
         num: state.navigation.num,
         thickness: state.componentData.thickness,
         projectID: state.componentData.projectID,
-        error: state.componentData.error
+        error: state.componentData.error,
+        componentID: state.componentData.componentID
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         importModel: (title, num) => dispatch(actions.importModel(title, num)),
-        onSubmitAndUpdate: (data, id) => dispatch(actions.onSubmitAndUpdate(data, id))
+        onSubmitAndUpdate: (data, id, componentID) => dispatch(actions.onSubmitAndUpdate(data, id, componentID))
     };
 };
 

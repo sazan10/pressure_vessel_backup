@@ -16,6 +16,10 @@ export const DATA_SEND_FAIL = 'DATA_SEND_FAIL';
 
 export const DATA_UPDATE = 'DATA_UPDATE';
 
+export const ID_UPDATE = 'ID_UPDATE';
+
+export const COMPONENT_UPDATE = 'COMPONENT_UPDATE';
+
 export const LOAD_NEXT = 'LOAD_NEXT';
 export const LOAD_PREVIOUS = 'LOAD_PREVIOUS';
 

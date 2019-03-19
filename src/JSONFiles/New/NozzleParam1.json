@@ -1,4 +1,17 @@
 {
+  "componentID": {
+    "elementType": "input",
+    "elementConfig": {
+      "type": "input",
+      "placeholder": "0"
+    },
+    "validation": {
+      "required": true
+    },
+    "value": "0",
+    "label": "Component ID",
+    "valid": true
+  },
   "material": {
     "elementType": "select",
     "elementConfig": {

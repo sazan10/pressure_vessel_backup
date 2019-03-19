@@ -18,6 +18,8 @@ export {
 export {
     onDataSendFail,
     dataUpdate,
+    updateComponentID,
+    updateComponent,
     onSubmitAndUpdate,
     axiosDataSend,
     requestReport,
