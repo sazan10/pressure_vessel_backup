@@ -22,7 +22,6 @@ var cylinder2 = new THREE.CylinderGeometry(radius_bot+thickness, radius_top+thic
 var cylinderMesh2 = new THREE.Mesh(cylinder2, mat);
  
 var cylinder2CSG=toCSG(cylinderMesh2);
-console.log("thickness:",thickness, "radius:",radius_bot,"length:",length);
 //result
 var subtractCSG = cylinder2CSG.subtract( cylinderCSG );
 var result = fromCSG(subtractCSG); // converting CSG back into ThreeJS object

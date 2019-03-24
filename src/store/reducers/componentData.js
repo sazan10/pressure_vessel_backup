@@ -14,17 +14,11 @@ const initialState = {
 };
 
 const onDataSend = (state, action) => {
-    console.log("inside onDataSend");
-    console.log(action);
-
     // state.component.push(action.component);
     return updateObject(state, { thickness: action.resp });
 };
 
 const updateData1 = (state, action) => {
-    console.log("inside onDataSend");
-    console.log(action);
-
     // state.component.push(action.component);
    
     return updateObject(state, {height: action.height });
@@ -34,15 +28,11 @@ const onDataSendFail = (state, action) => {
 };
 
 const updateData = (state, action) => {
-    console.log("Inside update Data (Before)", state, action);
     let data = null;
     let comp = action.data;
     const componentID = action.componentID;
-    console.log(componentID);
-    console.log(action);
     if (action.data.component === "Cylinder") {
         // let comp = action.data;
-        console.log("CYLINDER");
         const num = action.data.number;
         // const num = 1;
         try {
@@ -58,9 +48,28 @@ const updateData = (state, action) => {
         // for (let i = 0; i < num; i++) {
         data.push(comp);
         // }
+    } else if  (action.data.component === "Conical") {
+        // let comp = action.data;
+        const num = action.data.number;
+        // const num = 1;
+        try {
+            comp = updateObject(comp, { thickness: action.data.thickness.toString(), componentID: action.componentID });
+        }
+        catch (err) {
+            console.log(err);
+        }
+        data = [
+            ...state.component
+        ];
+        // 
+        // for (let i = 0; i < num; i++) {
+        data.push(comp);
+        // }
         console.log(data);
-    } else if (action.data.component === "Nozzle") {
-        console.log("NOZZLE");
+    }
+    
+    
+    else if (action.data.component === "Nozzle") {
         try {
             comp = updateObject(comp, { componentID: action.componentID });
         }
@@ -72,23 +81,29 @@ const updateData = (state, action) => {
         ];
         data.push(action.data);
     }
-    else {
-        console.log("ELIPSOIDAL HEAD");
+    else if (action.data.component === "Skirt") {
+        try {
+            comp = updateObject(comp, { componentID: action.componentID });
+        }
+        catch (err) {
+            console.log(err);
+        }
+        data = [
+            ...state.component
+        ];
+        data.push(action.data);
+    }
+    else if(action.data.component==="Ellipsoidal Head"){
         let comp = action.data;
         try { comp = updateObject(comp, { thickness: action.data.thickness.toString(), componentID: action.componentID }) }
         catch (err) {
             console.log(err);
         }
-        console.log("aa", comp, data, state.component);
         data = [
             ...state.component
         ]
-        console.log("aaaa");
         data.push(comp);
-        console.log("aaaaaa");
     }
-    console.log("hello fuckers");
-    console.log(componentID);
     return updateObject(state, { component: data });
 }
 
@@ -102,7 +117,6 @@ const componentUpdate = (state, action) => {
         ...state.component
     ];
     data[action.data.componentID] = action.data;
-    console.log(data);
     return updateObject(state, { component: data });
 }
 
