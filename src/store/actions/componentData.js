@@ -1,6 +1,8 @@
 import axios from "../../axios-orders";
 import * as actionTypes from "./actionTypes";
 import base64 from 'base-64';
+import pako from 'pako';
+import FileSaver from 'file-saver';
 
 export const onDataSendFail = error => {
   return {
@@ -252,21 +254,22 @@ export const downloadReport = (id) => {
         const reportUrl = "http://192.168.1.21:8000/" + response.data;
 
 
-        let pdfData = base64.decode(response.data);
-        console.log(pdfData);
+        // let pdfData = base64.decode(response.data);
+        // console.log(pdfData);
         // const d = pdfData.decode('utf-8');
         // console.log(d);
-        // const pdfData = pako.deflate(response.data);
+        const pdfData = pako.deflate(response.data);
         // console.log(pdfData);
-        // const file = new Blob(
-        //   [pdfData], 
-        //   {type: 'application/pdf'});
+        const file = new Blob(
+          [response.data], 
+          {type: 'application/pdf'});
         // Download(file, "report.pdf");
-
-        // const fileURL = URL.createObjectURL(file);
+        FileSaver.saveAs(file, "hello.pdf");
+        const fileURL = URL.createObjectURL(file);
+        window.open(fileURL);
         // console.log(response);
 
-        window.open(reportUrl);
+        // window.open(reportUrl);
         // const file = new Blob(
         //   [response.data],
         //   { type: 'application/pdf' });

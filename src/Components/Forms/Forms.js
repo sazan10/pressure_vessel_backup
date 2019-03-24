@@ -75,6 +75,8 @@ class DynamicForm extends React.Component {
             this.props.model.componentID.value = this.props.componentID;
             this.setState({ form: this.props.model });
         }
+
+        // if(this.state.)
     }
 
     checkValidity(value, rules) {

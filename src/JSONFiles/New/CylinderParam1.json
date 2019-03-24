@@ -50,13 +50,13 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "45 Kpsi"
+            "placeholder": "300 Kpsi"
         },
         "validation": {
             "required": true
         },
-        "value": "45",
-        "label": "Internal Pressure",
+        "value": "300",
+        "label": "Internal Pressure (Kpsi)",
         "step": "any",
         "valid": true
     },
@@ -70,7 +70,7 @@
             "required": true
         },
         "value": "300",
-        "label": "Temp1",
+        "label": "Temp1 (F)",
         "step": "any",
         "valid": true
     },
@@ -84,7 +84,7 @@
             "required": true
         },
         "value": "300",
-        "label": "External Pressure",
+        "label": "External Pressure (Kpsi)",
         "step": "any",
         "valid": true
     },
@@ -98,7 +98,7 @@
             "required": true
         },
         "value": "300",
-        "label": "Temp2",
+        "label": "Temp2 (F)",
         "step": "any",
         "valid": true
     },
@@ -112,7 +112,7 @@
             "required": true
         },
         "value": "0.125",
-        "label": "Corrosion Internal",
+        "label": "Corrosion Internal (inch)",
         "step": "any",
         "valid": true
     },
@@ -120,13 +120,13 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "50 inch"
+            "placeholder": "72 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "300",
-        "label": "Shell Diameter",
+        "value": "72",
+        "label": "Shell Diameter (inch)",
         "step": "any",
         "valid": true
     },
@@ -140,7 +140,7 @@
             "required": true
         },
         "value": "10",
-        "label": "Length(feet)",
+        "label": "Length (feet)",
         "step": "any",
         "valid": true
     },
@@ -154,7 +154,7 @@
             "required": true
         },
         "value": "0.5",
-        "label": "Thickness",
+        "label": "Thickness (inch)",
         "step": "any",
         "valid": true
     },

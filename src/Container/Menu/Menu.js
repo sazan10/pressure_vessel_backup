@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Menuu from '../../Components/UI/Menu/Menu';
+import Icon from '@material-ui/core/Icon';
 import IconNavbar from '../../Components/UI/IconNavbar/IconNavbar';
 import { connect } from 'react-redux';
 import * as data from "../../JSONFiles/File.json";

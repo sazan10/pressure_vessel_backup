@@ -53,7 +53,7 @@
       "required": true
     },
     "value": "45",
-    "label": "Design Pressure",
+    "label": "Design Pressure (Kpsi)",
     "step": "any",
     "valid": true
   },
@@ -67,7 +67,7 @@
       "required": true
     },
     "value": "300",
-    "label": "Temp1",
+    "label": "Temp1 (F)",
     "step": "any",
     "valid": true
   },
@@ -136,7 +136,7 @@
       "required": true
     },
     "value": "90",
-    "label": "Orientation",
+    "label": "Orientation (D)",
     "step": "any",
     "valid": true
   },
@@ -144,13 +144,13 @@
     "elementType": "input",
     "elementConfig": {
       "type": "input",
-      "placeholder": "10"
+      "placeholder": "10 Feet"
     },
     "validation": {
       "required": true
     },
     "value": "10",
-    "label": "Height",
+    "label": "Height (Feet)",
     "step": "any",
     "valid": true
   },
@@ -200,13 +200,13 @@
     "elementType": "input",
     "elementConfig": {
       "type": "input",
-      "placeholder": "10"
+      "placeholder": "10 inch"
     },
     "validation": {
       "required": true
     },
     "value": "10",
-    "label": "Cylinder Diameter",
+    "label": "Cylinder Diameter (inch)",
     "step": "any",
     "valid": true
   },
@@ -220,7 +220,7 @@
       "required": true
     },
     "value": "10",
-    "label": "Cylinder Thickness",
+    "label": "Cylinder Thickness (inch)",
     "step": "any",
     "valid": true
   },
@@ -234,7 +234,7 @@
       "required": true
     },
     "value": "0.125",
-    "label": "Nozzle Diameter",
+    "label": "Nozzle Diameter (inch)",
     "step": "any",
     "valid": true
   },
@@ -248,7 +248,7 @@
         "required": true
       },
       "value": "0.125",
-      "label": "corrosion Allowance",
+      "label": "corrosion Allowance (inch)",
       "step": "any",
       "valid": true
 
