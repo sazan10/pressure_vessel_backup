@@ -95,7 +95,6 @@ var result = fromCSG(subtractCSG); // converting CSG back into ThreeJS object
  var mesh_test= new THREE.Mesh(result,material);
  mesh_test.translateX(translateX).translateY(translateY).translateZ(translateZ).rotateX(rotateX).rotateY(rotateY).rotateZ(rotateZ);
 //result.geometry.computeVertexNormals();
- console.log("result",result);
 //this.scene.add( mesh_test);
 return mesh_test;
     }

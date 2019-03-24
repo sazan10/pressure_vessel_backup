@@ -16,6 +16,7 @@ export const DATA_SEND = 'DATA_SEND';
 export const DATA_SEND_FAIL = 'DATA_SEND_FAIL';
 
 export const DATA_UPDATE = 'DATA_UPDATE';
+export const DATA_UPDATE1 = 'DATA_UPDATE1';
 
 export const ID_UPDATE = 'ID_UPDATE';
 

@@ -2,16 +2,16 @@
     "componentID": {
         "elementType": "input",
         "elementConfig": {
-          "type": "input",
-          "placeholder": "0"
+            "type": "input"  
         },
         "validation": {
-          "required": true
+            "required": true
         },
+        "placeholder": "0",
         "value": "0",
         "label": "Component ID",
         "valid": true
-      },
+    },
     "material": {
         "elementType": "select",
         "elementConfig": {
@@ -91,13 +91,13 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "100 inch"
+            "placeholder": "10 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "100",
-        "label": "Length (inch)",
+        "value": "10",
+        "label": "Length(ft)",
         "step": "any",
         "valid": true
     },

@@ -35,7 +35,6 @@ class DynamicForm extends React.Component {
 
 
     componentDidMount() {
-        console.log("COmponent DId Mount Form");
         this.setState({
             form: this.props.model
         });
@@ -52,7 +51,6 @@ class DynamicForm extends React.Component {
                 [key]: this.state.form[key].value
             }
         }
-        console.log("Data", data);
 
         let valid = this.state.valid;
         for (let key in this.state.form) {
@@ -70,7 +68,6 @@ class DynamicForm extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.model !== this.props.model || this.props.new) {
             this.props.disableNew();
-            console.log(this.props.model.componentID.placeholder);
             this.props.model.componentID.placeholder = this.props.componentID;
             this.props.model.componentID.value = this.props.componentID;
             this.setState({ form: this.props.model });

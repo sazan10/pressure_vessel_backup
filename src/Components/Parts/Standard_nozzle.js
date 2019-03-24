@@ -94,7 +94,6 @@ var result = fromCSG(subtractCSG); // converting CSG back into ThreeJS object
  var mesh_test= new THREE.Mesh(result,material);
  mesh_test.translateX(translateX).translateY(translateY).translateZ(translateZ).rotateX(rotateX).rotateY(rotateY).rotateZ(rotateZ);
 //result.geometry.computeVertexNormals();
- console.log("result",result);
 //this.scene.add( mesh_test);
 return mesh_test;
     }
@@ -123,13 +122,11 @@ return mesh_test;
       arcShape3.moveTo(0, 0 );
       arcShape3.absarc( 0, 0, radius_outer, 0,math.PI * 2, false );
       var pos=(2*math.PI)/hole_number;
-      console.log("angle difference",pos, (pos/math.pi)*180)
       var angle =math.pi/hole_number;
       for (var i =0;i<hole_number;i++){
         var angle_pos = angle + i*pos;
         var x = bolt_hole_radius*math.sin(angle_pos);
         var y= bolt_hole_radius*math.cos(angle_pos);
-        console.log("angle",(angle_pos/math.PI)*180);
       var holePath3 = new THREE.Path();
       holePath3.moveTo( 0, 0 );
       holePath3.absarc( x, y,bolt_size, 0, math.PI * 2, true );

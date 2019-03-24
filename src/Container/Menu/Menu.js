@@ -13,12 +13,12 @@ class Menu extends Component {
     }
 
     onClickHandler1 = (e) => {
-        console.log(e);
+        //console.log(e);
         this.setState({ title: e });
     }
 
     onClickHandler2 = (e) => {
-        console.log(e);
+        //console.log(e);
         this.props.onMenuClick(e);
         switch (e) {
             case "Cylinder":

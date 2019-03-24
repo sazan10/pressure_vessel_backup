@@ -12,7 +12,6 @@ export const onDataSendFail = error => {
 };
 
 export const onDataSendTo = (response, data) => {
-  console.log("nozzle data", data);
   return {
     type: actionTypes.DATA_SEND,
     resp: response,
@@ -20,20 +19,28 @@ export const onDataSendTo = (response, data) => {
   };
 };
 
-export const dataUpdate = (data, componentID) => {
-
+export const dataUpdate1 = (data, componentID,height1) => {
+//onsole.log("data",data);
   return {
-    type: actionTypes.DATA_UPDATE,
-    data: data,
+    type: actionTypes.DATA_UPDATE1,
+    data : data,
+    height:height1,
     componentID: componentID
+
   }
 }
 
+export const dataUpdate = (data, componentID) => {
+    return {
+      type: actionTypes.DATA_UPDATE,
+      data : data,
+      componentID: componentID
+    }
+  }
 export const onSubmitAndUpdate = (data, id, componentID) => {
   return dispatch => {
     let url = null;
     let data1 = null
-    console.log("onSubmitUpdate", data);
     if (data.material !== undefined) {
       const mat = data.material.split(" ");
       data.length = data.length * 12;
@@ -80,11 +87,10 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
       url = "/api/skirt/data";
       data1 = {
         skirtParam: data,
-        projectID: id
+        projectID: id,
+        componentID:componentID
       };
     }
-
-    console.log(data1);
     const token = localStorage.getItem("token");
     const headers = {
       "Content-Type": "application/json",
@@ -95,25 +101,35 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
         headers: headers
       })
       .then(response => {
-        console.log("Response", response.data);
-        if (response.data.thicknesss !== null) {
-          const data1 = {
+        if (response.data.thicknesss !== null || response.data.thicknessResponse!=null) {
+          let data1=null;
+          if(response.data.thickness!==null && ! response.data.thicknessResponse){
+          data1 = {
             ...data,
             ...{
               thickness: response.data.thickness,
               value: response.data
             }
           };
+        }
+        else {
+          data1 = {
+            ...data,
+            ...{
+             // thickness:response.data.thicknessResponse,
+              value: response.data
+            }
+          };
+        }
           if (data.componentID < componentID) {
-            console.log("UPDATE COMPONENT");
             dispatch(updateComponent(data1));
           } else {
             if (data1.component === "Cylinder") {
-              console.log("ADD COMPONENT");
               for (let i = 0; i < data1.number; i++) {
                 dispatch(dataUpdate(data1, componentID));
                 componentID = componentID + 1;
                 dispatch(updateComponentID(componentID));
+                
               }
             } else {
               dispatch(dataUpdate(data1, componentID));
@@ -214,8 +230,6 @@ export const axiosReport = (authData, url, headers) => {
         headers: headers
       })
       .then(response => {
-        console.log("report");
-        console.log(response.data.id);
         dispatch(onReportIDReceive(response.data.id))
       })
       .catch(err => {
@@ -244,14 +258,11 @@ export const downloadReport = (id) => {
     const data = {
       projectID: id
     };
-    console.log(data);
     axios.post(url, data, {
       headers: headers
     })
       .then(response => {
-        console.log("Inside axios post");
-        console.log(response.data);
-        const reportUrl = "http://192.168.1.21:8000/" + response.data;
+        const reportUrl = "http://192.168.1.12:8000/" + response.data;
 
 
         // let pdfData = base64.decode(response.data);
