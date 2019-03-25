@@ -376,8 +376,6 @@ class Scene extends Component {
                 this.heights_only.splice(key, 0, i); //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
               }
 
-              console.log("height",this.heights);
-              console.log("height only",this.heights_only);
               let closest_index = getClosest.number(nozzle_height, this.heights_only);
               let closest_value = this.heights[closest_index];
               let index_key = returnKey(this.heights, closest_value);

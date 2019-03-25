@@ -262,7 +262,7 @@ export const downloadReport = (id) => {
       headers: headers
     })
       .then(response => {
-        const reportUrl = "http://192.168.1.12:8000/" + response.data;
+        const reportUrl = "http://192.168.1.9:8000/" + response.data;
 
 
         // let pdfData = base64.decode(response.data);
@@ -277,12 +277,12 @@ export const downloadReport = (id) => {
         // Download(file, "report.pdf");
         FileSaver.saveAs(file, "hello.pdf");
         const fileURL = URL.createObjectURL(file);
-        window.open(fileURL);
+        //window.open(fileURL);
         // console.log(response);
 
        // window.open(reportUrl);
 
-        let pdfWindow = window.open("reportUrl");
+        let pdfWindow = window.open(fileURL);
         pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + encodeURI(response.data)+"'></iframe>")
         // const file = new Blob(
         //   [response.data],
