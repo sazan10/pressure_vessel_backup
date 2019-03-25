@@ -2,8 +2,7 @@
     "componentID": {
         "elementType": "input",
         "elementConfig": {
-            "type": "input"
-            
+            "type": "input"  
         },
         "validation": {
             "required": true
@@ -56,7 +55,7 @@
             "required": true
         },
         "value": "300",
-        "label": "Temp1",
+        "label": "Temp1 (F)",
         "step": "any",
         "valid": true
     },
@@ -70,7 +69,7 @@
             "required": true
         },
         "value": "0.125",
-        "label": "Corrosion Internal",
+        "label": "Corrosion Internal (inch)",
         "step": "any",
         "valid": true
     },
@@ -78,13 +77,13 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "300 inch"
+            "placeholder": "72 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "300",
-        "label": "Shell Diameter",
+        "value": "72",
+        "label": "Shell Diameter (inch)",
         "step": "any",
         "valid": true
     },
@@ -112,7 +111,7 @@
             "required": true
         },
         "value": "0.5",
-        "label": "Thickness",
+        "label": "Thickness (inch)",
         "step": "any",
         "valid": true
     }   

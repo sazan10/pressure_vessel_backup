@@ -43,10 +43,6 @@ export const returnModel = (model) => {
 };
 
 export const logout = () => {
-  console.log("Logging out");
-  // localStorage.removeItem('token');
-  // localStorage.removeItem('expirationDate');
-  // localStorage.removeItem('userId');
   return {
     type: actionTypes.AUTH_LOGOUT
   };
