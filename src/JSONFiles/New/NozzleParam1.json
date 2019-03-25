@@ -102,12 +102,12 @@
     "elementType": "input",
     "elementConfig": {
       "type": "input",
-      "placeholder": "1"
+      "placeholder": "16"
     },
     "validation": {
       "required": true
     },
-    "value": "1",
+    "value": "16",
     "label": "Nominal Pipe Size",
     "step": "any",
     "valid": true
@@ -158,12 +158,12 @@
     "elementType": "input",
     "elementConfig": {
       "type": "input",
-      "placeholder": "10"
+      "placeholder": "20"
     },
     "validation": {
       "required": true
     },
-    "value": "10",
+    "value": "20",
     "label": "External Proj",
     "step": "any",
     "valid": true

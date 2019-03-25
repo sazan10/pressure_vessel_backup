@@ -78,12 +78,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "400 inch"
+            "placeholder": "300 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "400",
+        "value": "300",
         "label": "Shell Diameter",
         "step": "any",
         "valid": true

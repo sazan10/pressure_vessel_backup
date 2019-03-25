@@ -143,20 +143,6 @@
         "step": "any",
         "valid": true
     },
-    "number": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "1"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "1",
-        "label": "Number",
-        "step": "any",
-        "valid": true
-    },
     "mht": {
         "elementType": "input",
         "elementConfig": {
