@@ -50,12 +50,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "45 Kpsi"
+            "placeholder": "300 Kpsi"
         },
         "validation": {
             "required": true
         },
-        "value": "45",
+        "value": "300",
         "label": "Internal Pressure (Kpsi)",
         "step": "any",
         "valid": true

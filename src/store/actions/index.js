@@ -20,6 +20,7 @@ export {
     onDataSendFail,
     dataUpdate,
     dataUpdate1,
+    deleteThickness,
     updateComponentID,
     updateComponent,
     onSubmitAndUpdate,
