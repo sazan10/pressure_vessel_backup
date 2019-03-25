@@ -286,7 +286,10 @@ export const downloadReport = (id) => {
         window.open(fileURL);
         // console.log(response);
 
-        // window.open(reportUrl);
+       // window.open(reportUrl);
+
+        let pdfWindow = window.open("reportUrl");
+        pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + encodeURI(response.data)+"'></iframe>")
         // const file = new Blob(
         //   [response.data],
         //   { type: 'application/pdf' });
