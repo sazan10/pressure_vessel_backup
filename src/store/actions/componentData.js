@@ -148,6 +148,12 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
   }
 }
 
+export const deleteThickness = () => {
+  return {
+    type: actionTypes.DELETE_THICKNESS
+  }
+}
+
 export const sendComponentID = (componentType, componentID, projectID) => {
 
   return dispatch => {

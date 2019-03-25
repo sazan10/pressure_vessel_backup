@@ -26,6 +26,10 @@ class VesselBuilder extends Component {
     // const iconMenu = iconData.default.Icons.map(d => 
     //   <Route path={"/builder/hello"} component={Modal} />
     // );
+    let scene = null;
+    if(this.props.projectID !== null) {
+      scene = <Scene></Scene>;
+    }
 
     return (
       <div>
@@ -51,7 +55,8 @@ class VesselBuilder extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    projectID: state.componentData.projectID
   };
 };
 

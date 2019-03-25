@@ -17,6 +17,7 @@ export const DATA_SEND_FAIL = 'DATA_SEND_FAIL';
 
 export const DATA_UPDATE = 'DATA_UPDATE';
 export const DATA_UPDATE1 = 'DATA_UPDATE1';
+export const DELETE_THICKNESS = 'DELETE_THICKNESS';
 
 export const ID_UPDATE = 'ID_UPDATE';
 

@@ -9,7 +9,7 @@ const initialState = {
     nozzle: null,
     error: null,
     componentID: 0,
-    projectID: 13,
+    projectID: null,
     thickness: null
 };
 
@@ -31,6 +31,7 @@ const updateData = (state, action) => {
     let data = null;
     let comp = action.data;
     const componentID = action.componentID;
+    console.log(action.data.thickness);
     if (action.data.component === "Cylinder") {
         // let comp = action.data;
         const num = action.data.number;
@@ -104,9 +105,12 @@ const updateData = (state, action) => {
         ]
         data.push(comp);
     }
-    return updateObject(state, { component: data });
+    return updateObject(state, { component: data, thickness: action.data.thickness });
 }
 
+const deleteThickness = (state, action) => {
+    return updateObject(state, {thickness: null});
+}
 const idUpdate = (state, action) => {
     return updateObject(state, { componentID: action.id });
 }
@@ -145,6 +149,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.REQUEST_REPORT: return requestReport(state, action);
         case actionTypes.DOWNLOAD_REPORT: return downloadReport(state, action);
         case actionTypes.DATA_UPDATE1: return updateData1(state,action);
+        case actionTypes.DELETE_THICKNESS: return deleteThickness(state, action);
         default:
             return state;
     }

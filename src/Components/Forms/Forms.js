@@ -72,6 +72,18 @@ class DynamicForm extends React.Component {
             this.props.model.componentID.value = this.props.componentID;
             this.setState({ form: this.props.model });
         }
+        if (this.props.thickness !== null && this.state.form === this.props.model) {
+            if (this.state.form.thickness !== undefined) {
+                let updatedform = {
+                    ...this.state.form
+                };
+                updatedform.thickness.value = this.props.thickness;
+                updatedform.thickness.placeholder = this.props.thickness;
+                console.log(updatedform);
+                this.setState({ form: updatedform });
+                this.props.deleteThickness();
+            }
+        }
 
         // if(this.state.)
     }
@@ -208,7 +220,8 @@ const mapDispatchToProps = dispatch => {
     return {
         importModel: (title, num) => dispatch(actions.importModel(title, num)),
         disableNew: () => dispatch(actions.disableNew()),
-        onSubmitAndUpdate: (data, id, componentID) => dispatch(actions.onSubmitAndUpdate(data, id, componentID))
+        onSubmitAndUpdate: (data, id, componentID) => dispatch(actions.onSubmitAndUpdate(data, id, componentID)),
+        deleteThickness: () => dispatch(actions.deleteThickness())
     };
 };
 
