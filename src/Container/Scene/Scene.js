@@ -335,11 +335,11 @@ clearScene2=( ) =>{
             }
             shell.translateY(this.height_position); //this.height_position);  
             //this.scene.add(shell);
-
-            this.group.add(shell);
+            let cylinder_group=new THREE.Group();
+            cylinder_group.add(shell);
             // }    
             this.first = this.first + 2;
-            this.scene.add(this.group);
+            this.scene.add(cylinder_group);
             cylinder_iterator = cylinder_iterator + 1;
             //   this.start();
             // }
