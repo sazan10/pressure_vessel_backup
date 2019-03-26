@@ -148,6 +148,13 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
   }
 }
 
+export const openFormDialog = (value) => {
+  return {
+    type: actionTypes.OPEN_FORM_DIALOG,
+    value: value
+  }
+}
+
 export const deleteThickness = () => {
   return {
     type: actionTypes.DELETE_THICKNESS
@@ -169,6 +176,12 @@ export const sendComponentID = (componentType, componentID, projectID) => {
     };
     const url = '/api/components/'
     dispatch(axiosDataSend(data, url, headers));
+  }
+}
+
+export const requestProjectID = (projectName) => {
+  return dispatch => {
+    dispatch(requestReport(projectName));
   }
 }
 
@@ -207,7 +220,7 @@ export const axiosDataSend = (data, url, headers) => {
 
 //////REPORT
 
-export const requestReport = () => {
+export const requestReport = (projectName) => {
   return dispatch => {
     const url = "/report/reports/";
     const token = localStorage.getItem("token");
@@ -216,16 +229,18 @@ export const requestReport = () => {
       "Authorization": "JWT " + token
     };
     const data = {
-      "report_type": "vessel"
+      "report_type": "vessel",
+      "projectName": projectName
     }
     return dispatch(axiosReport(data, url, headers));
   }
 };
 
-export const onReportIDReceive = projectID => {
+export const onReportIDReceive = (projectID, projectName) => {
   return {
     type: actionTypes.REQUEST_REPORT,
-    projectID: projectID
+    projectID: projectID,
+    projectName: projectName
   };
 };
 
@@ -236,7 +251,7 @@ export const axiosReport = (authData, url, headers) => {
         headers: headers
       })
       .then(response => {
-        dispatch(onReportIDReceive(response.data.id))
+        dispatch(onReportIDReceive(response.data.id,authData.projectName))
       })
       .catch(err => {
         dispatch(requestFail(err.response));

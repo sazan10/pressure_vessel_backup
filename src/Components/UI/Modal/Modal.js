@@ -4,11 +4,12 @@ import {connect} from 'react-redux';
 import Aux from "../../../hoc/Aux/Aux";
 import DynamicForm from "../../Forms/Forms";
 import * as actions from '../../../store/actions/index';
+import Backdrop from '../Backdrop/Backdrop';
 class Modal extends Component {
 
-  componentWillReceiveProps() {
-    // console.log("COmponntDIdUpdate" + this.state.component);
-  }
+  shouldComponentUpdate ( nextProps, nextState ) {
+    return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
+}
 
   state = {
     current: {},
@@ -24,7 +25,7 @@ class Modal extends Component {
     if(this.props.model) {
     modall = (
       <Aux>
-        {/* <Backdrop show={true} clicked={this.props.modalClosed} /> */}
+        <Backdrop show={true} clicked={this.props.modalClosed} />
         <div
           className={classes.Modal}
           style={{
@@ -52,19 +53,10 @@ class Modal extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-      title: state.navigation.title,
-      model: state.navigation.model,
-      num: state.navigation.num,
-      projectID: state.componentData.projectID
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     onDataSend: (data, id) => dispatch(actions.onDataSend(data, id))
   };
 };
 
-export default connect( mapStateToProps, mapDispatchToProps)( Modal);
+export default connect( null, mapDispatchToProps)( Modal);

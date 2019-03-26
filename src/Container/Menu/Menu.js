@@ -30,10 +30,13 @@ class Menu extends Component {
                 this.props.sendComponentID(e, this.props.componentID, this.props.projectID);
                 break;
             case "New":
-                this.props.requestReport();
+                this.props.openFormDialog(true);
                 break;
             case "Print":
                 this.props.downloadReport(this.props.projectID);
+                break;
+            default:
+                break;
         }
     }
 
@@ -81,7 +84,8 @@ const mapDispatchToProps = dispatch => {
         requestReport: () => dispatch(actions.requestReport()),
         downloadReport: (projectID) => dispatch(actions.downloadReport(projectID)),
         importModel: (title, num) => dispatch(actions.importModel(title, num)),
-        sendComponentID : (componentType, componentID, projectID) =>  dispatch(actions.sendComponentID(componentType, componentID, projectID))
+        sendComponentID : (componentType, componentID, projectID) =>  dispatch(actions.sendComponentID(componentType, componentID, projectID)),
+        openFormDialog: (value) => dispatch(actions.openFormDialog(value))
     };
 };
 

@@ -8,6 +8,7 @@ import Scene from '../Scene/Scene';
 import { Redirect } from 'react-router-dom';
 import SideModal from '../../Components/UI/SideModal/SideModal';
 import Menu from '../Menu/Menu';
+import FormDialog from '../FormDialog/FormDialog';
 class VesselBuilder extends Component {
 
   componentDidMount() {
@@ -26,11 +27,12 @@ class VesselBuilder extends Component {
     // const iconMenu = iconData.default.Icons.map(d => 
     //   <Route path={"/builder/hello"} component={Modal} />
     // );
-    let scene = null;
-    if(this.props.projectID !== null) {
-      scene = <Scene></Scene>;
-    }
 
+    let formDialog = null;
+    if(this.props.formDialogOpen) {
+      formDialog = <FormDialog open={this.props.formDialogOpen} />
+    }
+    console.log(this.props.formDialogOpen);
     return (
       <div>
         <Grid container spacing={0}>
@@ -47,6 +49,8 @@ class VesselBuilder extends Component {
             <Scene></Scene>
           </Grid>
         </Grid>
+        {formDialog}
+
 
       </div>
     );
@@ -56,7 +60,8 @@ class VesselBuilder extends Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
-    projectID: state.componentData.projectID
+    projectID: state.componentData.projectID,
+    formDialogOpen: state.componentData.formDialogOpen
   };
 };
 
