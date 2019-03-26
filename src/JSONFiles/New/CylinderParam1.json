@@ -134,12 +134,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "10 feet"
+            "placeholder": "8 feet"
         },
         "validation": {
             "required": true
         },
-        "value": "10",
+        "value": "8",
         "label": "Length (feet)",
         "step": "any",
         "valid": true

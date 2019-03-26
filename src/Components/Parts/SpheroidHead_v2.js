@@ -21,7 +21,6 @@ function SpheroidHeadBufferGeometry (
         innerHeight: innerHeight,
         radialSemgents: radialSegments,
         heightSegments: heightSegments,
-
     };
 
     //Buffers

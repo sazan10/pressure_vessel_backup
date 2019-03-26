@@ -298,12 +298,12 @@ export const downloadReport = (id) => {
         // Download(file, "report.pdf");
         FileSaver.saveAs(file, "hello.pdf");
         const fileURL = URL.createObjectURL(file);
-        window.open(fileURL);
+        //window.open(fileURL);
         // console.log(response);
 
        // window.open(reportUrl);
 
-        let pdfWindow = window.open("reportUrl");
+        let pdfWindow = window.open(fileURL);
         pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + encodeURI(response.data)+"'></iframe>")
         // const file = new Blob(
         //   [response.data],

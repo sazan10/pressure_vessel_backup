@@ -120,12 +120,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "400 inch"
+            "placeholder": "90 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "400",
+        "value": "90",
         "label": "Shell Diameter Top (inch)",
         "step": "any",
         "valid": true
@@ -134,12 +134,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "300 inch"
+            "placeholder": "72 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "300",
+        "value": "72",
         "label": "Shell Diameter Bottom (inch)",
         "step": "any",
         "valid": true
@@ -148,12 +148,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "10 feet"
+            "placeholder": "4 feet"
         },
         "validation": {
             "required": true
         },
-        "value": "10",
+        "value": "4",
         "label": "Length (feet)",
         "step": "any",
         "valid": true
