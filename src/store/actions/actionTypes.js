@@ -10,6 +10,7 @@ export const SET_AUTH_REDIRECT_PATH = 'SET_AUTH_REDIRECT_PATH';
 
 export const IMPORT_MODEL = 'IMPORT_MODEL';
 export const IMPORT_AUTH_MODEL = 'IMPORT_AUTH_MODEL';
+export const OPEN_FORM_DIALOG = 'OPEN_FORM_DIALOG';
 
 export const DATA_SEND = 'DATA_SEND';
 

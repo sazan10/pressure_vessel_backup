@@ -16,9 +16,11 @@ class Modal extends Component {
 
   render() {   
     let modall = null;
+    const projectTitle = this.props.projectName;
     if(this.props.model) {
     modall = (
       <Auxx>
+        <p>Project Name: {projectTitle}</p>
         <DynamicForm
           className="form"
           title="Registration"
@@ -41,7 +43,8 @@ const mapStateToProps = state => {
       title: state.navigation.title,
       model: state.navigation.model,
       num: state.navigation.num,
-      projectID: state.componentData.projectID
+      projectID: state.componentData.projectID,
+      projectName: state.componentData.projectName
   };
 };
 

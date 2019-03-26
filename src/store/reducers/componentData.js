@@ -10,7 +10,9 @@ const initialState = {
     error: null,
     componentID: 0,
     projectID: null,
-    thickness: null
+    projectName: null,
+    thickness: null,
+    formDialogOpen: false
 };
 
 const onDataSend = (state, action) => {
@@ -130,13 +132,16 @@ const reportFail = (state, action) => {
 }
 
 const requestReport = (state, action) => {
-    return updateObject(state, { projectID: action.projectID })
+    return updateObject(state, { projectID: action.projectID, projectName: action.projectName })
 
+}
+
+const openFormDialog = (state, action) => {
+    return updateObject(state, {formDialogOpen: action.value    })
 }
 const downloadReport = (state, action) => {
 
 }
-
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -150,6 +155,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.DOWNLOAD_REPORT: return downloadReport(state, action);
         case actionTypes.DATA_UPDATE1: return updateData1(state,action);
         case actionTypes.DELETE_THICKNESS: return deleteThickness(state, action);
+        case actionTypes.OPEN_FORM_DIALOG: return openFormDialog(state, action);
         default:
             return state;
     }

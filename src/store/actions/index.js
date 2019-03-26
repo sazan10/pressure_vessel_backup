@@ -27,6 +27,8 @@ export {
     sendComponentID,
     axiosDataSend,
     requestReport,
+    requestProjectID,
+    openFormDialog,
     downloadReport,
     axiosReport,
     requestFail,
