@@ -15,13 +15,14 @@ import height_checker from '../../Components/Scene/height_checker';
 import getClosest from 'get-closest'
 import height_comparator from '../../Components/Scene/height_comparator';
 import returnKey from '../../Components/Scene/returnKey';
-
+import getSum from '../../Components/Scene/getSum';
 import {
   connect
 } from 'react-redux';
 import {
   SpheroidHeadBufferGeometry
 } from '../../Components/Parts/SpheroidHead_v2';
+
 class Scene extends Component {
 
   state = {
@@ -90,6 +91,7 @@ class Scene extends Component {
     this.lengths = [];
     this.heights = {};
     this.cylinder_lengths = [];
+   
     this.first_shell = true;
     this.heights_only = [];
     this.start();
@@ -289,6 +291,7 @@ clearScene2=( ) =>{
             shell = Shell(thickness, diameter_bot, diameter_top, this.length);
             if (this.first_shell) {
               this.height_position = this.height_position + this.length / 2;
+  
               if (!height_checker(this.props.component[i])) { //always returns false since the function for reducer is not dispatched, works even if not used
                 {
                   if (!(this.props.component[i].componentID in this.heights)) {
@@ -314,6 +317,7 @@ clearScene2=( ) =>{
                 // let ringmesh = new THREE.Mesh( ringgeometry, ringmaterial );
                 let lengths = this.props.component[i].length; //length of current cylinder
                 this.height_position = this.height_position + this.cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
+
                 if (!height_checker(this.props.component[i])) {
                   {
                     if (!(this.props.component[i].componentID in this.heights)) {
@@ -351,6 +355,7 @@ clearScene2=( ) =>{
             // }
             this.shapes.push(shell);
           } else if (this.props.component[i] && this.props.component[i].component === "Ellipsoidal Head") {
+            console.log("this.height_position",this.height_position);
             let diameter = parseFloat(this.props.component[i].sd) / 2;
             let head_thickness = parseFloat(this.props.component[i].thickness);
             this.shell_diameter = parseFloat(this.props.component[i].sd);
@@ -409,7 +414,8 @@ clearScene2=( ) =>{
               let head = new THREE.Mesh(head1, material);
               //this.height_position=this.height_position-r2+this.length/2;
               //head.translateY(this.height_position);
-              this.height_position = this.height_position + this.length / 2 + srl / 2;
+             // this.height_position = this.height_position + this.length / 2 + srl / 2;
+
               if (!height_checker(this.props.component[i])) {
                 {
                   if (!(this.props.component[i].componentID in this.heights)) {
@@ -427,7 +433,16 @@ clearScene2=( ) =>{
               head.translateY(srl / 2);
               grouper2.add(flange2);
               grouper2.add(head);
-              grouper2.translateY(this.height_position);
+              let height_for_top=0;
+              for (let i = 0; i < this.props.component.length; i++)
+                  {
+                    if(this.props.component[i].length)
+                    {
+                    height_for_top=height_for_top+this.props.component[i].length;
+                    }
+                  }
+              console.log("this.cylinder_heights",this.cylinder_lengths, height_for_top);
+              grouper2.translateY(height_for_top);
               this.scene.add(grouper2);
               if (!height_checker(this.props.component[i])) {
                 {
@@ -598,6 +613,7 @@ clearScene2=( ) =>{
             this.lengths.push(-500);
           }
           this.start();
+          
         }
 
       }

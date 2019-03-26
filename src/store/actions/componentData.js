@@ -268,7 +268,7 @@ export const downloadReport = (id) => {
       headers: headers
     })
       .then(response => {
-        const reportUrl = "http://192.168.1.12:8000/" + response.data;
+        const reportUrl = "http://192.168.1.13:8000/" + response.data;
 
 
         // let pdfData = base64.decode(response.data);
