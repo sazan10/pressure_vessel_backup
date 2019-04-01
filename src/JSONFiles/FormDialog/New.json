@@ -1,0 +1,8 @@
+{
+    "projectName": {
+        "margin": "dense",
+        "id": "name",
+        "label": "Project Name",
+        "type": "text"
+    }
+}

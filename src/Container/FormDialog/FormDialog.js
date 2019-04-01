@@ -1,16 +1,14 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import FormDialogComp from '../../Components/FormDialog/FormDialog';
+
 import * as actions from '../../store/actions/index';
+import * as data from '../../JSONFiles/FormDialog/New';
 import {
   connect
 } from 'react-redux';
-
+import List from '../../Components/List/List'; 
 class FormDialog extends React.Component {
   state = {
     open: false,
@@ -22,7 +20,13 @@ class FormDialog extends React.Component {
   componentDidMount() {
     console.log(this.props.open);
     this.setState({ open: this.props.open })
-  }
+    let newState = {
+      ...this.state,
+      ...data
+    };
+    this.setState({newState});
+    
+  }                                                                                                                                                                     
 
   handleClose = () => {
     this.setState({ open: false });
@@ -31,15 +35,21 @@ class FormDialog extends React.Component {
 
   submit = (e) => {
     e.preventDefault();
+    console.log("Submit");
     this.props.requestProjectID(this.state.projectName);
     this.setState({ open: false });
-    this.props.openFormDialog(false);
-    
+    this.props.openFormDialog(false); 
   }
 
   handleChange = (event, name) => {
     console.log(event.target.value);
     this.setState({ [name]: event.target.value });
+  }
+
+  handleClick = (event, name) => {
+    console.log("Project",name);
+    this.setState({ open: false });
+    this.props.openFormDialog(false); 
   }
 
   render() {
@@ -49,29 +59,9 @@ class FormDialog extends React.Component {
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">New Project</DialogTitle>
-          <DialogContent>
-            <form noValidate autoComplete="off" onSubmit={this.submit}>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Project Name"
-                type="text"
-                onChange={(event) => this.handleChange(event, 'projectName')}
-
-              />
-              <DialogActions>
-                <Button onClick={this.handleClose} color="primary">
-                  Cancel
-            </Button>
-                <Button type="submit" color="primary">
-                  Create
-            </Button>
-              </DialogActions>
-            </form>
-          </DialogContent>
+        > 
+          {/* <List model={data} handleClick={this.handleClick}></List> */}
+          <FormDialogComp submit={this.submit} handleChange={this.handleChange} handleClose={this.handleClose} model={data}/>
 
         </Dialog>
       </div>
@@ -81,7 +71,9 @@ class FormDialog extends React.Component {
 
 const mapStateToProps = state => {
   return {
-      new: state.navigation.new
+      new: state.navigation.new,
+      title: state.navigation.title
+
   };
 };
 

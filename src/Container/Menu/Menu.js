@@ -30,6 +30,8 @@ class Menu extends Component {
                 this.props.importModel(e, 1);
                 this.props.sendComponentID(e, this.props.componentID, this.props.projectID);
                 break;
+            case "Open":
+                break;
             case "New":
                 this.props.openFormDialog(true);
                 break;
