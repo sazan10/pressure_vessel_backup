@@ -4,5 +4,11 @@
         "id": "name",
         "label": "Project Name",
         "type": "text"
+    },
+    "orientation": {
+        "margin": "dense",
+        "id": "name",
+        "label": "Orientation",
+        "type": "select"
     }
 }

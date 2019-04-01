@@ -5,7 +5,8 @@ export {
     returnModel,
     loadNext,
     loadPrevious,
-    updateNum
+    updateNum,
+    displayComponentTree
 } from './navigation';
 
 export {

@@ -43,7 +43,8 @@ class DynamicForm extends React.Component {
     onSubmitHandler = (e) => {
         e.preventDefault();
         let data = {
-            "component": this.props.title
+            "component": this.props.title,
+            "type": "blob"
         };
         for (let key in this.state.form) {
             data = {

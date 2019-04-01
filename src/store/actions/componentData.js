@@ -179,9 +179,9 @@ export const sendComponentID = (componentType, componentID, projectID) => {
   }
 }
 
-export const requestProjectID = (projectName) => {
+export const requestProjectID = (projectName, orientation) => {
   return dispatch => {
-    dispatch(requestReport(projectName));
+    dispatch(requestReport(projectName, orientation));
   }
 }
 
@@ -220,7 +220,7 @@ export const axiosDataSend = (data, url, headers) => {
 
 //////REPORT
 
-export const requestReport = (projectName) => {
+export const requestReport = (projectName, orientation) => {
   return dispatch => {
     const url = "/report/reports/";
     const token = localStorage.getItem("token");
@@ -230,28 +230,29 @@ export const requestReport = (projectName) => {
     };
     const data = {
       "report_type": "vessel",
-      "projectName": projectName
+      "projectName": projectName,
+      "orientation": orientation
     }
     return dispatch(axiosReport(data, url, headers));
   }
 };
 
-export const onReportIDReceive = (projectID, projectName) => {
+export const onReportIDReceive = (projectID, data) => {
   return {
     type: actionTypes.REQUEST_REPORT,
     projectID: projectID,
-    projectName: projectName
+    data: data
   };
 };
 
-export const axiosReport = (authData, url, headers) => {
+export const axiosReport = (data, url, headers) => {
   return dispatch => {
     axios
-      .post(url, authData, {
+      .post(url, data, {
         headers: headers
       })
       .then(response => {
-        dispatch(onReportIDReceive(response.data.id,authData.projectName))
+        dispatch(onReportIDReceive(response.data.id, data))
       })
       .catch(err => {
         dispatch(requestFail(err.response));

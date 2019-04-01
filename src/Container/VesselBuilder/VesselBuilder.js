@@ -1,19 +1,37 @@
 import React, { Component } from "react";
 import Grid from '@material-ui/core/Grid';
 
-import { Switch, Route, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import { connect } from 'react-redux';
 import Scene from '../Scene/Scene';
-import { Redirect } from 'react-router-dom';
 import SideModal from '../../Components/UI/SideModal/SideModal';
 import Menu from '../Menu/Menu';
 import FormDialog from '../FormDialog/FormDialog';
+
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+
+import TreeView from '../TreeView/TreeView';
+import blue from "@material-ui/core/colors/blue";
+import pink from "@material-ui/core/colors/pink";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: blue,
+    secondary: {
+      light: "#ff79b0",
+      main: pink.A200,
+      dark: "#c60055",
+      contrastText: "#fff"
+    }
+  }
+});
 class VesselBuilder extends Component {
 
+
+
   componentDidMount() {
-    console.log("ComponentDidMount");
-    console.log(this.props.isAuthenticated);
     if (!this.props.isAuthenticated) {
       this.props.history.push("/");
     }
@@ -29,10 +47,26 @@ class VesselBuilder extends Component {
     // );
 
     let formDialog = null;
-    if(this.props.formDialogOpen) {
+    if (this.props.formDialogOpen) {
       formDialog = <FormDialog open={this.props.formDialogOpen} />
     }
-    console.log(this.props.formDialogOpen);
+
+    let display = <SideModal />;
+    if (this.props.componentTree) {
+      display = <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <TreeView components={this.props.components} />
+      </MuiThemeProvider>
+    }
+
+    //Sajan change here
+    let scene = <Scene></Scene>;
+    if(this.props.orientation === "vertical") {
+      scene = <Scene></Scene>
+    } else if(this.props.orientation === "horizontal"){
+      scene = <Scene></Scene>
+    }
+
     return (
       <div>
         <Grid container spacing={0}>
@@ -42,11 +76,12 @@ class VesselBuilder extends Component {
         </Grid>
 
         <Grid container spacing={0}>
-          <Grid item lg={2} md={2} sm={3} xs={4}>
-            <SideModal />
+          <Grid item lg={3} md={3} sm={3} xs={4}>
+            {display}
+
           </Grid>
-          <Grid item lg={10} md={10} sm={9} xs={8}>
-            <Scene></Scene>
+          <Grid item lg={9} md={9} sm={9} xs={8}>
+            {scene}
           </Grid>
         </Grid>
         {formDialog}
@@ -61,7 +96,10 @@ const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     projectID: state.componentData.projectID,
-    formDialogOpen: state.componentData.formDialogOpen
+    formDialogOpen: state.componentData.formDialogOpen,
+    components: state.componentData.component,
+    componentTree: state.navigation.componentTree,
+    orientation: state.componentData.orientation
   };
 };
 

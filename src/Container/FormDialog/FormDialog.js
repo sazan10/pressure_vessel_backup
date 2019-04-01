@@ -13,7 +13,8 @@ class FormDialog extends React.Component {
   state = {
     open: false,
 
-    projectName: null
+    projectName: null,
+    orientation: "vertical"
 
   };
 
@@ -35,14 +36,14 @@ class FormDialog extends React.Component {
 
   submit = (e) => {
     e.preventDefault();
-    console.log("Submit");
-    this.props.requestProjectID(this.state.projectName);
+    console.log("Submit", this.state.orientation);
+    this.props.requestProjectID(this.state.projectName, this.state.orientation);
     this.setState({ open: false });
     this.props.openFormDialog(false); 
   }
 
   handleChange = (event, name) => {
-    console.log(event.target.value);
+    console.log(event.target.value, name);
     this.setState({ [name]: event.target.value });
   }
 
@@ -61,7 +62,7 @@ class FormDialog extends React.Component {
           aria-labelledby="form-dialog-title"
         > 
           {/* <List model={data} handleClick={this.handleClick}></List> */}
-          <FormDialogComp submit={this.submit} handleChange={this.handleChange} handleClose={this.handleClose} model={data}/>
+          <FormDialogComp submit={this.submit} handleChange={this.handleChange} handleClose={this.handleClose} model={data} orientation={this.state.orientation}/>
 
         </Dialog>
       </div>
@@ -79,7 +80,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-      requestProjectID: (projectName) => dispatch(actions.requestProjectID(projectName)),
+      requestProjectID: (projectName, orientation) => dispatch(actions.requestProjectID(projectName, orientation)),
       openFormDialog: (value) => dispatch(actions.openFormDialog(value))
   };
 };

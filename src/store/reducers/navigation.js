@@ -8,7 +8,8 @@ const initialState = {
     stateKey: null,
     model: null,
     num: 1,
-    new: false
+    new: false,
+    componentTree: false
 };
 
 const clickMenu = ( state, action ) => {
@@ -35,6 +36,10 @@ const updateNum = (state, action) => {
     return updateObject(state, {num: action.num});
 }
 
+const loadComponentTree = (state, action) => {
+    return updateObject(state, {componentTree : action.value});
+}
+
 const reducer = ( state = initialState, action ) => {
     
     switch ( action.type ) {
@@ -44,6 +49,7 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.LOAD_NEXT: return loadNext(state, action);
         case actionTypes.LOAD_PREVIOUS: return loadPrevious(state, action);
         case actionTypes.UPDATE_NUM: return updateNum(state, action);
+        case actionTypes.LOAD_COMPONENT_TREE: return loadComponentTree(state, action);
         default:
             return state;
     }
