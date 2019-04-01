@@ -15,13 +15,14 @@ import height_checker from '../../Components/Scene/height_checker';
 import getClosest from 'get-closest'
 import height_comparator from '../../Components/Scene/height_comparator';
 import returnKey from '../../Components/Scene/returnKey';
-
+import getSum from '../../Components/Scene/getSum';
 import {
   connect
 } from 'react-redux';
 import {
   SpheroidHeadBufferGeometry
 } from '../../Components/Parts/SpheroidHead_v2';
+
 class Scene extends Component {
 
   state = {
@@ -90,6 +91,7 @@ class Scene extends Component {
     this.lengths = [];
     this.heights = {};
     this.cylinder_lengths = [];
+   
     this.first_shell = true;
     this.heights_only = [];
     this.start();
@@ -289,6 +291,7 @@ clearScene2=( ) =>{
             shell = Shell(thickness, diameter_bot, diameter_top, this.length);
             if (this.first_shell) {
               this.height_position = this.height_position + this.length / 2;
+  
               if (!height_checker(this.props.component[i])) { //always returns false since the function for reducer is not dispatched, works even if not used
                 {
                   if (!(this.props.component[i].componentID in this.heights)) {
@@ -314,6 +317,7 @@ clearScene2=( ) =>{
                 // let ringmesh = new THREE.Mesh( ringgeometry, ringmaterial );
                 let lengths = this.props.component[i].length; //length of current cylinder
                 this.height_position = this.height_position + this.cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
+
                 if (!height_checker(this.props.component[i])) {
                   {
                     if (!(this.props.component[i].componentID in this.heights)) {
@@ -409,38 +413,37 @@ clearScene2=( ) =>{
               let head = new THREE.Mesh(head1, material);
               //this.height_position=this.height_position-r2+this.length/2;
               //head.translateY(this.height_position);
-              this.height_position = this.height_position + this.length / 2 + srl / 2;
-              if (!height_checker(this.props.component[i])) {
-                {
-                  if (!(this.props.component[i].componentID in this.heights)) {
-
-                    this.heights[this.props.component[i].componentID] = this.height_position;
-                  };
-
-                  //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
-                }
-
-                //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
-              }
+             // this.height_position = this.height_position + this.length / 2 + srl / 2;
+              //  let height_top=this.height_position + this.length / 2 + srl / 2;
+              
               let grouper2 = new THREE.Group();
               let flange2 = Shell(head_thickness, this.shell_diameter, this.shell_diameter, srl, this.material);
               head.translateY(srl / 2);
               grouper2.add(flange2);
               grouper2.add(head);
-              grouper2.translateY(this.height_position);
+              let height_for_top=0;
+              for (let i = 0; i < this.props.component.length; i++)
+                  {
+                    if(this.props.component[i].length)
+                    {
+                    height_for_top=height_for_top+this.props.component[i].length;
+                    }
+                  }
+                  if (!height_checker(this.props.component[i])) {
+                    {
+                      if (!(this.props.component[i].componentID in this.heights)) {
+    
+                        //this.heights[this.props.component[i].componentID] = height_for_top;
+                        this.heights[this.props.component[i].componentID] = -500;
+                      };
+    
+                      //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+                    }
+    
+                    //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+                  }
+              grouper2.translateY(height_for_top);
               this.scene.add(grouper2);
-              if (!height_checker(this.props.component[i])) {
-                {
-                  if (!(this.props.component[i].componentID in this.heights)) {
-
-                    this.heights[this.props.component[i].componentID] = this.height_position;
-                  };
-
-                  //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
-                }
-
-                //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
-              }
 
               //head.translateY(this.height_position);
             }
@@ -458,6 +461,7 @@ clearScene2=( ) =>{
               this.lengths.push(-1000);
               let nozzle_height = this.props.component[i].height;
               this.heights_only=[];
+              console.log("height",this.heights);
               for (let key in this.heights) {
                 let i = this.heights[key];
                 this.heights_only.splice(key, 0, i); //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
@@ -480,6 +484,15 @@ clearScene2=( ) =>{
               let raised_face_diameter = this.props.component[i].value.raised_face_diameter;
               let raised_face_thickness = this.props.component[i].value.raised_face_thickness;
               if(this.props.component[index_key].component==="Cylinder")
+              {
+              let shell_rad = this.props.component[index_key].sd / 2;
+              let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
+              let x_displace = (shell_rad) * math.cos(phi);
+              nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size);
+              nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
+              this.scene.add(nozzle);
+            }
+            if(this.props.component[index_key].component==="Cylinder")
               {
               let shell_rad = this.props.component[index_key].sd / 2;
               let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
@@ -517,7 +530,7 @@ clearScene2=( ) =>{
             let x_displace = (pos_of_noz) * math.cos(phi);
             nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size);
             nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
-            
+      
             this.scene.add(nozzle);
          
           }
@@ -535,6 +548,7 @@ clearScene2=( ) =>{
           }
           
             if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "HB") {
+
               let length = this.props.component[i].length;
               let orientation = this.props.component[i].orientation;
               let orientation_in_rad = (orientation / 180) * math.pi;
@@ -598,6 +612,7 @@ clearScene2=( ) =>{
             this.lengths.push(-500);
           }
           this.start();
+          
         }
 
       }
