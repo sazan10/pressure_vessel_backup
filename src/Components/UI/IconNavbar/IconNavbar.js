@@ -9,6 +9,7 @@ const IconNavbar = (props) => {
     return (
         <Button onClick={() => props.selectItem(props.title)} className={classes.Icons1}>
             {props.title}
+            {/* <img src={a} alt="Fuck Pritesh" height="30px" width="30px"/> */}
         </Button>
     );
 }

@@ -277,7 +277,7 @@ export const downloadReport = (id) => {
       // 'Accept': 'application/pdf'
     };
     const data = {
-      projectID: id
+      projectID: 88
     };
     axios.post(url, data, {
       headers: headers
@@ -291,6 +291,7 @@ export const downloadReport = (id) => {
         // const d = pdfData.decode('utf-8');
         // console.log(d);
         const pdfData = pako.deflate(response.data);
+        console.lof(response.data);
         // console.log(pdfData);
         const file = new Blob(
           [response.data], 
