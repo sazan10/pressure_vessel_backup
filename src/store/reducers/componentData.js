@@ -35,6 +35,7 @@ const updateData = (state, action) => {
     let comp = action.data;
     const componentID = action.componentID;
     console.log(action.data.thickness);
+    console.log("component",action.data.component);
     if (action.data.component === "Cylinder") {
         // let comp = action.data;
         const num = action.data.number;
@@ -85,6 +86,17 @@ const updateData = (state, action) => {
         ];
         data.push(action.data);
     }
+    else if(action.data.component==="Ellipsoidal Head"){
+        let comp = action.data;
+        try { comp = updateObject(comp, { thickness: action.data.thickness.toString(), componentID: action.componentID }) }
+        catch (err) {
+            console.log(err);
+        }
+        data = [
+            ...state.component
+        ]
+        data.push(comp);
+    }
     else if (action.data.component === "Skirt") {
         try {
             comp = updateObject(comp, { componentID: action.componentID });
@@ -97,16 +109,17 @@ const updateData = (state, action) => {
         ];
         data.push(action.data);
     }
-    else if(action.data.component==="Ellipsoidal Head"){
-        let comp = action.data;
-        try { comp = updateObject(comp, { thickness: action.data.thickness.toString(), componentID: action.componentID }) }
+    else if (action.data.component === "Lifting Log") {
+        try {
+            comp = updateObject(comp, { componentID: action.componentID });
+        }
         catch (err) {
             console.log(err);
         }
         data = [
             ...state.component
-        ]
-        data.push(comp);
+        ];
+        data.push(action.data);
     }
     return updateObject(state, { component: data, thickness: action.data.thickness });
 }

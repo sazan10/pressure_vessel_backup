@@ -51,7 +51,6 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
       }
     }
     url = "/api/cylinder/data";
-
     if (data.component === "Ellipsoidal Head") {
       data1 = {
         headParam: data,
@@ -85,6 +84,14 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
     }
     else if (data.component === "Skirt") {
       url = "/api/skirt/data";
+      data1 = {
+        skirtParam: data,
+        projectID: id,
+        componentID:componentID
+      };
+    }
+    else if (data.component === "Lifting Lug") {
+      url = "/api/lug/data";
       data1 = {
         skirtParam: data,
         projectID: id,
@@ -284,7 +291,7 @@ export const downloadReport = (id) => {
       headers: headers
     })
       .then(response => {
-        const reportUrl = "http://192.168.1.13:8000/" + response.data;
+        const reportUrl = "http://192.168.1.12:8000/" + response.data;
 
 
         // let pdfData = base64.decode(response.data);

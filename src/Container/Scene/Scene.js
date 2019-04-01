@@ -42,6 +42,7 @@ class Scene extends Component {
       1000000
     );
     this.camera.position.z = 400;
+    this.camera.position.y=15;
     //ADD SCENE
     //   document.addEventListener( 'click', this.onDocumentMouseDown, false );
     //ADD RENDERER
@@ -73,7 +74,7 @@ class Scene extends Component {
     this.material = new THREE.MeshPhongMaterial({
       color: '#0b7dba',
       emissive: 0x072534,
-      side: THREE.DoubleSide
+     // side: THREE.DoubleSide
     });
     this.first = 0;
     this.head_no = 0;
@@ -90,6 +91,7 @@ class Scene extends Component {
     this.length = 0;
     this.lengths = [];
     this.heights = {};
+    this.weights = {};
     this.cylinder_lengths = [];
    
     this.first_shell = true;
@@ -229,7 +231,6 @@ clearScene2=( ) =>{
    }
    else if (object.type==="Group")
    {
-
     //  while(object.type!=="Mesh")
     //  {
     //    childrens=return_children
@@ -256,6 +257,7 @@ clearScene2=( ) =>{
       this.height_position = 0;
       let scaler = 0;
       this.heights={};
+      this.weights={};
       let cylinder_iterator = 0;
       this.cylinder_lengths = [];
       this.lengths=[];
@@ -268,7 +270,7 @@ clearScene2=( ) =>{
       }
       if (this.props.component.length >= 0) {
         let rad = 0;
-        //console.log(this.props.component);
+        console.log(this.props.component);
         for (let i = 0; i < this.props.component.length; i++) {
           if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
             let diameter_bot = 0;
@@ -295,9 +297,10 @@ clearScene2=( ) =>{
               if (!height_checker(this.props.component[i])) { //always returns false since the function for reducer is not dispatched, works even if not used
                 {
                   if (!(this.props.component[i].componentID in this.heights)) {
-
                     this.heights[this.props.component[i].componentID] = this.height_position;
+                    this.weights[this.props.component[i].componentID] =[this.props.component[i].component,this.height_position,this.props.component[i].value.weight];
                   };
+                  console.log("weights",this.weights);
                   //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
                 }
                 //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
@@ -323,6 +326,7 @@ clearScene2=( ) =>{
                     if (!(this.props.component[i].componentID in this.heights)) {
 
                       this.heights[this.props.component[i].componentID] = this.height_position;
+                      this.weights[this.props.component[i].componentID] =[this.props.component[i].component,this.height_position,this.props.component[i].value.weight];
                     };
 
                     //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
@@ -371,7 +375,7 @@ clearScene2=( ) =>{
               let material = new THREE.MeshPhongMaterial({
                 color: '#0b7dba',
                 emissive: 0x072534,
-                side: THREE.DoubleSide
+               // side: THREE.DoubleSide
               });
               let flange = Shell(head_thickness, this.shell_diameter, this.shell_diameter, srl, this.material);
               let head = new THREE.Mesh(head1, material);
@@ -383,7 +387,7 @@ clearScene2=( ) =>{
               this.scene.add(grouper);
               this.shapes.push(head);
               this.first = this.first + 1;
-
+              console.log("height of head",minor+srl);
               this.head_no = 1;
 
 
@@ -392,6 +396,8 @@ clearScene2=( ) =>{
                   if (!(this.props.component[i].componentID in this.heights)) {
 
                     this.heights[this.props.component[i].componentID] = -500;
+                    this.weights[this.props.component[i].componentID] =[this.props.component[i].component,-(4*minor)/(3*math.pi),this.props.component[i].value.weight];
+
                   };
 
                   //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
@@ -424,8 +430,9 @@ clearScene2=( ) =>{
               let height_for_top=0;
               for (let i = 0; i < this.props.component.length; i++)
                   {
-                    if(this.props.component[i].length)
+                    if(this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical"))
                     {
+
                     height_for_top=height_for_top+this.props.component[i].length;
                     }
                   }
@@ -435,6 +442,7 @@ clearScene2=( ) =>{
     
                         //this.heights[this.props.component[i].componentID] = height_for_top;
                         this.heights[this.props.component[i].componentID] = -500;
+                        this.weights[this.props.component[i].componentID] =[this.props.component[i].component,height_for_top+(4*minor)/(3*math.pi),this.props.component[i].value.weight];
                       };
     
                       //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
@@ -465,6 +473,7 @@ clearScene2=( ) =>{
               for (let key in this.heights) {
                 let i = this.heights[key];
                 this.heights_only.splice(key, 0, i); //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
+                console.log("heights only", this.heights_only);
               }
 
               let closest_index = getClosest.number(nozzle_height, this.heights_only);
@@ -510,7 +519,7 @@ clearScene2=( ) =>{
             let diff=rad_top-rad_bot;
             let pos_of_noz=0;
             let noz=0;
-            if(index_key>=0)
+            if(index_key>=0) //checking if nozzle is required for the first cylinder or other, cause for first it will be equal to nozzle height, but for others the height is from the origin, but we need the height only from the corresponding cylinder 
             {
             noz=nozzle_height-(this.heights_only[index_key]-height_of_cone/2);
             }
@@ -518,7 +527,7 @@ clearScene2=( ) =>{
             {
               noz=nozzle_height;
             }
-            if(diff>=0)
+            if(diff>=0) //check if is positive to check position of nozzle below or above the height of corresponding cylinder
             {
               pos_of_noz=rad_bot+((noz/(height_of_cone))*diff);
             }
@@ -526,7 +535,7 @@ clearScene2=( ) =>{
               pos_of_noz=rad_bot-(((noz/height_of_cone))*math.abs(diff));
             }
             //let shell_rad = this.props.component[index_key].sd / 2;
-            let phi = math.asin((barrel_outer_diameter / 2 / pos_of_noz));
+            let phi = math.asin((barrel_outer_diameter / 2 / pos_of_noz));//calculating angle wrt to centre
             let x_displace = (pos_of_noz) * math.cos(phi);
             nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size);
             nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
@@ -538,11 +547,24 @@ clearScene2=( ) =>{
             {
               if (!(this.props.component[i].componentID in this.heights)) {
                 this.heights[this.props.component[i].componentID] = -500;
+                this.weights[this.props.component[i].componentID] =[this.props.component[i].component,0,this.props.component[i].value.weight];
+
               };
 
               //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
             }
-
+            
+           // console.log(this.weights);
+           let weightXCG=0;
+           let weightsum=0;
+            for (let i = 0; i < this.props.component.length; i++)
+            {
+            
+              weightsum+=this.weights[i][2];
+              weightXCG+=this.weights[i][1]*this.weights[i][2];
+              console.log("CG",this.weights[i][2],this.weights[i][1]);
+            } 
+            console.log("overall CG",weightXCG/weightsum);
             //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
           
           }
@@ -564,6 +586,8 @@ clearScene2=( ) =>{
                   if (!(this.props.component[i].componentID in this.heights)) {
 
                     this.heights[this.props.component[i].componentID] = this.height_position;
+                    this.weights[this.props.component[i].componentID] =[this.props.component[i].component,0,this.props.component[i].value.weight];
+
                   };
 
                   //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
@@ -571,6 +595,7 @@ clearScene2=( ) =>{
 
                 //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
               }
+             
             }
             // if(this.camera)
             // {
@@ -578,7 +603,7 @@ clearScene2=( ) =>{
             //   }
 
           }
-          if (this.props.component[i].component === "Skirt") {
+         if (this.props.component[i].component === "Skirt") {
             let length = parseFloat(this.props.component[i].length);
             let sd = parseFloat(this.props.component[i].sd);
             let thickness = parseFloat(this.props.component[i].thickness);
@@ -597,11 +622,13 @@ clearScene2=( ) =>{
             skirt_flange.translateY(-length - 4 / 2);
             this.scene.add(skirt);
             this.scene.add(skirt_flange);
+            console.log(skirt);
             if (!height_checker(this.props.component[i])) {
               {
                 if (!(this.props.component[i].componentID in this.heights)) {
 
-                  this.heights[this.props.component[i].componentID] = this.height_position;
+                  this.heights[this.props.component[i].componentID] = -500;
+                  this.weights[this.props.component[i].componentID] =[this.props.component[i].component,-(length/2+2),this.props.component[i].value.weight];
                 };
 
                 //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
@@ -611,9 +638,25 @@ clearScene2=( ) =>{
             }
             this.lengths.push(-500);
           }
+          else if (this.props.component[i].component === "Lifting Lug")
+          {
+            let weights=[];
+            let weightXCG=[];
+            for (let i = 0; i < this.props.component.length; i++)
+            {
+             weights.push(this.props.component[i].value.weight);
+             weightXCG.push(this.props.component[i].value.weightTimesCG);
+            } 
+            console.log("sum of wights",weights.reduce(getSum));
+            console.log("sum of weighttimesCG",weightXCG.reduce(getSum));
+
+          }
+          console.log("component name",this.props.component[i].component);
+
           this.start();
           
         }
+        console.log("weights",this.weights);
 
       }
       return ( < div style = {
