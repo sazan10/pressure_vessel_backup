@@ -92,8 +92,17 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
     }
     else if (data.component === "Lifting Lug") {
       url = "/api/lug/data";
+      console.log("lift data", data);
       data1 = {
-        skirtParam: data,
+        lugParam: data,
+        projectID: id,
+        componentID:componentID
+      };
+    }
+    else if (data.component === "Saddle") {
+      url = "/api/saddle/data";
+      data1 = {
+        saddleParam: data,
         projectID: id,
         componentID:componentID
       };
@@ -108,6 +117,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
         headers: headers
       })
       .then(response => {
+        console.log("response from backend",response);
         if (response.data.thicknesss !== null || response.data.thicknessResponse!=null) {
           let data1=null;
           if(response.data.thickness!==null && ! response.data.thicknessResponse){
@@ -290,7 +300,7 @@ export const downloadReport = (id) => {
       headers: headers
     })
       .then(response => {
-        const reportUrl = "http://192.168.1.12:8000/" + response.data;
+        const reportUrl = "http://192.168.1.13:8000/" + response.data;
 
 
         // let pdfData = base64.decode(response.data);

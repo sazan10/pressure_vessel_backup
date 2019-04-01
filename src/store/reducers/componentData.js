@@ -108,7 +108,20 @@ const updateData = (state, action) => {
         ];
         data.push(action.data);
     }
-    else if (action.data.component === "Lifting Log") {
+    else if (action.data.component === "Lifting Lug") {
+    console.log("logger data");
+        try {
+            comp = updateObject(comp, { componentID: action.componentID });
+        }
+        catch (err) {
+            console.log(err);
+        }
+        data = [
+            ...state.component
+        ];
+        data.push(action.data);
+    }
+    else if (action.data.component === "Saddle") {
         try {
             comp = updateObject(comp, { componentID: action.componentID });
         }

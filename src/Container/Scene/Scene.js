@@ -272,7 +272,7 @@ clearScene2=( ) =>{
         let rad = 0;
         console.log(this.props.component);
         for (let i = 0; i < this.props.component.length; i++) {
-          if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
+          if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
             let diameter_bot = 0;
             let diameter_top = 0;
             let diameter=0;
@@ -358,7 +358,7 @@ clearScene2=( ) =>{
             // this.camera.position.z=(this.length+rad)*1.8;
             // }
             this.shapes.push(shell);
-          } else if (this.props.component[i] && this.props.component[i].component === "Ellipsoidal Head") {
+          } else if ( this.props.component[i].component === "Ellipsoidal Head") {
             let diameter = parseFloat(this.props.component[i].sd) / 2;
             let head_thickness = parseFloat(this.props.component[i].thickness);
             this.shell_diameter = parseFloat(this.props.component[i].sd);
@@ -461,8 +461,7 @@ clearScene2=( ) =>{
             if (this.camera) {
               // this.camera.position.z=(this.length+rad)*1.8;
             }
-          } else if (this.props.component[i]) {
-            if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "LWN") {
+          } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "LWN") {
               let length = this.props.component[i].externalNozzleProjection;
               let orientation = this.props.component[i].orientation;
               let orientation_in_rad = (orientation / 180) * math.pi;
@@ -569,7 +568,7 @@ clearScene2=( ) =>{
           
           }
           
-            if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "HB") {
+            else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "HB") {
 
               let length = this.props.component[i].length;
               let orientation = this.props.component[i].orientation;
@@ -602,8 +601,8 @@ clearScene2=( ) =>{
             //   this.camera.position.z=(this.length+rad)*1.8;
             //   }
 
-          }
-         if (this.props.component[i].component === "Skirt") {
+          
+         else if (this.props.component[i].component === "Skirt") {
             let length = parseFloat(this.props.component[i].length);
             let sd = parseFloat(this.props.component[i].sd);
             let thickness = parseFloat(this.props.component[i].thickness);

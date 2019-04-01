@@ -115,7 +115,7 @@
         "step": "any",
         "valid": true
     },
-    "holeDiameter": {
+    "hole_diameter": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -129,7 +129,7 @@
         "step": "any",
         "valid": true
     },   
-    "pinDiameter": {
+    "pin_diameter": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -143,7 +143,7 @@
         "step": "any",
         "valid": true
     },
-    "eccentricity": {
+    "load_eccentricity": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -157,7 +157,7 @@
         "step": "any",
         "valid": true
     },   
-    "a_2": {
+    "distance_load_to_shell": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -171,7 +171,7 @@
         "step": "any",
         "valid": true
     },   
-    "beta": {
+    "normal_load_angle": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -185,7 +185,7 @@
         "step": "any",
         "valid": true
     },   
-    "phi": {
+    "vertical_load_angle": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -198,8 +198,8 @@
         "label": "Angle from vertical",
         "step": "any",
         "valid": true
-    },   
-    "holeDiameter": {
+    } ,
+    "weld_size": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -209,11 +209,11 @@
             "required": true
         },
         "value": "2",
-        "label": "Hole Diameter",
+        "label": "Weld Size",
         "step": "any",
         "valid": true
-    },   
-    "sigma_t": {
+    }, 
+    "lug1_cg_distance": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -223,11 +223,11 @@
             "required": true
         },
         "value": "2",
-        "label": "Tensile",
+        "label": "Lug1 CG Distance",
         "step": "any",
         "valid": true
-    },
-    "sigma_s": {
+    } ,
+    "lug2_cg_distance": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -237,11 +237,11 @@
             "required": true
         },
         "value": "2",
-        "label": "Shear",
+        "label": "Lug2 CG Distance",
         "step": "any",
         "valid": true
-    },       
-    "sigma_p": {
+    } ,
+    "weight": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -251,37 +251,9 @@
             "required": true
         },
         "value": "2",
-        "label": "Bearing",
+        "label": "weight",
         "step": "any",
         "valid": true
-    },     
-    "sigma_b": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "2 inch"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "2",
-        "label": "Bending",
-        "step": "any",
-        "valid": true
-    },   
-    "Tau_allowable": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "2 inch"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "2",
-        "label":"Weld Shear",
-        "step": "any",
-        "valid": true
-    }
+    } 
    
 }

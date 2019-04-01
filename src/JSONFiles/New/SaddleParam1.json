@@ -1,0 +1,119 @@
+{
+    "componentID": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input"  
+        },
+        "validation": {
+            "required": true
+        },
+        "placeholder": "0",
+        "value": "0",
+        "label": "Component ID",
+        "valid": true
+    },
+    "material": {
+        "elementType": "select",
+        "elementConfig": {
+            "type": "select",
+            "placeholder": "",
+            "options": [
+                {
+                    "displayValue": "SA-516 60",
+                    "value": "SA-516 60"
+                },
+                {
+                    "displayValue": "SA-516 70",
+                    "value": "SA-516 70"
+                },
+                {
+                    "displayValue": "SA-524 II Smis Pipe",
+                    "value": "SA-524 II Smis Pipe"
+                },
+                {
+                    "displayValue": "SA-53 EA Wld Pipe",
+                    "value": "SA-53 EA Wld Pipe"
+                }
+            ]
+        },
+        "validation": {
+            "required": true
+        },
+        "label": "Material",
+        "value": "SA-516 60",
+        
+        "valid": true
+        
+    },
+    "temp1": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "150 F"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "300",
+        "label": "Temp1 (F)",
+        "step": "any",
+        "valid": true
+    },
+    "ic": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "0.125 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "0.125",
+        "label": "Corrosion Internal (inch)",
+        "step": "any",
+        "valid": true
+    },
+    "sd": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "72 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "72",
+        "label": "Shell Diameter (inch)",
+        "step": "any",
+        "valid": true
+    },
+    "length": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "10 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "10",
+        "label": "Length(ft)",
+        "step": "any",
+        "valid": true
+    },
+    "thickness": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "0.5 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "0.5",
+        "label": "Thickness (inch)",
+        "step": "any",
+        "valid": true
+    }   
+   
+}

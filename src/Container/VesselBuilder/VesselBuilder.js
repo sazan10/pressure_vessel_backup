@@ -5,6 +5,7 @@ import { Switch, Route, withRouter } from "react-router-dom";
 
 import { connect } from 'react-redux';
 import Scene from '../Scene/Scene';
+import Scene_horizontal from '../Scene/Scene_horizontal';
 import { Redirect } from 'react-router-dom';
 import SideModal from '../../Components/UI/SideModal/SideModal';
 import Menu from '../Menu/Menu';
