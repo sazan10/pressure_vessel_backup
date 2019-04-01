@@ -79,12 +79,12 @@ return group2;
     {
       //sphere
       let material =new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });
-let cylinder_cone = new THREE.CylinderGeometry(outer_upper_rad,outer_lower_rad,length,100);
+let cylinder_cone = new THREE.CylinderGeometry(outer_upper_rad,outer_lower_rad,length,40);
 let cylinderconeMesh = new THREE.Mesh( cylinder_cone, material );
 let coneCSG = toCSG( cylinderconeMesh ); // converting ThreeJS object to CSG
  
 // cyl
-let cylinder = new THREE.CylinderGeometry(inner_upper_rad, inner_lower_rad, length, 100 );
+let cylinder = new THREE.CylinderGeometry(inner_upper_rad, inner_lower_rad, length, 40 );
 let cylinderMesh = new THREE.Mesh( cylinder, material );
 let cylinderCSG = toCSG( cylinderMesh ); // converting ThreeJS object to CSG
  
@@ -115,8 +115,8 @@ return mesh_test;
       let hole_number= parseFloat(hole_number1);
       let bolt_hole_radius=parseFloat(bolt_hole_rad);
       let radius_flange3=0.4
-      let extrudeSettings3 = { curveSegments: 50,depth: extrude_length, bevelEnabled: false, bevelSegments: 1, steps: 1, bevelSize: 0, bevelThickness: 0 };
-      let extrudeSettings4 = { curveSegments: 50,depth: 1, bevelEnabled: false, bevelSegments: 1, steps: 1, bevelSize: 0, bevelThickness: 0 };
+      let extrudeSettings3 = { curveSegments: 32,depth: extrude_length, bevelEnabled: false, bevelSegments: 1, steps: 1, bevelSize: 0, bevelThickness: 0 };
+      let extrudeSettings4 = { curveSegments: 32,depth: 1, bevelEnabled: false, bevelSegments: 1, steps: 1, bevelSize: 0, bevelThickness: 0 };
       let bolt_size=parseFloat(bolt_size1);
       let arcShape3 = new THREE.Shape();
       arcShape3.moveTo(0, 0 );

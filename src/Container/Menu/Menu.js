@@ -25,6 +25,7 @@ class Menu extends Component {
             case "Ellipsoidal Head":
             case "Conical":
             case "Skirt":
+            case "Lifting Lug":
             case "Nozzle":
                 this.props.importModel(e, 1);
                 this.props.sendComponentID(e, this.props.componentID, this.props.projectID);
