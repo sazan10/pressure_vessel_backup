@@ -252,7 +252,7 @@ class Scene_horizontal extends Component {
               diameter_top = parseFloat(this.props.component[i].sd_s);
             }
             this.shell_diameter = diameter_bot;
-            this.length = parseFloat(this.props.component[i].length);
+            this.length = parseFloat(this.props.component[i].length)*12;
             this.cylinder_lengths.push(this.length);
             this.lengths.push(this.length);
             let number = parseFloat(this.props.component[i].number);
@@ -286,7 +286,7 @@ class Scene_horizontal extends Component {
                 let ringgeometry = Shell(1, diameter, diameter, 1, ringmaterial);
 
                 // let ringmesh = new THREE.Mesh( ringgeometry, ringmaterial );
-                let lengths = this.props.component[i].length; //length of current cylinder
+                let lengths = this.props.component[i].length*12; //length of current cylinder
                 this.height_position = this.height_position + this.cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
 
                 if (!height_checker(this.props.component[i])) {
@@ -403,7 +403,7 @@ class Scene_horizontal extends Component {
               for (let i = 0; i < this.props.component.length; i++) {
                 if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
 
-                  height_for_top = height_for_top + this.props.component[i].length;
+                  height_for_top = height_for_top + this.props.component[i].length*12;
                 }
               }
               if (!height_checker(this.props.component[i])) {
@@ -467,7 +467,7 @@ class Scene_horizontal extends Component {
               let rad_bot = this.props.component[index_key].sd_s / 2;
               let rad_top = this.props.component[index_key].sd_l / 2;
               let temp = this.props.component;
-              let height_of_cone = this.props.component[index_key].length;
+              let height_of_cone = this.props.component[index_key].length*12;
               let diff = rad_top - rad_bot;
               let pos_of_noz = 0;
               let noz = 0;
@@ -517,7 +517,7 @@ class Scene_horizontal extends Component {
                */
           } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "HB") {
 
-            let length = this.props.component[i].length;
+            let length = this.props.component[i].length*12;
             let orientation = this.props.component[i].orientation;
             let orientation_in_rad = (orientation / 180) * math.pi;
             let nozzle_height = this.props.component[i].height;
@@ -633,7 +633,7 @@ class Scene_horizontal extends Component {
    
                if(last_cylinder!==null)
                {
-                 let height_pos=this.heights[last_cylinder]+this.props.component[last_cylinder].length/2-height/2.2;
+                 let height_pos=this.heights[last_cylinder]+(this.props.component[last_cylinder].length*12)/2-height/2.2;
                 let shell_rad = this.props.component[last_cylinder].sd/2+this.props.component[last_cylinder].value.thickness;//finding the diameter of last shell
                 let x_displace = (shell_rad) * math.cos(math.pi*(angle/180));
                 let z_displace=(shell_rad)*math.sin(math.pi*(angle/180));

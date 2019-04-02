@@ -286,7 +286,7 @@ clearScene2=( ) =>{
               diameter_top = parseFloat(this.props.component[i].sd_s);
             }
             this.shell_diameter = diameter_bot;
-            this.length = parseFloat(this.props.component[i].length);
+            this.length = parseFloat(this.props.component[i].length)*12;
             this.cylinder_lengths.push(this.length);
             this.lengths.push(this.length);
             let number = parseFloat(this.props.component[i].number);
@@ -320,7 +320,7 @@ clearScene2=( ) =>{
                 let ringgeometry = Shell(1, diameter, diameter, 1, ringmaterial);
 
                 // let ringmesh = new THREE.Mesh( ringgeometry, ringmaterial );
-                let lengths = this.props.component[i].length; //length of current cylinder
+                let lengths = this.props.component[i].length*12; //length of current cylinder
                 this.height_position = this.height_position + this.cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
 
                 if (!height_checker(this.props.component[i])) {
@@ -436,7 +436,7 @@ clearScene2=( ) =>{
                     if(this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical"))
                     {
 
-                    height_for_top=height_for_top+parseFloat(this.props.component[i].length);
+                    height_for_top=height_for_top+parseFloat(this.props.component[i].length)*12;
                     console.log("height of head",height_for_top,this.props.component[i].length)
                     }
                   }
@@ -504,21 +504,12 @@ clearScene2=( ) =>{
               nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
               this.scene.add(nozzle);
             }
-            if(this.props.component[index_key].component==="Cylinder")
-              {
-              let shell_rad = this.props.component[index_key].sd / 2;
-              let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
-              let x_displace = (shell_rad) * math.cos(phi);
-              nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size);
-              nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
-              this.scene.add(nozzle);
-            }
             else if(this.props.component[index_key].component==="Conical")
           {
             let rad_bot=this.props.component[index_key].sd_s/2;
             let rad_top=this.props.component[index_key].sd_l/2;
             let temp=this.props.component;
-            let height_of_cone=this.props.component[index_key].length;
+            let height_of_cone=this.props.component[index_key].length*12;
             let diff=rad_top-rad_bot;
             let pos_of_noz=0;
             let noz=0;
@@ -667,7 +658,7 @@ clearScene2=( ) =>{
 
             if(last_cylinder!==null)
             {
-              let height_pos=this.heights[last_cylinder]+this.props.component[last_cylinder].length/2-height/2.2;
+              let height_pos=this.heights[last_cylinder]+(this.props.component[last_cylinder].length*12)/2-height/2.2;
              let shell_rad = this.props.component[last_cylinder].sd/2+this.props.component[last_cylinder].value.thickness;//finding the diameter of last shell
              let x_displace = (shell_rad) * math.sin(math.pi*(angle/180));
              let z_displace=(shell_rad)*math.cos(math.pi*(angle/180));
