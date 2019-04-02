@@ -628,6 +628,17 @@ clearScene2=( ) =>{
           }
           else if (this.props.component[i].component === "Lifting Lug")
           {
+            if (!height_checker(this.props.component[i]))  //height parameter is used only for nozzle and we donts need to add height for nozzle so...
+              {
+                if (!(this.props.component[i].componentID in this.heights)) {
+
+                  this.heights[this.props.component[i].componentID] = -500;
+                  this.weights[this.props.component[i].componentID] = [this.props.component[i].component, 0, this.props.component[i].value.weight];
+
+                };
+
+                //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+              }
             // let weightXCG=0;
             // let weightsum=0;
             //  for (let i = 0; i < this.props.component.length; i++)
@@ -639,7 +650,7 @@ clearScene2=( ) =>{
             //  } 
             //  let overall_CG=weightXCG/weightsum;
             let thickness=this.props.component[i].value.lug_thickness;
-            let height=this.props.component[i].height;
+            let height=this.props.component[i].height_lug;
             console.log("height for lug",height);
             let rad=this.props.component[i].length/12;
             let hole_diameter=this.props.component[i].hole_diameter;

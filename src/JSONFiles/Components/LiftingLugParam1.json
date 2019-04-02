@@ -87,7 +87,7 @@
         "step": "any",
         "valid": true
     },
-    "height": {
+    "height_lug": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",

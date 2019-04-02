@@ -120,7 +120,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
         console.log("response from backend",response);
         if (response.data.thicknesss !== null || response.data.thicknessResponse!=null) {
           let data1=null;
-          if(response.data.thickness!==null && ! response.data.thicknessResponse){
+          if(response.data.thickness!==undefined && ! response.data.thicknessResponse){
           data1 = {
             ...data,
             ...{
