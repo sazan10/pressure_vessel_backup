@@ -436,7 +436,8 @@ clearScene2=( ) =>{
                     if(this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical"))
                     {
 
-                    height_for_top=height_for_top+this.props.component[i].length;
+                    height_for_top=height_for_top+parseFloat(this.props.component[i].length);
+                    console.log("height of head",height_for_top,this.props.component[i].length)
                     }
                   }
                   if (!height_checker(this.props.component[i])) {
@@ -652,7 +653,7 @@ clearScene2=( ) =>{
             let thickness=this.props.component[i].value.lug_thickness;
             let height=this.props.component[i].height_lug;
             console.log("height for lug",height);
-            let rad=this.props.component[i].length/12;
+            let rad=this.props.component[i].length;
             let hole_diameter=this.props.component[i].hole_diameter;
             let angle=this.props.component[i].layout_angle;
              let lug1=LiftingLug(height,thickness,rad,hole_diameter);
