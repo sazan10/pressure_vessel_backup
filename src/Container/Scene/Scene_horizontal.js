@@ -640,10 +640,10 @@ class Scene_horizontal extends Component {
                 console.log("last_cylinder",last_cylinder,angle,x_displace);
                 //let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
               //lug1.translateZ(10);
-               lug1.translateX(overall_CG+20).translateZ(-x_displace).translateY(z_displace).rotateX(0)//.rotateX(-(angle/180)*math.pi);//.translateY(height).translateZ(z_displace);
+               lug1.translateX(overall_CG+20).translateZ(-x_displace).translateY(z_displace).rotateX((angle/180)*math.pi-math.pi/2)//.rotateX(-(angle/180)*math.pi);//.translateY(height).translateZ(z_displace);
                 if(this.props.component[i].number==='2'){
    
-               lug2.translateX(overall_CG-20).translateZ(-x_displace).translateY(z_displace)//.rotateX((-angle/180)*math.pi);
+               lug2.translateX(overall_CG-20).translateZ(-x_displace).translateY(z_displace).rotateX((angle/180)*math.pi-math.pi/2)//.rotateX((-angle/180)*math.pi);
                }
              }
               }
