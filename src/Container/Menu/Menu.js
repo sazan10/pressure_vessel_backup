@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Menuu from '../../Components/UI/Menu/Menu';
-import Icon from '@material-ui/core/Icon';
+// import Icon from '@material-ui/core/Icon';
 import IconNavbar from '../../Components/UI/IconNavbar/IconNavbar';
 import { connect } from 'react-redux';
 import * as data from "../../JSONFiles/Navigation/File.json";
@@ -30,15 +30,19 @@ class Menu extends Component {
                 this.props.importModel(e, 1);
                 this.props.sendComponentID(e, this.props.componentID, this.props.projectID);
                 break;
-            case "Open":
+            case "Tree":
                 this.props.displayComponentTree(true);
                 break;
+            case "Open":
             case "New":
                 this.props.openFormDialog(true);
                 break;
             case "Print":
                 this.props.displayComponentTree(false);
-                // this.props.downloadReport(this.props.projectID);
+                this.props.downloadReport(this.props.projectID);
+                break;
+            case "Close":
+                this.props.displayComponentTree(false);
                 break;
             default:
                 break;
@@ -85,11 +89,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onMenuClick: ( title) => dispatch( actions.clickMenu( title) ),
+        onMenuClick: (title) => dispatch(actions.clickMenu(title)),
         requestReport: () => dispatch(actions.requestReport()),
         downloadReport: (projectID) => dispatch(actions.downloadReport(projectID)),
         importModel: (title, num) => dispatch(actions.importModel(title, num)),
-        sendComponentID : (componentType, componentID, projectID) =>  dispatch(actions.sendComponentID(componentType, componentID, projectID)),
+        sendComponentID: (componentType, componentID, projectID) => dispatch(actions.sendComponentID(componentType, componentID, projectID)),
         openFormDialog: (value) => dispatch(actions.openFormDialog(value)),
         displayComponentTree: (value) => dispatch(actions.displayComponentTree(value))
     };
