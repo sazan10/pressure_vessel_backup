@@ -619,7 +619,7 @@ class Scene_horizontal extends Component {
                 let thickness = this.props.component[i].value.lug_thickness;
                 let height = this.props.component[i].height_lug;
                 console.log("height for lug", height, weightsum, weightXCG);
-                let rad = this.props.component[i].length / 12;
+                let rad = this.props.component[i].length;
                 let hole_diameter = this.props.component[i].hole_diameter;
                 let angle = this.props.component[i].layout_angle;
                 let lug1 = LiftingLug(height, thickness, rad, hole_diameter);
