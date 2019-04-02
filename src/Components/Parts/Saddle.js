@@ -1,18 +1,18 @@
 import * as THREE from 'three'
 import { toCSG, fromCSG } from 'three-2-csg';
-  const Saddle=()=> {
+  const Saddle=(radius1=1,width=0.3, base_height1=0.1,base_length_extended1=0.4)=> {
    
     let material = new THREE.MeshPhongMaterial({ color: '#037d23', emissive: 0x072534, side: THREE.DoubleSide });
 
 
-let radius =1;
+let radius =parseFloat(radius1);
 let extra_length=0.2;
 let container=radius*2+extra_length;
-let width1 = 0.3;
+let width1 = parseFloat(width);
 let extra_height=radius/3;
-let base_height=0.1;
+let base_height=parseFloat(base_height);
 let base_width=width1+width1/2;
-let base_length=container+0.4;
+let base_length=container+parseFloat(base_length_extended1);
 let height1=radius+extra_height;
 let geometry_base = new THREE.BoxGeometry( base_length, base_height, base_width );
 let base = new THREE.Mesh( geometry_base, material );

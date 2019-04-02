@@ -9,6 +9,7 @@ import Head from '../../Components/Parts/Head';
 import Curve_nozzle from '../../Components/Parts/Curve_nozzle';
 import Saddle from '../../Components/Parts/Saddle';
 import Standard_nozzle from '../../Components/Parts/Standard_nozzle';
+import LiftingLug from '../../Components/Parts/LiftingLug';
 import comparator from '../../Components/Scene/comparator';
 import math from 'mathjs';
 import height_checker from '../../Components/Scene/height_checker';
@@ -261,6 +262,7 @@ clearScene2=( ) =>{
       let cylinder_iterator = 0;
       this.cylinder_lengths = [];
       this.lengths=[];
+      let last_cylinder=null;
       if(this.scene)
       {
         if(this.scene.children)
@@ -272,7 +274,7 @@ clearScene2=( ) =>{
         let rad = 0;
         console.log(this.props.component);
         for (let i = 0; i < this.props.component.length; i++) {
-          if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
+          if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
             let diameter_bot = 0;
             let diameter_top = 0;
             let diameter=0;
@@ -358,7 +360,8 @@ clearScene2=( ) =>{
             // this.camera.position.z=(this.length+rad)*1.8;
             // }
             this.shapes.push(shell);
-          } else if (this.props.component[i] && this.props.component[i].component === "Ellipsoidal Head") {
+            last_cylinder=i;
+          } else if ( this.props.component[i].component === "Ellipsoidal Head") {
             let diameter = parseFloat(this.props.component[i].sd) / 2;
             let head_thickness = parseFloat(this.props.component[i].thickness);
             this.shell_diameter = parseFloat(this.props.component[i].sd);
@@ -461,8 +464,7 @@ clearScene2=( ) =>{
             if (this.camera) {
               // this.camera.position.z=(this.length+rad)*1.8;
             }
-          } else if (this.props.component[i]) {
-            if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "LWN") {
+          } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "LWN") {
               let length = this.props.component[i].externalNozzleProjection;
               let orientation = this.props.component[i].orientation;
               let orientation_in_rad = (orientation / 180) * math.pi;
@@ -553,23 +555,9 @@ clearScene2=( ) =>{
 
               //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
             }
-            
-           // console.log(this.weights);
-           let weightXCG=0;
-           let weightsum=0;
-            for (let i = 0; i < this.props.component.length; i++)
-            {
-            
-              weightsum+=this.weights[i][2];
-              weightXCG+=this.weights[i][1]*this.weights[i][2];
-              console.log("CG",this.weights[i][2],this.weights[i][1]);
-            } 
-            console.log("overall CG",weightXCG/weightsum);
-            //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
-          
           }
           
-            if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "HB") {
+            else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "HB") {
 
               let length = this.props.component[i].length;
               let orientation = this.props.component[i].orientation;
@@ -602,8 +590,8 @@ clearScene2=( ) =>{
             //   this.camera.position.z=(this.length+rad)*1.8;
             //   }
 
-          }
-         if (this.props.component[i].component === "Skirt") {
+          
+         else if (this.props.component[i].component === "Skirt") {
             let length = parseFloat(this.props.component[i].length);
             let sd = parseFloat(this.props.component[i].sd);
             let thickness = parseFloat(this.props.component[i].thickness);
@@ -640,24 +628,64 @@ clearScene2=( ) =>{
           }
           else if (this.props.component[i].component === "Lifting Lug")
           {
-            let weights=[];
-            let weightXCG=[];
-            for (let i = 0; i < this.props.component.length; i++)
+            if (!height_checker(this.props.component[i]))  //height parameter is used only for nozzle and we donts need to add height for nozzle so...
+              {
+                if (!(this.props.component[i].componentID in this.heights)) {
+
+                  this.heights[this.props.component[i].componentID] = -500;
+                  this.weights[this.props.component[i].componentID] = [this.props.component[i].component, 0, this.props.component[i].value.weight];
+
+                };
+
+                //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+              }
+            // let weightXCG=0;
+            // let weightsum=0;
+            //  for (let i = 0; i < this.props.component.length; i++)
+            //  {
+             
+            //    weightsum+=this.weights[i][2];
+            //    weightXCG+=this.weights[i][1]*this.weights[i][2];
+            //    console.log("CG",this.weights[i][2],this.weights[i][1]);
+            //  } 
+            //  let overall_CG=weightXCG/weightsum;
+            let thickness=this.props.component[i].value.lug_thickness;
+            let height=this.props.component[i].height_lug;
+            console.log("height for lug",height);
+            let rad=this.props.component[i].length/12;
+            let hole_diameter=this.props.component[i].hole_diameter;
+            let angle=this.props.component[i].layout_angle;
+             let lug1=LiftingLug(height,thickness,rad,hole_diameter);
+             this.scene.add(lug1);
+             let lug2=null;
+             if(this.props.component[i].number==='2'){
+               console.log("two lugs");
+             lug2=LiftingLug(height,thickness,rad,hole_diameter);
+             this.scene.add(lug2);
+             }
+
+            if(last_cylinder!==null)
             {
-             weights.push(this.props.component[i].value.weight);
-             weightXCG.push(this.props.component[i].value.weightTimesCG);
-            } 
-            console.log("sum of wights",weights.reduce(getSum));
-            console.log("sum of weighttimesCG",weightXCG.reduce(getSum));
+              let height_pos=this.heights[last_cylinder]+this.props.component[last_cylinder].length/2-height/2.2;
+             let shell_rad = this.props.component[last_cylinder].sd/2+this.props.component[last_cylinder].value.thickness;//finding the diameter of last shell
+             let x_displace = (shell_rad) * math.sin(math.pi*(angle/180));
+             let z_displace=(shell_rad)*math.cos(math.pi*(angle/180));
+             console.log("last_cylinder",last_cylinder,angle,x_displace);
+             //let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
+           
+             lug1.translateX(x_displace).translateZ(-z_displace).translateY(height_pos).rotateY(-(angle/180)*math.pi);//.translateY(height).translateZ(z_displace);
+             if(this.props.component[i].number==='2'){
 
+             lug2.translateX(-x_displace).translateZ(z_displace).translateY(height_pos).rotateY(-(angle/180)*math.pi+math.pi);
+            }
           }
-          console.log("component name",this.props.component[i].component);
-
-          this.start();
+           //  lug1.translateY(this.heights[last_cylinder]+this.props.component[last_cylinder].length/2);
           
+             //this.scene.add(lug2); 
+          }
+          this.start();
         }
         console.log("weights",this.weights);
-
       }
       return ( < div style = {
           {

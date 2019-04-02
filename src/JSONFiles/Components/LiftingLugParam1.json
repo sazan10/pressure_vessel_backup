@@ -40,7 +40,7 @@
             "required": true
         },
         "label": "Material",
-        "value": "SA-516 60",
+        "value": "SA-516 70",
         
         "valid": true
         
@@ -77,17 +77,17 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "10 inch"
+            "placeholder": "6 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "10",
-        "label": "Length(ft)",
+        "value": "6",
+        "label": "Length(inch)",
         "step": "any",
         "valid": true
     },
-    "height": {
+    "height_lug": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -115,173 +115,183 @@
         "step": "any",
         "valid": true
     },
-    "holeDiameter": {
+    "hole_diameter": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "2 inch"
+            "placeholder": "1.75 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "2",
+        "value": "1.75",
         "label": "Hole Diameter",
         "step": "any",
         "valid": true
     },   
-    "pinDiameter": {
+    "pin_diameter": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "2 inch"
+            "placeholder": "1.625 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "2",
+        "value": "1.625",
         "label": "Pin Diameter",
         "step": "any",
         "valid": true
     },
-    "eccentricity": {
+    "load_eccentricity": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "2 inch"
+            "placeholder": "0 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "2",
+        "value": "0",
         "label": "Eccentricity",
         "step": "any",
         "valid": true
     },   
-    "a_2": {
+    "distance_load_to_shell": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "2 inch"
+            "placeholder": "3 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "2",
+        "value": "3",
         "label": "Distance from load to shell/pad",
         "step": "any",
         "valid": true
     },   
-    "beta": {
+    "normal_load_angle": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "2 inch"
+            "placeholder": "0"
         },
         "validation": {
             "required": true
         },
-        "value": "2",
+        "value": "0",
         "label": "Angle N to vessel",
         "step": "any",
         "valid": true
     },   
-    "phi": {
+    "vertical_load_angle": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "2 inch"
+            "placeholder": "-31.82"
         },
         "validation": {
             "required": true
         },
-        "value": "2",
+        "value": "-31.82",
         "label": "Angle from vertical",
         "step": "any",
         "valid": true
-    },   
-    "holeDiameter": {
+    } ,
+    "weld_size": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "2 inch"
+            "placeholder": "0.5 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "2",
-        "label": "Hole Diameter",
+        "value": "0.5",
+        "label": "Weld Size",
         "step": "any",
         "valid": true
-    },   
-    "sigma_t": {
+    }, 
+    "lug1_cg_distance": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "2 inch"
+            "placeholder": "27.0581 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "2",
-        "label": "Tensile",
+        "value": "27.0581",
+        "label": "Lug1 CG Distance",
+        "step": "any",
+        "valid": true
+    } ,
+    "lug2_cg_distance": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "13.2925 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "13.2925",
+        "label": "Lug2 CG Distance",
+        "step": "any",
+        "valid": true
+    } ,
+    "weight": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "7036.5"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "7036.5",
+        "label": "weight",
+        "step": "any",
+        "valid": true
+    } ,
+    "layout_angle": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "90"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "90",
+        "label": "Angle",
         "step": "any",
         "valid": true
     },
-    "sigma_s": {
-        "elementType": "input",
+    "number": {
+        "elementType": "select",
         "elementConfig": {
-            "type": "input",
-            "placeholder": "2 inch"
+            "type": "select",
+            "placeholder": "",
+            "options": [
+                {
+                    "displayValue": "1",
+                    "value": "1"
+                },
+                {
+                    "displayValue": "2",
+                    "value": "2"
+                }
+            ]
         },
         "validation": {
             "required": true
         },
+        "label": "Number",
         "value": "2",
-        "label": "Shear",
-        "step": "any",
         "valid": true
-    },       
-    "sigma_p": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "2 inch"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "2",
-        "label": "Bearing",
-        "step": "any",
-        "valid": true
-    },     
-    "sigma_b": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "2 inch"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "2",
-        "label": "Bending",
-        "step": "any",
-        "valid": true
-    },   
-    "Tau_allowable": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "2 inch"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "2",
-        "label":"Weld Shear",
-        "step": "any",
-        "valid": true
-    }
+        
+    }   
    
 }

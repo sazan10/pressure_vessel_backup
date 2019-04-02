@@ -26,6 +26,7 @@ class Menu extends Component {
             case "Conical":
             case "Skirt":
             case "Lifting Lug":
+            case "Saddle":
             case "Nozzle":
                 this.props.displayComponentTree(false);
                 this.props.importModel(e, 1);
