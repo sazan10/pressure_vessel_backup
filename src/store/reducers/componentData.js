@@ -1,12 +1,16 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
-import { sendComponentID } from '../actions';
+
 
 const initialState = {
     component: [],
     cylinder: null,
-    ellipsoidalHead: null,
+    ellipsoidalhead: null,
     nozzle: null,
+    skirt: null,
+    saddle: null,
+    liftinglug: null,
+    conical: null,
     error: null,
     componentID: 0,
     projectID: null,
@@ -79,12 +83,14 @@ const updateData = (state, action) => {
             comp = updateObject(comp, { componentID: action.componentID });
         }
         catch (err) {
-            console.log(err);
+            console.log("Nozzlw",err);
         }
         data = [
             ...state.component
         ];
         data.push(action.data);
+        console.log("Nozzlw1");
+        return updateObject(state, { component: data});
     }
     else if(action.data.component==="Ellipsoidal Head"){
         let comp = action.data;
@@ -153,6 +159,12 @@ const componentUpdate = (state, action) => {
     return updateObject(state, { component: data });
 }
 
+const updateLastItem = (state, action) => {
+    const component = action.componentType.toLowerCase().replace(" ","");
+    console.log(component);
+    return updateObject(state, {[component] : action.data});
+}
+
 
 const reportFail = (state, action) => {
     return updateObject(state, { error: action.error })
@@ -183,6 +195,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.DATA_UPDATE1: return updateData1(state,action);
         case actionTypes.DELETE_THICKNESS: return deleteThickness(state, action);
         case actionTypes.OPEN_FORM_DIALOG: return openFormDialog(state, action);
+        case actionTypes.UPDATE_LAST_ITEM: return updateLastItem(state, action);
         default:
             return state;
     }

@@ -1,17 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
-import superagent from "superagent";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Switch from "@material-ui/core/Switch";
+
 import FolderIcon from "@material-ui/icons/Folder";
 import FolderOpenIcon from "@material-ui/icons/FolderOpen";
-import SettingsIcon from "@material-ui/icons/SettingsRounded";
-import DescriptionIcon from "@material-ui/icons/Description";
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
-import AddIcon from "@material-ui/icons/Add";
-import DeleteIcon from "@material-ui/icons/Delete";
 import Tree, { getTreeLeafDataByIndexArray } from "material-ui-tree";
 
 class TreeDemo extends React.Component {
@@ -54,14 +48,14 @@ class TreeDemo extends React.Component {
     if (type==="tree") {
       if (expand) {
         return (
-          <Typography variant="body1" className={classes.leaf}>
+          <Typography key={newComponent} variant="body1" className={classes.leaf}>
             <FolderOpenIcon className={classes.icon} />
             {component}
           </Typography>
         );
       }
       return (
-        <Typography variant="body1" className={classes.leaf}>
+        <Typography key={newComponent} variant="body1" className={classes.leaf}>
           <FolderIcon className={classes.icon} />
           {component}
         </Typography>
@@ -70,7 +64,7 @@ class TreeDemo extends React.Component {
     if (type === "blob") {
       
       return (
-        <Typography variant="body2" className={classes.leaf}>
+        <Typography key={newComponent} variant="body2" className={classes.leaf}>
           <InsertDriveFileIcon className={classes.icon} />
           {newComponent}
         </Typography>
@@ -82,36 +76,36 @@ class TreeDemo extends React.Component {
     const { classes } = this.props;
     // const { type } = leafData;
     console.log("Actions", leafData);
-    const type = leafData.type;
-    if (type === "tree") {
-      if (!expand) {
-        return null;
-      }
-      return [
-        {
-          icon: <AddIcon className={classes.icon} />,
-          label: "news",
-          hint: "Insert file",
-          onClick: () => {
-            const data = { ...this.state.data };
-            const leaf = getTreeLeafDataByIndexArray(data, chdIndex, "tree");
-            console.log(leaf);
-            if (
-              !Reflect.has(leaf, "tree") ||
-              !Reflect.has(leaf.tree, "length")
-            ) {
-              leaf.tree = [];
-            }
-            leaf.tree.push({
-              path: "new file",
-              type: "blob",
-              sha: Math.random()
-            });
-            this.setState({ data });
-          }
-        }
-      ];
-    }
+    // const type = leafData.type;
+    // if (type === "tree") {
+    //   if (!expand) {
+    //     return null;
+    //   }
+    //   return [
+    //     {
+    //       icon: <AddIcon className={classes.icon} />,
+    //       label: "news",
+    //       hint: "Insert file",
+    //       onClick: () => {
+    //         const data = { ...this.state.data };
+    //         const leaf = getTreeLeafDataByIndexArray(data, chdIndex, "tree");
+    //         console.log(leaf);
+    //         if (
+    //           !Reflect.has(leaf, "tree") ||
+    //           !Reflect.has(leaf.tree, "length")
+    //         ) {
+    //           leaf.tree = [];
+    //         }
+    //         leaf.tree.push({
+    //           path: "new file",
+    //           type: "blob",
+    //           sha: Math.random()
+    //         });
+    //         this.setState({ data });
+    //       }
+    //     }
+    //   ];
+    // }
     // return [
     //   {
     //     icon: <DeleteIcon color="secondary" className={classes.icon} />,

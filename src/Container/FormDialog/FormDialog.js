@@ -16,11 +16,10 @@ class FormDialog extends React.Component {
 
     projectName: null,
     orientation: ""
-
   };
 
   componentDidMount() {
-    console.log(this.props.open);
+    // console.log(this.props.open);
     this.setState({ open: this.props.open })
     let newState = {
       ...this.state,
@@ -37,19 +36,19 @@ class FormDialog extends React.Component {
 
   submit = (e) => {
     e.preventDefault();
-    console.log("Submit", this.state.orientation);
+    // console.log("Submit", this.state.orientation);
     this.props.requestProjectID(this.state.projectName, this.state.orientation);
     this.setState({ open: false });
     this.props.openFormDialog(false); 
   }
 
   handleChange = (event, name) => {
-    console.log(event.target.value, name);
+    // console.log(event.target.value, name);
     this.setState({ [name]: event.target.value });
   }
 
   handleClick = (event, name) => {
-    console.log("Project",name);
+    // console.log("Project",name);
     this.setState({ open: false });
     this.props.openFormDialog(false); 
   }

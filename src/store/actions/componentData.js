@@ -43,7 +43,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
     let data1 = null
     if (data.material !== undefined) {
       const mat = data.material.split(" ");
-      data.length = data.length * 12;
+      // data.length = data.length * 12;
       data = {
         ...data,
         spec_num: mat[0],
@@ -138,6 +138,8 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
             }
           };
         }
+        console.log(data1);
+          dispatch(updateLastItem(data.component, data1));
           if (data.componentID < componentID) {
             dispatch(updateComponent(data1));
           } else {
@@ -162,6 +164,14 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
       .catch(err => {
         dispatch(onDataSendFail(err.response));
       });
+  }
+}
+
+export const updateLastItem = (type, data) => {
+  return {
+    type: actionTypes.UPDATE_LAST_ITEM,
+    componentType: type,
+    data: data
   }
 }
 

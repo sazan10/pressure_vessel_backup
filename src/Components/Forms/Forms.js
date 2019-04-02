@@ -40,6 +40,44 @@ class DynamicForm extends React.Component {
         });
     }
 
+    copyFromLast = (e) => {
+        e.preventDefault();
+        console.log("Button Clicked");
+        let data = null;
+        const name = this.props.title.toLowerCase().replace(" ","");
+        data = this.props[name];
+        console.log(name, data);
+        // switch (this.props.title) {
+        //     case "Cylinder":
+        //         data = this.props.cylinder;
+        //         break;
+        //     case "Ellipsoidal Head":
+        //         data = this.props.$data;
+        //         break;
+        //     default:
+        //         break;
+        // }
+        const updatedForm = {
+            ...this.state.form
+        }
+        console.log(updatedForm);
+        console.log(data);
+        for (let key in data) {
+            // console.log(key, updatedForm[key], data[key]);
+            if (updatedForm[key] !== undefined) {
+                updatedForm[key] = {
+                    ...updatedForm[key],
+                    value: data[key]
+                    // valid: this.checkValidity(data[key], updatedForm[key].validation),
+                }
+            }
+        }
+        this.setState({
+            form: updatedForm
+        });
+
+    }
+
     onSubmitHandler = (e) => {
         e.preventDefault();
         let data = {
@@ -63,6 +101,7 @@ class DynamicForm extends React.Component {
         } else {
             this.setState({ message: <p>Data not valid</p> });
         }
+        this.props.displayComponentTree(true);
         this.props.history.push('/builder');
 
     }
@@ -80,7 +119,7 @@ class DynamicForm extends React.Component {
                 };
                 updatedform.thickness.value = this.props.thickness;
                 updatedform.thickness.placeholder = this.props.thickness;
-                console.log(updatedform);
+                // console.log(updatedform);
                 this.setState({ form: updatedform });
                 this.props.deleteThickness();
             }
@@ -136,6 +175,8 @@ class DynamicForm extends React.Component {
         });
 
     }
+
+
 
     renderForm = () => {
         // console.log(this.state.form);
@@ -193,12 +234,15 @@ class DynamicForm extends React.Component {
 
         return (
             <div >
+
                 <form onSubmit={this.onSubmitHandler}>
                     {this.renderForm()}
                     {this.state.message}
 
-                    <Button btnType="Success" disabled="true">SUBMIT</Button>
+                    <Button color="primary" type="submit" btnType="Success" disabled="true" >SUBMIT</Button>
+
                 </form>
+                <Button color="primary" btnType="Success" clicked={(e) => this.copyFromLast(e)}>Copy From Last</Button>
             </div>
         )
     }
@@ -213,7 +257,13 @@ const mapStateToProps = state => {
         projectID: state.componentData.projectID,
         error: state.componentData.error,
         componentID: state.componentData.componentID,
-        new: state.navigation.new
+        new: state.navigation.new,
+        cylinder: state.componentData.cylinder,
+        ellipsoidalhead: state.componentData.ellipsoidalhead,
+        nozzle: state.componentData.nozzle,
+        skirt: state.componentData.skirt,
+        saddle: state.componentData.saddle,
+        conical: state.componentData.conical
     };
 };
 
@@ -222,7 +272,8 @@ const mapDispatchToProps = dispatch => {
         importModel: (title, num) => dispatch(actions.importModel(title, num)),
         disableNew: () => dispatch(actions.disableNew()),
         onSubmitAndUpdate: (data, id, componentID) => dispatch(actions.onSubmitAndUpdate(data, id, componentID)),
-        deleteThickness: () => dispatch(actions.deleteThickness())
+        deleteThickness: () => dispatch(actions.deleteThickness()),
+        displayComponentTree: (value) => dispatch(actions.displayComponentTree(value))
     };
 };
 
