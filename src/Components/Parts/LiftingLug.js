@@ -1,20 +1,20 @@
 import * as THREE from 'three'
 import { toCSG, fromCSG } from 'three-2-csg';
-
-
-const LiftingLug=()=> {
+import * as math from 'mathjs';
+const LiftingLug=(height1=10,width1=5,radius1=5,hole_radius1=2)=> {
     
-var material=new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });;
-var center_of_torus=1;
-var length_of_pipe2=0.1;
-var sqLength=4;
+let material=new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });;
 
-var x =0;
-var y=0;
-var radius=2;
-var height=15;
-var width=5;
-var squareShape = new THREE.Shape();
+let hole_radius=parseFloat(hole_radius1)
+;
+let x =0;
+let y=0;
+let radius=parseFloat(radius1);
+let height=parseFloat(height1);
+let width=parseFloat(width1);
+let squareShape = new THREE.Shape();
+let bevelthick=0;//0.5*radius*0.2;
+let bevsize=0;//0.25*radius*0.2
 // squareShape.moveTo( x, y + radius );
 // squareShape.lineTo( x, y + height - radius );
 // squareShape.quadraticCurveTo( x, y + height, x + radius, y + height );
@@ -25,10 +25,10 @@ var squareShape = new THREE.Shape();
 //squareShape.quadraticCurveTo( x + radius, y + height, x + 2*radius, y + height - radius );
 //squareShape.lineTo(-1,-1);
 squareShape.moveTo(0,0);
-squareShape.absarc( 0, 0, 2,3.14,3.14*2, false );
-squareShape.lineTo(2,5);
-squareShape.lineTo(-2,5);
-squareShape.lineTo(-2,0)
+squareShape.absarc( 0, 0, radius,math.pi,math.pi*2, false );
+squareShape.lineTo(radius,height);
+squareShape.lineTo(-radius,height);
+squareShape.lineTo(-radius,0)
 squareShape.lineTo(0,0);
 
 
@@ -38,32 +38,35 @@ squareShape.lineTo(0,0);
 // squareShape.quadraticCurveTo( x, y, x, y + radius );
         
         
-        var extrudeSettings4 = { curveSegments: 50,depth: 0.5, bevelEnabled: true, bevelSegments: 12, steps: 1, bevelSize: 0.25, bevelThickness: 0.5 };
+        let extrudeSettings4 = { depth: width, bevelEnabled: false, bevelSegments: 12, steps: 1, bevelSize: bevsize, bevelThickness: bevelthick };
 
-        var geometry_extrude3 = new THREE.ExtrudeGeometry( squareShape, extrudeSettings4 );
+        let geometry_extrude3 = new THREE.ExtrudeGeometry( squareShape, extrudeSettings4 );
         //geometry_extrude3.computeFaceNormals();
         console.log("ddd");
         
-         var mesh3 = new THREE.Mesh( geometry_extrude3, material);
+         let mesh3 = new THREE.Mesh( geometry_extrude3, material);
 
 
 
-         var coneCSG = toCSG( mesh3 ); // converting ThreeJS object to CSG
+         let coneCSG = toCSG( mesh3 ); // converting ThreeJS object to CSG
  
          // cyl
-         var cylinder = new THREE.CylinderGeometry(0.4, 0.4, 10, 100 );
-         var cylinderMesh = new THREE.Mesh( cylinder, material );
-         cylinderMesh.rotateX(3.14/2);
-         var cylinderCSG = toCSG( cylinderMesh ); // converting ThreeJS object to CSG
+	let hole_length=width+bevelthick*2+bevsize/2; 
+         let cylinder = new THREE.CylinderGeometry(hole_radius, hole_radius,hole_length , 32 );
+         let cylinderMesh = new THREE.Mesh( cylinder, material );
+         cylinderMesh.translateZ(width/2).rotateX(math.pi/2);
+         let cylinderCSG = toCSG( cylinderMesh ); // converting ThreeJS object to CSG
           
          //result
-         var subtractCSG = coneCSG.subtract( cylinderCSG );
-         var result = fromCSG(subtractCSG); // converting CSG back into ThreeJS object
-          var mesh_test= new THREE.Mesh(result,material);
+         let subtractCSG = coneCSG.subtract( cylinderCSG );
+         let result = fromCSG(subtractCSG); // converting CSG back into ThreeJS object
+          let mesh_test= new THREE.Mesh(result,material);
           
-mesh_test.rotateX(3.14).translateY(-(5+0.25));
+mesh_test.rotateX(math.pi).translateY(-(height+bevsize)).translateZ(bevelthick);
         // material.wireframe=true;
-return mesh_test;
+let group =new THREE.Group();
+group.add(mesh_test);
+return group;
 //this.create_component(radius_outer_pipe_top,radius_outer_pipe_bottom,radius_inner_pipe_top,radius_inner_pipe_bottom,length_of_pipe2,0,0,0,0,0,3.14/2);
 
   // this.scene.add(pointclod);
@@ -72,8 +75,6 @@ return mesh_test;
 }
 
 
-
-
-  
+ 
  export default LiftingLug;
  //module.exports= ThreeScene;

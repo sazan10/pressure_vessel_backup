@@ -8,6 +8,7 @@ import React, {
   import Head from '../../Components/Parts/Head';
   import Curve_nozzle from '../../Components/Parts/Curve_nozzle';
   import Saddle from '../../Components/Parts/Saddle';
+  import LiftingLug from '../../Components/Parts/LiftingLug';
   import Standard_nozzle from '../../Components/Parts/Standard_nozzle';
   import comparator from '../../Components/Scene/comparator';
   import math from 'mathjs';
@@ -236,6 +237,7 @@ import React, {
         let cylinder_iterator = 0;
         this.cylinder_lengths = [];
         this.lengths=[];
+        let last_cylinder=null;
         if(this.scene)
         {
           if(this.scene.children)
@@ -335,6 +337,7 @@ import React, {
               // this.camera.position.z=(this.length+rad)*1.8;
               // }
               this.shapes.push(shell);
+              last_cylinder=i;
             } else if (this.props.component[i].component === "Ellipsoidal Head") {
               let diameter = parseFloat(this.props.component[i].sd) / 2;
               let head_thickness = parseFloat(this.props.component[i].thickness);
@@ -614,10 +617,19 @@ import React, {
                    weightXCG+=this.weights[i][1]*this.weights[i][2];
                    console.log("CG",this.weights[i][2],this.weights[i][1]);
                  } 
-                 console.log("overall CG",weightXCG/weightsum);
-                 //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
-
+                 let overall_CG=weightXCG/weightsum;
+                 let lug1=LiftingLug();
+                 let lug2=LiftingLug();
+                 lug1.translateX(overall_CG+20).translateY(this.props.component[last_cylinder].sd);
+                 lug2.translateX(overall_CG-20).translateY(this.props.component[last_cylinder].sd);
+                 
+                 console.log("overall CG",overall_CG);
   
+            }
+            else if (this.props.component[i].component === "Saddle")
+            {
+                let saddle = Saddle();
+
             }
             console.log("component name",this.props.component[i].component);
   

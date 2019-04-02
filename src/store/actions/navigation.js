@@ -19,7 +19,7 @@ export const disableNew = () => {
 export const importModel = (title, num) => {
   return dispatch => {
     // console.log("Inside actions " + title );
-  import(`../../JSONFiles/New/${title.replace(' ','')}Param${num}.json`)
+  import(`../../JSONFiles/Components/${title.replace(' ','')}Param${num}.json`)
     .then(function(response) {
       // console.log(response.default);
       dispatch(returnModel(response.default));
@@ -55,3 +55,10 @@ export const updateNum = (num) => {
     num: num
   };
 };
+
+export const displayComponentTree = (value) => {
+  return {
+    type: actionTypes.LOAD_COMPONENT_TREE,
+    value: value
+  }
+}

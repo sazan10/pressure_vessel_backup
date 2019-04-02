@@ -3,7 +3,7 @@ import Menuu from '../../Components/UI/Menu/Menu';
 import Icon from '@material-ui/core/Icon';
 import IconNavbar from '../../Components/UI/IconNavbar/IconNavbar';
 import { connect } from 'react-redux';
-import * as data from "../../JSONFiles/File.json";
+import * as data from "../../JSONFiles/Navigation/File.json";
 import * as actions from '../../store/actions/index';
 
 class Menu extends Component {
@@ -32,12 +32,14 @@ class Menu extends Component {
                 this.props.sendComponentID(e, this.props.componentID, this.props.projectID);
                 break;
             case "Open":
+                this.props.displayComponentTree(true);
                 break;
             case "New":
                 this.props.openFormDialog(true);
                 break;
             case "Print":
-                this.props.downloadReport(this.props.projectID);
+                this.props.displayComponentTree(false);
+                // this.props.downloadReport(this.props.projectID);
                 break;
             default:
                 break;
@@ -89,7 +91,8 @@ const mapDispatchToProps = dispatch => {
         downloadReport: (projectID) => dispatch(actions.downloadReport(projectID)),
         importModel: (title, num) => dispatch(actions.importModel(title, num)),
         sendComponentID : (componentType, componentID, projectID) =>  dispatch(actions.sendComponentID(componentType, componentID, projectID)),
-        openFormDialog: (value) => dispatch(actions.openFormDialog(value))
+        openFormDialog: (value) => dispatch(actions.openFormDialog(value)),
+        displayComponentTree: (value) => dispatch(actions.displayComponentTree(value))
     };
 };
 

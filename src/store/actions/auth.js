@@ -27,7 +27,7 @@ export const authFail = error => {
 export const importAuthModel = (isSignup) => {
   return dispatch => {
     // console.log("Inside actions " + title );
-  import(`../../JSONFiles/New/Auth`)
+  import(`../../JSONFiles/Auth/Auth`)
     .then(function(response) {
       console.log("Auth model",response.default);
       dispatch(returnModel(response.default));

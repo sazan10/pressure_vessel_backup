@@ -12,7 +12,8 @@ const initialState = {
     projectID: null,
     projectName: null,
     thickness: null,
-    formDialogOpen: false
+    formDialogOpen: false,
+    orientation: "vertical"
 };
 
 const onDataSend = (state, action) => {
@@ -158,7 +159,7 @@ const reportFail = (state, action) => {
 }
 
 const requestReport = (state, action) => {
-    return updateObject(state, { projectID: action.projectID, projectName: action.projectName })
+    return updateObject(state, { projectID: action.projectID, projectName: action.data.projectName, orientation: action.data.orientation })
 
 }
 

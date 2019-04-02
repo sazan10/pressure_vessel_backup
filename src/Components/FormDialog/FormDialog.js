@@ -16,7 +16,7 @@ const FormDialog = (props) => {
 
     let form = formElementsArray.map(formElement => (
         
-            <FormInput key={formElement.id} data={formElement.config} handleChange={props.handleChange}/>
+            <FormInput key={formElement.id} data={formElement.config} handleChange={props.handleChange} orientation={props.orientation}/>
     ));
 return (
     <div>
