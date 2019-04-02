@@ -8,13 +8,14 @@ import * as data from '../../JSONFiles/FormDialog/New';
 import {
   connect
 } from 'react-redux';
+// import Test from '../../Components/Test/Test';
 import List from '../../Components/List/List'; 
 class FormDialog extends React.Component {
   state = {
     open: false,
 
     projectName: null,
-    orientation: "vertical"
+    orientation: ""
 
   };
 
@@ -54,6 +55,10 @@ class FormDialog extends React.Component {
   }
 
   render() {
+    let form = <FormDialogComp submit={this.submit} handleChange={this.handleChange} handleClose={this.handleClose} model={data} orientation={this.state.orientation}/>;
+    if(this.props.title === "Open") {
+      form = <List model={data} handleClick={this.handleClick}></List> 
+    }
     return (
       <div>
         <Dialog
@@ -61,9 +66,9 @@ class FormDialog extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         > 
-          {/* <List model={data} handleClick={this.handleClick}></List> */}
-          <FormDialogComp submit={this.submit} handleChange={this.handleChange} handleClose={this.handleClose} model={data} orientation={this.state.orientation}/>
-
+          {form}
+          
+          
         </Dialog>
       </div>
     );
