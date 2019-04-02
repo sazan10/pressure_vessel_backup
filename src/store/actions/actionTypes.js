@@ -36,3 +36,5 @@ export const REQUEST_REPORT = "REQUEST_REPORT";
 export const REPORT_FAIL = "REPORT_FAIL";
 
 export const DOWNLOAD_REPORT = "DOWNLOAD_REPORT";
+
+export const UPDATE_LAST_ITEM = 'UPDATE_LAST_ITEM';
