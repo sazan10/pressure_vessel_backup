@@ -73,7 +73,7 @@ class TreeDemo extends React.Component {
   };
 
   getTreeLeafActionsData = (leafData, chdIndex, expand) => {
-    const { classes } = this.props;
+  //  const { classes } = this.props;
     // const { type } = leafData;
     console.log("Actions", leafData);
     // const type = leafData.type;

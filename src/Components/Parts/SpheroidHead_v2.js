@@ -1,4 +1,4 @@
-import { Geometry, BufferGeometry, Float32BufferAttribute, Vector3, Vector2 } from 'three';
+import {BufferGeometry, Float32BufferAttribute, Vector3} from 'three';
 
 
 /**
@@ -40,8 +40,7 @@ function SpheroidHeadBufferGeometry (
     let n1 = 0, n2 =0;
     const outerNormals = [];
     const innerNormals = [];
-    const ringNormals = [];
-
+    
     let a1 = outerRadius;
     let b1 = outerHeight;
     let a2 = innerRadius;

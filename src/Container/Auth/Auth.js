@@ -254,7 +254,6 @@ const mapStateToProps = state => {
         error: state.auth.error,
         isAuthenticated: state.auth.token !== null,
         authRedirectPath: state.auth.authRedirectPath,
-        error: state.auth.error,
         model: state.auth.model
     };
 };

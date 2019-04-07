@@ -1,8 +1,5 @@
 import axios from "../../axios-orders";
 import * as actionTypes from "./actionTypes";
-import base64 from 'base-64';
-import pako from 'pako';
-import FileSaver from 'file-saver';
 
 export const onDataSendFail = error => {
   return {
@@ -305,34 +302,34 @@ export const downloadReport = (id) => {
       // 'Accept': 'application/pdf'
     };
     const data = {
-      projectID: 88
+      projectID: id
     };
     axios.post(url, data, {
       headers: headers
     })
       .then(response => {
-        const reportUrl = "http://192.168.1.13:8000/" + response.data;
+       // const reportUrl = "http://192.168.1.13:8000/" + response.data;
 
 
         // let pdfData = base64.decode(response.data);
         // console.log(pdfData);
         // const d = pdfData.decode('utf-8');
         // console.log(d);
-        const pdfData = pako.deflate(response.data);
-        console.lof(response.data);
-        // console.log(pdfData);
-        const file = new Blob(
-          [response.data], 
-          {type: 'application/pdf'});
-        // Download(file, "report.pdf");
-        FileSaver.saveAs(file, "hello.pdf");
-        const fileURL = URL.createObjectURL(file);
+        // const pdfData = pako.deflate(response.data);
+        // console.lof(response.data);
+        // // console.log(pdfData);
+        // const file = new Blob(
+        //   [response.data], 
+        //   {type: 'application/pdf'});
+        // // Download(file, "report.pdf");
+        // FileSaver.saveAs(file, "hello.pdf");
+        // const fileURL = URL.createObjectURL(file);
         //window.open(fileURL);
         // console.log(response);
 
        // window.open(reportUrl);
 
-        let pdfWindow = window.open(fileURL);
+        let pdfWindow = window.open('/');
         pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + encodeURI(response.data)+"'></iframe>")
         // const file = new Blob(
         //   [response.data],

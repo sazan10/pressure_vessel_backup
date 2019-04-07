@@ -14,9 +14,7 @@ import comparator from '../../Components/Scene/comparator';
 import math from 'mathjs';
 import height_checker from '../../Components/Scene/height_checker';
 import getClosest from 'get-closest'
-import height_comparator from '../../Components/Scene/height_comparator';
 import returnKey from '../../Components/Scene/returnKey';
-import getSum from '../../Components/Scene/getSum';
 import {
   connect
 } from 'react-redux';
@@ -103,7 +101,6 @@ class Scene extends Component {
   }
   onDocumentMouseDown = (event) => {
     let projector = new THREE.Projector();
-    let tube;
     let vector = new THREE.Vector3((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
     projector.unprojectVector(vector, this.camera);
 
@@ -127,11 +124,7 @@ class Scene extends Component {
         points.push(new THREE.Vector3(this.camera.position.x, this.camera.position.y - 0.2, this.camera.position.z));
         points.push(intersects[0].point);
 
-        let mat = new THREE.MeshBasicMaterial({
-          color: 0xff0000,
-          transparent: true,
-          opacity: 0.6
-        });
+
       }
     }
     this.controls.update();
@@ -256,7 +249,6 @@ clearScene2=( ) =>{
     try {
       this.first_shell = true;
       this.height_position = 0;
-      let scaler = 0;
       this.heights={};
       this.weights={};
       let cylinder_iterator = 0;
@@ -271,7 +263,6 @@ clearScene2=( ) =>{
         }
       }
       if (this.props.component.length >= 0) {
-        let rad = 0;
         console.log(this.props.component);
         for (let i = 0; i < this.props.component.length; i++) {
           if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
@@ -296,7 +287,7 @@ clearScene2=( ) =>{
             if (this.first_shell) {
               this.height_position = this.height_position + this.length / 2;
   
-              if (!height_checker(this.props.component[i])) { //always returns false since the function for reducer is not dispatched, works even if not used
+              if (!height_checker(this.props.component[i]))  //always returns false since the function for reducer is not dispatched, works even if not used
                 {
                   if (!(this.props.component[i].componentID in this.heights)) {
                     this.heights[this.props.component[i].componentID] = this.height_position;
@@ -306,7 +297,7 @@ clearScene2=( ) =>{
                   //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
                 }
                 //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
-              }
+              
               this.first_shell = false;
             } else if ((i - 1) >= 0) {
               //  if (this.props.component[i-1].component==="Cylinder" || !this.first_shell || this.props.component[i-1]==="Conical"){
@@ -323,7 +314,7 @@ clearScene2=( ) =>{
                 let lengths = this.props.component[i].length*12; //length of current cylinder
                 this.height_position = this.height_position + this.cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
 
-                if (!height_checker(this.props.component[i])) {
+                if (!height_checker(this.props.component[i])) 
                   {
                     if (!(this.props.component[i].componentID in this.heights)) {
 
@@ -335,7 +326,7 @@ clearScene2=( ) =>{
                   }
 
                   //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
-                }
+                
                 //ringmesh.translateY(this.height_position-this.length/2).rotateX(math.pi/2);
                 ringgeometry.translateY(this.height_position - this.length / 2);
 
@@ -394,7 +385,7 @@ clearScene2=( ) =>{
               this.head_no = 1;
 
 
-              if (!height_checker(this.props.component[i])) {
+              if (!height_checker(this.props.component[i])) 
                 {
                   if (!(this.props.component[i].componentID in this.heights)) {
 
@@ -407,7 +398,7 @@ clearScene2=( ) =>{
                 }
 
                 //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
-              }
+              
 
             }
             //else if (this.first!=0)
@@ -440,7 +431,7 @@ clearScene2=( ) =>{
                     console.log("height of head",height_for_top,this.props.component[i].length)
                     }
                   }
-                  if (!height_checker(this.props.component[i])) {
+                  if (!height_checker(this.props.component[i])) 
                     {
                       if (!(this.props.component[i].componentID in this.heights)) {
     
@@ -453,7 +444,7 @@ clearScene2=( ) =>{
                     }
     
                     //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
-                  }
+                  
               grouper2.translateY(height_for_top);
               this.scene.add(grouper2);
 
@@ -490,9 +481,6 @@ clearScene2=( ) =>{
               let bore = this.props.component[i].value.bore;
               let flange_outer_diameter = this.props.component[i].value.flange_outer_diameter;
               let flange_thickness = this.props.component[i].value.flange_thickness;
-              let neck_thickness = this.props.component[i].value.neck_thickness;
-              let nominal_pipe_size = this.props.component[i].value.nominal_pipe_size;
-              let nut_stop_diameter = this.props.component[i].value.nut_stop_diameter;
               let raised_face_diameter = this.props.component[i].value.raised_face_diameter;
               let raised_face_thickness = this.props.component[i].value.raised_face_thickness;
               if(this.props.component[index_key].component==="Cylinder")
@@ -561,7 +549,7 @@ clearScene2=( ) =>{
               nozzle.translateZ(-this.radial_position * math.cos(orientation_in_rad)).translateX(this.radial_position * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
               this.scene.add(nozzle);
 
-              if (!height_checker(this.props.component[i])) {
+              if (!height_checker(this.props.component[i])) 
                 {
                   if (!(this.props.component[i].componentID in this.heights)) {
 
@@ -574,7 +562,7 @@ clearScene2=( ) =>{
                 }
 
                 //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
-              }
+              
              
             }
             // if(this.camera)
@@ -587,7 +575,6 @@ clearScene2=( ) =>{
             let length = parseFloat(this.props.component[i].length);
             let sd = parseFloat(this.props.component[i].sd);
             let thickness = parseFloat(this.props.component[i].thickness);
-            let response = this.props.component[i].value.thicknessResponse;
             let skirt = Shell(thickness, sd, sd, length,new THREE.MeshPhongMaterial({
               color: '#CD5C5C',
               emissive: 0x072534,
@@ -603,7 +590,7 @@ clearScene2=( ) =>{
             this.scene.add(skirt);
             this.scene.add(skirt_flange);
             console.log(skirt);
-            if (!height_checker(this.props.component[i])) {
+            if (!height_checker(this.props.component[i])) 
               {
                 if (!(this.props.component[i].componentID in this.heights)) {
 
@@ -615,7 +602,7 @@ clearScene2=( ) =>{
               }
 
               //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
-            }
+            
             this.lengths.push(-500);
           }
           else if (this.props.component[i].component === "Lifting Lug")
@@ -625,7 +612,7 @@ clearScene2=( ) =>{
                 if (!(this.props.component[i].componentID in this.heights)) {
 
                   this.heights[this.props.component[i].componentID] = -500;
-                  this.weights[this.props.component[i].componentID] = [this.props.component[i].component, 0, this.props.component[i].value.weight];
+                  this.weights[this.props.component[i].componentID] = 0;//[this.props.component[i].component, 0, this.props.component[i].weight];
 
                 };
 
@@ -641,10 +628,10 @@ clearScene2=( ) =>{
             //    console.log("CG",this.weights[i][2],this.weights[i][1]);
             //  } 
             //  let overall_CG=weightXCG/weightsum;
-            let thickness=this.props.component[i].value.lug_thickness;
+            let thickness=this.props.component[i].value.lug_thickness.req_value;
             let height=this.props.component[i].height_lug;
             console.log("height for lug",height);
-            let rad=this.props.component[i].length;
+            let rad=5//this.props.component[i].length;
             let hole_diameter=this.props.component[i].hole_diameter;
             let angle=this.props.component[i].layout_angle;
              let lug1=LiftingLug(height,thickness,rad,hole_diameter);

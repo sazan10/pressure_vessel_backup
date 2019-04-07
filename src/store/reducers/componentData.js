@@ -37,12 +37,12 @@ const onDataSendFail = (state, action) => {
 const updateData = (state, action) => {
     let data = null;
     let comp = action.data;
-    const componentID = action.componentID;
+    //const componentID = action.componentID;
     console.log(action.data.thickness);
     console.log("component",action.data.component);
     if (action.data.component === "Cylinder") {
         // let comp = action.data;
-        const num = action.data.number;
+       // const num = action.data.number;
         // const num = 1;
         try {
             comp = updateObject(comp, { thickness: action.data.thickness.toString(), number: 1, componentID: action.componentID });
@@ -59,7 +59,7 @@ const updateData = (state, action) => {
         // }
     } else if  (action.data.component === "Conical") {
         // let comp = action.data;
-        const num = action.data.number;
+       // const num = action.data.number;
         // const num = 1;
         try {
             comp = updateObject(comp, { thickness: action.data.thickness.toString(), componentID: action.componentID });

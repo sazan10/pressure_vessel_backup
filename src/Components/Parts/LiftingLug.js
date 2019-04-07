@@ -5,10 +5,7 @@ const LiftingLug=(height1=10,width1=5,radius1=5,hole_radius1=2)=> {
     
 let material=new THREE.MeshPhongMaterial({ color: '#500dba', emissive: 0x072534, side: THREE.DoubleSide });;
 
-let hole_radius=parseFloat(hole_radius1)
-;
-let x =0;
-let y=0;
+let hole_radius=parseFloat(hole_radius1);
 let radius=parseFloat(radius1);
 let height=parseFloat(height1);
 let width=parseFloat(width1);

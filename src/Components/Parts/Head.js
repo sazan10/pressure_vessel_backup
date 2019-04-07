@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import math from 'mathjs';
   const Head=(new_radius)=> {
    
     let material = new THREE.MeshPhongMaterial( { color: '#296789', side:THREE.DoubleSide});

@@ -5,7 +5,6 @@ import { toCSG, fromCSG } from 'three-2-csg';
    var scaler=parseFloat(scaler1);
      var material = new THREE.MeshPhongMaterial({ color: '#d4ac0d', side: THREE.DoubleSide });
 
-var length_of_pipe=1;
 var length_of_cone=0.4;
 
 var radius_outer_pipe_top=0.2;
@@ -19,13 +18,11 @@ var radius_inner_cone_top=radius_inner_pipe_bottom;
 
 var radius_outer_cone_bottom=0.4;
 var radius_inner_cone_bottom=radius_inner_pipe_bottom;
-var mesh_ind1=new THREE.Mesh();
 var mesh_ind2=new THREE.Mesh();
 var mesh_ind3=new THREE.Mesh();
 var mesh_ind4=new THREE.Mesh();
 
 var center_of_torus=1;
-var length_of_pipe2=0.1;
     //  mesh_ind1=this.create_component(radius_outer_pipe_top,radius_outer_pipe_bottom,radius_inner_pipe_top,radius_inner_pipe_bottom,length_of_pipe,0,0,0,0,0,3.14/2);
       var position_of_cone=length_of_cone/2+center_of_torus;//+0.08;
         mesh_ind2=create_component(radius_outer_cone_top,radius_outer_cone_bottom,radius_inner_cone_top,radius_inner_cone_bottom,length_of_cone,position_of_cone,0,0,0,0,3.14/2);
@@ -103,19 +100,8 @@ return mesh_test;
 const create_flange=(radius_outer,radius_inner,extrude_length,translateX,translateY,translateZ,rotateX,rotateY,rotateZ)=>{
   var material = new THREE.MeshPhongMaterial({ color: '#d4ac0d', side: THREE.DoubleSide });
 
-      var material_extrude = new THREE.MeshPhongMaterial({
-        color: '#d4ac0d',
-        shading: THREE.SmoothShading,
-        specular: 0xffffff,
-        shininess: 1.0,
-      });
-      var depth_flange3=0.1;
-      var radius_hole3=0.05;
-      var radius_central3=0.15;
-      var thickness_nozzle_cylinder3=0.05;
-      var radius_flange3=0.4
+         var radius_hole3=0.05;
       var extrudeSettings3 = { curveSegments: 50,depth: extrude_length, bevelEnabled: false, bevelSegments: 1, steps: 1, bevelSize: 0, bevelThickness: 0 };
-      var extrudeSettings4 = { curveSegments: 50,depth: 1, bevelEnabled: false, bevelSegments: 1, steps: 1, bevelSize: 0, bevelThickness: 0 };
  
      
       var arcShape3 = new THREE.Shape();

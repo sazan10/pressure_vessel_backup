@@ -3,7 +3,6 @@ import classes from "./SideModal.css";
 import {connect} from 'react-redux';
 import Auxx from "../../../hoc/Auxx/Auxx";
 import DynamicForm from "../../Forms/Forms";
-import * as actions from '../../../store/actions/index';
 class Modal extends Component {
 
   componentWillReceiveProps() {

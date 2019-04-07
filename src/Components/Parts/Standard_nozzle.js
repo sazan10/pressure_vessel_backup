@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import { toCSG, fromCSG } from 'three-2-csg';
-import { noConflict } from 'q';
 import math from 'mathjs';
 const Standard_nozzle=(
                   length_nozzle=0.8, 
@@ -43,9 +42,6 @@ let mesh_ind1=new THREE.Mesh();
 let mesh_ind2=new THREE.Mesh();
 let mesh_ind3=new THREE.Mesh();
 let mesh_ind4=new THREE.Mesh();
-let material=new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });;
-let center_of_torus=1;
-let length_of_pipe2=0.1;
 mesh_ind1=create_component(bore_outer_diameter/2,radius_outer_pipe_bottom,bore_inner_diameter/2,radius_inner_pipe_bottom,length_of_nozzle,length_of_nozzle/2,0,0,0,0,3.14/2);
 let position_of_cone=length_of_nozzle+length_of_cone/2;
 mesh_ind2=create_component(radius_outer_cone_top,radius_outer_cone_bottom,radius_inner_cone_top,radius_inner_cone_bottom,length_of_cone,position_of_cone,0,0,0,0,3.14/2);
@@ -100,23 +96,11 @@ return mesh_test;
 
 
     const create_flange=(radius_outer,radius_inner,extrude_length,translateX,translateY,translateZ,rotateX,rotateY,rotateZ,hole_number1,bolt_hole_rad,bolt_size1)=>{
-
-      let material_extrude = new THREE.MeshPhongMaterial({
-        color: '#0b7dba',
-        shading: THREE.SmoothShading,
-        specular: 0xffffff,
-        shininess: 1.0,
-      });
       let material =new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });
-      let depth_flange3=0.1;
-      let radius_hole3=0.05;
-      let radius_central3=0.15;
-      let thickness_nozzle_cylinder3=0.05;
+
       let hole_number= parseFloat(hole_number1);
       let bolt_hole_radius=parseFloat(bolt_hole_rad);
-      let radius_flange3=0.4
       let extrudeSettings3 = { curveSegments: 32,depth: extrude_length, bevelEnabled: false, bevelSegments: 1, steps: 1, bevelSize: 0, bevelThickness: 0 };
-      let extrudeSettings4 = { curveSegments: 32,depth: 1, bevelEnabled: false, bevelSegments: 1, steps: 1, bevelSize: 0, bevelThickness: 0 };
       let bolt_size=parseFloat(bolt_size1);
       let arcShape3 = new THREE.Shape();
       arcShape3.moveTo(0, 0 );

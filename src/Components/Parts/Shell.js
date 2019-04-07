@@ -1,6 +1,4 @@
-import React, {Component} from 'react';
 import * as THREE from 'three'
-import * as TrackballControls from 'three-trackballcontrols';
 import { toCSG, fromCSG } from 'three-2-csg';
 let material = new THREE.MeshPhongMaterial({ color: '#037d23', emissive: 0x072534, side: THREE.DoubleSide });
   const Shell=(thickness1,diameter_bot,diameter_top,length1, mat=material)=> {

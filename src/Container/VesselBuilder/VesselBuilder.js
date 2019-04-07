@@ -15,7 +15,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TreeView from '../TreeView/TreeView';
 import blue from "@material-ui/core/colors/blue";
 import pink from "@material-ui/core/colors/pink";
-import Scene_horizontal from "../Scene/Scene_horizontal";
+import SceneHorizontal from "../Scene/Scene_horizontal";
 
 const theme = createMuiTheme({
   palette: {
@@ -65,7 +65,7 @@ class VesselBuilder extends Component {
     if(this.props.orientation === "vertical") {
       scene = <Scene></Scene>
     } else if(this.props.orientation === "horizontal"){
-      scene = <Scene_horizontal></Scene_horizontal>
+      scene = <SceneHorizontal></SceneHorizontal>
     }
 
     return (

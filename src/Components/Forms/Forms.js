@@ -229,7 +229,6 @@ class DynamicForm extends React.Component {
     }
 
     render() {
-        let title = this.props.title || "Dynamic Form";
         // console.log(this.props.model);
 
         return (
