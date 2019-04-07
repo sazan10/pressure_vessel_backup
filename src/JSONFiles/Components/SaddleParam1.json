@@ -73,21 +73,7 @@
         "step": "any",
         "valid": true
     },
-    "sd": {
-        "elementType": "input",
-        "elementConfig": {
-            "type": "input",
-            "placeholder": "72 inch"
-        },
-        "validation": {
-            "required": true
-        },
-        "value": "72",
-        "label": "Shell Diameter (inch)",
-        "step": "any",
-        "valid": true
-    },
-    "length": {
+    "distance": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -97,23 +83,90 @@
             "required": true
         },
         "value": "10",
-        "label": "Length(ft)",
+        "label": "Distance from datum",
         "step": "any",
         "valid": true
     },
-    "thickness": {
+    "width": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "0.5 inch"
+            "placeholder": "5 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "0.5",
-        "label": "Thickness (inch)",
+        "value": "5",
+        "label": "Width (inch)",
         "step": "any",
         "valid": true
-    }   
+    } ,
+    "position": {
+        "elementType": "select",
+        "elementConfig": {
+            "type": "select",
+            "placeholder": "",
+            "options": [
+                {
+                    "displayValue": "left",
+                    "value": "0"
+                },
+                {
+                    "displayValue": "right",
+                    "value": "1"
+                }
+            ]
+        },
+        "validation": {
+            "required": true
+        },
+        "label": "Position",
+        "value": "0",
+        "valid": true
+        
+    }  ,
+    "saddle_angle": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "120"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "120",
+        "label": "Saddle Angle",
+        "step": "any",
+        "valid": true
+    },
+    "base_length": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "10"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "10",
+        "label": "Base Length Extended",
+        "step": "any",
+        "valid": true
+    }
+    ,
+    "base_height": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "2"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "2",
+        "label": "Base Height",
+        "step": "any",
+        "valid": true
+    }
    
 }

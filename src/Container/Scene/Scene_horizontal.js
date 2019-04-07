@@ -44,7 +44,7 @@ class Scene_horizontal extends Component {
     this.camera.position.y = 15;
 
     //ADD SCENE
-    //   document.addEventListener( 'click', this.onDocumentMouseDown, false );
+      document.addEventListener( 'click', this.onDocumentMouseDown, false );
     //ADD RENDERER
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
@@ -125,11 +125,6 @@ class Scene_horizontal extends Component {
         points.push(new THREE.Vector3(this.camera.position.x, this.camera.position.y - 0.2, this.camera.position.z));
         points.push(intersects[0].point);
 
-        let mat = new THREE.MeshBasicMaterial({
-          color: 0xff0000,
-          transparent: true,
-          opacity: 0.6
-        });
       }
     }
     this.controls.update();
@@ -642,10 +637,22 @@ class Scene_horizontal extends Component {
                 console.log(err);
               }
             } else if (this.props.component[i].component === "Saddle") {
-              let saddle = Saddle();
+              let saddle = Saddle(this.props.component[last_cylinder].sd/2+this.props.component[last_cylinder].value.thickness,this.props.component[i].width,this.props.component[i].base_height,this.props.component[i].base_length,(this.props.component[i].saddle_angle/180)*math.pi);
+              let position = this.props.component[i].position;
+              let distance = this.props.component[i].distance;
+              saddle.translateZ(distance);
+              this.scene.add(saddle);
+              if (!height_checker(this.props.component[i]))  //height parameter is used only for nozzle and we donts need to add height for nozzle so...
+              {
+                if (!(this.props.component[i].componentID in this.heights)) {
 
-            
-          
+                  this.heights[this.props.component[i].componentID] = -500;
+                  this.weights[this.props.component[i].componentID] = [this.props.component[i].component, 0, 0];
+
+                };
+
+                //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
+              }
           
             console.log("component name", this.props.component[i].component);
 
