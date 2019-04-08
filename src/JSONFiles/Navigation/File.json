@@ -9,67 +9,31 @@
     },
     {
       "id": 1,
-      "title": "Vessel Wizard",
-      "selected": false,
-      "key": "File"
-    },
-    {
-      "id": 2,
       "title": "Open",
       "selected": false,
       "key": "File"
     },
     {
-      "id": 3,
+      "id": 2,
       "title": "Close",
       "selected": false,
       "key": "File"
     },
     {
-      "id": 4,
+      "id": 3,
       "title": "Tree",
       "selected": false,
       "key": "File"
     },
     {
-      "id": 5,
-      "title": "Save As",
-      "selected": false,
-      "key": "File"
-    },
-    {
-      "id": 6,
-      "title": "Save All",
-      "selected": false,
-      "key": "File"
-    },
-    {
-      "id": 7,
+      "id": 4,
       "title": "Save Vessel Picture",
       "selected": false,
       "key": "File"
     },
     {
-      "id": 8,
-      "title": "Export",
-      "selected": false,
-      "key": "File"
-    },
-    {
-      "id": 9,
-      "title": "HTRI Interface",
-      "selected": false,
-      "key": "File"
-    },
-    {
-      "id": 10,
+      "id": 5,
       "title": "Print",
-      "selected": false,
-      "key": "File"
-    },
-    {
-      "id": 11,
-      "title": "Exit",
       "selected": false,
       "key": "File"
     }]
@@ -94,62 +58,8 @@
       "key": "Component"
     },
     {
-      "id": 12,
-      "title": "Nozzle",
-      "selected": false,
-      "key": "Component"
-    },
-    {
       "id": 3,
-      "title": "F & D Head",
-      "selected": false,
-      "key": "Component"
-    },
-    {
-      "id": 4,
-      "title": "Hemi Head",
-      "selected": false,
-      "key": "Component"
-    },
-    {
-      "id": 5,
-      "title": "Dished Cover",
-      "selected": false,
-      "key": "Component"
-    },
-    {
-      "id": 6,
-      "title": "ASME B169 Pipe Cap",
-      "selected": false,
-      "key": "Component"
-    },
-    {
-      "id": 7,
-      "title": "Bolted Cover",
-      "selected": false,
-      "key": "Component"
-    },
-    {
-      "id": 8,
-      "title": "Wielded Cover",
-      "selected": false,
-      "key": "Component"
-    },
-    {
-      "id": 9,
-      "title": "Body Flang",
-      "selected": false,
-      "key": "Component"
-    },
-    {
-      "id": 10,
-      "title": "Ring",
-      "selected": false,
-      "key": "Component"
-    },
-    {
-      "id": 11,
-      "title": "Heat Exchanger",
+      "title": "Nozzle",
       "selected": false,
       "key": "Component"
     }
@@ -163,50 +73,11 @@
     },
     {
       "id": 1,
-      "title": "Redo",
-      "selected": false,
-      "key": "Actions"
-    },
-    {
-      "id": 2,
-      "title": "Edit",
-      "selected": false,
-      "key": "Actions"
-    },
-    {
-      "id": 3,
       "title": "Delete",
       "selected": false,
       "key": "Actions"
-    },
-    {
-      "id": 4,
-      "title": "Insert",
-      "selected": false,
-      "key": "Actions"
-    },
-    {
-      "id": 5,
-      "title": "Set Datum",
-      "selected": false,
-      "key": "Actions"
     }
   ],
-  "Nozzle": [
-    {
-      "id": 0,
-      "title": "Detailed Design",
-      "selected": false,
-      "key": "Nozzle"
-    },
-    {
-      "id": 1,
-      "title": "Quick Design",
-      "selected": false,
-      "key": "Nozzle"
-    }
-  ],
-  "Attach": [],
   "Support": [
     {
       "id": 0,
@@ -222,27 +93,9 @@
     },
     {
       "id": 2,
-      "title": "Legs",
-      "selected": false,
-      "key": "Support"
-    },
-    {
-      "id": 3,
       "title": "Lifting Lug",
       "selected": false,
       "key": "Support"
-    },
-    {
-      "id": 4,
-      "title": "Skirt Base Ring",
-      "selected": false,
-      "key": "Support"
     }
-  ],
-  "Codes": [],
-  "Loads": [],
-  "Materials": [],
-  "Forms": [],
-  "Window": [],
-  "Help": []
+  ]
 }
