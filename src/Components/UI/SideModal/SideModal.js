@@ -43,7 +43,7 @@ const mapStateToProps = state => {
       model: state.navigation.componentModel,
       num: state.navigation.num,
       projectID: state.componentData.projectID,
-      projectName: state.componentData.projectName
+      projectName: state.componentData.projectName,
   };
 };
 

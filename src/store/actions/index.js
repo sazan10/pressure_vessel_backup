@@ -27,6 +27,7 @@ export {
     updateComponent,
     updateComponents,
     importSpecificProject,
+    returnComponentByID,
     onSubmitAndUpdate,
     sendComponentID,
     axiosDataSend,
