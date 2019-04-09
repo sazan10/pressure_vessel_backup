@@ -6,7 +6,11 @@ import { connect } from "react-redux";
 
 class TreeDemo extends React.Component {
   state = {
-    items: [
+    items: [ {
+      id: 100,
+      text: 'Components',
+      children:[]
+    }
     ]
   };
 
@@ -30,11 +34,10 @@ class TreeDemo extends React.Component {
     let api = this.refs.treeview.api;
     console.log(api);
     let rootNode = api.getRootItem();
-
-    let newItem = api.addItem("Components", false, rootNode);
+    
+    // let newItem = api.addItem("Components", false, rootNode);
     this.props.components.map(component => {
-          return api.addItem(component.component + " " + component.componentID, true, newItem);
-          
+          return api.addItem(component.component + " " + component.componentID, true, rootNode);
         });
     // api.selectItem(newItem);
   }
@@ -43,7 +46,7 @@ class TreeDemo extends React.Component {
     console.log("Tree view rendering", this.state.items);
     const tree = (
       <TreeView
-        style={{'width': '100%'}}
+        style={{'width': '100%', 'height': '100%'}}
         ref="treeview"
         items={this.state.items}
         onSelectItem={item => this.handleClick(item)}
