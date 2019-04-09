@@ -47,8 +47,11 @@ class Scene extends Component {
     //ADD RENDERER
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
+    this.renderer.setPixelRatio( window.devicePixelRatio );  
     this.mount.appendChild(this.renderer.domElement);
     this.group = new THREE.Group();
+    document.getElementById("scener").addEventListener( 'click', this.onDocumentMouseDown, false );
+    window.addEventListener( 'resize', this.onWindowResize, false );
 
     //ADD CUBE
 
@@ -100,34 +103,36 @@ class Scene extends Component {
 
   }
   onDocumentMouseDown = (event) => {
-    let projector = new THREE.Projector();
-    let vector = new THREE.Vector3((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
-    projector.unprojectVector(vector, this.camera);
+    let rect = document.getElementById("scener").getBoundingClientRect();
 
+    let projector = new THREE.Projector();
+    console.log("mouse click",event.clientX,event.clientY,rect.right,"   dffd ",rect.bottom);
+
+    let vector = new THREE.Vector3((event.clientX-rect.left) / window.innerWidth * 2 - 1, -((event.clientY-rect.top) / window.innerHeight) * 2 + 1, 0.5),INTERSECTED;
+    projector.unprojectVector(vector, this.camera);
     let raycaster = new THREE.Raycaster(this.camera.position, vector.sub(this.camera.position).normalize());
     if (this.shapes.length >= 1) {
       console.log(this.shapes);
-
-      let intersects = raycaster.intersectObjects(this.shapes);
-      console.log("intersects", intersects);
+      let intersects = raycaster.intersectObjects(this.scene.children,true);
       if (intersects.length > 0) {
+        console.log("intersect",intersects);
         intersects[0].object.material.transparent = true;
-        console.log("pressed cylinder");
+        console.log("pressed object number",intersects[0].object.name);
         if (intersects[0].object.material.opacity === 0.5) {
+          
           intersects[0].object.material.opacity = 1;
         } else {
           intersects[0].object.material.opacity = 0.5;
         }
-
-
-        let points = [];
-        points.push(new THREE.Vector3(this.camera.position.x, this.camera.position.y - 0.2, this.camera.position.z));
-        points.push(intersects[0].point);
-
-
+ 
       }
     }
     this.controls.update();
+  }
+  onWindowResize=()=> {
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize( window.innerWidth, window.innerHeight );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -247,13 +252,14 @@ clearScene2=( ) =>{
   }
   render() {
     try {
-      this.first_shell = true;
+      this.first_shell= true;
       this.height_position = 0;
       this.heights={};
       this.weights={};
       let cylinder_iterator = 0;
       this.cylinder_lengths = [];
       this.lengths=[];
+      this.shapes=[];
       let last_cylinder=null;
       if(this.scene)
       {
@@ -283,7 +289,9 @@ clearScene2=( ) =>{
             let number = parseFloat(this.props.component[i].number);
             let thickness = parseFloat(this.props.component[i].thickness);
             let shell = new THREE.Mesh();
-            shell = Shell(thickness, diameter_bot, diameter_top, this.length);
+            let shell_material = new THREE.MeshPhongMaterial({ color: '#037d23', emissive: 0x072534, side: THREE.DoubleSide });
+            shell = Shell(thickness, diameter_bot, diameter_top, this.length,shell_material);
+            shell.name=this.props.component[i].componentID;
             if (this.first_shell) {
               this.height_position = this.height_position + this.length / 2;
   
@@ -350,6 +358,7 @@ clearScene2=( ) =>{
             // {
             // this.camera.position.z=(this.length+rad)*1.8;
             // }
+
             this.shapes.push(shell);
             last_cylinder=i;
           } else if ( this.props.component[i].component === "Ellipsoidal Head") {
@@ -379,7 +388,8 @@ clearScene2=( ) =>{
               head.translateY(-srl).rotateZ(3.14);
               grouper.add(head);
               this.scene.add(grouper);
-              this.shapes.push(head);
+              head.name=this.props.component[i].componentID;
+              this.shapes.push(grouper);
               this.first = this.first + 1;
               console.log("height of head",minor+srl);
               this.head_no = 1;
@@ -447,6 +457,9 @@ clearScene2=( ) =>{
                   
               grouper2.translateY(height_for_top);
               this.scene.add(grouper2);
+              head.name=this.props.component[i].componentID;
+              this.shapes.push(grouper2);
+
 
               //head.translateY(this.height_position);
             }
@@ -459,6 +472,7 @@ clearScene2=( ) =>{
           } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "LWN") {
               let length = this.props.component[i].externalNozzleProjection;
               let orientation = this.props.component[i].orientation;
+              let nozzle_material =new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });
               let orientation_in_rad = (orientation / 180) * math.pi;
               this.lengths.push(-1000);
               let nozzle_height = this.props.component[i].height;
@@ -488,9 +502,14 @@ clearScene2=( ) =>{
               let shell_rad = this.props.component[index_key].sd / 2;
               let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
               let x_displace = (shell_rad) * math.cos(phi);
-              nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size);
-              nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
+              nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size,nozzle_material);
+              nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(math.PI/2-orientation_in_rad);
+              nozzle.name=this.props.component[i].componentID;
+
+              console.log("component id of nozzle",this.props.component[i].componentID,nozzle);
               this.scene.add(nozzle);
+              this.shapes.push(nozzle);
+
             }
             else if(this.props.component[index_key].component==="Conical")
           {
@@ -520,9 +539,13 @@ clearScene2=( ) =>{
             let phi = math.asin((barrel_outer_diameter / 2 / pos_of_noz));//calculating angle wrt to centre
             let x_displace = (pos_of_noz) * math.cos(phi);
             nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size);
+            
             nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
       
             this.scene.add(nozzle);
+            nozzle.name=this.props.component[i].componentID;
+            this.shapes.push(nozzle);
+
          
           }
            
@@ -548,6 +571,9 @@ clearScene2=( ) =>{
               // nozzle.translateY(4);
               nozzle.translateZ(-this.radial_position * math.cos(orientation_in_rad)).translateX(this.radial_position * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
               this.scene.add(nozzle);
+              nozzle.name=this.props.component[i].componentID;
+              this.shapes.push(nozzle);
+
 
               if (!height_checker(this.props.component[i])) 
                 {
@@ -575,20 +601,23 @@ clearScene2=( ) =>{
             let length = parseFloat(this.props.component[i].length);
             let sd = parseFloat(this.props.component[i].sd);
             let thickness = parseFloat(this.props.component[i].thickness);
-            let skirt = Shell(thickness, sd, sd, length,new THREE.MeshPhongMaterial({
+            let skirt_material=new THREE.MeshPhongMaterial({
               color: '#CD5C5C',
               emissive: 0x072534,
               side: THREE.DoubleSide
-            }));
-            let skirt_flange = Shell(4, sd, sd + 2, 4,new THREE.MeshPhongMaterial({
-              color: '#CD5C5C',
-              emissive: 0x072534,
-              side: THREE.DoubleSide
-            }));
+            });
+            let skirt = Shell(thickness, sd, sd, length,skirt_material);
+
+            let skirt_flange = Shell(4, sd, sd + 2, 4,skirt_material);
             skirt.translateY(-length / 2);
             skirt_flange.translateY(-length - 4 / 2);
-            this.scene.add(skirt);
-            this.scene.add(skirt_flange);
+            let group = new THREE.Group();
+            group.add(skirt);
+            group.add(skirt_flange);
+            this.scene.add(group);
+            group.name=this.props.component[i].componentID;
+            this.shapes.push(group);
+
             console.log(skirt);
             if (!height_checker(this.props.component[i])) 
               {
@@ -636,6 +665,9 @@ clearScene2=( ) =>{
             let angle=this.props.component[i].layout_angle;
              let lug1=LiftingLug(height,thickness,rad,hole_diameter);
              this.scene.add(lug1);
+             lug1.name=this.props.component[i].componentID;
+             this.shapes.push(lug1);
+
              let lug2=null;
              if(this.props.component[i].number==='2'){
                console.log("two lugs");
@@ -666,12 +698,7 @@ clearScene2=( ) =>{
         }
         console.log("weights",this.weights);
       }
-      return ( < div style = {
-          {
-            width: '100%',
-            height: '700px'
-          }
-        }
+      return ( < div id="scener"
         ref = {
           (mount) => {
             this.mount = mount

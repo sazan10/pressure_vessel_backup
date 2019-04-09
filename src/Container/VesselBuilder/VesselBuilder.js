@@ -37,6 +37,12 @@ class VesselBuilder extends Component {
       this.props.history.push("/");
     }
   }
+
+ mousepress()
+{
+  console.log("mouse pressed in vesselbuilder");
+}
+
   render() {
     // const menu = navbarData.menu.map(d =>
     //   d[Object.keys(d)].map(dd => (
@@ -65,7 +71,8 @@ class VesselBuilder extends Component {
     if(this.props.orientation === "vertical") {
       scene = <Scene></Scene>
     } else if(this.props.orientation === "horizontal"){
-      scene = <SceneHorizontal></SceneHorizontal>
+      
+      scene =<SceneHorizontal></SceneHorizontal>
     }
 
     return (
