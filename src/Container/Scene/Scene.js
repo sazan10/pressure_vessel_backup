@@ -129,6 +129,7 @@ class Scene extends Component {
         console.log("pressed object number",res[0],res[1]);
         this.props.treeUpdate(false);
        this.props.modelImport(res[1],1);
+       this.props.returnComponentID(res[0]);
      
         if (intersects[0].object.material.opacity === 0.5) {
           
@@ -751,6 +752,9 @@ const mapDispatchToProps = dispatch => {
     },
     modelImport:(titleName,value)=>{
       dispatch(actions.importModel(titleName,value))
+    },
+    returnComponentID:(id)=>{
+      dispatch(actions.returnComponentByID(id))
     }
 
   };

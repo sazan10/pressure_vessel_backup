@@ -20,6 +20,7 @@ class Menu extends Component {
     onClickHandler2 = (e) => {
         //console.log(e);
         this.props.onMenuClick(e);
+        this.props.componentClicked(false);
         switch (e) {
             case "Cylinder":
             case "Ellipsoidal Head":
@@ -99,7 +100,8 @@ const mapDispatchToProps = dispatch => {
         sendComponentID: (componentType, componentID, projectID) => dispatch(actions.sendComponentID(componentType, componentID, projectID)),
         openFormDialog: (value) => dispatch(actions.openFormDialog(value)),
         displayComponentTree: (value) => dispatch(actions.displayComponentTree(value)),
-        importForm: (title) => dispatch(actions.importForm(title))
+        importForm: (title) => dispatch(actions.importForm(title)),
+        componentClicked: (value) => dispatch(actions.componentClicked(value))
     };
 };
 

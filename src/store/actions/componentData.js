@@ -39,6 +39,15 @@ export const dataUpdate = (data, componentID) => {
       componentID: componentID
     }
   }
+
+
+export const componentClicked = (value) => {
+  return {
+    type: actionTypes.COMPONENT_CLICKED,
+    value: value
+  }
+}
+
 export const onSubmitAndUpdate = (data, id, componentID) => {
   return dispatch => {
     let url = null;
@@ -181,6 +190,13 @@ export const updateLastItem = (type, data) => {
   }
 }
 
+export const returnComponentByID = (componentID) => {
+  return {
+    type: actionTypes.RETURN_COMPONENT_BY_ID,
+    componentID: componentID
+  }
+}
+
 export const openFormDialog = (value) => {
   return {
     type: actionTypes.OPEN_FORM_DIALOG,
@@ -193,6 +209,8 @@ export const deleteThickness = () => {
     type: actionTypes.DELETE_THICKNESS
   }
 }
+
+
 
 export const sendComponentID = (componentType, componentID, projectID) => {
 

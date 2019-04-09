@@ -15,7 +15,7 @@ const styles = theme => ({
 });
 const FormDialog = props => {
   const { classes } = props;
-  console.log("Form Dialog", props.model);
+  // console.log("Form Dialog", props.model);
   const formElementsArray = [];
   if (props.model !== undefined && props.model !== null) {
     for (let key in props.model) {
