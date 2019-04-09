@@ -125,8 +125,11 @@ class Scene extends Component {
         else{            
           name=intersects[0].object.name;
         }
-        console.log("pressed object number",name);
-        
+        let res=name.split("&");
+        console.log("pressed object number",res[0],res[1]);
+        this.props.treeUpdate(false);
+       this.props.modelImport(res[1],1);
+     
         if (intersects[0].object.material.opacity === 0.5) {
           
           intersects[0].object.material.opacity = 1;
@@ -300,7 +303,7 @@ clearScene2=( ) =>{
             let shell = new THREE.Mesh();
             let shell_material = new THREE.MeshPhongMaterial({ color: '#037d23', emissive: 0x072534, side: THREE.DoubleSide });
             shell = Shell(thickness, diameter_bot, diameter_top, this.length,shell_material);
-            shell.name=this.props.component[i].componentID;
+            shell.name=this.props.component[i].componentID + "&"+this.props.component[i].component ;
             if (this.first_shell) {
               this.height_position = this.height_position + this.length / 2;
   
@@ -397,7 +400,7 @@ clearScene2=( ) =>{
               head.translateY(-srl).rotateZ(3.14);
               grouper.add(head);
               this.scene.add(grouper);
-              head.name=this.props.component[i].componentID;
+              head.name=this.props.component[i].componentID + "&"+ this.props.component[i].component;
               this.shapes.push(grouper);
               this.first = this.first + 1;
               console.log("height of head",minor+srl);
@@ -466,7 +469,7 @@ clearScene2=( ) =>{
                   
               grouper2.translateY(height_for_top);
               this.scene.add(grouper2);
-              head.name=this.props.component[i].componentID;
+              head.name=this.props.component[i].componentID +  "&"+this.props.component[i].component;
               this.shapes.push(grouper2);
 
 
@@ -513,7 +516,7 @@ clearScene2=( ) =>{
               let x_displace = (shell_rad) * math.cos(phi);
               nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size,nozzle_material);
               nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(math.PI/2-orientation_in_rad);
-              nozzle.name=this.props.component[i].componentID;
+              nozzle.name=this.props.component[i].componentID+ "&"+this.props.component[i].component;
 
               console.log("component id of nozzle",this.props.component[i].componentID,nozzle);
               this.scene.add(nozzle);
@@ -552,7 +555,7 @@ clearScene2=( ) =>{
             nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
       
             this.scene.add(nozzle);
-            nozzle.name=this.props.component[i].componentID;
+            nozzle.name=this.props.component[i].componentID+ "&"+this.props.component[i].component;
             this.shapes.push(nozzle);
 
          
@@ -580,7 +583,7 @@ clearScene2=( ) =>{
               // nozzle.translateY(4);
               nozzle.translateZ(-this.radial_position * math.cos(orientation_in_rad)).translateX(this.radial_position * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
               this.scene.add(nozzle);
-              nozzle.name=this.props.component[i].componentID;
+              nozzle.name=this.props.component[i].componentID+ "&"+this.props.component[i].component;
               this.shapes.push(nozzle);
 
 
@@ -624,7 +627,7 @@ clearScene2=( ) =>{
             group.add(skirt);
             group.add(skirt_flange);
             this.scene.add(group);
-            group.name=this.props.component[i].componentID;
+            group.name=this.props.component[i].componentID+ "&"+this.props.component[i].component;
             this.shapes.push(group);
 
             console.log(skirt);
@@ -674,7 +677,7 @@ clearScene2=( ) =>{
             let angle=this.props.component[i].layout_angle;
              let lug1=LiftingLug(height,thickness,rad,hole_diameter);
              this.scene.add(lug1);
-             lug1.name=this.props.component[i].componentID;
+             lug1.name=this.props.component[i].componentID+ "&"+this.props.component[i].component;
              this.shapes.push(lug1);
 
              let lug2=null;
@@ -725,6 +728,7 @@ const mapStateToProps = state => {
   return {
     component: state.componentData.component,
     title: state.navigation.title
+    
   };
 };
 
@@ -738,9 +742,17 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
 
-    onDataUpdateonDataUpdate: (data, componentID, height) => {
+    onDataUpdate: (data, componentID, height) => {
       dispatch(actions.dataUpdate1(data, componentID, height))
+    },
+    treeUpdate: (value)=>
+    {
+      dispatch(actions.displayComponentTree(value))
+    },
+    modelImport:(titleName,value)=>{
+      dispatch(actions.importModel(titleName,value))
     }
+
   };
 };
 
