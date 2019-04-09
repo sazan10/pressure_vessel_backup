@@ -39,6 +39,15 @@ export const dataUpdate = (data, componentID) => {
       componentID: componentID
     }
   }
+
+
+export const componentClicked = (value) => {
+  return {
+    type: actionTypes.COMPONENT_CLICKED,
+    value: value
+  }
+}
+
 export const onSubmitAndUpdate = (data, id, componentID) => {
   return dispatch => {
     let url = null;

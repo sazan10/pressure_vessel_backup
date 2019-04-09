@@ -7,6 +7,7 @@ const initialState = {
     cylinder: null,
     ellipsoidalhead: null,
     componentByID: null,
+    componentClicked: false,
     nozzle: null,
     skirt: null,
     saddle: null,
@@ -187,6 +188,10 @@ const returnComponentByID = (state, action) => {
     return updateObject(state, {componentByID: componentByID})
 }
 
+const componentClicked = (state, action) => {
+    return updateObject(state, {componentClicked: action.value});
+}
+
 const openFormDialog = (state, action) => {
     return updateObject(state, {formDialogOpen: action.value    })
 }
@@ -210,6 +215,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.UPDATE_LAST_ITEM: return updateLastItem(state, action);
         case actionTypes.UPDATE_COMPONENTS: return updateComponents(state, action);
         case actionTypes.RETURN_COMPONENT_BY_ID: return returnComponentByID(state, action);
+        case actionTypes.COMPONENT_CLICKED: return componentClicked(state, action);
         default:
             return state;
     }

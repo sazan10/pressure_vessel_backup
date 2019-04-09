@@ -35,9 +35,17 @@ class DynamicForm extends React.Component {
 
 
     componentDidMount() {
+        if(!this.props.componentClick) {
         this.setState({
             form: this.props.model
         });
+    } else {
+        this.setState({
+            form: this.props.model
+        }, () => {
+            this.updateComponentByID();
+        }
+    }
     }
 
     copyFromLast = (e) => {
@@ -47,16 +55,6 @@ class DynamicForm extends React.Component {
         const name = this.props.title.toLowerCase().replace(" ","");
         data = this.props[name];
         console.log(name, data);
-        // switch (this.props.title) {
-        //     case "Cylinder":
-        //         data = this.props.cylinder;
-        //         break;
-        //     case "Ellipsoidal Head":
-        //         data = this.props.$data;
-        //         break;
-        //     default:
-        //         break;
-        // }
         const updatedForm = {
             ...this.state.form
         }
@@ -76,6 +74,30 @@ class DynamicForm extends React.Component {
             form: updatedForm
         });
 
+    }
+
+    updateComponentByID = () => {
+        let data = null;
+        console.log(this.props.componentByID);
+        data = this.props.componentByID;
+        const updatedForm = {
+            ...this.state.form
+        };
+        console.log(updatedForm);
+        console.log(data);
+        for (let key in data) {
+            // console.log(key, updatedForm[key], data[key]);
+            if (updatedForm[key] !== undefined) {
+                updatedForm[key] = {
+                    ...updatedForm[key],
+                    value: data[key]
+                    // valid: this.checkValidity(data[key], updatedForm[key].validation),
+                }
+            }
+        }
+        this.setState({
+            form: updatedForm
+        });
     }
 
     onSubmitHandler = (e) => {
@@ -101,7 +123,9 @@ class DynamicForm extends React.Component {
         } else {
             this.setState({ message: <p>Data not valid</p> });
         }
+        this.props.componentClicked(false);
         this.props.displayComponentTree(true);
+        
         this.props.history.push('/builder');
 
     }
@@ -262,7 +286,9 @@ const mapStateToProps = state => {
         nozzle: state.componentData.nozzle,
         skirt: state.componentData.skirt,
         saddle: state.componentData.saddle,
-        conical: state.componentData.conical
+        conical: state.componentData.conical,
+        componentByID: state.componentData.componentByID,
+        componentClick: state.componentData.componentClicked
     };
 };
 
@@ -272,7 +298,8 @@ const mapDispatchToProps = dispatch => {
         disableNew: () => dispatch(actions.disableNew()),
         onSubmitAndUpdate: (data, id, componentID) => dispatch(actions.onSubmitAndUpdate(data, id, componentID)),
         deleteThickness: () => dispatch(actions.deleteThickness()),
-        displayComponentTree: (value) => dispatch(actions.displayComponentTree(value))
+        displayComponentTree: (value) => dispatch(actions.displayComponentTree(value)),
+        componentClicked: (value) => dispatch(actions.componentClicked(value))
     };
 };
 
