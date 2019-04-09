@@ -250,7 +250,7 @@ class DynamicForm extends React.Component {
 const mapStateToProps = state => {
     return {
         title: state.navigation.title,
-        model: state.navigation.model,
+        model: state.navigation.componentModel,
         num: state.navigation.num,
         thickness: state.componentData.thickness,
         projectID: state.componentData.projectID,

@@ -40,7 +40,7 @@ class Modal extends Component {
 const mapStateToProps = state => {
   return {
       title: state.navigation.title,
-      model: state.navigation.model,
+      model: state.navigation.componentModel,
       num: state.navigation.num,
       projectID: state.componentData.projectID,
       projectName: state.componentData.projectName

@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import FormDialogComp from '../../Components/FormDialog/FormDialog';
 
 import * as actions from '../../store/actions/index';
-import * as data from '../../JSONFiles/FormDialog/New';
+// import * as data from '../../JSONFiles/FormDialog/New';
 import {
   connect
 } from 'react-redux';
@@ -21,10 +21,17 @@ class FormDialog extends React.Component {
   componentDidMount() {
     // console.log(this.props.open);
     this.setState({ open: this.props.open })
+    
     let newState = {
       ...this.state,
-      ...data
+      ...this.props.formModel
     };
+    if(this.props.title === "Open") {
+      newState = {
+        ...this.state,
+        ...this.props.projects
+      };
+    }
     this.setState({newState});
     
   }                                                                                                                                                                     
@@ -37,6 +44,7 @@ class FormDialog extends React.Component {
   submit = (e) => {
     e.preventDefault();
     // console.log("Submit", this.state.orientation);
+    
     this.props.requestProjectID(this.state.projectName, this.state.orientation);
     this.setState({ open: false });
     this.props.openFormDialog(false); 
@@ -48,15 +56,16 @@ class FormDialog extends React.Component {
   }
 
   handleClick = (event, name) => {
-    // console.log("Project",name);
+    console.log("Project",name);
     this.setState({ open: false });
-    this.props.openFormDialog(false); 
+    this.props.openFormDialog(false);
+    this.props.importSpecificProject(name); 
   }
 
   render() {
-    let form = <FormDialogComp submit={this.submit} handleChange={this.handleChange} handleClose={this.handleClose} model={data} orientation={this.state.orientation}/>;
+    let form = <FormDialogComp submit={this.submit} handleChange={this.handleChange} handleClose={this.handleClose} model={this.props.formModel} orientation={this.state.orientation}/>;
     if(this.props.title === "Open") {
-      form = <List model={data} handleClick={this.handleClick}></List> 
+      form = <List model={this.props.projects} handleClick={this.handleClick}></List> 
     }
     return (
       <div>
@@ -77,7 +86,9 @@ class FormDialog extends React.Component {
 const mapStateToProps = state => {
   return {
       new: state.navigation.new,
-      title: state.navigation.title
+      title: state.navigation.title,
+      formModel: state.navigation.formModel,
+      projects: state.navigation.projects
 
   };
 };
@@ -85,7 +96,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
       requestProjectID: (projectName, orientation) => dispatch(actions.requestProjectID(projectName, orientation)),
-      openFormDialog: (value) => dispatch(actions.openFormDialog(value))
+      openFormDialog: (value) => dispatch(actions.openFormDialog(value)),
+      importSpecificProject: (name) => dispatch(actions.importSpecificProject(name))
+      // importForm: (title) => dispatch(actions.importForm(title))
   };
 };
 

@@ -1,6 +1,11 @@
 import axios from "../../axios-orders";
 import * as actionTypes from "./actionTypes";
 
+const headers = {
+  "Content-Type": "application/json",
+  "Authorization": "JWT " + localStorage.getItem("token")
+};
+
 export const onDataSendFail = error => {
   return {
     type: actionTypes.DATA_SEND_FAIL,
@@ -104,11 +109,6 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
         componentID:componentID
       };
     }
-    const token = localStorage.getItem("token");
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": "JWT " + token
-    };
     axios
       .post(url, data1, {
         headers: headers
@@ -121,7 +121,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
           data1 = {
             ...data,
             ...{
-              thickness: response.data.thickness,
+              thickness: roundThickness(response.data.thickness),
               value: response.data
             }
           };
@@ -164,6 +164,15 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
   }
 }
 
+const roundThickness = (thickness) =>{
+  let t = Math.floor(thickness * 10000);
+  const round = Math.floor(t / 125);
+  t = (round * 125) / 10000;
+  console.log("Rounded Thickness", t);
+  return t;
+
+}
+
 export const updateLastItem = (type, data) => {
   return {
     type: actionTypes.UPDATE_LAST_ITEM,
@@ -193,13 +202,8 @@ export const sendComponentID = (componentType, componentID, projectID) => {
       react_component_id: componentID,
       projectID: projectID
     };
-    const token = localStorage.getItem("token");
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": "JWT " + token
-    };
     const url = '/api/components/'
-    dispatch(axiosDataSend(data, url, headers));
+    dispatch(axiosDataSend(data, url));
   }
 }
 
@@ -223,7 +227,32 @@ export const updateComponent = (data) => {
   }
 }
 
-export const axiosDataSend = (data, url, headers) => {
+//to import specific project from the server based on project name and id and after receiving response
+//updating the project id, project name, components and component ID in redux state
+export const importSpecificProject = (name) => {
+  let url = "api/project";
+  let data = {
+    projectName: name
+  }
+  return dispatch => {
+    axios.post(url,data, headers)
+    .then(response => {
+      console.log(response);
+      dispatch(updateComponents(response.components));
+      dispatch(onReportIDReceive(response.data.id, response.data.projectname));
+      dispatch(updateComponentID(response.components.length));
+    })
+  }
+}
+
+export const updateComponents = (components) => {
+  return{
+    type: actionTypes.UPDATE_COMPONENTS,
+    components: components
+  }
+}
+
+export const axiosDataSend = (data, url) => {
   return dispatch => {
     axios
       .post(url, data, {
@@ -247,17 +276,12 @@ export const axiosDataSend = (data, url, headers) => {
 export const requestReport = (projectName, orientation) => {
   return dispatch => {
     const url = "/report/reports/";
-    const token = localStorage.getItem("token");
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": "JWT " + token
-    };
     const data = {
       "report_type": "vessel",
       "projectName": projectName,
       "orientation": orientation
     }
-    return dispatch(axiosReport(data, url, headers));
+    return dispatch(axiosReport(data, url));
   }
 };
 
@@ -269,7 +293,7 @@ export const onReportIDReceive = (projectID, data) => {
   };
 };
 
-export const axiosReport = (data, url, headers) => {
+export const axiosReport = (data, url) => {
   return dispatch => {
     axios
       .post(url, data, {
@@ -294,13 +318,6 @@ export const requestFail = (error) => {
 export const downloadReport = (id) => {
   return dispatch => {
     const url = "/report/generate";
-    const token = localStorage.getItem("token");
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": "JWT " + token,
-      "responseType": 'arraybuffer'
-      // 'Accept': 'application/pdf'
-    };
     const data = {
       projectID: id
     };

@@ -165,6 +165,10 @@ const updateLastItem = (state, action) => {
     return updateObject(state, {[component] : action.data});
 }
 
+//update the new components downloaded from the server after the specific project is selected .
+const updateComponents = (state, action) => {
+    updateObject(state, {component : action.components});
+}
 
 const reportFail = (state, action) => {
     return updateObject(state, { error: action.error })
@@ -196,6 +200,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.DELETE_THICKNESS: return deleteThickness(state, action);
         case actionTypes.OPEN_FORM_DIALOG: return openFormDialog(state, action);
         case actionTypes.UPDATE_LAST_ITEM: return updateLastItem(state, action);
+        case actionTypes.UPDATE_COMPONENTS: return updateComponents(state, action);
         default:
             return state;
     }

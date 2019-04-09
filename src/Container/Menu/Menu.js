@@ -37,6 +37,7 @@ class Menu extends Component {
                 break;
             case "Open":
             case "New":
+                this.props.importForm(e);
                 this.props.openFormDialog(true);
                 break;
             case "Print":
@@ -97,7 +98,8 @@ const mapDispatchToProps = dispatch => {
         importModel: (title, num) => dispatch(actions.importModel(title, num)),
         sendComponentID: (componentType, componentID, projectID) => dispatch(actions.sendComponentID(componentType, componentID, projectID)),
         openFormDialog: (value) => dispatch(actions.openFormDialog(value)),
-        displayComponentTree: (value) => dispatch(actions.displayComponentTree(value))
+        displayComponentTree: (value) => dispatch(actions.displayComponentTree(value)),
+        importForm: (title) => dispatch(actions.importForm(title))
     };
 };
 

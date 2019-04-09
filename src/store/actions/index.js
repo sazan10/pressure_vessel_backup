@@ -1,6 +1,7 @@
 export {
     clickMenu,
     importModel,
+    importForm,
     disableNew,
     returnModel,
     loadNext,
@@ -24,6 +25,8 @@ export {
     deleteThickness,
     updateComponentID,
     updateComponent,
+    updateComponents,
+    importSpecificProject,
     onSubmitAndUpdate,
     sendComponentID,
     axiosDataSend,
