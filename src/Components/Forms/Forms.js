@@ -130,9 +130,9 @@ class DynamicForm extends React.Component {
     this.props.history.push("/builder");
   };
 
-  
+
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.model !== this.props.model || this.props.new) {
+    if ((prevProps.model !== this.props.model || this.props.new)) {
       this.props.disableNew();
       this.props.model.componentID.placeholder = this.props.componentID;
       this.props.model.componentID.value = this.props.componentID;
@@ -303,11 +303,9 @@ const mapDispatchToProps = dispatch => {
   return {
     importModel: (title, num) => dispatch(actions.importModel(title, num)),
     disableNew: () => dispatch(actions.disableNew()),
-    onSubmitAndUpdate: (data, id, componentID) =>
-      dispatch(actions.onSubmitAndUpdate(data, id, componentID)),
+    onSubmitAndUpdate: (data, id, componentID) => dispatch(actions.onSubmitAndUpdate(data, id, componentID)),
     deleteThickness: () => dispatch(actions.deleteThickness()),
-    displayComponentTree: value =>
-      dispatch(actions.displayComponentTree(value)),
+    displayComponentTree: value => dispatch(actions.displayComponentTree(value)),
     componentClicked: value => dispatch(actions.componentClicked(value))
   };
 };
