@@ -39,10 +39,7 @@ class VesselBuilder extends Component {
     }
   }
 
-  handleSelect = name => {
-    console.log("item selected", name.text);
-  };
-
+ 
   render() {
     // const menu = navbarData.menu.map(d =>
     //   d[Object.keys(d)].map(dd => (
@@ -68,11 +65,13 @@ class VesselBuilder extends Component {
       );
     }
 
-    let scene = <Scene />;
-    if (this.props.orientation === "vertical") {
-      scene = <Scene />;
-    } else if (this.props.orientation === "horizontal") {
-      scene = <SceneHorizontal />;
+    //Sajan change here
+    let scene = <Scene></Scene>;
+    if(this.props.orientation === "vertical") {
+      scene = <Scene></Scene>
+    } else if(this.props.orientation === "horizontal"){
+      
+      scene =<SceneHorizontal></SceneHorizontal>
     }
 
     return (

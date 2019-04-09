@@ -40,48 +40,54 @@ class DynamicForm extends React.Component {
           form: this.props.model
         },
         () => {
+          //show the component parameters for clicked component
           this.updateComponentByID();
         }
-      );
+        );}
     }
-  }
 
-  copyFromLast = e => {
-    e.preventDefault();
-    console.log("Button Clicked");
-    let data = null;
-    const name = this.props.title.toLowerCase().replace(" ", "");
-    data = this.props[name];
-    console.log(name, data);
-    const updatedForm = {
-      ...this.state.form
-    };
-    console.log(updatedForm);
-    console.log(data);
-    for (let key in data) {
-      // console.log(key, updatedForm[key], data[key]);
-      if (updatedForm[key] !== undefined) {
-        updatedForm[key] = {
-          ...updatedForm[key],
-          value: data[key]
-          // valid: this.checkValidity(data[key], updatedForm[key].validation),
-        };
-      }
+    //to copy from the last relatable component in the new form
+    copyFromLast = (e) => {
+        e.preventDefault();
+        // console.log("Button Clicked");
+        let data = null;
+        const name = this.props.title.toLowerCase().replace(" ","");
+        data = this.props[name];
+        // console.log(name, data);
+        const updatedForm = {
+            ...this.state.form
+        }
+        // console.log(updatedForm);
+        // console.log(data);
+        for (let key in data) {
+            console.log(key, updatedForm[key], data[key]);
+            if(key !== 'componentID') {
+              if (updatedForm[key] !== undefined) {
+                  updatedForm[key] = {
+                      ...updatedForm[key],
+                      value: data[key]
+                      // valid: this.checkValidity(data[key], updatedForm[key].validation),
+                  }
+              }
+          }
+        }
+        this.setState({
+            form: updatedForm
+        });
+
     }
-    this.setState({
-      form: updatedForm
-    });
-  };
 
+    
+//to show the value of a specific component in the sidebar by means of ID
   updateComponentByID = () => {
     let data = null;
-    console.log(this.props.componentByID);
+    // console.log(this.props.componentByID);
     data = this.props.componentByID;
     const updatedForm = {
       ...this.state.form
     };
-    console.log(updatedForm);
-    console.log(data);
+    // console.log(updatedForm);
+    // console.log(data);
     for (let key in data) {
       // console.log(key, updatedForm[key], data[key]);
       if (updatedForm[key] !== undefined) {
@@ -99,6 +105,8 @@ class DynamicForm extends React.Component {
 
   onSubmitHandler = e => {
     e.preventDefault();
+    //after submitted the value whether a component was clicked in Scene is returned to false
+    this.props.componentClicked(false);
     let data = {
       component: this.props.title,
       type: "blob"
@@ -114,7 +122,11 @@ class DynamicForm extends React.Component {
     for (let key in this.state.form) {
       valid = valid & this.state.form[key].valid;
     }
+    // console.log(data);
     if (valid) {
+      //push data to the server.
+      //projectID is sent to identify the project to which the component should be added
+      //componentID is sent to check whether new component is added or old component is edited
       this.props.onSubmitAndUpdate(
         data,
         this.props.projectID,
@@ -124,7 +136,8 @@ class DynamicForm extends React.Component {
     } else {
       this.setState({ message: <p>Data not valid</p> });
     }
-    this.props.componentClicked(false);
+    
+    //after submitting the component data, the tree is displayed
     this.props.displayComponentTree(true);
 
     this.props.history.push("/builder");
@@ -132,12 +145,29 @@ class DynamicForm extends React.Component {
 
 
   componentDidUpdate(prevProps, prevState) {
-    if ((prevProps.model !== this.props.model || this.props.new)) {
+    // console.log(this.props.componentByID);
+    //to check if new type of component is to be added or the same type of component is needed to be added again
+    //and update the componentID automatically
+    if ((prevProps.model !== this.props.model || this.props.new) && !this.props.componentClick) {
       this.props.disableNew();
       this.props.model.componentID.placeholder = this.props.componentID;
       this.props.model.componentID.value = this.props.componentID;
       this.setState({ form: this.props.model });
     }
+
+    if(this.props.componentClick && prevProps.model !== this.props.model) {
+      this.setState(
+        {
+          form: this.props.model
+        },
+        () => {
+          //show the component parameters for clicked component
+          this.updateComponentByID();
+        }
+        );
+    }
+
+    //to update the new calculated thickness in the form 
     if (this.props.thickness !== null && this.state.form === this.props.model) {
       if (this.state.form.thickness !== undefined) {
         let updatedform = {
@@ -151,7 +181,9 @@ class DynamicForm extends React.Component {
       }
     }
 
-    // if(this.state.)
+    if(prevProps.componentByID !== this.props.componentByID) {
+      this.updateComponentByID();
+    }
   }
 
   checkValidity(value, rules) {
@@ -185,23 +217,26 @@ class DynamicForm extends React.Component {
     return isValid;
   }
 
+  //dont change the component ID manually
   inputChangedHandler = (event, controlName) => {
-    // console.log(event, controlName);
-    const updatedForm = {
-      ...this.state.form,
-      [controlName]: {
-        ...this.state.form[controlName],
-        value: event.target.value,
-        valid: this.checkValidity(
-          event.target.value,
-          this.state.form[controlName].validation
-        ),
-        touched: true
-      }
-    };
-    this.setState({
-      form: updatedForm
-    });
+    console.log(event, controlName);
+    if(controlName !== 'componentID') {
+      const updatedForm = {
+        ...this.state.form,
+        [controlName]: {
+          ...this.state.form[controlName],
+          value: event.target.value,
+          valid: this.checkValidity(
+            event.target.value,
+            this.state.form[controlName].validation
+          ),
+          touched: true
+        }
+      };
+      this.setState({
+        form: updatedForm
+      });
+    }
   };
 
   renderForm = () => {
@@ -213,12 +248,7 @@ class DynamicForm extends React.Component {
         config: this.state.form[key]
       });
     }
-    // // formElementsArray[0]
-    // if (formElementsArray[0] !== undefined) {
-    //     console.log(formElementsArray[0].config);
-    //     formElementsArray[0].config.placeholder = this.props.componentID;
-    //     formElementsArray[0].config.value = this.props.componentID;
-    // }
+    
     let form = formElementsArray.map(formElement => (
       <tr key={formElement.id}>
         <td style={{ width: "60%" }}>

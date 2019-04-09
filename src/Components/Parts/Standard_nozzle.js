@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 import { toCSG, fromCSG } from 'three-2-csg';
 import math from 'mathjs';
+let material1 =new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });
+let material=null;
 const Standard_nozzle=(
                   length_nozzle=0.8, 
                   length_cone=0.4,
@@ -13,7 +15,9 @@ const Standard_nozzle=(
                   flange_thicknes=0.1,
                   hole_no=16,
                   bolt_diameter=0.95,
-                  bolt_h_size_diam=0.08)=> {
+                  bolt_h_size_diam=0.08,
+                  material2=material1)=> {
+  material=material2;
     
 let length_of_nozzle=parseFloat(length_nozzle);
 let length_of_cone=parseFloat(length_cone);
@@ -51,17 +55,16 @@ let position_of_outer_cylinder=position_of_second_cylinder+flange_thickness;
 let raised_face_thickness=parseFloat(raised_f_thickness);
 mesh_ind4=create_component(raised_face_diameter/2,raised_face_diameter/2,radius_inner_cone_bottom,radius_inner_cone_bottom,raised_face_thickness,position_of_outer_cylinder,0,0,0,0,3.14/2);
 
-let group = new THREE.Group();
+let group = new THREE.Mesh();
 //group.add( mesh_ind1 );
 group.add(mesh_ind1);
 group.add( mesh_ind2 );
 group.add( mesh_ind3 );
 group.add( mesh_ind4 );
 
-group.rotateY(math.PI/2);
-let group2=new THREE.Group();
+let group2=new THREE.Mesh();
 group2.add(group);
-return group2;
+return group;
 //this.create_component(radius_outer_pipe_top,radius_outer_pipe_bottom,radius_inner_pipe_top,radius_inner_pipe_bottom,length_of_pipe2,0,0,0,0,0,3.14/2);
 
   // this.scene.add(pointclod);
@@ -74,7 +77,7 @@ return group2;
     const create_component=(outer_upper_rad, outer_lower_rad, inner_upper_rad,inner_lower_rad,length,translateX,translateY,translateZ,rotateX,rotateY,rotateZ)=>
     {
       //sphere
-      let material =new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });
+     
 let cylinder_cone = new THREE.CylinderGeometry(outer_upper_rad,outer_lower_rad,length,40);
 let cylinderconeMesh = new THREE.Mesh( cylinder_cone, material );
 let coneCSG = toCSG( cylinderconeMesh ); // converting ThreeJS object to CSG
@@ -96,7 +99,7 @@ return mesh_test;
 
 
     const create_flange=(radius_outer,radius_inner,extrude_length,translateX,translateY,translateZ,rotateX,rotateY,rotateZ,hole_number1,bolt_hole_rad,bolt_size1)=>{
-      let material =new THREE.MeshPhongMaterial({ color: '#0b7dba', emissive: 0x072534, side: THREE.DoubleSide });
+      
 
       let hole_number= parseFloat(hole_number1);
       let bolt_hole_radius=parseFloat(bolt_hole_rad);
