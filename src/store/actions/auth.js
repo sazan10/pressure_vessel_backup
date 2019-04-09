@@ -56,7 +56,8 @@ export const authWithToken = () => {
   return dispatch => {
     var headers = {
       "Content-Type": "application/json",
-      Authorization: "JWT" + token
+      Authorization: "JWT" + token,
+      "Access-Control-Allow-Origin":"*"
     };
 
     const data = {

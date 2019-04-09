@@ -113,11 +113,20 @@ class Scene extends Component {
     let raycaster = new THREE.Raycaster(this.camera.position, vector.sub(this.camera.position).normalize());
     if (this.shapes.length >= 1) {
       console.log(this.shapes);
-      let intersects = raycaster.intersectObjects(this.scene.children,true);
+      let intersects = raycaster.intersectObjects(this.shapes,true);
       if (intersects.length > 0) {
         console.log("intersect",intersects);
         intersects[0].object.material.transparent = true;
-        console.log("pressed object number",intersects[0].object.name);
+        let name=null;
+        if(intersects[0].object.parent.name)
+        {
+          name=intersects[0].object.parent.name;
+        }
+        else{            
+          name=intersects[0].object.name;
+        }
+        console.log("pressed object number",name);
+        
         if (intersects[0].object.material.opacity === 0.5) {
           
           intersects[0].object.material.opacity = 1;
