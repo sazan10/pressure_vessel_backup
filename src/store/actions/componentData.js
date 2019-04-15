@@ -248,12 +248,12 @@ export const updateComponent = (data) => {
 //to import specific project from the server based on project name and id and after receiving response
 //updating the project id, project name, components and component ID in redux state
 export const importSpecificProject = (name) => {
-  let url = "api/project";
+  let url = `report/reports/219/project/`;
   let data = {
     projectName: name
   }
   return dispatch => {
-    axios.post(url,data, headers)
+    axios.get(url)
     .then(response => {
       console.log(response);
       dispatch(updateComponents(response.components));
