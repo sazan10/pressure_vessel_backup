@@ -107,6 +107,33 @@ class Scene_horizontal extends Component {
       if (intersects.length > 0) {
        // console.log("intersect",intersects);
         intersects[0].object.material.transparent = true;
+        try{
+          const sh=[...this.shapes];
+          sh.map((shape)=>{
+          console.log("shapes are",shape);
+          let sh_name=shape.name.split("&");
+          if(sh_name[1]===("Cylinder"||"Ellipsoidal Head"))
+          {
+          shape.material.opacity=1;
+          console.log("material",shape.name.split("&")[1]);
+          }
+          else{
+            console.log("jdkfjdlf");
+            shape.children.map((child)=>
+            {
+              console.log("children shapes",child);
+              child.material.opacity=1;
+              return 0;
+            })
+          }
+          return 0;
+          }
+          );
+        }
+        catch(e)
+        {
+          console.log(e)
+        }
         let name=null;
         if(intersects[0].object.parent.name)
         {
@@ -631,7 +658,7 @@ class Scene_horizontal extends Component {
                 let overall_CG = weightXCG / weightsum;
                 let thickness = this.props.component[i].value.lug_thickness.req_value;
                 let height = this.props.component[i].height_lug;
-                console.log("height for lug", height, weightsum, weightXCG);
+                console.log("height for lug", height, weightsum, weightXCG,last_cylinder);
                 let rad = this.props.component[i].length;
                 let hole_diameter = this.props.component[i].hole_diameter;
                 let angle = this.props.component[i].layout_angle;

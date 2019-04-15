@@ -274,9 +274,9 @@ export const importSpecificProject = (name) => {
     axios.get(url)
     .then(response => {
       console.log(response);
-      dispatch(updateComponents(response.components));
-      dispatch(onReportIDReceive(response.data.id, response.data.projectname));
-      dispatch(updateComponentID(response.components.length));
+      dispatch(updateComponents(response.data));
+      // dispatch(onReportIDReceive(response.data.id, response.data.projectname));
+      // dispatch(updateComponentID(response.components.length));
     })
   }
 }

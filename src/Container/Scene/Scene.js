@@ -156,8 +156,8 @@ class Scene extends Component {
         }
       
         let res=name.split("&");
-        //console.log("pressed object number",res[0],res[1]);
-       this.props.treeUpdate(false);
+        console.log("pressed object number",res[0],res[1]);
+        this.props.treeUpdate(false);
        this.props.modelImport(res[1],1);
        this.props.returnComponentID(res[0]);
        this.props.componentClicked(true);

@@ -169,6 +169,7 @@ const updateLastItem = (state, action) => {
 
 //update the new components downloaded from the server after the specific project is selected .
 const updateComponents = (state, action) => {
+    console.log(action);
     updateObject(state, {component : action.components});
 }
 
