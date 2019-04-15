@@ -110,18 +110,14 @@ class Scene_horizontal extends Component {
         try{
           const sh=[...this.shapes];
           sh.map((shape)=>{
-          console.log("shapes are",shape);
           let sh_name=shape.name.split("&");
           if(sh_name[1]===("Cylinder"||"Ellipsoidal Head"))
           {
           shape.material.opacity=1;
-          console.log("material",shape.name.split("&")[1]);
           }
           else{
-            console.log("jdkfjdlf");
             shape.children.map((child)=>
             {
-              console.log("children shapes",child);
               child.material.opacity=1;
               return 0;
             })
@@ -268,7 +264,6 @@ class Scene_horizontal extends Component {
         }
       }
       if (this.props.component.length >= 0) {
-        console.log(this.props.component);
         for (let i = 0; i < this.props.component.length; i++) {
           if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
             let diameter_bot = 0;
@@ -305,7 +300,6 @@ class Scene_horizontal extends Component {
                   this.heights[this.props.component[i].componentID] = this.height_position;
                   this.weights[this.props.component[i].componentID] = [this.props.component[i].component, this.height_position, this.props.component[i].value.weight];
                 };
-                console.log("weights", this.weights);
                 //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
               }
               //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
@@ -397,7 +391,6 @@ class Scene_horizontal extends Component {
               this.shapes.push(grouper);
               head.name=this.props.component[i].componentID +  "&"+this.props.component[i].component;
               this.first = this.first + 1;
-              console.log("height of head", minor + srl);
               this.head_no = 1;
 
 
@@ -477,7 +470,6 @@ class Scene_horizontal extends Component {
             this.lengths.push(-1000);
             let nozzle_height = this.props.component[i].height;
             this.heights_only = [];
-            console.log("height", this.heights);
             for (let key in this.heights) {
               let i = this.heights[key];
               this.heights_only.splice(key, 0, i); //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement          
@@ -641,7 +633,6 @@ class Scene_horizontal extends Component {
 
               let weightXCG = 0;
               let weightsum = 0;
-              console.log("weights for lkdjf", isEmpty(this.weights));
               if (!isEmpty(this.weights)) {
                 for (let i = 0; i < this.props.component.length; i++) {
 
@@ -652,34 +643,31 @@ class Scene_horizontal extends Component {
                   }
                   weightsum += this.weights[i][2];
                   weightXCG += this.weights[i][1] * this.weights[i][2];
-
-                  console.log("CG", this.weights[i][2], this.weights[i][1]);
                 }
                 let overall_CG = weightXCG / weightsum;
                 let thickness = this.props.component[i].value.lug_thickness.req_value;
                 let height = this.props.component[i].height_lug;
-                console.log("height for lug", height, weightsum, weightXCG,last_cylinder);
                 let rad = this.props.component[i].length;
                 let hole_diameter = this.props.component[i].hole_diameter;
                 let angle = this.props.component[i].layout_angle;
                 let lug1 = LiftingLug(height, thickness, rad, hole_diameter);
                 this.scene.add(lug1);
-                this.scene.push(lug1);
+                this.shapes.push(lug1);
                 let lug2 = null;
                 if (this.props.component[i].number === '2') {
-                  console.log("two lugs");
                   lug2 = LiftingLug(height, thickness, rad, hole_diameter);
                   this.scene.add(lug2);
                 }
+                
 
-                if (last_cylinder !== null) {
+                if (last_cylinder >=0) {
                   let height_pos = this.heights[last_cylinder] + (this.props.component[last_cylinder].length * 12) / 2 - height / 2.2;
                   let shell_rad = this.props.component[last_cylinder].sd / 2 + this.props.component[last_cylinder].value.thickness; //finding the diameter of last shell
                   let x_displace = (shell_rad) * math.cos(math.pi * (angle / 180));
                   let z_displace = (shell_rad) * math.sin(math.pi * (angle / 180));
-                  console.log("last_cylinder", last_cylinder, angle, x_displace);
                   //let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
                   //lug1.translateZ(10);
+                  console.log(overall_CG,x_displace,z_displace,angle);
                   lug1.translateX(overall_CG + 20).translateZ(-x_displace).translateY(z_displace).rotateX((angle / 180) * math.pi - math.pi / 2) //.rotateX(-(angle/180)*math.pi);//.translateY(height).translateZ(z_displace);
                   lug1.name=this.props.component[i].componentID+ "&"+this.props.component[i].component;
                   if (this.props.component[i].number === '2') {
@@ -711,7 +699,6 @@ class Scene_horizontal extends Component {
               //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
             }
 
-            console.log("component name", this.props.component[i].component);
 
             this.start();
 
@@ -720,7 +707,6 @@ class Scene_horizontal extends Component {
           }
         }
       }
-      console.log("shapes", this.shapes);
       return ( < div width = '100%'
         height = '100%'
 
@@ -729,7 +715,7 @@ class Scene_horizontal extends Component {
             this.mount = mount
           }
         }
-        id = "scener" / >
+        id = "scener" />
       );
     } catch (err) {
       console.log(err);
