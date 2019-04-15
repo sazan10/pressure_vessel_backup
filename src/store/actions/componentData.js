@@ -61,6 +61,24 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
         type_grade: mat[1],
       }
     }
+    if (data.vessel_material !== undefined) {
+      const mat = data.vessel_material.split(" ");
+      // data.length = data.length * 12;
+      data = {
+        ...data,
+        vessel_spec_num: mat[0],
+        vessel_type_grade: mat[1],
+      }
+    }
+    if (data.saddle_material !== undefined) {
+      const mat = data.saddle_material.split(" ");
+      // data.length = data.length * 12;
+      data = {
+        ...data,
+        saddle_spec_num: mat[0],
+        saddle_type_grade: mat[1],
+      }
+    }
     url = "/api/cylinder/data";
     if (data.component === "Ellipsoidal Head") {
       data1 = {

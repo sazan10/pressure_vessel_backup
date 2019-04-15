@@ -23,12 +23,10 @@ import {
 } from '../../Components/Parts/SpheroidHead_v2';
 
 class Scene_horizontal extends Component {
-
   state = {
     current: {},
   };
   componentDidMount() {
-
     const width = window.innerWidth;
     const height = window.innerHeight;
     // const width = document.getElementById("scener").width;
@@ -43,20 +41,16 @@ class Scene_horizontal extends Component {
       1000
     );
     this.camera.position.z = 4;
-   
-
     //ADD SCENE
     //ADD RENDERER
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setPixelRatio( window.devicePixelRatio );    
     this.renderer.setSize(width, height);
     this.mount.appendChild(this.renderer.domElement);
-
     document.getElementById("scener").addEventListener( 'click', this.onDocumentMouseDown, false );
     this.group = new THREE.Group();
     //ADD CUBE
     this.controls = new TrackballControls(this.camera, this.renderer.domElement);
-
     this.controls.rotateSpeed = 1.0;
     this.controls.zoomSpeed = 1.2;
     this.controls.panSpeed = 0.8;
@@ -77,10 +71,8 @@ class Scene_horizontal extends Component {
       emissive: 0x072534,
       // side: THREE.DoubleSide
     });
-
     this.first = 0;
     this.head_no = 0;
-
     this.radial_position = 0;
     // this.mesh= new THREE.Mesh();
     // this.mesh=Shell();
@@ -95,14 +87,10 @@ class Scene_horizontal extends Component {
     this.heights = {};
     this.weights = {};
     this.cylinder_lengths = [];
-
     this.first_shell = true;
     this.heights_only = [];
     this.controls.update();
-
     this.start();
-
-
   }
   onDocumentMouseDown = (event) => {
     let rect = document.getElementById("scener").getBoundingClientRect();
@@ -138,7 +126,9 @@ class Scene_horizontal extends Component {
     this.renderer.setSize( window.innerWidth, window.innerHeight );
   }
 
-  componentWillReceiveProps(nextProps) {}
+  componentWillReceiveProps(nextProps) {
+    
+  }
 
   clearScene = () => {
     for (let i = this.scene.children.length - 1; i >= 0; i--) {

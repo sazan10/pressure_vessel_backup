@@ -12,7 +12,7 @@
         "label": "Component ID",
         "valid": true
     },
-    "material": {
+    "vessel_material": {
         "elementType": "select",
         "elementConfig": {
             "type": "select",
@@ -39,27 +39,27 @@
         "validation": {
             "required": true
         },
-        "label": "Material",
+        "label": "Vessel Material",
         "value": "SA-516 60",
         
         "valid": true
         
     },
-    "temp1": {
+    "vessel_design_temperature": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "150 F"
+            "placeholder": "200 F"
         },
         "validation": {
             "required": true
         },
-        "value": "300",
-        "label": "Temp1 (F)",
+        "value": "200",
+        "label": "Vessel Design Temperature (F)",
         "step": "any",
         "valid": true
     },
-    "ic": {
+    "vessel_corrosion_allowance": {
         "elementType": "input",
         "elementConfig": {
             "type": "input",
@@ -72,7 +72,190 @@
         "label": "Corrosion Internal (inch)",
         "step": "any",
         "valid": true
+    }
+    ,
+    "vessel_diameter": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "66 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "66",
+        "label": "Vessel diameter (inch)",
+        "step": "any",
+        "valid": true
+    }
+    ,
+    "vessel_thickness": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "3.0 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "3.0",
+        "label": "Vessel thickness (inch)",
+        "step": "any",
+        "valid": true
     },
+    "vessel_design_pressure": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "2074 psig"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "2074",
+        "label": "Vessel Design Pressure (psig)",
+        "step": "any",
+        "valid": true
+    },
+    "vessel_former_head_type": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "2:1 Elliptical"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "2:1 Elliptical",
+        "label": "Vessel Former Head",
+        "step": "any",
+        "valid": true
+    }
+    ,
+    "vessel_head_height": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "16.5 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "16.5",
+        "label": "Vessel Head Height(inch)",
+        "step": "any",
+        "valid": true
+    }
+    ,
+    "length_of_vessel": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "292.0 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "292.0",
+        "label": "length Of Vessel(inch)",
+        "step": "any",
+        "valid": true
+    }
+    ,
+    "saddle_material": {
+        "elementType": "select",
+        "elementConfig": {
+            "type": "select",
+            "placeholder": "",
+            "options": [
+                {
+                    "displayValue": "SA-516 60",
+                    "value": "SA-516 60"
+                },
+                {
+                    "displayValue": "SA-516 70",
+                    "value": "SA-516 70"
+                },
+                {
+                    "displayValue": "SA-524 II Smis Pipe",
+                    "value": "SA-524 II Smis Pipe"
+                },
+                {
+                    "displayValue": "SA-53 EA Wld Pipe",
+                    "value": "SA-53 EA Wld Pipe"
+                }
+            ]
+        },
+        "validation": {
+            "required": true
+        },
+        "label": "Saddle Material",
+        "value": "SA-516 60",
+        
+        "valid": true
+        
+    }
+    ,
+    "saddle_center_line_to_head": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "41.0 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "41.0",
+        "label": "Saddle center line to head(inch)",
+        "step": "any",
+        "valid": true
+    }
+    ,
+    "saddle_contact_angle": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "123.0 degree"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "123.0",
+        "label": "Saddle contact angle(degree)",
+        "step": "any",
+        "valid": true
+    }
+    ,
+    "saddle_width": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "8.0 inch"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "8.0",
+        "label": "Saddle width(inch)",
+        "step": "any",
+        "valid": true
+    }
+    ,
+    "total_vessel_weight": {
+        "elementType": "input",
+        "elementConfig": {
+            "type": "input",
+            "placeholder": "50459.0 lbs"
+        },
+        "validation": {
+            "required": true
+        },
+        "value": "50459.0",
+        "label": "total vessel weight(lbs)",
+        "step": "any",
+        "valid": true
+    }
+    ,
     "distance": {
         "elementType": "input",
         "elementConfig": {
