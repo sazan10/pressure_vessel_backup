@@ -25,9 +25,6 @@ class TreeDemo extends React.Component {
 
   handleClick = item => {
     console.log("clicked", item);
-    let api = this.refs.treeview.api;
-    let selectedItem = api.getSelectedItem();
-    console.log(selectedItem);
   };
 
   addItemAndSubItem() {
@@ -42,6 +39,7 @@ class TreeDemo extends React.Component {
         });
         // api.selectItem(newItem);
       }
+
     
   }
 

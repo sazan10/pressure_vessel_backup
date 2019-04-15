@@ -12,7 +12,7 @@ const initialState = {
     num: 1,
     new: false,
     componentTree: false,
-    projects: {}
+    projects: []
 };
 
 const clickMenu = ( state, action ) => {

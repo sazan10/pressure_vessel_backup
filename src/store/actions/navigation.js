@@ -43,7 +43,7 @@ export const importForm = title => {
     };
   } else if (title === "Open") {
     return dispatch => {
-      const url = "/api/projects/";
+      const url = "/report/reports/";
       const headers = {
         "Content-Type": "application/json",
         Authorization: "JWT " + localStorage.getItem("token")
@@ -52,12 +52,11 @@ export const importForm = title => {
         type: "projects"
       };
       axios
-        .post(url, data, {
-          headers: headers
-        })
+        .get(url)
         .then(response => {
-          console.log(response.projects)
-          dispatch(importProjects(response.projects));
+          console.log(response);
+          const projects =[{id:219,projectName: "asad"}];
+          dispatch(importProjects(projects));
         })
         .catch(error => {
           console.log(error);

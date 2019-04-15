@@ -9,10 +9,11 @@ import FolderIcon from '@material-ui/icons/Folder';
 
 const ListComp = (props) => {
     const formElementsArray = [];
-    for (let key in props.model.default) {
+    console.log(props.model);
+    for (let key in props.model) {
         formElementsArray.push({
             id: key,
-            config: props.model.default[key]
+            config: props.model[key]
         });
     }
 
