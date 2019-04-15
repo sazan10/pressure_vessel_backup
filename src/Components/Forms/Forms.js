@@ -117,6 +117,7 @@ class DynamicForm extends React.Component {
         [key]: this.state.form[key].value
       };
     }
+    console.log("OnSubmit", data);
 
     let valid = this.state.valid;
     for (let key in this.state.form) {
@@ -219,7 +220,7 @@ class DynamicForm extends React.Component {
 
   //dont change the component ID manually
   inputChangedHandler = (event, controlName) => {
-    console.log(event, controlName);
+    // console.log(event, controlName);
     if(controlName !== 'componentID') {
       const updatedForm = {
         ...this.state.form,

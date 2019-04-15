@@ -126,7 +126,7 @@ class Scene extends Component {
           name=intersects[0].object.name;
         }
         let res=name.split("&");
-        //console.log("pressed object number",res[0],res[1]);
+        console.log("pressed object number",res[0],res[1]);
         this.props.treeUpdate(false);
        this.props.modelImport(res[1],1);
        this.props.returnComponentID(res[0]);
