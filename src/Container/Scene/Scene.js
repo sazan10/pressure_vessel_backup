@@ -106,16 +106,16 @@ class Scene extends Component {
     let rect = document.getElementById("scener").getBoundingClientRect();
 
     let projector = new THREE.Projector();
-    console.log("mouse click",event.clientX,event.clientY,rect.right,"   dffd ",rect.bottom);
+    //console.log("mouse click",event.clientX,event.clientY,rect.right,"   dffd ",rect.bottom);
 
     let vector = new THREE.Vector3((event.clientX-rect.left) / window.innerWidth * 2 - 1, -((event.clientY-rect.top) / window.innerHeight) * 2 + 1, 0.5),INTERSECTED;
     projector.unprojectVector(vector, this.camera);
     let raycaster = new THREE.Raycaster(this.camera.position, vector.sub(this.camera.position).normalize());
     if (this.shapes.length >= 1) {
-      console.log(this.shapes);
+     // console.log(this.shapes);
       let intersects = raycaster.intersectObjects(this.shapes,true);
       if (intersects.length > 0) {
-        console.log("intersect",intersects);
+       // console.log("intersect",intersects);
         intersects[0].object.material.transparent = true;
         let name=null;
         if(intersects[0].object.parent.name)
@@ -126,10 +126,11 @@ class Scene extends Component {
           name=intersects[0].object.name;
         }
         let res=name.split("&");
-        console.log("pressed object number",res[0],res[1]);
+        //console.log("pressed object number",res[0],res[1]);
         this.props.treeUpdate(false);
        this.props.modelImport(res[1],1);
        this.props.returnComponentID(res[0]);
+       this.props.componentClicked(true);
      
         if (intersects[0].object.material.opacity === 0.5) {
           
@@ -282,7 +283,7 @@ clearScene2=( ) =>{
         }
       }
       if (this.props.component.length >= 0) {
-        console.log(this.props.component);
+       // console.log(this.props.component);
         for (let i = 0; i < this.props.component.length; i++) {
           if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
             let diameter_bot = 0;
@@ -314,7 +315,7 @@ clearScene2=( ) =>{
                     this.heights[this.props.component[i].componentID] = this.height_position;
                     this.weights[this.props.component[i].componentID] =[this.props.component[i].component,this.height_position,this.props.component[i].value.weight];
                   };
-                  console.log("weights",this.weights);
+                  //console.log("weights",this.weights);
                   //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
                 }
                 //this.props.onDataUpdate(this.props.component[i], this.props.component[i].componentID,this.height_position);
@@ -404,7 +405,7 @@ clearScene2=( ) =>{
               head.name=this.props.component[i].componentID + "&"+ this.props.component[i].component;
               this.shapes.push(grouper);
               this.first = this.first + 1;
-              console.log("height of head",minor+srl);
+            //  console.log("height of head",minor+srl);
               this.head_no = 1;
 
 
@@ -451,7 +452,7 @@ clearScene2=( ) =>{
                     {
 
                     height_for_top=height_for_top+parseFloat(this.props.component[i].length)*12;
-                    console.log("height of head",height_for_top,this.props.component[i].length)
+                    //console.log("height of head",height_for_top,this.props.component[i].length)
                     }
                   }
                   if (!height_checker(this.props.component[i])) 
@@ -490,11 +491,11 @@ clearScene2=( ) =>{
               this.lengths.push(-1000);
               let nozzle_height = this.props.component[i].height;
               this.heights_only=[];
-              console.log("height",this.heights);
+             // console.log("height",this.heights);
               for (let key in this.heights) {
                 let i = this.heights[key];
                 this.heights_only.splice(key, 0, i); //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
-                console.log("heights only", this.heights_only);
+               // console.log("heights only", this.heights_only);
               }
 
               let closest_index = getClosest.number(nozzle_height, this.heights_only);
@@ -519,7 +520,7 @@ clearScene2=( ) =>{
               nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(math.PI/2-orientation_in_rad);
               nozzle.name=this.props.component[i].componentID+ "&"+this.props.component[i].component;
 
-              console.log("component id of nozzle",this.props.component[i].componentID,nozzle);
+            //  console.log("component id of nozzle",this.props.component[i].componentID,nozzle);
               this.scene.add(nozzle);
               this.shapes.push(nozzle);
 
@@ -672,7 +673,7 @@ clearScene2=( ) =>{
             //  let overall_CG=weightXCG/weightsum;
             let thickness=this.props.component[i].value.lug_thickness.req_value;
             let height=this.props.component[i].height_lug;
-            console.log("height for lug",height);
+           // console.log("height for lug",height);
             let rad=5//this.props.component[i].length;
             let hole_diameter=this.props.component[i].hole_diameter;
             let angle=this.props.component[i].layout_angle;
@@ -709,7 +710,7 @@ clearScene2=( ) =>{
           }
           this.start();
         }
-        console.log("weights",this.weights);
+       // console.log("weights",this.weights);
       }
       return ( < div id="scener"
         ref = {
@@ -755,7 +756,8 @@ const mapDispatchToProps = dispatch => {
     },
     returnComponentID:(id)=>{
       dispatch(actions.returnComponentByID(id))
-    }
+    },
+    componentClicked: (value) => {dispatch(actions.componentClicked(value))}
 
   };
 };

@@ -6,12 +6,13 @@ import { connect } from "react-redux";
 
 class TreeDemo extends React.Component {
   state = {
-    items: [
+    items: [ 
     ]
   };
 
   componentDidMount() {
     console.log("Component Did Mount in TreeView", this.props.components);
+    this.addItemAndSubItem();
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -24,26 +25,31 @@ class TreeDemo extends React.Component {
 
   handleClick = item => {
     console.log("clicked", item);
+    let api = this.refs.treeview.api;
+    let selectedItem = api.getSelectedItem();
+    console.log(selectedItem);
   };
 
   addItemAndSubItem() {
     let api = this.refs.treeview.api;
-    console.log(api);
+    
     let rootNode = api.getRootItem();
-
+    console.log(rootNode);
+    if(rootNode !== undefined && rootNode !== null) {
     let newItem = api.addItem("Components", false, rootNode);
     this.props.components.map(component => {
           return api.addItem(component.component + " " + component.componentID, true, newItem);
-          
         });
-    // api.selectItem(newItem);
+        // api.selectItem(newItem);
+      }
+    
   }
 
   render() {
     console.log("Tree view rendering", this.state.items);
     const tree = (
       <TreeView
-        style={{'width': '100%'}}
+        style={{'width': '100%', 'height': '100%'}}
         ref="treeview"
         items={this.state.items}
         onSelectItem={item => this.handleClick(item)}
