@@ -111,12 +111,41 @@ class Scene extends Component {
     let vector = new THREE.Vector3((event.clientX-rect.left) / window.innerWidth * 2 - 1, -((event.clientY-rect.top) / window.innerHeight) * 2 + 1, 0.5),INTERSECTED;
     projector.unprojectVector(vector, this.camera);
     let raycaster = new THREE.Raycaster(this.camera.position, vector.sub(this.camera.position).normalize());
+   
     if (this.shapes.length >= 1) {
+     
      // console.log(this.shapes);
       let intersects = raycaster.intersectObjects(this.shapes,true);
       if (intersects.length > 0) {
        // console.log("intersect",intersects);
         intersects[0].object.material.transparent = true;
+       try{
+        const sh=[...this.shapes];
+        sh.map((shape)=>{
+        console.log("shapes are",shape);
+        let sh_name=shape.name.split("&");
+        if(sh_name[1]===("Cylinder"||"Ellipsoidal Head"))
+        {
+        shape.material.opacity=1;
+        console.log("material",shape.name.split("&")[1]);
+        }
+        else{
+          console.log("jdkfjdlf");
+          shape.children.map((child)=>
+          {
+            console.log("children shapes",child);
+            child.material.opacity=1;
+            return 0;
+          })
+        }
+        return 0;
+        }
+        );
+      }
+      catch(e)
+      {
+        console.log(e)
+      }
         let name=null;
         if(intersects[0].object.parent.name)
         {
@@ -125,15 +154,14 @@ class Scene extends Component {
         else{            
           name=intersects[0].object.name;
         }
+      
         let res=name.split("&");
         //console.log("pressed object number",res[0],res[1]);
-        this.props.treeUpdate(false);
+       this.props.treeUpdate(false);
        this.props.modelImport(res[1],1);
        this.props.returnComponentID(res[0]);
        this.props.componentClicked(true);
-     
         if (intersects[0].object.material.opacity === 0.5) {
-          
           intersects[0].object.material.opacity = 1;
         } else {
           intersects[0].object.material.opacity = 0.5;
@@ -708,10 +736,16 @@ clearScene2=( ) =>{
           
              //this.scene.add(lug2); 
           }
+         
           this.start();
         }
+       
        // console.log("weights",this.weights);
       }
+      console.log("shapes",this.shapes);
+       
+
+      
       return ( < div id="scener"
         ref = {
           (mount) => {
