@@ -55,11 +55,11 @@ class FormDialog extends React.Component {
     this.setState({ [name]: event.target.value });
   }
 
-  handleClick = (event, name) => {
-    console.log("Project",name);
+  handleClick = (event, id) => {
+    console.log("Project ",id);
     this.setState({ open: false });
     this.props.openFormDialog(false);
-    this.props.importSpecificProject(name); 
+    this.props.importSpecificProject(id); 
   }
 
   render() {
@@ -73,10 +73,11 @@ class FormDialog extends React.Component {
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
+          fullWidth={true}
+          maxWidth='sm'
+          scroll='paper'
         > 
-          {form}
-          
-          
+          {form}  
         </Dialog>
       </div>
     );

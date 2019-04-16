@@ -6,6 +6,7 @@ import classes from "./Forms.css";
 import { connect } from "react-redux";
 import Input from "../../Container/Auth/Input/Input";
 import Button from "../UI/Button/Button";
+import PropTypes from 'prop-types';
 
 const initialState = {
   form: {},
@@ -339,6 +340,17 @@ const mapDispatchToProps = dispatch => {
     displayComponentTree: value => dispatch(actions.displayComponentTree(value)),
     componentClicked: value => dispatch(actions.componentClicked(value))
   };
+};
+
+DynamicForm.propTypes = {
+  title: PropTypes.string.isRequired,
+  model: PropTypes.object.isRequired,
+  thickness: PropTypes.number,
+  projectID: PropTypes.number,
+  componentID: PropTypes.number.isRequired,
+  componentClick: PropTypes.bool,
+  componentByID: PropTypes.object
+  
 };
 
 export default connect(

@@ -46,6 +46,7 @@ class TreeDemo extends React.Component {
     }
   }
 
+  //building the tree based on components
   setTree = components => {
     const tree = { name: "Components", toggled: true, children: [] };
     components.map(component => {
@@ -71,6 +72,12 @@ class TreeDemo extends React.Component {
     }
     this.setState({ cursor: node });
     const name = node.name.split(" ");
+    if(name.length >= 3) {
+      name[0] = name[0] + name[1];
+      name[1] = name[2];
+    }
+    
+    this.props.updateSelectedComponentID(parseInt(name[1]));
     this.props.treeUpdate(false);
     this.props.modelImport(name[0], 1);
     this.props.returnComponentID(parseInt(name[1]));
@@ -93,17 +100,27 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    //whether to display the component tree or the component form
     treeUpdate: value => {
       dispatch(actions.displayComponentTree(value));
     },
+    //import the specific model like cylinder or nozzle etc for the component chosen based on 
+    //titleName
     modelImport: (titleName, value) => {
       dispatch(actions.importModel(titleName, value));
     },
+    //to update the selected component in redux to display it in the side bar
+    //based on the id chosen by the user by clicking a specific component in tree
     returnComponentID: id => {
       dispatch(actions.returnComponentByID(id));
     },
+    //update the boolena value whether a component in tree is clicked or not
     componentClicked: value => {
       dispatch(actions.componentClicked(value));
+    },
+    //update the selectedComponentID field in redux to notify which component ID is selected
+    updateSelectedComponentID: id => {
+      dispatch(actions.updateSelectedComponentID(id));
     }
   };
 };

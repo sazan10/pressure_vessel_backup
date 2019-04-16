@@ -162,6 +162,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
               dispatch(updateComponentID(componentID));
             }
           }
+          dispatch(sendComponent(data1)); 
 
         } else {
           dispatch(onDataSendFail("No thickness received"));
@@ -173,6 +174,17 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
   }
 }
 
+//send to server to make json file of all components, so when opening project, it will be easier to load 
+//it in the redux store
+const sendComponent = (data) => {
+  return dispatch => {
+    const url = '/api/state/write'
+    dispatch(axiosDataSend(data, url));
+}
+}
+
+
+
 const roundThickness = (thickness) =>{
   let t = Math.floor(thickness * 10000);
   const round = Math.floor(t / 125);
@@ -180,6 +192,25 @@ const roundThickness = (thickness) =>{
   console.log("Rounded Thickness", t);
   return t;
 
+}
+
+export const deleteLastComponent = () => {
+  return {
+    type: actionTypes.DELETE_LAST_COMPONENT
+  }
+}
+
+export const deleteSpecificComponent = () => {
+  return {
+    type: actionTypes.DELETE_SPECIFIC_COMPONENT,
+  }
+}
+
+export const updateSelectedComponentID = (id) => {
+  return {
+    type: actionTypes.SELECTED_COMPONENT_ID,
+    id: id
+  }
 }
 
 export const updateLastItem = (type, data) => {
@@ -247,13 +278,11 @@ export const updateComponent = (data) => {
 
 //to import specific project from the server based on project name and id and after receiving response
 //updating the project id, project name, components and component ID in redux state
-export const importSpecificProject = (name) => {
-  let url = `report/reports/219/project/`;
-  let data = {
-    projectName: name
-  }
+export const importSpecificProject = (id) => {
+  let url = `report/reports/${id}/project/`;
+  
   return dispatch => {
-    axios.get(url)
+    axios.get(url, {headers: headers})
     .then(response => {
       console.log(response);
       dispatch(updateComponents(response.data));
@@ -343,34 +372,8 @@ export const downloadReport = (id) => {
       headers: headers
     })
       .then(response => {
-       // const reportUrl = "http://192.168.1.13:8000/" + response.data;
-
-
-        // let pdfData = base64.decode(response.data);
-        // console.log(pdfData);
-        // const d = pdfData.decode('utf-8');
-        // console.log(d);
-        // const pdfData = pako.deflate(response.data);
-        // console.lof(response.data);
-        // // console.log(pdfData);
-        // const file = new Blob(
-        //   [response.data], 
-        //   {type: 'application/pdf'});
-        // // Download(file, "report.pdf");
-        // FileSaver.saveAs(file, "hello.pdf");
-        // const fileURL = URL.createObjectURL(file);
-        //window.open(fileURL);
-        // console.log(response);
-
-       // window.open(reportUrl);
-
         let pdfWindow = window.open('/');
         pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + encodeURI(response.data)+"'></iframe>")
-        // const file = new Blob(
-        //   [response.data],
-        //   { type: 'application/pdf' });
-        // window.open("http://192.168.10.82:8000/report/generate?Authorization=JWT " + token + "&projectID=" + id);
-
       });
   }
 }

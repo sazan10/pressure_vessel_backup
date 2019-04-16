@@ -15,6 +15,7 @@ const initialState = {
     conical: null,
     error: null,
     componentID: 0,
+    selectedComponentID: 0,
     projectID: null,
     projectName: null,
     thickness: null,
@@ -170,7 +171,8 @@ const updateLastItem = (state, action) => {
 //update the new components downloaded from the server after the specific project is selected .
 const updateComponents = (state, action) => {
     console.log(action);
-    updateObject(state, {component : action.components});
+
+    return updateObject(state, {component : action.components});
 }
 
 const reportFail = (state, action) => {
@@ -200,6 +202,24 @@ const downloadReport = (state, action) => {
 
 }
 
+const deleteLastComponent = (state, action) => {
+    const updatedComponents = [...state.component];
+    const updatedID = state.componentID - 1;
+    console.log(state.component, updatedComponents);
+    updatedComponents.pop();
+    return updateObject(state, {component: updatedComponents, componentID: updatedID   });
+}
+
+const deleteSpecificComponent = (state, action) => {
+    const updateComponents = [...state.component];
+    updateComponents[state.selectedComponentID] = null;
+    return updateObject(state, {component: updateComponents});
+}
+
+const updateSelectedComponentID = (state, action) => {
+    return updateObject(state, {selectedComponentID: action.id});
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.DATA_SEND: return onDataSend(state, action);
@@ -217,6 +237,9 @@ const reducer = (state = initialState, action) => {
         case actionTypes.UPDATE_COMPONENTS: return updateComponents(state, action);
         case actionTypes.RETURN_COMPONENT_BY_ID: return returnComponentByID(state, action);
         case actionTypes.COMPONENT_CLICKED: return componentClicked(state, action);
+        case actionTypes.DELETE_LAST_COMPONENT: return deleteLastComponent(state, action);
+        case actionTypes.DELETE_SPECIFIC_COMPONENT: return deleteSpecificComponent(state, action);
+        case actionTypes.SELECTED_COMPONENT_ID: return updateSelectedComponentID(state, action);
         default:
             return state;
     }

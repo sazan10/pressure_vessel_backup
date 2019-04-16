@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -19,6 +20,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
   },
 });
+
+
 
 const FormDialog = (props) => {
   const { classes } = props;
@@ -51,5 +54,11 @@ const FormDialog = (props) => {
   }
   return element;
 }
+
+FormDialog.propTypes = {
+    data: PropTypes.object.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    orientation: PropTypes.string.isRequired
+};
 
 export default withStyles(styles)(FormDialog);

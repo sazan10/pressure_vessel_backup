@@ -52,10 +52,14 @@ export const importForm = title => {
         type: "projects"
       };
       axios
-        .get(url)
+        .get(url,{headers: headers})
         .then(response => {
-          console.log(response, "in navigation66ftv                                      ");
-          const projects =[{id:219,projectName: "asad"}];
+          const projects =[];
+          console.log(response.data, "in navigation66ftv");
+          response.data.map(project => {
+            return projects.push({id: project.id, projectName: project.projectName})
+          })
+          
           dispatch(importProjects(projects));
         })
         .catch(error => {

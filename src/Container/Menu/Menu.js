@@ -48,6 +48,12 @@ class Menu extends Component {
             case "Close":
                 this.props.displayComponentTree(false);
                 break;
+            case "Undo":
+                this.props.deleteLastComponent();
+                break;
+            case "Delete":
+                this.props.deleteSpecificComponent();
+                break;
             default:
                 break;
         }
@@ -101,7 +107,9 @@ const mapDispatchToProps = dispatch => {
         openFormDialog: (value) => dispatch(actions.openFormDialog(value)),
         displayComponentTree: (value) => dispatch(actions.displayComponentTree(value)),
         importForm: (title) => dispatch(actions.importForm(title)),
-        componentClicked: (value) => dispatch(actions.componentClicked(value))
+        componentClicked: (value) => dispatch(actions.componentClicked(value)),
+        deleteLastComponent: () => dispatch(actions.deleteLastComponent()),
+        deleteSpecificComponent: () => dispatch(actions.deleteSpecificComponent())
     };
 };
 

@@ -38,7 +38,10 @@ export {
     downloadReport,
     axiosReport,
     requestFail,
-    onReportIDReceive
+    onReportIDReceive,
+    deleteLastComponent,
+    deleteSpecificComponent,
+    updateSelectedComponentID
 } from './componentData';
 
 // export {
