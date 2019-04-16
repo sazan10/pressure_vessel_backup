@@ -359,6 +359,8 @@ class Scene_horizontal extends Component {
               nozzle.name=this.props.component[i].componentID+ "&"+this.props.component[i].component;
               this.scene.add(nozzle);
               this.shapes.push(nozzle);
+              this.keepHeightRecord(this.props.component[i],-500,0);
+
             } else if (this.props.component[index_key].component === "Conical") {
               let rad_bot = this.props.component[index_key].sd_s /( 2*this.scaler);
               let rad_top = this.props.component[index_key].sd_l / (2*this.scaler);
@@ -388,6 +390,7 @@ class Scene_horizontal extends Component {
               this.keepHeightRecord(this.props.component[i],-500,0);
 
             }
+
                       
           } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "HB") {
 
@@ -413,13 +416,14 @@ class Scene_horizontal extends Component {
               let weightXCG = 0;
               let weightsum = 0;
               if (!isEmpty(this.weights)) {
-                for (let i = 0; i < this.props.component.length; i++) {
-                  if (this.weights[i][2] === undefined) //was getting undefined from backend so.., not needed if backend sends data
-                  {
-                    this.weights[i][2] = 0;
-                  }
-                  weightsum += this.weights[i][2];
-                  weightXCG += this.weights[i][1] * this.weights[i][2];
+                console.log("weights",this.weights);
+                let newState = Object.assign([], this.weights);
+                console.log(newState);
+                for (let i = 0; i < newState.length; i++) {
+                  console.log("loop",i);
+                  weightsum += newState[i][2];
+                  weightXCG += newState[i][1] * newState[i][2];
+                  console.log("loop",i,newState[i][2],newState[i][1]);
                 }
                 console.log("weights",weightsum,weightXCG);
                 let overall_CG = weightXCG / weightsum;
@@ -485,12 +489,20 @@ class Scene_horizontal extends Component {
   }
   keepHeightRecord=(component,position,cg)=>
   {
-    if (!height_checker(component)) 
+    if (!height_checker(component) || component.component==="Nozzle") //since nozzle has height as parameter
     {
       if (!(component.componentID in this.heights)) {
   
         this.heights[component.componentID] = position;
+        if(component.value.weight)
+        {
         this.weights[component.componentID] =[component.component,cg,component.value.weight];
+        }
+        else 
+        {
+          this.weights[component.componentID] =[component.component,cg,0];
+
+        }
       };
     }
   }
