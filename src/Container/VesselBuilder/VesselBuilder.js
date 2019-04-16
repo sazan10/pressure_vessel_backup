@@ -57,7 +57,7 @@ class VesselBuilder extends Component {
 
     let display = <SideModal />;
     if (this.props.componentTree) {
-      console.log(this.props.components);
+      // console.log(this.props.components);
       display = (
         <div style={{'height': '100%'}}>
           <TreeView />
@@ -90,7 +90,7 @@ class VesselBuilder extends Component {
             {scene}
           </Grid>
         </Grid>
-        {formDialog}
+        <div style={{width: "50%"}}>{formDialog}</div>
       </div>
     );
   }
