@@ -431,6 +431,7 @@ class Scene_horizontal extends Component {
                 let height = this.props.component[i].height_lug/this.scaler;
                 let rad = this.props.component[i].length/this.scaler;
                 let hole_diameter = this.props.component[i].hole_diameter/this.scaler;
+                let distance = this.props.component[i].distance/this.scaler;
                 let angle = this.props.component[i].layout_angle;
                 console.log("lifing lug",height, thickness, rad, hole_diameter)
                 let lug1 = LiftingLug(height, thickness, rad, hole_diameter);
@@ -449,10 +450,10 @@ class Scene_horizontal extends Component {
                   //let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
                   //lug1.translateZ(10);
                   console.log(overall_CG,x_displace,z_displace,angle);
-                  lug1.translateX(overall_CG + 0.2).translateZ(-x_displace).translateY(z_displace).rotateX((angle / 180) * math.pi - math.pi / 2) //.rotateX(-(angle/180)*math.pi);//.translateY(height).translateZ(z_displace);
+                  lug1.translateX(overall_CG + distance).translateZ(-x_displace).translateY(z_displace).rotateX((angle / 180) * math.pi - math.pi / 2) //.rotateX(-(angle/180)*math.pi);//.translateY(height).translateZ(z_displace);
                   lug1.name=this.props.component[i].componentID+ "&"+this.props.component[i].component;
                   if (this.props.component[i].number === '2') {
-                    lug2.translateX(overall_CG - 0.2).translateZ(-x_displace).translateY(z_displace).rotateX((angle / 180) * math.pi - math.pi / 2) //.rotateX((-angle/180)*math.pi);
+                    lug2.translateX(overall_CG - distance).translateZ(-x_displace).translateY(z_displace).rotateX((angle / 180) * math.pi - math.pi / 2) //.rotateX((-angle/180)*math.pi);
                   }
                 }
               }

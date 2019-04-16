@@ -25,8 +25,8 @@ const liftingLugAddition = {
         "required": true
     },
     "placeholder": "0",
-    "value": "0",
-    "label": "Distance",
+    "value": "10",
+    "label": "Distance from CG",
     "valid": true
 };
 class DynamicForm extends React.Component {
