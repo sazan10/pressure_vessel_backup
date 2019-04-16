@@ -177,7 +177,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
               dispatch(updateComponentID(componentID));
             }
           }
-          dispatch(sendComponent(data1)); 
+          // dispatch(sendComponent(data1)); 
 
         } else {
           dispatch(onDataSendFail("No thickness received"));

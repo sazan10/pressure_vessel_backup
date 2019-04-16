@@ -8,6 +8,7 @@ import Scene from "../Scene/Scene";
 import SideModal from "../../Components/UI/SideModal/SideModal";
 import Menu from "../Menu/Menu";
 import FormDialog from "../FormDialog/FormDialog";
+import ErrorDialog from '../../Components/ErrorDialog/ErrorDialog';
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -33,10 +34,24 @@ const theme = createMuiTheme({
 });
 
 class VesselBuilder extends Component {
+
+  state = {
+    open: false
+  }
   componentDidMount() {
     if (!this.props.isAuthenticated) {
       this.props.history.push("/");
     }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps.error !== this.props.error) {
+      this.setState({open: true});
+    }
+  }
+
+  handleClose = () => {
+    this.setState({open: false});
   }
 
  
@@ -91,6 +106,7 @@ class VesselBuilder extends Component {
           </Grid>
         </Grid>
         <div style={{width: "50%"}}>{formDialog}</div>
+        <ErrorDialog handleClose = {this.handleClose} error={this.props.error} open={this.state.open}/>
       </div>
     );
   }
@@ -103,7 +119,8 @@ const mapStateToProps = state => {
     formDialogOpen: state.componentData.formDialogOpen,
     components: state.componentData.component,
     componentTree: state.navigation.componentTree,
-    orientation: state.componentData.orientation
+    orientation: state.componentData.orientation,
+    error: state.componentData.error
   };
 };
 

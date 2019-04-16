@@ -210,7 +210,7 @@ class Auth extends Component {
         if (this.props.error) {
             let message = null;
             if (!this.state.isSignup) {
-                message = this.props.error.data.errors.error[0]
+                message = JSON.stringify(this.props.error.data.errors)
             } else {
                 message = this.props.error.data.errors.error.map(d => {
                     return <div key={d}>{d}</div>
