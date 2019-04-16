@@ -65,7 +65,7 @@ const Standard_nozzle = (
   let group = new THREE.Mesh();
   //group.add( mesh_ind1 );
   group.add(mesh_ind1);
-  group.add(mesh_ind2);
+  //group.add(mesh_ind2);
   group.add(mesh_ind3);
   group.add(mesh_ind4);
 

@@ -121,7 +121,6 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
     }
     else if (data.component === "Lifting Lug") {
       url = "/api/lug/data";
-      console.log("lift data", data);
       data1 = {
         lugParam: data,
         projectID: id,
@@ -141,7 +140,6 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
         headers: headers
       })
       .then(response => {
-        console.log("response from backend",response);
         if (response.data.thicknesss !== null || response.data.thicknessResponse!=null) {
           let data1=null;
           if(response.data.thickness!==undefined && ! response.data.thicknessResponse){
@@ -162,7 +160,6 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
             }
           };
         }
-        console.log(data1);
           dispatch(updateLastItem(data.component, data1));
           if (data.componentID < componentID) {
             dispatch(updateComponent(data1));
@@ -195,7 +192,6 @@ const roundThickness = (thickness) =>{
   let t = Math.floor(thickness * 10000);
   const round = Math.floor(t / 125);
   t = (round * 125) / 10000;
-  console.log("Rounded Thickness", t);
   return t;
 
 }
@@ -273,7 +269,6 @@ export const importSpecificProject = (name) => {
   return dispatch => {
     axios.get(url)
     .then(response => {
-      console.log(response);
       dispatch(updateComponents(response.data));
       // dispatch(onReportIDReceive(response.data.id, response.data.projectname));
       // dispatch(updateComponentID(response.components.length));
