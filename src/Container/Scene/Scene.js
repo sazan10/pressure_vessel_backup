@@ -38,7 +38,7 @@ class Scene extends Component {
       0.1,
       1000000
     );
-    this.camera.position.z = 30;
+    this.camera.position.z = 5;
     this.camera.position.y=0;
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
@@ -128,7 +128,7 @@ class Scene extends Component {
         let res=name.split("&");
         console.log("pressed object number",res[0],res[1]);
        //   intersects[0].object.material.opacity = 0.5;
-       this.props.updateSelectedComponentID(res[0]);
+    //   this.props.updateSelectedComponentID(res[0]);
        this.props.treeUpdate(false);
        this.props.modelImport(res[1],1);
        this.props.returnComponentID(res[0]);
@@ -440,7 +440,7 @@ clearScene=( ) =>{
              }
             if(last_cylinder!==null)
             {
-              let height_pos=this.heights[last_cylinder]+(this.props.component[last_cylinder].length*1.2)/2-height/2.2;
+              let height_pos=this.heights[last_cylinder]+(this.props.component[last_cylinder].length*(12/this.scaler))/2-height/2.2;
              let shell_rad = this.props.component[last_cylinder].sd/(2*this.scaler)+this.props.component[last_cylinder].value.thickness/this.scaler;//finding the diameter of last shell
              let x_displace = (shell_rad) * math.sin(math.pi*(angle/180));
              let z_displace=(shell_rad)*math.cos(math.pi*(angle/180));

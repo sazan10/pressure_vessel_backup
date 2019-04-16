@@ -386,7 +386,18 @@ export const downloadReport = (id) => {
     })
       .then(response => {
         let pdfWindow = window.open('/');
+        try{
         pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + encodeURI(response.data)+"'></iframe>")
+        }
+        catch(Exception)
+        {
+          window.alert("PLEASE ALLOW POP UPS!!!")
+        }
+        // const file = new Blob(
+        //   [response.data],
+        //   { type: 'application/pdf' });
+        // window.open("http://192.168.10.82:8000/report/generate?Authorization=JWT " + token + "&projectID=" + id);
+
       });
   }
 }
