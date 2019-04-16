@@ -128,6 +128,7 @@ class Scene extends Component {
         let res=name.split("&");
         console.log("pressed object number",res[0],res[1]);
        //   intersects[0].object.material.opacity = 0.5;
+       this.props.updateSelectedComponentID(res[0]);
        this.props.treeUpdate(false);
        this.props.modelImport(res[1],1);
        this.props.returnComponentID(res[0]);
@@ -204,6 +205,8 @@ clearScene=( ) =>{
       }
       if (this.props.component.length >= 0) {
         for (let i = 0; i < this.props.component.length; i++) {
+          if(this.props.component[i]!==null)
+          {
           if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
             let diameter_bot = 0;
             let diameter_top = 0;
@@ -450,6 +453,7 @@ clearScene=( ) =>{
           this.start();
         }       
       }
+    }
       return ( < div id="scener"
         ref = {
           (mount) => {
@@ -501,8 +505,8 @@ const mapDispatchToProps = dispatch => {
     returnComponentID:(id)=>{
       dispatch(actions.returnComponentByID(id))
     },
-    componentClicked: (value) => {dispatch(actions.componentClicked(value))}
-
+    componentClicked: (value) => {dispatch(actions.componentClicked(value))},
+    onupdateSelectedComponentID: (id)=>{dispatch(id)}
   };
 };
 

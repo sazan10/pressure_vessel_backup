@@ -209,6 +209,8 @@ class Scene_horizontal extends Component {
       }
       if (this.props.component.length >= 0) {
         for (let i = 0; i < this.props.component.length; i++) {
+          if(this.props.component[i]!==null)
+          {
           if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
             let diameter_bot = 0;
             let diameter_top = 0;
@@ -466,6 +468,7 @@ class Scene_horizontal extends Component {
           }
         }
       }
+    }
       return ( < div width = '100%'
         height = '100%'
 
