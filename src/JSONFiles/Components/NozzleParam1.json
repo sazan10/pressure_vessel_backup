@@ -150,7 +150,7 @@
       "required": true
     },
     "value": "10",
-    "label": "Height (inch)",
+    "label": "Height (ft)",
     "step": "any",
     "valid": true
   },

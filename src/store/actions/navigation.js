@@ -17,8 +17,10 @@ export const disableNew = () => {
 };
 
 export const importModel = (title, num) => {
+ 
   return dispatch => {
     // console.log("Inside actions " + title );
+    dispatch(updateTitle(title));
     import(`../../JSONFiles/Components/${title.replace(
       " ",
       ""
@@ -28,6 +30,14 @@ export const importModel = (title, num) => {
     });
   };
 };
+
+export const updateTitle=(title)=>
+{
+  return {
+    type: actionTypes.UPDATE_TITLE,
+    title:title
+  };
+}
 
 
 export const importForm = title => {

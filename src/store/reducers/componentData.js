@@ -92,7 +92,7 @@ const updateData = (state, action) => {
             ...state.component
         ];
         data.push(action.data);
-        console.log("Nozzlw1");
+        console.log("Nozzle1");
         return updateObject(state, { component: data});
     }
     else if(action.data.component==="Ellipsoidal Head"){

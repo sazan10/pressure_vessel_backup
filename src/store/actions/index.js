@@ -7,7 +7,8 @@ export {
     loadNext,
     loadPrevious,
     updateNum,
-    displayComponentTree
+    displayComponentTree,
+    updateTitle
 } from './navigation';
 
 export {

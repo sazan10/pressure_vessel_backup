@@ -51,6 +51,9 @@ const importProjects = (state, action) => {
     return updateObject(state, { projects: action.projects});
 }
 
+const updateTitle= (state, action) => {
+    return updateObject(state, { title: action.title});
+}
 const reducer = ( state = initialState, action ) => {
     
     switch ( action.type ) {
@@ -63,6 +66,7 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.UPDATE_NUM: return updateNum(state, action);
         case actionTypes.LOAD_COMPONENT_TREE: return loadComponentTree(state, action);
         case actionTypes.IMPORT_PROJECTS: return importProjects(state, action);
+        case actionTypes.UPDATE_TITLE: return updateTitle(state,action);
         default:
             return state;
     }
