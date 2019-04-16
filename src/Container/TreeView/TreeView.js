@@ -74,8 +74,10 @@ class TreeDemo extends React.Component {
     const name = node.name.split(" ");
     if(name.length >= 3) {
       name[0] = name[0] + name[1];
-      name[1]= name[2];
+      name[1] = name[2];
     }
+    
+    this.props.updateSelectedComponentID(parseInt(name[1]));
     this.props.treeUpdate(false);
     this.props.modelImport(name[0], 1);
     this.props.returnComponentID(parseInt(name[1]));

@@ -76,7 +76,7 @@ class Menu extends Component {
         const icon = data.default[this.state.title];
 
         const icons = icon.map(dd => (
-            <IconNavbar key={dd.id} selectItem={this.onClickHandler2} title={dd.title}></IconNavbar>
+            <IconNavbar  key={dd.id} selectItem={this.onClickHandler2} title={dd.title} orientation={this.props.orientation}></IconNavbar>
         ));
 
         return <div>
@@ -93,7 +93,8 @@ class Menu extends Component {
 const mapStateToProps = state => {
     return {
         componentID: state.componentData.componentID,
-        projectID: state.componentData.projectID
+        projectID: state.componentData.projectID,
+        orientation: state.componentData.orientation
     };
 };
 

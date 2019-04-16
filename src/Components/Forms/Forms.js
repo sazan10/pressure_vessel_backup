@@ -15,6 +15,20 @@ const initialState = {
   valid: true,
   message: ""
 };
+
+const liftingLugAddition = {
+    "elementType": "input",
+    "elementConfig": {
+        "type": "input"  
+    },
+    "validation": {
+        "required": true
+    },
+    "placeholder": "0",
+    "value": "0",
+    "label": "Distance",
+    "valid": true
+};
 class DynamicForm extends React.Component {
   constructor() {
     // console.log("Form Refreshed");
@@ -30,22 +44,40 @@ class DynamicForm extends React.Component {
     message: ""
   };
 
+  updateStateModel = (model) => {
+    this.setState(
+      {
+        form: model
+      },
+      () => {
+        //show the component parameters for clicked component
+        this.updateComponentByID();
+      }
+      );
+    }
+
   componentDidMount() {
     if (!this.props.componentClick) {
-      this.setState({
-        form: this.props.model
-      });
+      if(this.props.title === "Lifting Lug" && this.props.orientation === "horizontal") {
+        const updatedModel = this.props.model;
+        updatedModel["distance"] = liftingLugAddition;
+        this.setState({form:updatedModel});
+      } else {
+        this.setState({form:this.props.model});
+      }
     } else {
-      this.setState(
-        {
-          form: this.props.model
-        },
-        () => {
-          //show the component parameters for clicked component
-          this.updateComponentByID();
-        }
-        );}
+      if(this.props.title === "Lifting Lug" && this.props.orientation === "horizontal") {
+        const updatedModel = this.props.model;
+        updatedModel["distance"] = liftingLugAddition;
+        this.updateStateModel(updatedModel);
+      } else {
+        this.updateStateModel(this.props.model);
+      }
     }
+  }
+
+    
+  
 
     //to copy from the last relatable component in the new form
     copyFromLast = (e) => {
@@ -154,19 +186,23 @@ class DynamicForm extends React.Component {
       this.props.disableNew();
       this.props.model.componentID.placeholder = this.props.componentID;
       this.props.model.componentID.value = this.props.componentID;
+      if(this.props.title === "Lifting Lug" && this.props.orientation === "horizontal") {
+        const updatedModel = this.props.model;
+        updatedModel["distance"] = liftingLugAddition;
+        this.setState({ form: updatedModel });
+      } else {
       this.setState({ form: this.props.model });
+      }
     }
 
     if(this.props.componentClick && prevProps.model !== this.props.model) {
-      this.setState(
-        {
-          form: this.props.model
-        },
-        () => {
-          //show the component parameters for clicked component
-          this.updateComponentByID();
-        }
-        );
+      if(this.props.title === "Lifting Lug" && this.props.orientation === "horizontal") {
+        const updatedModel = this.props.model;
+        updatedModel["distance"] = liftingLugAddition;
+        this.updateStateModel(updatedModel);
+      } else {
+      this.updateStateModel(this.props.model );
+      }
     }
 
     //to update the new calculated thickness in the form 
@@ -327,7 +363,8 @@ const mapStateToProps = state => {
     saddle: state.componentData.saddle,
     conical: state.componentData.conical,
     componentByID: state.componentData.componentByID,
-    componentClick: state.componentData.componentClicked
+    componentClick: state.componentData.componentClicked,
+    orientation: state.componentData.orientation
   };
 };
 
