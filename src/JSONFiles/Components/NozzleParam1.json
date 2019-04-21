@@ -144,7 +144,7 @@
     "elementType": "input",
     "elementConfig": {
       "type": "input",
-      "placeholder": "10 inch"
+      "placeholder": "10 ft"
     },
     "validation": {
       "required": true

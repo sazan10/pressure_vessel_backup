@@ -42,17 +42,22 @@ class TreeDemo extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.components !== this.props.components) {
+      console.log("previous components are",prevProps.components,"latest components are", this.props.components)
       this.setTree(this.props.components);
     }
   }
 
   //building the tree based on components
   setTree = components => {
+    console.log("setTree",components)
     const tree = { name: "Components", toggled: true, children: [] };
     components.map(component => {
+      if(component)
+      {
       return tree.children.push({
         name: component.component + " " + component.componentID
       });
+    }
     });
     this.setState({ tree: tree });
   };
@@ -71,20 +76,17 @@ class TreeDemo extends React.Component {
       node.toggled = toggled;
     }
     this.setState({ cursor: node });
-    if (node.name !== "Components") {
-      
-      const name = node.name.split(" ");
-      if (name.length >= 3) {
-        name[0] = name[0] + name[1];
-        name[1] = name[2];
-      }
-
-      this.props.updateSelectedComponentID(parseInt(name[1]));
-      this.props.treeUpdate(false);
-      this.props.modelImport(name[0], 1);
-      this.props.returnComponentID(parseInt(name[1]));
-      this.props.componentClicked(true);
+    const name = node.name.split(" ");
+    if(name.length >= 3) {
+      name[0] = name[0] +" "+ name[1];
+      name[1] = name[2];
     }
+    console.log("Tree view component selected",name[0],name[1])
+   this.props.updateSelectedComponentID(parseInt(name[1]));
+    this.props.treeUpdate(false);
+    this.props.modelImport(name[0], 1);
+    this.props.returnComponentID(parseInt(name[1]));
+    this.props.componentClicked(true);
   };
 
   render() {

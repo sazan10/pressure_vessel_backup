@@ -213,6 +213,7 @@ const deleteLastComponent = (state, action) => {
 
 const deleteSpecificComponent = (state, action) => {
     const updateComponents = [...state.component];
+    console.log("should delete",state.selectedComponentID);
     updateComponents[state.selectedComponentID] = null;
     return updateObject(state, {component: updateComponents});
 }

@@ -80,6 +80,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
       }
     }
     url = "/api/cylinder/data";
+    console.log("it should hit",data.component,id)
     if (data.component === "Ellipsoidal Head") {
       data1 = {
         headParam: data,
