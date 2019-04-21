@@ -2,8 +2,8 @@ import React from 'react';
 import classes from './Menu.css';
 
 const Menu = (props) => {
-    
-      return <div className={classes.Menu} onClick={() => props.selectItem(props.titleHead)}>{props.titleHead}</div>;
+
+      return <div style={{'background-color': props.color}} className={classes.Menu} onClick={() => props.selectItem(props.titleHead)}>{props.titleHead}</div>;
     
 }
 

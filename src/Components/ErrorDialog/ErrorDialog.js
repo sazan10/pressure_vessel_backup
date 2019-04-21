@@ -12,7 +12,7 @@ const ErrorDialog = (props) => {
         error = JSON.stringify(props.error.data)
         }
     }
-    console.log(error);
+    // console.log(error);
     return (
       <div>
         <Dialog

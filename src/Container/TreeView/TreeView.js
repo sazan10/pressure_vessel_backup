@@ -71,17 +71,20 @@ class TreeDemo extends React.Component {
       node.toggled = toggled;
     }
     this.setState({ cursor: node });
-    const name = node.name.split(" ");
-    if(name.length >= 3) {
-      name[0] = name[0] + name[1];
-      name[1] = name[2];
+    if (node.name !== "Components") {
+      
+      const name = node.name.split(" ");
+      if (name.length >= 3) {
+        name[0] = name[0] + name[1];
+        name[1] = name[2];
+      }
+
+      this.props.updateSelectedComponentID(parseInt(name[1]));
+      this.props.treeUpdate(false);
+      this.props.modelImport(name[0], 1);
+      this.props.returnComponentID(parseInt(name[1]));
+      this.props.componentClicked(true);
     }
-    
-    this.props.updateSelectedComponentID(parseInt(name[1]));
-    this.props.treeUpdate(false);
-    this.props.modelImport(name[0], 1);
-    this.props.returnComponentID(parseInt(name[1]));
-    this.props.componentClicked(true);
   };
 
   render() {
@@ -104,7 +107,7 @@ const mapDispatchToProps = dispatch => {
     treeUpdate: value => {
       dispatch(actions.displayComponentTree(value));
     },
-    //import the specific model like cylinder or nozzle etc for the component chosen based on 
+    //import the specific model like cylinder or nozzle etc for the component chosen based on
     //titleName
     modelImport: (titleName, value) => {
       dispatch(actions.importModel(titleName, value));

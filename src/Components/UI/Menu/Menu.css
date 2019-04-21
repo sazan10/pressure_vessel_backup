@@ -4,6 +4,10 @@
 }
 
 .Menu:hover {
-    color: #fff;
-    background-color: #0c70e2;
+    /* color: #fff; */
+    background-color: #ddd;
+}
+
+.Menu:active {
+    background-color: #ddd;
 }
