@@ -85,10 +85,8 @@ class VesselBuilder extends Component {
     if(this.props.orientation === "vertical") {
       scene = <Scene></Scene>
     } else if(this.props.orientation === "horizontal"){
-      
       scene =<SceneHorizontal></SceneHorizontal>
     }
-
     return (
       <div>
         <Grid container spacing={0}>
@@ -96,7 +94,6 @@ class VesselBuilder extends Component {
             <Menu />
           </Grid>
         </Grid>
-
         <Grid container spacing={0}>
           <Grid item lg={3} md={3} sm={3} xs={4}>
             {display}
@@ -106,6 +103,7 @@ class VesselBuilder extends Component {
           </Grid>
         </Grid>
         <div style={{width: "50%"}}>{formDialog}</div>
+        
         <ErrorDialog handleClose = {this.handleClose} error={this.props.error} open={this.state.open}/>
       </div>
     );

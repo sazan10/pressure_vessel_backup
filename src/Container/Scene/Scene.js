@@ -74,6 +74,7 @@ class Scene extends Component {
     this.lengths = [];
     this.heights = {};
     this.weights = {};
+    this.heights_permanent={};
     this.cylinder_lengths = [];
     this.first_shell = true;
     this.heights_only = [];
@@ -439,30 +440,54 @@ class Scene extends Component {
               this.keepHeightRecord(this.props.component[i], -500, cg_skirt);
               this.lengths.push(-500);
             } else if (this.props.component[i].component === "Lifting Lug") {
-              this.keepHeightRecord(this.props.component[i], -500, 0);
+              let position=0;
+              let last_cylinder=0;
+              for (let i =0;i<this.props.component.length;i++)
+              {
+                if(this.props.component[i])
+                {
+                if(this.props.component[i].component==="Cylinder")
+                 {
+                   try{
+                  position=position+(this.props.component[i].length*12/this.scaler);
+                  console.log("inside value putitng",position,this.height_position,last_cylinder)
+                  last_cylinder=this.props.component[i].componentID;
+                   }
+                   catch (Exception)
+                   {
+                      console.log(Exception);
+                   }
+              }
+            }
+          }
+              this.keepHeightRecord(this.props.component[i],-500, 0);
               let thickness = this.props.component[i].value.lug_thickness.req_value / this.scaler;
               let height = this.props.component[i].height_lug / this.scaler;
               let rad = this.props.component[i].length / this.scaler;
               let hole_diameter = this.props.component[i].hole_diameter / this.scaler;
               let angle = this.props.component[i].layout_angle;
               let lug1 = LiftingLug(height, thickness, rad, hole_diameter);
-              this.scene.add(lug1);
+            
+              
               lug1.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
               this.shapes.push(lug1);
-              let lug2 = null;
+              let lug2=null; 
               if (this.props.component[i].number === '2') {
                 lug2 = LiftingLug(height, thickness, rad, hole_diameter);
-                this.scene.add(lug2);
+              
               }
-              if (last_cylinder !== null) {
-                let height_pos = this.heights[last_cylinder] + (this.props.component[last_cylinder].length * (12 / this.scaler)) / 2 - height / 2.2;
+              console.log("last cylinder for number",last_cylinder)
+              if (last_cylinder !== null && this.props.component[last_cylinder]!==null) {
+               // let height_pos = this.heights_permanent[last_cylinder] + (this.props.component[last_cylinder].length * (12 / this.scaler)) / 2 - height / 2.2;
                 let shell_rad = this.props.component[last_cylinder].sd / (2 * this.scaler) + this.props.component[last_cylinder].value.thickness / this.scaler; //finding the diameter of last shell
                 let x_displace = (shell_rad) * math.sin(math.pi * (angle / 180));
-                let z_displace = (shell_rad) * math.cos(math.pi * (angle / 180));
-                lug1.translateX(x_displace).translateZ(-z_displace).translateY(height_pos).rotateY(-(angle / 180) * math.pi); //.translateY(height).translateZ(z_displace);
+                let z_displace = (shell_rad) * math.cos(math.pi * (angle / 180));                
+                lug1.translateX(x_displace).translateZ(-z_displace).translateY(position).rotateY(-(angle / 180) * math.pi); //.translateY(height).translateZ(z_displace);
                 if (this.props.component[i].number === '2') {
-                  lug2.translateX(-x_displace).translateZ(z_displace).translateY(height_pos).rotateY(-(angle / 180) * math.pi + math.pi);
+                  lug2.translateX(-x_displace).translateZ(z_displace).translateY(position).rotateY(-(angle / 180) * math.pi + math.pi);
                 }
+                this.scene.add(lug1);
+                this.scene.add(lug2);
               }
             }
             this.start();
@@ -481,10 +506,25 @@ class Scene extends Component {
       console.log(err);
     }
   }
+
   keepHeightRecord = (component, position, cg) => {
+    const b_key =component.componentID.toString(); 
     if (!height_checker(component)) {
       if (!(component.componentID in this.heights)) {
-        this.heights[component.componentID] = position;
+        //this.heights[component.componentID] = position;
+        //let height = Object.assign(this.heights,:{position}}, {'c': 3})
+       
+       this.heights= {...this.heights,
+          [b_key]: position,
+         } 
+         console.log("b in heights",b_key in this.heights_permanent)
+         if(!(b_key in this.heights_permanent))
+         {
+          this.heights_permanent= {...this.heights_permanent,
+            [b_key]: position,
+           } 
+         }
+         console.log("last cylinder",this.heights_permanent);
         this.weights[component.componentID] = [component.component, cg, component.value.weight];
       };
     }
