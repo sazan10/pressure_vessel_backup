@@ -439,19 +439,29 @@ class Scene extends Component {
               let cg_skirt = -(length / 2 + 2);
               this.keepHeightRecord(this.props.component[i], -500, cg_skirt);
               this.lengths.push(-500);
+          
             } else if (this.props.component[i].component === "Lifting Lug") {
               let position=0;
               let last_cylinder=0;
+              let cyl_diameter=0;
               for (let i =0;i<this.props.component.length;i++)
               {
                 if(this.props.component[i])
                 {
-                if(this.props.component[i].component==="Cylinder")
+                if(this.props.component[i].component==="Cylinder" || this.props.component[i].component==="Conical")
                  {
                    try{
                   position=position+(this.props.component[i].length*12/this.scaler);
                   console.log("inside value putitng",position,this.height_position,last_cylinder)
                   last_cylinder=this.props.component[i].componentID;
+                  if(this.props.component[i].component==="Cylinder")
+                  {
+                    cyl_diameter=this.props.component[last_cylinder].sd / (2 * this.scaler);
+                  }
+                  else if (this.props.component[i].component==="Conical")
+                  {
+                    cyl_diameter=this.props.component[last_cylinder].sd_l / (2 * this.scaler);
+                  }
                    }
                    catch (Exception)
                    {
@@ -479,7 +489,7 @@ class Scene extends Component {
               console.log("last cylinder for number",last_cylinder)
               if (last_cylinder !== null && this.props.component[last_cylinder]!==null) {
                // let height_pos = this.heights_permanent[last_cylinder] + (this.props.component[last_cylinder].length * (12 / this.scaler)) / 2 - height / 2.2;
-                let shell_rad = this.props.component[last_cylinder].sd / (2 * this.scaler) + this.props.component[last_cylinder].value.thickness / this.scaler; //finding the diameter of last shell
+                let shell_rad =  cyl_diameter + this.props.component[last_cylinder].value.thickness / this.scaler; //finding the diameter of last shell
                 let x_displace = (shell_rad) * math.sin(math.pi * (angle / 180));
                 let z_displace = (shell_rad) * math.cos(math.pi * (angle / 180));                
                 lug1.translateX(x_displace).translateZ(-z_displace).translateY(position).rotateY(-(angle / 180) * math.pi); //.translateY(height).translateZ(z_displace);

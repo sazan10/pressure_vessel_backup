@@ -363,7 +363,7 @@ export const requestReport = (projectName, orientation) => {
     const projectName1= Math.random(); 
     const data = {
       "report_type": "vessel",
-      "projectName": projectName1,
+      "projectName": projectName,
       "orientation": orientation
     }
     return dispatch(axiosReport(data, url));
