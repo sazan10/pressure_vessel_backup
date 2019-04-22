@@ -8,12 +8,12 @@ import Scene from "../Scene/Scene";
 import SideModal from "../../Components/UI/SideModal/SideModal";
 import Menu from "../Menu/Menu";
 import FormDialog from "../FormDialog/FormDialog";
-import ErrorDialog from '../../Components/ErrorDialog/ErrorDialog';
-import Dialog from '@material-ui/core/Dialog';
+import ErrorDialog from "../../Components/ErrorDialog/ErrorDialog";
+import Dialog from "@material-ui/core/Dialog";
 
-import {createMuiTheme } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
 
-import Spinner from '../../Components/UI/Spinner/Spinner';
+import Spinner from "../../Components/UI/Spinner/Spinner";
 // import TreeView from "deni-react-treeview";
 import TreeView from "../TreeView/TreeView";
 
@@ -21,6 +21,8 @@ import TreeView from "../TreeView/TreeView";
 import blue from "@material-ui/core/colors/blue";
 import pink from "@material-ui/core/colors/pink";
 import SceneHorizontal from "../Scene/Scene_horizontal";
+import html2canvas from "html2canvas";
+import * as actions from '../../store/actions/index';
 
 const theme = createMuiTheme({
   palette: {
@@ -35,27 +37,36 @@ const theme = createMuiTheme({
 });
 
 class VesselBuilder extends Component {
-
   state = {
     open: false
-  }
+  };
   componentDidMount() {
     if (!this.props.isAuthenticated) {
       this.props.history.push("/");
     }
+
+   
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(prevProps.error !== this.props.error) {
-      this.setState({open: true});
+    if (prevProps.error !== this.props.error) {
+      this.setState({ open: true });
+    }
+    if(this.props.showSpinnerr && (prevProps.showSpinnerr !== this.props.showSpinnerr)){
+      html2canvas(document.querySelector("#scene")).then(canvas => {
+        console.log(canvas);
+        // document.body.appendChild(canvas);
+        window.open(canvas.toDataURL("image/png"));
+        this.props.showSpinner(false);
+      });
+      
     }
   }
 
   handleClose = () => {
-    this.setState({open: false});
-  }
+    this.setState({ open: false });
+  };
 
- 
   render() {
     // const menu = navbarData.menu.map(d =>
     //   d[Object.keys(d)].map(dd => (
@@ -71,31 +82,41 @@ class VesselBuilder extends Component {
       formDialog = <FormDialog open={this.props.formDialogOpen} />;
     }
 
-    let display = <SideModal />;
+    let display = <div ><SideModal /></div>;
     if (this.props.componentTree) {
       // console.log(this.props.components);
       display = (
-        <div style={{'height': '100%'}}>
+        <div  style={{ height: "100%" }}>
           <TreeView />
         </div>
       );
     }
 
-    let scene = <Scene></Scene>;
-    if(this.props.orientation === "vertical") {
-      scene = <Scene></Scene>
-    } else if(this.props.orientation === "horizontal"){
-      
-      scene =<SceneHorizontal></SceneHorizontal>
+    let scene = <Scene />;
+    if (this.props.orientation === "vertical") {
+      scene = (
+        <div id="scene">
+          <Scene />
+        </div>
+      );
+    } else if (this.props.orientation === "horizontal") {
+      scene = <div id="scene"><SceneHorizontal /></div>;
     }
 
-    console.log(this.props.showSpinner);
+    console.log(this.props.showSpinnerr);
     let spinner = null;
-    if(this.props.showSpinner) {
-      spinner = <Dialog open={true} fullWidth={true}
-      maxWidth='sm' aria-labelledby="simple-dialog-title" ><Spinner></Spinner></Dialog>
+    if (this.props.showSpinnerr) {
+      spinner = (
+        <Dialog
+          open={true}
+          fullWidth={true}
+          maxWidth="sm"
+          aria-labelledby="simple-dialog-title"
+        >
+          <Spinner />
+        </Dialog>
+      );
     }
-    
 
     return (
       <div>
@@ -113,8 +134,12 @@ class VesselBuilder extends Component {
             {scene}
           </Grid>
         </Grid>
-        <div style={{width: "50%"}}>{formDialog}</div>
-        <ErrorDialog handleClose = {this.handleClose} error={this.props.error} open={this.state.open}/>
+        <div style={{ width: "50%" }}>{formDialog}</div>
+        <ErrorDialog
+          handleClose={this.handleClose}
+          error={this.props.error}
+          open={this.state.open}
+        />
         {spinner}
       </div>
     );
@@ -130,9 +155,14 @@ const mapStateToProps = state => {
     componentTree: state.navigation.componentTree,
     orientation: state.componentData.orientation,
     error: state.componentData.error,
-    showSpinner: state.componentData.showSpinner
+    showSpinnerr: state.componentData.showSpinner
   };
 };
+
+const mapDispatchToProps = dispatch => {
+  return {
+    showSpinner: (value) => dispatch(actions.showSpinner(value))
+  }}
 
 // .propTypes = {
 //   classes: PropTypes.object.isRequired,
@@ -140,5 +170,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(withRouter(VesselBuilder));

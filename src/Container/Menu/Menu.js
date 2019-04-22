@@ -45,7 +45,7 @@ class Menu extends Component {
                 break;
             case "Print":
                 this.props.displayComponentTree(false);
-                this.props.downloadReport(this.props.projectID);
+                // this.props.downloadReport(this.props.projectID);
                 this.props.showSpinner(true);
                 break;
             case "Close":
@@ -72,9 +72,10 @@ class Menu extends Component {
             });
         }
         const menu = menuArray.map(d => (
-            (d.id=== this.state.title)?
+            (this.props.projectID === null && (d.id === "Component" || d.id === "Support"))?null:
+            ((d.id=== this.state.title)?
             <Menuu color={this.state.clickedColor} key={d.id} titleHead={d.id} selectItem={this.onClickHandler1}></Menuu>:
-            <Menuu color={this.state.normalColor} key={d.id} titleHead={d.id} selectItem={this.onClickHandler1}></Menuu>
+            <Menuu color={this.state.normalColor} key={d.id} titleHead={d.id} selectItem={this.onClickHandler1}></Menuu>)
             
         ));
 

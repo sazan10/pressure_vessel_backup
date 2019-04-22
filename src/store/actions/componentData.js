@@ -319,9 +319,10 @@ export const importSpecificProject = (id) => {
       }
     },{headers: headers})
     .then(response => {
+      console.log(response);
       dispatch(updateComponents(response.data.components));
-      // dispatch(onReportIDReceive(response.data.id, response.data.projectname));
-      // dispatch(updateComponentID(response.components.length));
+      dispatch(onReportIDReceive(response.data.projectID, response.data.projectName, response.data.orientation));
+      dispatch(updateComponentID(response.data.components.length));
     })
   }
 }
@@ -355,6 +356,8 @@ export const axiosDataSend = (data, url) => {
 //////REPORT
 
 export const requestReport = (projectName, orientation) => {
+ 
+ 
   return dispatch => {
     const url = "/report/reports/";
     const data = {
@@ -366,11 +369,13 @@ export const requestReport = (projectName, orientation) => {
   }
 };
 
-export const onReportIDReceive = (projectID, data) => {
+export const onReportIDReceive = (projectID, projectName, orientation) => {
+  console.log(projectName);
   return {
     type: actionTypes.REQUEST_REPORT,
     projectID: projectID,
-    data: data
+    projectName: projectName,
+    orientation: orientation
   };
 };
 
@@ -381,7 +386,7 @@ export const axiosReport = (data, url) => {
         headers: headers
       })
       .then(response => {
-        dispatch(onReportIDReceive(response.data.id, data))
+        dispatch(onReportIDReceive(response.data.id, data.projectName, data.orientation))
       })
       .catch(err => {
         dispatch(requestFail(err.response));
@@ -390,6 +395,7 @@ export const axiosReport = (data, url) => {
 };
 
 export const requestFail = (error) => {
+  console.log(error);
   return {
     type: actionTypes.REPORT_FAIL,
     error: error
@@ -397,6 +403,7 @@ export const requestFail = (error) => {
 };
 
 export const downloadReport = (id) => {
+  
   return dispatch => {
     const url = "/report/generate";
     const data = {

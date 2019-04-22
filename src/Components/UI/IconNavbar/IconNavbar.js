@@ -20,7 +20,7 @@ const IconNavbar = props => {
     but = null;
   }
   return (
-    <div style={{'background-color':'#dddddd','display':'inline-flex'}}>
+    <div style={{'backgroundColor':'#dddddd','display':'inline-flex'}}>
       {but}
     </div>
   )  ;

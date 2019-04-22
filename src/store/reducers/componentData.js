@@ -7,21 +7,21 @@ const initialState = {
     cylinder: null,
     ellipsoidalhead: null,
     componentByID: null,
-    componentClicked: false,
+    componentClicked: false,//
     nozzle: null,
     skirt: null,
     saddle: null,
     liftinglug: null,
     conical: null,
-    error: null,
+    error: null,//
     componentID: 0,
     selectedComponentID: 0,
-    projectID: null,
-    projectName: null,
+    projectID: null,//
+    projectName: null,//
     thickness: null,
-    formDialogOpen: false,
-    orientation: "vertical",
-    showSpinner: false
+    formDialogOpen: false,//
+    orientation: "vertical",//
+    showSpinner: false//
 };
 
 const onDataSend = (state, action) => {
@@ -34,6 +34,8 @@ const updateData1 = (state, action) => {
    
     return updateObject(state, {height: action.height });
 };
+
+/////
 const onDataSendFail = (state, action) => {
     return updateObject(state, { error: action.error });
 };
@@ -176,12 +178,17 @@ const updateComponents = (state, action) => {
     return updateObject(state, {component : action.components});
 }
 
+///////
 const reportFail = (state, action) => {
+    console.log(action.error.data.errors.msg);
+    const error = action.error.data.errors.msg.toString();
+    console.log(error);
     return updateObject(state, { error: action.error })
 }
 
+///////
 const requestReport = (state, action) => {
-    return updateObject(state, { projectID: action.projectID, projectName: action.data.projectName, orientation: action.data.orientation })
+    return updateObject(state, { projectID: action.projectID, projectName: action.projectName, orientation: action.orientation })
 
 }
 
@@ -196,6 +203,7 @@ const componentClicked = (state, action) => {
     return updateObject(state, {componentClicked: action.value});
 }
 
+/////////
 const openFormDialog = (state, action) => {
     return updateObject(state, {formDialogOpen: action.value    })
 }
@@ -222,6 +230,7 @@ const updateSelectedComponentID = (state, action) => {
     return updateObject(state, {selectedComponentID: action.id});
 }
 
+///////////////////////////
 const showSpinner = (state, action) => {
     return updateObject(state, {showSpinner: action.value});
 }
