@@ -109,7 +109,7 @@ const mapDispatchToProps = dispatch => {
     treeUpdate: value => {
       dispatch(actions.displayComponentTree(value));
     },
-    //import the specific model like cylinder or nozzle etc for the component chosen based on 
+    //import the specific model like cylinder or nozzle etc for the component chosen based on
     //titleName
     modelImport: (titleName, value) => {
       dispatch(actions.importModel(titleName, value));

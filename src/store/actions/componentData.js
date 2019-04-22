@@ -164,6 +164,8 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
           dispatch(updateLastItem(data.component, data1));
           if (data.componentID < componentID) {
             dispatch(updateComponent(data1));
+            const url = '/api/state/update';
+            dispatch(sendComponent(data1, url,id)); 
           } else {
             if (data1.component === "Cylinder") {
               for (let i = 0; i < data1.number; i++) {
@@ -177,8 +179,10 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
               componentID = componentID + 1;
               dispatch(updateComponentID(componentID));
             }
+            const url = '/api/state/write';
+            dispatch(sendComponent(data1, url, id)); 
           }
-          // dispatch(sendComponent(data1)); 
+          
 
         } else {
           dispatch(onDataSendFail("No thickness received"));
@@ -192,11 +196,22 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
 
 //send to server to make json file of all components, so when opening project, it will be easier to load 
 //it in the redux store
-const sendComponent = (data) => {
+const sendComponent = (data, url, id) => {
   return dispatch => {
-    const url = '/api/state/write'
-    dispatch(axiosDataSend(data, url));
+    
+    const schema = {
+      "schema": {...data},
+      "projectID": id
+    }
+    dispatch(axiosDataSend(schema, url));
 }
+}
+
+export const showSpinner = (value) => {
+  return {
+    type: actionTypes.SHOW_SPINNER,
+    value: value
+  }
 }
 
 
@@ -294,12 +309,17 @@ export const updateComponent = (data) => {
 //to import specific project from the server based on project name and id and after receiving response
 //updating the project id, project name, components and component ID in redux state
 export const importSpecificProject = (id) => {
-  let url = `report/reports/${id}/project/`;
+  // let url = `report/reports/${id}/project/`;
+  const url = 'api/state/open';
   
   return dispatch => {
-    axios.get(url, {headers: headers})
+    axios.get(url, {
+      params: {
+        projectID: id
+      }
+    },{headers: headers})
     .then(response => {
-      dispatch(updateComponents(response.data));
+      dispatch(updateComponents(response.data.components));
       // dispatch(onReportIDReceive(response.data.id, response.data.projectname));
       // dispatch(updateComponentID(response.components.length));
     })
@@ -337,9 +357,10 @@ export const axiosDataSend = (data, url) => {
 export const requestReport = (projectName, orientation) => {
   return dispatch => {
     const url = "/report/reports/";
+    const projectName1= Math.random(); 
     const data = {
       "report_type": "vessel",
-      "projectName": projectName,
+      "projectName": projectName1,
       "orientation": orientation
     }
     return dispatch(axiosReport(data, url));
@@ -386,6 +407,7 @@ export const downloadReport = (id) => {
       headers: headers
     })
       .then(response => {
+        
         let pdfWindow = window.open('/');
         try{
         pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + encodeURI(response.data)+"'></iframe>")
@@ -394,12 +416,20 @@ export const downloadReport = (id) => {
         {
           window.alert("PLEASE ALLOW POP UPS!!!")
         }
+        dispatch(hideSpinner(false));
         // const file = new Blob(
         //   [response.data],
         //   { type: 'application/pdf' });
         // window.open("http://192.168.10.82:8000/report/generate?Authorization=JWT " + token + "&projectID=" + id);
 
       });
+  }
+}
+
+const hideSpinner = (value) => {
+  return {
+    type: actionTypes.SHOW_SPINNER,
+    value: value
   }
 }
 

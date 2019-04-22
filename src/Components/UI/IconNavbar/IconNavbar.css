@@ -3,16 +3,18 @@
     /* border: 1px solid #000000; */
     /* padding: 0; */
     margin: 2px 3px;
+
 }
 
 .iconsI {
     height: 25px;
     width: 30px;
     padding: 3px;
+    background-color: #876868;
     /* margin: 3px; */
 }
 .icons:hover {
-    background-color: #cccccc;
+    background-color: #555555;
 }
 
 .iconsII {

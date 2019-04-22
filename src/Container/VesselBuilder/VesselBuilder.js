@@ -9,10 +9,11 @@ import SideModal from "../../Components/UI/SideModal/SideModal";
 import Menu from "../Menu/Menu";
 import FormDialog from "../FormDialog/FormDialog";
 import ErrorDialog from '../../Components/ErrorDialog/ErrorDialog';
+import Dialog from '@material-ui/core/Dialog';
 
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import {createMuiTheme } from "@material-ui/core/styles";
 
+import Spinner from '../../Components/UI/Spinner/Spinner';
 // import TreeView from "deni-react-treeview";
 import TreeView from "../TreeView/TreeView";
 
@@ -80,13 +81,21 @@ class VesselBuilder extends Component {
       );
     }
 
-    //Sajan change here
     let scene = <Scene></Scene>;
     if(this.props.orientation === "vertical") {
       scene = <Scene></Scene>
     } else if(this.props.orientation === "horizontal"){
       scene =<SceneHorizontal></SceneHorizontal>
     }
+
+    console.log(this.props.showSpinner);
+    let spinner = null;
+    if(this.props.showSpinner) {
+      spinner = <Dialog open={true} fullWidth={true}
+      maxWidth='sm' aria-labelledby="simple-dialog-title" ><Spinner></Spinner></Dialog>
+    }
+    
+
     return (
       <div>
         <Grid container spacing={0}>
@@ -105,6 +114,7 @@ class VesselBuilder extends Component {
         <div style={{width: "50%"}}>{formDialog}</div>
         
         <ErrorDialog handleClose = {this.handleClose} error={this.props.error} open={this.state.open}/>
+        {spinner}
       </div>
     );
   }
@@ -118,7 +128,8 @@ const mapStateToProps = state => {
     components: state.componentData.component,
     componentTree: state.navigation.componentTree,
     orientation: state.componentData.orientation,
-    error: state.componentData.error
+    error: state.componentData.error,
+    showSpinner: state.componentData.showSpinner
   };
 };
 

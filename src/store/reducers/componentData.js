@@ -16,11 +16,12 @@ const initialState = {
     error: null,
     componentID: 0,
     selectedComponentID: 0,
-    projectID: null,
-    projectName: null,
+    projectID:Math.floor(Math.random()*2000),
+    projectName: Math.random(),
     thickness: null,
     formDialogOpen: false,
-    orientation: "vertical"
+    orientation: "horizontal",
+    showSpinner: false
 };
 
 const onDataSend = (state, action) => {
@@ -221,6 +222,10 @@ const updateSelectedComponentID = (state, action) => {
     return updateObject(state, {selectedComponentID: action.id});
 }
 
+const showSpinner = (state, action) => {
+    return updateObject(state, {showSpinner: action.value});
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.DATA_SEND: return onDataSend(state, action);
@@ -241,6 +246,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.DELETE_LAST_COMPONENT: return deleteLastComponent(state, action);
         case actionTypes.DELETE_SPECIFIC_COMPONENT: return deleteSpecificComponent(state, action);
         case actionTypes.SELECTED_COMPONENT_ID: return updateSelectedComponentID(state, action);
+        case actionTypes.SHOW_SPINNER: return showSpinner(state, action);
         default:
             return state;
     }

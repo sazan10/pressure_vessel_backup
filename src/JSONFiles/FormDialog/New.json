@@ -8,7 +8,7 @@
     "orientation": {
         "margin": "dense",
         "id": "name",
-        "label": "Orientation",
+        "label": "vertical",
         "type": "select"
     }
 }

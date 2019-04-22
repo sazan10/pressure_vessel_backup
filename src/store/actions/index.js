@@ -42,7 +42,8 @@ export {
     onReportIDReceive,
     deleteLastComponent,
     deleteSpecificComponent,
-    updateSelectedComponentID
+    updateSelectedComponentID,
+    showSpinner
 } from './componentData';
 
 // export {

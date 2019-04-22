@@ -9,7 +9,9 @@ import * as actions from '../../store/actions/index';
 class Menu extends Component {
 
     state = {
-        title: "Files"
+        title: "Files",
+        normalColor: '#ffffff',
+        clickedColor: '#dddddd'
     }
 
     onClickHandler1 = (e) => {
@@ -44,6 +46,7 @@ class Menu extends Component {
             case "Print":
                 this.props.displayComponentTree(false);
                 this.props.downloadReport(this.props.projectID);
+                this.props.showSpinner(true);
                 break;
             case "Close":
                 this.props.displayComponentTree(false);
@@ -69,7 +72,10 @@ class Menu extends Component {
             });
         }
         const menu = menuArray.map(d => (
-            <Menuu key={d.id} titleHead={d.id} selectItem={this.onClickHandler1}></Menuu>
+            (d.id=== this.state.title)?
+            <Menuu color={this.state.clickedColor} key={d.id} titleHead={d.id} selectItem={this.onClickHandler1}></Menuu>:
+            <Menuu color={this.state.normalColor} key={d.id} titleHead={d.id} selectItem={this.onClickHandler1}></Menuu>
+            
         ));
 
         // console.log(this.state.title);
@@ -110,7 +116,8 @@ const mapDispatchToProps = dispatch => {
         importForm: (title) => dispatch(actions.importForm(title)),
         componentClicked: (value) => dispatch(actions.componentClicked(value)),
         deleteLastComponent: () => dispatch(actions.deleteLastComponent()),
-        deleteSpecificComponent: () => dispatch(actions.deleteSpecificComponent())
+        deleteSpecificComponent: () => dispatch(actions.deleteSpecificComponent()),
+        showSpinner: (value) => dispatch(actions.showSpinner(value))
     };
 };
 

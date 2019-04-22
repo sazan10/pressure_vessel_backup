@@ -6,7 +6,8 @@ const IconNavbar = props => {
   let but = (
     <Button
       onClick={() => props.selectItem(props.title)}
-      className={classes.Icons1}
+      className={classes.IconsI} 
+      color='inherit'
     >
       {props.title}
       {/* <img src={a} alt="Fuck Pritesh" height="30px" width="30px"/> */}
@@ -19,7 +20,9 @@ const IconNavbar = props => {
     but = null;
   }
   return (
-    but
+    <div style={{'background-color':'#dddddd','display':'inline-flex'}}>
+      {but}
+    </div>
   )  ;
 };
 
