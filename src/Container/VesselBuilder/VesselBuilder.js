@@ -125,7 +125,6 @@ class VesselBuilder extends Component {
             <Menu />
           </Grid>
         </Grid>
-
         <Grid container spacing={0}>
           <Grid item lg={3} md={3} sm={3} xs={4}>
             {display}
@@ -134,12 +133,18 @@ class VesselBuilder extends Component {
             {scene}
           </Grid>
         </Grid>
+<<<<<<< HEAD
         <div style={{ width: "50%" }}>{formDialog}</div>
         <ErrorDialog
           handleClose={this.handleClose}
           error={this.props.error}
           open={this.state.open}
         />
+=======
+        <div style={{width: "50%"}}>{formDialog}</div>
+        
+        <ErrorDialog handleClose = {this.handleClose} error={this.props.error} open={this.state.open}/>
+>>>>>>> ea50e1afca5af12259926e4002b549f92547dbb7
         {spinner}
       </div>
     );

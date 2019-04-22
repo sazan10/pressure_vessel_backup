@@ -360,9 +360,10 @@ export const requestReport = (projectName, orientation) => {
  
   return dispatch => {
     const url = "/report/reports/";
+    const projectName1= Math.random(); 
     const data = {
       "report_type": "vessel",
-      "projectName": projectName,
+      "projectName": projectName1,
       "orientation": orientation
     }
     return dispatch(axiosReport(data, url));

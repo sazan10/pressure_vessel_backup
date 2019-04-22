@@ -16,12 +16,21 @@ const initialState = {
     error: null,//
     componentID: 0,
     selectedComponentID: 0,
+<<<<<<< HEAD
     projectID: null,//
     projectName: null,//
     thickness: null,
     formDialogOpen: false,//
     orientation: "vertical",//
     showSpinner: false//
+=======
+    projectID:Math.floor(Math.random()*2000),
+    projectName: Math.random(),
+    thickness: null,
+    formDialogOpen: false,
+    orientation: "horizontal",
+    showSpinner: false
+>>>>>>> ea50e1afca5af12259926e4002b549f92547dbb7
 };
 
 const onDataSend = (state, action) => {
