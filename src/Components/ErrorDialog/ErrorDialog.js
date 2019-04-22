@@ -10,6 +10,8 @@ const ErrorDialog = (props) => {
     if(props.error !== null) {
         if(props.error.data !== null) {
         error = JSON.stringify(props.error.data)
+        // console.log(props.error);
+        // error = props.error;
         }
     }
     // console.log(error);
