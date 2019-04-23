@@ -191,7 +191,10 @@ const requestReport = (state, action) => {
     return updateObject(state, { projectID: action.projectID, projectName: action.projectName, orientation: action.orientation })
 
 }
+const requestNewReport = (state, action) => {
+    return updateObject(state, { componentID:0,component:[],projectID: action.projectID, projectName: action.projectName, orientation: action.orientation })
 
+}
 const returnComponentByID = (state, action) => {
     const componentByID = {
         ...state.component[action.componentID]
@@ -244,6 +247,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.COMPONENT_UPDATE: return componentUpdate(state, action);
         case actionTypes.REPORT_FAIL: return reportFail(state, action);
         case actionTypes.REQUEST_REPORT: return requestReport(state, action);
+        case actionTypes.REQUEST_NEW_REPORT: return requestNewReport(state, action);
         case actionTypes.DOWNLOAD_REPORT: return downloadReport(state, action);
         case actionTypes.DATA_UPDATE1: return updateData1(state,action);
         case actionTypes.DELETE_THICKNESS: return deleteThickness(state, action);

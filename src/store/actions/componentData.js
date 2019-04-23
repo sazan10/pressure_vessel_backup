@@ -300,7 +300,12 @@ export const sendComponentID = (componentType, componentID, projectID) => {
 
 export const requestProjectID = (projectName, orientation) => {
   return dispatch => {
-    dispatch(requestReport(projectName, orientation));
+    dispatch(requestReport(projectName, orientation,actionTypes.REQUEST_REPORT));
+  };
+};
+export const requestNewProjectID = (projectName, orientation) => {
+  return dispatch => {
+    dispatch(requestReport(projectName, orientation,actionTypes.REQUEST_NEW_REPORT));
   };
 };
 
@@ -323,7 +328,7 @@ export const updateComponent = data => {
 export const importSpecificProject = id => {
   // let url = `report/reports/${id}/project/`;
   const url = "api/state/open";
-
+  let req=actionTypes.REQUEST_REPORT;
   return dispatch => {
     axios
       .get(
@@ -342,7 +347,8 @@ export const importSpecificProject = id => {
           onReportIDReceive(
             response.data.projectID,
             response.data.projectName,
-            response.data.orientation
+            response.data.orientation,
+            req
           )
         );
         dispatch(updateComponentID(response.data.components.length));
@@ -364,7 +370,7 @@ export const axiosDataSend = (data, url) => {
         headers: headers
       })
       .then(response => {
-        // console.log(response.data);
+        console.log("response from backend",response.data);
         // dispatch(onDataSendTo(response.data.thickness, data));
         // console.log("after dispatch");
       })
@@ -376,7 +382,7 @@ export const axiosDataSend = (data, url) => {
 
 //////REPORT
 
-export const requestReport = (projectName, orientation) => {
+export const requestReport = (projectName, orientation,requestType) => {
   return dispatch => {
     const url = "/report/reports/";
     const projectName1 = Math.random();
@@ -385,21 +391,21 @@ export const requestReport = (projectName, orientation) => {
       projectName: projectName,
       orientation: orientation
     };
-    return dispatch(axiosReport(data, url));
+    return dispatch(axiosReport(data, url,requestType));
   };
 };
 
-export const onReportIDReceive = (projectID, projectName, orientation) => {
+export const onReportIDReceive = (projectID, projectName, orientation,requestType) => {
   console.log(projectName);
   return {
-    type: actionTypes.REQUEST_REPORT,
+    type: requestType,
     projectID: projectID,
     projectName: projectName,
     orientation: orientation
   };
 };
 
-export const axiosReport = (data, url) => {
+export const axiosReport = (data, url,requestType) => {
   return dispatch => {
     axios
       .post(url, data, {
@@ -410,7 +416,8 @@ export const axiosReport = (data, url) => {
           onReportIDReceive(
             response.data.id,
             data.projectName,
-            data.orientation
+            data.orientation,
+            requestType
           )
         );
       })

@@ -134,11 +134,11 @@ class VesselBuilder extends Component {
           </Grid>
         </Grid>
         <div style={{ width: "50%" }}>{formDialog}</div>
-        <ErrorDialog
+        {/* <ErrorDialog
           handleClose={this.handleClose}
           error={this.props.error}
           open={this.state.open}
-        />
+        /> */}
         {spinner}
       </div>
     );

@@ -7,12 +7,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 const ErrorDialog = (props) => {
 
     let error = null;
-    if(props.error !== null) {
-        if(props.error.data !== null) {
+    if(props.error) {
+   
+        if(props.error.data) {
         error = JSON.stringify(props.error.data)
         // console.log(props.error);
         // error = props.error;
-        }
+        }    
     }
     // console.log(error);
     return (
@@ -23,7 +24,7 @@ const ErrorDialog = (props) => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Error"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">Error</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               {error}

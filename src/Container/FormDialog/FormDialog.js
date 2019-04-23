@@ -98,7 +98,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-      requestProjectID: (projectName, orientation) => dispatch(actions.requestProjectID(projectName, orientation)),
+      requestProjectID: (projectName, orientation) => dispatch(actions.requestNewProjectID(projectName, orientation)),
       openFormDialog: (value) => dispatch(actions.openFormDialog(value)),
       importSpecificProject: (name) => dispatch(actions.importSpecificProject(name))
       // importForm: (title) => dispatch(actions.importForm(title))
