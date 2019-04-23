@@ -101,7 +101,8 @@ const mapStateToProps = state => {
     return {
         componentID: state.componentData.componentID,
         projectID: state.componentData.projectID,
-        orientation: state.componentData.orientation
+        orientation: state.componentData.orientation,
+        selectedComponentID: state.componentData.selectedComponentID
     };
 };
 

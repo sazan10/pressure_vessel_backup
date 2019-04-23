@@ -191,6 +191,7 @@ class Auth extends Component {
         // console.log(formElementsArray);
         let form = formElementsArray.map(formElement => (
             <Input
+                style={{'margin-bottom':'10px'}}
                 key={formElement.id}
                 elementType={formElement.config.elementType}
                 elementConfig={formElement.config.elementConfig}

@@ -488,7 +488,7 @@ class Scene extends Component {
               }
               console.log("last cylinder for number",last_cylinder)
               if (last_cylinder !== null && this.props.component[last_cylinder]!==null) {
-               // let height_pos = this.heights_permanent[last_cylinder] + (this.props.component[last_cylinder].length * (12 / this.scaler)) / 2 - height / 2.2;
+               //let height_pos = this.heights_permanent[last_cylinder] + (this.props.component[last_cylinder].length * (12 / this.scaler)) / 2 - height / 2.2;
                 let shell_rad =  cyl_diameter + this.props.component[last_cylinder].value.thickness / this.scaler; //finding the diameter of last shell
                 let x_displace = (shell_rad) * math.sin(math.pi * (angle / 180));
                 let z_displace = (shell_rad) * math.cos(math.pi * (angle / 180));                

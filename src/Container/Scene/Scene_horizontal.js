@@ -435,6 +435,7 @@ class Scene_horizontal extends Component {
           
           else if (this.props.component[i].component === "Lifting Lug") {
             try {
+              
               this.keepHeightRecord(this.props.component[i],-500,0);
               let weightXCG = 0;
               let weightsum = 0;
@@ -447,6 +448,10 @@ class Scene_horizontal extends Component {
                   weightsum += newState[i][2];
                   weightXCG += newState[i][1] * newState[i][2];
                   console.log("loop",i,newState[i][2],newState[i][1]);
+                }
+                for(let i=0;i<this.props.component.length;i++)
+                {
+                  
                 }
                 console.log("weights",weightsum,weightXCG);
                 let overall_CG = weightXCG / weightsum;

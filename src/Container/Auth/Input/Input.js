@@ -13,6 +13,7 @@ const input = ( props ) => {
     switch ( props.elementType ) {
         case ( 'input' ):
             inputElement = <input
+                style={{...props.style}}
                 className={inputClasses.join(' ')}
                 {...props.elementConfig}
                 value={props.value}
@@ -41,6 +42,7 @@ const input = ( props ) => {
             break;
         default:
             inputElement = <input
+                style={{...props.style}}
                 className={inputClasses.join(' ')}
                 {...props.elementConfig}
                 value={props.value}
