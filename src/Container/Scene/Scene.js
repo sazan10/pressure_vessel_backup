@@ -28,6 +28,7 @@ class Scene extends Component {
     current: {},
   };
   componentDidMount() {
+    console.log("ComponentDidMount in vertical", this.props.component);
     const width = window.innerWidth;
     const height = window.innerHeight;
     this.scene = new THREE.Scene();
@@ -142,6 +143,13 @@ class Scene extends Component {
       }
     }
     this.controls.update();
+  }
+
+  componentDidUpdate( prevProps, prevState) {
+    console.log(this.props.component, 'vertical');
+    if(prevProps.component !== this.props.component) {
+      console.log("ComponentDidUpdate in vertical");
+    }
   }
 
   onWindowResize = () => {
@@ -511,13 +519,17 @@ class Scene extends Component {
           }
         }
       }
-      return ( < div id = "scener"
-        ref = {
-          (mount) => {
-            this.mount = mount
-          }
+      return ( <div>< div width = '100%'
+      height = '100%'
+
+      ref = {
+        (mount) => {
+          this.mount = mount
         }
-        />
+      }
+      id = "scener" />
+      <div>Vertical</div>
+      </div>
       );
     } catch (err) {
       console.log(err);

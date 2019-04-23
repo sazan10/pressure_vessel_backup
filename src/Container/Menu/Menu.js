@@ -55,6 +55,7 @@ class Menu extends Component {
                 this.props.deleteLastComponent();
                 break;
             case "Delete":
+                console.log("Delete Clicked");
                 this.props.deleteSpecificComponent(this.props.projectID, this.props.selectedComponentID);
                 break;
             default:

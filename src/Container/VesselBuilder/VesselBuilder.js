@@ -101,7 +101,7 @@ class VesselBuilder extends Component {
       );
       console.log("Vertical");
     } else if (this.props.orientation === "horizontal") {
-      scene = <div id="scene"><SceneHorizontal /></div>;
+        scene = <div id="scene"><SceneHorizontal /></div>;
       console.log("Horizontal");
     }
 
