@@ -19,20 +19,16 @@
             "placeholder": "",
             "options": [
                 {
+                    "displayValue": "SA-516 55",
+                    "value": "SA-516 55"
+                },
+                {
                     "displayValue": "SA-516 60",
                     "value": "SA-516 60"
                 },
                 {
                     "displayValue": "SA-516 70",
                     "value": "SA-516 70"
-                },
-                {
-                    "displayValue": "SA-524 II Smis Pipe",
-                    "value": "SA-524 II Smis Pipe"
-                },
-                {
-                    "displayValue": "SA-53 EA Wld Pipe",
-                    "value": "SA-53 EA Wld Pipe"
                 }
             ]
         },

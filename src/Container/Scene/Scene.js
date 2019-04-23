@@ -92,33 +92,33 @@ class Scene extends Component {
       let intersects = raycaster.intersectObjects(this.shapes, true);
       if (intersects.length > 0) {
         intersects[0].object.material.transparent = true;
-        //  try{
-        //   const sh=[...this.shapes];
-        //   sh.map((shape)=>{
-        //   console.log("shapes are",shape);
-        //   let sh_name=shape.name.split("&");
-        //   if(sh_name[1]===("Cylinder"||"Ellipsoidal Head"))
-        //   {
-        //   shape.material.opacity=1;
-        //   console.log("material",shape.name.split("&")[1]);
-        //   }
-        //   else{
-        //     console.log("jdkfjdlf");
-        //     shape.children.map((child)=>
-        //     {
-        //       console.log("children shapes",child);
-        //       child.material.opacity=1;
-        //       return 0;
-        //     })
-        //   }
-        //   return 0;
-        //   }
-        //   );
-        // }
-        // catch(e)
-        // {
-        //   console.log(e)
-        // }
+        try{
+          const sh=[...this.shapes];
+          sh.map((shape)=>{
+          console.log("shapes are",shape);
+          let sh_name=shape.name.split("&");
+          if(sh_name[1]===("Cylinder"||"Ellipsoidal Head"))
+          {
+          shape.material.opacity=1;
+          console.log("material",shape.name.split("&")[1]);
+          }
+          else{
+            console.log("jdkfjdlf");
+            shape.children.map((child)=>
+            {
+              console.log("children shapes",child);
+              child.material.opacity=1;
+              return 0;
+            })
+          }
+          return 0;
+          }
+          );
+        }
+        catch(e)
+        {
+          console.log(e)
+  }
         let name = null;
         if (intersects[0].object.parent.name) {
           name = intersects[0].object.parent.name;
@@ -127,6 +127,11 @@ class Scene extends Component {
         }
         let res = name.split("&");
         console.log("pressed object number", res[0], res[1]);
+        if (intersects[0].object.material.opacity === 0.5) {
+          intersects[0].object.material.opacity = 1;
+        } else {
+          intersects[0].object.material.opacity = 0.5;
+}
         //   intersects[0].object.material.opacity = 0.5;
         this.props.updateSelectedComponentID(res[0]);
         this.props.treeUpdate(false);

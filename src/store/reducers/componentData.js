@@ -20,7 +20,7 @@ const initialState = {
     projectName: null,//
     thickness: null,
     formDialogOpen: false,//
-    orientation: "vertical",//
+    orientation: "horizontal",//
     showSpinner: false//
 };
 

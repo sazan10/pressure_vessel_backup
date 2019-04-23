@@ -19,20 +19,16 @@
             "placeholder": "",
             "options": [
                 {
+                    "displayValue": "SA-516 55",
+                    "value": "SA-516 55"
+                },
+                {
                     "displayValue": "SA-516 60",
                     "value": "SA-516 60"
                 },
                 {
                     "displayValue": "SA-516 70",
                     "value": "SA-516 70"
-                },
-                {
-                    "displayValue": "SA-524 II Smis Pipe",
-                    "value": "SA-524 II Smis Pipe"
-                },
-                {
-                    "displayValue": "SA-53 EA Wld Pipe",
-                    "value": "SA-53 EA Wld Pipe"
                 }
             ]
         },
@@ -105,12 +101,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "0.5 inch"
+            "placeholder": "0 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "0.5",
+        "value": "0",
         "label": "Thickness (inch)",
         "step": "any",
         "valid": true
@@ -125,7 +121,7 @@
             "required": true
         },
         "value": "1.75",
-        "label": "Hole Diameter",
+        "label": "Hole Diameter(inch)",
         "step": "any",
         "valid": true
     },   
@@ -139,7 +135,7 @@
             "required": true
         },
         "value": "1.625",
-        "label": "Pin Diameter",
+        "label": "Pin Diameter(inch)",
         "step": "any",
         "valid": true
     },
@@ -167,7 +163,7 @@
             "required": true
         },
         "value": "3",
-        "label": "Distance from load to shell/pad",
+        "label": "Distance from load to shell/pad(inch)",
         "step": "any",
         "valid": true
     },   
@@ -181,7 +177,7 @@
             "required": true
         },
         "value": "0",
-        "label": "Angle N to vessel",
+        "label": "Angle N to vessel(deg)",
         "step": "any",
         "valid": true
     },   
@@ -195,7 +191,7 @@
             "required": true
         },
         "value": "-31.82",
-        "label": "Angle from vertical",
+        "label": "Angle from vertical(deg)",
         "step": "any",
         "valid": true
     } ,
@@ -209,7 +205,7 @@
             "required": true
         },
         "value": "0.5",
-        "label": "Weld Size",
+        "label": "Weld Size(inch)",
         "step": "any",
         "valid": true
     }, 
@@ -223,7 +219,7 @@
             "required": true
         },
         "value": "27.0581",
-        "label": "Lug1 CG Distance",
+        "label": "Lug1 CG Distance(inch)",
         "step": "any",
         "valid": true
     } ,
@@ -237,7 +233,7 @@
             "required": true
         },
         "value": "13.2925",
-        "label": "Lug2 CG Distance",
+        "label": "Lug2 CG Distance(inch)",
         "step": "any",
         "valid": true
     } ,
@@ -245,13 +241,13 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "7036.5"
+            "placeholder": "7036.5 Pound"
         },
         "validation": {
             "required": true
         },
         "value": "7036.5",
-        "label": "weight",
+        "label": "weight(ound)",
         "step": "any",
         "valid": true
     } ,
@@ -265,7 +261,7 @@
             "required": true
         },
         "value": "90",
-        "label": "Angle",
+        "label": "Angle(deg)",
         "step": "any",
         "valid": true
     },

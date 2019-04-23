@@ -155,6 +155,9 @@ class Scene_horizontal extends Component {
   componentWillReceiveProps(nextProps) {
 
   }
+  componentDidUpdate( prevProps, prevState) {
+    
+  }
 
   clearScene = () => {
     for (let i = this.scene.children.length - 1; i >= 0; i--) {
@@ -311,10 +314,12 @@ class Scene_horizontal extends Component {
               grouper2.add(head);
               let height_for_top = 0;
               for (let i = 0; i < this.props.component.length; i++) {
+                if(this.props.component[i]){
                 if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
                   height_for_top = height_for_top + this.props.component[i].length * (12/this.scaler);
                 }
               }
+            }
               let cg_head=height_for_top+(4*minor)/(3*math.pi);
               this.keepHeightRecord(this.props.component[i],-500,cg_head);
               grouper2.translateX(height_for_top).rotateZ(-math.pi / 2);

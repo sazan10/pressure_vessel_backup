@@ -19,20 +19,16 @@
             "placeholder": "",
             "options": [
                 {
+                    "displayValue": "SA-516 55",
+                    "value": "SA-516 55"
+                },
+                {
                     "displayValue": "SA-516 60",
                     "value": "SA-516 60"
                 },
                 {
                     "displayValue": "SA-516 70",
                     "value": "SA-516 70"
-                },
-                {
-                    "displayValue": "SA-524 II Smis Pipe",
-                    "value": "SA-524 II Smis Pipe"
-                },
-                {
-                    "displayValue": "SA-53 EA Wld Pipe",
-                    "value": "SA-53 EA Wld Pipe"
                 }
             ]
         },
@@ -133,12 +129,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "0.5 inch"
+            "placeholder": "0 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "0.5",
+        "value": "0",
         "label": "Thickness (inch)",
         "step": "any",
         "valid": true

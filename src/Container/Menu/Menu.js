@@ -45,7 +45,7 @@ class Menu extends Component {
                 break;
             case "Print":
                 this.props.displayComponentTree(false);
-                // this.props.downloadReport(this.props.projectID);
+                this.props.downloadReport(this.props.projectID);
                 this.props.showSpinner(true);
                 break;
             case "Close":
@@ -55,7 +55,7 @@ class Menu extends Component {
                 this.props.deleteLastComponent();
                 break;
             case "Delete":
-                this.props.deleteSpecificComponent(this.props.selectedComponentID);
+                this.props.deleteSpecificComponent(this.props.projectID, this.props.selectedComponentID);
                 break;
             default:
                 break;
@@ -118,7 +118,7 @@ const mapDispatchToProps = dispatch => {
         importForm: (title) => dispatch(actions.importForm(title)),
         componentClicked: (value) => dispatch(actions.componentClicked(value)),
         deleteLastComponent: () => dispatch(actions.deleteLastComponent()),
-        deleteSpecificComponent: (id) => dispatch(actions.deleteSpecificComponent(id)),
+        deleteSpecificComponent: (projectID, componentID) => dispatch(actions.deleteSpecificComponent(projectID, componentID)),
         showSpinner: (value) => dispatch(actions.showSpinner(value))
     };
 };
