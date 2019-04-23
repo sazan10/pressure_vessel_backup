@@ -231,13 +231,13 @@ export const deleteSpecificComponent = (id) => {
   console.log("in delete specific component", 7);
   const url = `/report/reports/775/`;
   return dispatch => {
-  axios.delete(url,{headers: headers} ).then(response => {
-      console.log(response);
+  // axios.delete(url,{headers: headers} ).then(response => {
+  //     console.log(response);
     
       dispatch(deleteSpecificComponentReducer(id));
-    }).catch(err => {
-      console.log(err);
-    });
+    // }).catch(err => {
+    //   console.log(err);
+    // });
 }
   // return dispatch => {
   //       dispatch(deleteSpecificComponentReducer(1));

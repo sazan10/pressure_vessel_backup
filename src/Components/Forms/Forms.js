@@ -68,7 +68,7 @@ class DynamicForm extends React.Component {
       } else {
         this.setState({ form: this.props.model });
       }
-      this.checkForOrientationForHead(false);
+      // this.checkForOrientationForHead(false);
     } else {
       if (
         this.props.title === "Lifting Lug" &&
@@ -80,7 +80,7 @@ class DynamicForm extends React.Component {
       } else {
         this.updateStateModel(this.props.model);
       }
-      this.checkForOrientationForHead(true);
+      // this.checkForOrientationForHead(true);
     }
     
   }
@@ -90,6 +90,7 @@ class DynamicForm extends React.Component {
       this.props.title === "Ellipsoidal Head" &&
       this.props.orientation === "horizontal"
     ) {
+      console.log(this.props.model);
       const updatedModel = this.props.model;
       updatedModel.position.elementConfig.options = [
         {
