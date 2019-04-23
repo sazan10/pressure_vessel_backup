@@ -6,7 +6,7 @@ import classes from "./Forms.css";
 import { connect } from "react-redux";
 import Input from "../../Container/Auth/Input/Input";
 import Button from "../UI/Button/Button";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const initialState = {
   form: {},
@@ -17,17 +17,17 @@ const initialState = {
 };
 
 const liftingLugAddition = {
-    "elementType": "input",
-    "elementConfig": {
-        "type": "input"  
-    },
-    "validation": {
-        "required": true
-    },
-    "placeholder": "0",
-    "value": "10",
-    "label": "Distance from CG",
-    "valid": true
+  elementType: "input",
+  elementConfig: {
+    type: "input"
+  },
+  validation: {
+    required: true
+  },
+  placeholder: "0",
+  value: "10",
+  label: "Distance from CG",
+  valid: true
 };
 class DynamicForm extends React.Component {
   constructor() {
@@ -44,7 +44,7 @@ class DynamicForm extends React.Component {
     message: ""
   };
 
-  updateStateModel = (model) => {
+  updateStateModel = model => {
     this.setState(
       {
         form: model
@@ -53,65 +53,94 @@ class DynamicForm extends React.Component {
         //show the component parameters for clicked component
         this.updateComponentByID();
       }
-      );
-    }
+    );
+  };
 
   componentDidMount() {
     if (!this.props.componentClick) {
-      if(this.props.title === "Lifting Lug" && this.props.orientation === "horizontal") {
+      if (
+        this.props.title === "Lifting Lug" &&
+        this.props.orientation === "horizontal"
+      ) {
         const updatedModel = this.props.model;
         updatedModel["distance"] = liftingLugAddition;
-        this.setState({form:updatedModel});
+        this.setState({ form: updatedModel });
       } else {
-        this.setState({form:this.props.model});
+        this.setState({ form: this.props.model });
       }
+      this.checkForOrientationForHead(false);
     } else {
-      if(this.props.title === "Lifting Lug" && this.props.orientation === "horizontal") {
+      if (
+        this.props.title === "Lifting Lug" &&
+        this.props.orientation === "horizontal"
+      ) {
         const updatedModel = this.props.model;
         updatedModel["distance"] = liftingLugAddition;
         this.updateStateModel(updatedModel);
       } else {
         this.updateStateModel(this.props.model);
       }
+      this.checkForOrientationForHead(true);
+    }
+    
+  }
+
+  checkForOrientationForHead = (isComponentClicked) => {
+    if (
+      this.props.title === "Ellipsoidal Head" &&
+      this.props.orientation === "horizontal"
+    ) {
+      const updatedModel = this.props.model;
+      updatedModel.position.elementConfig.options = [
+        {
+          displayValue: "left",
+          value: "0"
+        },
+        {
+          displayValue: "right",
+          value: "1"
+        }
+      ];
+      if(isComponentClicked) {
+        this.updateStateModel({ form: updatedModel});
+        
+      } else {
+        this.setState({ form: updatedModel});
+      }
     }
   }
 
-    
-  
-
-    //to copy from the last relatable component in the new form
-    copyFromLast = (e) => {
-        e.preventDefault();
-        // console.log("Button Clicked");
-        let data = null;
-        const name = this.props.title.toLowerCase().replace(" ","");
-        data = this.props[name];
-        // console.log(name, data);
-        const updatedForm = {
-            ...this.state.form
+  //to copy from the last relatable component in the new form
+  copyFromLast = e => {
+    e.preventDefault();
+    // console.log("Button Clicked");
+    let data = null;
+    const name = this.props.title.toLowerCase().replace(" ", "");
+    data = this.props[name];
+    // console.log(name, data);
+    const updatedForm = {
+      ...this.state.form
+    };
+    // console.log(updatedForm);
+    // console.log(data);
+    for (let key in data) {
+      console.log(key, updatedForm[key], data[key]);
+      if (key !== "componentID") {
+        if (updatedForm[key] !== undefined) {
+          updatedForm[key] = {
+            ...updatedForm[key],
+            value: data[key]
+            // valid: this.checkValidity(data[key], updatedForm[key].validation),
+          };
         }
-        // console.log(updatedForm);
-        // console.log(data);
-        for (let key in data) {
-            console.log(key, updatedForm[key], data[key]);
-            if(key !== 'componentID') {
-              if (updatedForm[key] !== undefined) {
-                  updatedForm[key] = {
-                      ...updatedForm[key],
-                      value: data[key]
-                      // valid: this.checkValidity(data[key], updatedForm[key].validation),
-                  }
-              }
-          }
-        }
-        this.setState({
-            form: updatedForm
-        });
-
+      }
     }
+    this.setState({
+      form: updatedForm
+    });
+  };
 
-    
-//to show the value of a specific component in the sidebar by means of ID
+  //to show the value of a specific component in the sidebar by means of ID
   updateComponentByID = () => {
     let data = null;
     // console.log(this.props.componentByID);
@@ -170,42 +199,52 @@ class DynamicForm extends React.Component {
     } else {
       this.setState({ message: <p>Data not valid</p> });
     }
-    
+
     //after submitting the component data, the tree is displayed
     this.props.displayComponentTree(true);
 
     this.props.history.push("/builder");
   };
 
-
   componentDidUpdate(prevProps, prevState) {
     // console.log(this.props.componentByID);
     //to check if new type of component is to be added or the same type of component is needed to be added again
     //and update the componentID automatically
-    if ((prevProps.model !== this.props.model || this.props.new) && !this.props.componentClick) {
+    if (
+      (prevProps.model !== this.props.model || this.props.new) &&
+      !this.props.componentClick
+    ) {
+      this.checkForOrientationForHead(false);
       this.props.disableNew();
       this.props.model.componentID.placeholder = this.props.componentID;
       this.props.model.componentID.value = this.props.componentID;
-      if(this.props.title === "Lifting Lug" && this.props.orientation === "horizontal") {
+      if (
+        this.props.title === "Lifting Lug" &&
+        this.props.orientation === "horizontal"
+      ) {
         const updatedModel = this.props.model;
         updatedModel["distance"] = liftingLugAddition;
         this.setState({ form: updatedModel });
       } else {
-      this.setState({ form: this.props.model });
+        this.setState({ form: this.props.model });
       }
     }
 
-    if(this.props.componentClick && prevProps.model !== this.props.model) {
-      if(this.props.title === "Lifting Lug" && this.props.orientation === "horizontal") {
+    if (this.props.componentClick && prevProps.model !== this.props.model) {
+      if (
+        this.props.title === "Lifting Lug" &&
+        this.props.orientation === "horizontal"
+      ) {
         const updatedModel = this.props.model;
         updatedModel["distance"] = liftingLugAddition;
         this.updateStateModel(updatedModel);
       } else {
-      this.updateStateModel(this.props.model );
+        this.updateStateModel(this.props.model);
       }
+      this.checkForOrientationForHead(true);
     }
 
-    //to update the new calculated thickness in the form 
+    //to update the new calculated thickness in the form
     if (this.props.thickness !== null && this.state.form === this.props.model) {
       if (this.state.form.thickness !== undefined) {
         let updatedform = {
@@ -219,7 +258,7 @@ class DynamicForm extends React.Component {
       }
     }
 
-    if(prevProps.componentByID !== this.props.componentByID) {
+    if (prevProps.componentByID !== this.props.componentByID) {
       this.updateComponentByID();
     }
   }
@@ -258,7 +297,7 @@ class DynamicForm extends React.Component {
   //dont change the component ID manually
   inputChangedHandler = (event, controlName) => {
     // console.log(event, controlName);
-    if(controlName !== 'componentID') {
+    if (controlName !== "componentID") {
       const updatedForm = {
         ...this.state.form,
         [controlName]: {
@@ -286,7 +325,7 @@ class DynamicForm extends React.Component {
         config: this.state.form[key]
       });
     }
-    
+
     let form = formElementsArray.map(formElement => (
       <tr key={formElement.id}>
         <td style={{ width: "60%" }}>
@@ -372,9 +411,11 @@ const mapDispatchToProps = dispatch => {
   return {
     importModel: (title, num) => dispatch(actions.importModel(title, num)),
     disableNew: () => dispatch(actions.disableNew()),
-    onSubmitAndUpdate: (data, id, componentID) => dispatch(actions.onSubmitAndUpdate(data, id, componentID)),
+    onSubmitAndUpdate: (data, id, componentID) =>
+      dispatch(actions.onSubmitAndUpdate(data, id, componentID)),
     deleteThickness: () => dispatch(actions.deleteThickness()),
-    displayComponentTree: value => dispatch(actions.displayComponentTree(value)),
+    displayComponentTree: value =>
+      dispatch(actions.displayComponentTree(value)),
     componentClicked: value => dispatch(actions.componentClicked(value))
   };
 };
@@ -387,7 +428,6 @@ DynamicForm.propTypes = {
   componentID: PropTypes.number.isRequired,
   componentClick: PropTypes.bool,
   componentByID: PropTypes.object
-  
 };
 
 export default connect(

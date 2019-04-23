@@ -2,7 +2,7 @@ import React from 'react';
 
 import Dialog from '@material-ui/core/Dialog';
 import FormDialogComp from '../../Components/FormDialog/FormDialog';
-
+import Spinner from '../../Components/UI/Spinner/Spinner';
 import * as actions from '../../store/actions/index';
 // import * as data from '../../JSONFiles/FormDialog/New';
 import {
@@ -64,8 +64,10 @@ class FormDialog extends React.Component {
 
   render() {
     let form = <FormDialogComp submit={this.submit} handleChange={this.handleChange} handleClose={this.handleClose} model={this.props.formModel} orientation={this.state.orientation}/>;
-    if(this.props.title === "Open") {
+    if( this.props.title === "Open" && this.props.projects.length !== 0) {
       form = <List model={this.props.projects} handleClick={this.handleClick}></List> 
+    } else if(this.props.title === "Open") {
+      form = <Spinner/>
     }
     return (
       <div>

@@ -227,18 +227,21 @@ export const deleteLastComponent = () => {
   };
 };
 
-export const deleteSpecificComponent = () => {
+export const deleteSpecificComponent = (id) => {
   console.log("in delete specific component", 7);
-  const url = `/report/reports/1/`;
-  // axios.delete(url, null, { headers: headers }).then(response => {
-  //   console.log(response);
-  //   return dispatch => {
-  //     dispatch(deleteSpecificComponentReducer(1));
-  //   };
-  // });
+  const url = `/report/reports/775/`;
   return dispatch => {
-        dispatch(deleteSpecificComponentReducer(1));
-      };
+  axios.delete(url,{headers: headers} ).then(response => {
+      console.log(response);
+    
+      dispatch(deleteSpecificComponentReducer(id));
+    }).catch(err => {
+      console.log(err);
+    });
+}
+  // return dispatch => {
+  //       dispatch(deleteSpecificComponentReducer(1));
+  //     };
 };
 
 const deleteSpecificComponentReducer = id => {

@@ -19,21 +19,17 @@
       "placeholder": "",
       "options": [
         {
+          "displayValue": "SA-516 55",
+          "value": "SA-516 70"
+      },
+      {
           "displayValue": "SA-516 60",
           "value": "SA-516 60"
-        },
-        {
+      },
+      {
           "displayValue": "SA-516 70",
           "value": "SA-516 70"
-        },
-        {
-          "displayValue": "SA-524 II Smis Pipe",
-          "value": "SA-524 II Smis Pipe"
-        },
-        {
-          "displayValue": "SA-53 EA Wld Pipe",
-          "value": "SA-53 EA Wld Pipe"
-        }
+      }
       ]
     },
     "validation": {
@@ -80,14 +76,6 @@
         {
           "displayValue": "LWN",
           "value": "LWN"
-        },
-        {
-          "displayValue": "HB",
-          "value": "HB"
-        },
-        {
-          "displayValue": "F",
-          "value": "F"
         }
       ]
     },
@@ -99,17 +87,35 @@
     "valid": true
   },
   "nominal_pipe_size": {
-    "elementType": "input",
+
+    "elementType": "select",
     "elementConfig": {
-      "type": "input",
-      "placeholder": "16"
+      "type": "select",
+      "placeholder": "",
+      "options": [
+        {
+          "displayValue": "0.5",
+          "value": 0.5
+        },
+        {
+          "displayValue": "0.75",
+          "value": 0.75
+        },
+        {
+          "displayValue": "1",
+          "value": 1
+        },
+        {
+          "displayValue": "16.0",
+          "value": 16.0
+        }
+      ]
     },
     "validation": {
       "required": true
     },
-    "value": "16",
     "label": "Nominal Pipe Size",
-    "step": "any",
+    "value": 0.5,
     "valid": true
   },
   "schedules": {
