@@ -222,7 +222,7 @@ export const showSpinner = value => {
 
 const roundThickness = thickness => {
   let t = Math.floor(thickness * 10000);
-  const round = Math.floor(t / 125);
+  const round = Math.ceil(t / 125);
   t = (round * 125) / 10000;
   return t;
 };
@@ -244,7 +244,7 @@ export const deleteSpecificComponent = (projectID, componentID) => {
   };
   return dispatch => {
   axios.post(url,schema,{headers: headers} ).then(response => {
-      console.log(response);
+      console.log("after delete",response);
     
       dispatch(deleteSpecificComponentReducer(componentID));
     }).catch(err => {
@@ -354,7 +354,7 @@ export const importSpecificProject = id => {
       )
       .then(response => {
         console.log(response);
-        dispatch(updateComponents(response.data.components));
+        
         dispatch(
           onReportIDReceive(
             response.data.projectID,
@@ -364,6 +364,7 @@ export const importSpecificProject = id => {
           )
         );
         dispatch(updateComponentID(response.data.components.length));
+        dispatch(updateComponents(response.data.components));
       });
   };
 };

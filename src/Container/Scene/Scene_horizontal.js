@@ -27,6 +27,7 @@ class Scene_horizontal extends Component {
     current: {},
   };
   componentDidMount() {
+    console.log("ComponentDidMount in horizontal", this.props.component);
     const width = window.innerWidth;
     const height = window.innerHeight;
     //ADD CAMERA
@@ -156,7 +157,10 @@ class Scene_horizontal extends Component {
 
   }
   componentDidUpdate( prevProps, prevState) {
-    
+    console.log(this.props.component, 'horizontal');
+    if(prevProps.component !== this.props.component) {
+      console.log("ComponentDidUpdate in horizontal");
+    }
   }
 
   clearScene = () => {
@@ -505,7 +509,7 @@ class Scene_horizontal extends Component {
         }
       }
     }
-      return ( < div width = '100%'
+      return ( <div>< div width = '100%'
         height = '100%'
 
         ref = {
@@ -514,6 +518,8 @@ class Scene_horizontal extends Component {
           }
         }
         id = "scener" />
+        <div>Horizontal</div>
+        </div>
       );
     } catch (err) {
       console.log(err);

@@ -12,6 +12,20 @@
     "label": "Component ID",
     "valid": true
   },
+  "componentName": {
+    "elementType": "input",
+    "elementConfig": {
+        "type": "input"
+        
+    },
+    "validation": {
+        "required": true
+    },
+    "placeholder": "0",
+    "value": "0",
+    "label": "Component Name",
+    "valid": true
+},
   "material": {
     "elementType": "select",
     "elementConfig": {
