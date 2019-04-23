@@ -20,7 +20,7 @@
             "options": [
                 {
                     "displayValue": "SA-516 55",
-                    "value": "SA-516 70"
+                    "value": "SA-516 55"
                 },
                 {
                     "displayValue": "SA-516 60",
@@ -129,12 +129,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "0.5 inch"
+            "placeholder": "0 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "0.5",
+        "value": "0",
         "label": "Thickness (inch)",
         "step": "any",
         "valid": true

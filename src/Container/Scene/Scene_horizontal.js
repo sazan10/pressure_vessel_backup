@@ -155,6 +155,9 @@ class Scene_horizontal extends Component {
   componentWillReceiveProps(nextProps) {
 
   }
+  componentDidUpdate( prevProps, prevState) {
+    
+  }
 
   clearScene = () => {
     for (let i = this.scene.children.length - 1; i >= 0; i--) {

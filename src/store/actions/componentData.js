@@ -129,11 +129,13 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
         componentID: componentID
       };
     }
+    console.log("Before sending to server of component " + data.component);
     axios
       .post(url, data1, {
         headers: headers
       })
       .then(response => {
+        console.log("after sending to server of component ", data.component, response);
         if (
           response.data.thickness !== null ||
           response.data.thicknessResponse != null
@@ -143,7 +145,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
             response.data.thickness !== undefined &&
             !response.data.thicknessResponse
           ) {
-            if (data.thickness < response.data.thickness) {
+            
               data1 = {
                 ...data,
                 ...{
@@ -154,7 +156,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
                   value: response.data
                 }
               };
-            }
+            
           } else {
             data1 = {
               ...data,
@@ -164,7 +166,9 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
               }
             };
           }
+          console.log("Data to be added",data1);
           dispatch(updateLastItem(data.component, data1));
+          console.log("Updated last item");
           if (data.componentID < componentID) {
             //ask for server to save the values in database without doing calculations
             dispatch(updateComponent(data1));
@@ -178,7 +182,9 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
                 dispatch(updateComponentID(componentID));
               }
             } else {
+              console.log("to add component except cylinder");
               dispatch(dataUpdate(data1, componentID));
+              console.log(" added component except cylinder");
               componentID = componentID + 1;
               dispatch(updateComponentID(componentID));
             }
@@ -190,7 +196,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
         }
       })
       .catch(err => {
-        dispatch(onDataSendFail(err.response));
+        dispatch(onDataSendFail(err));
       });
   };
 };
@@ -227,17 +233,23 @@ export const deleteLastComponent = () => {
   };
 };
 
-export const deleteSpecificComponent = (id) => {
-  console.log("in delete specific component", 7);
-  const url = `/report/reports/775/`;
+export const deleteSpecificComponent = (projectID, componentID) => {
+  console.log("in delete specific component", componentID);
+  const url = "api/state/delete";
+  const schema = {
+    schema: { 
+      componentID: componentID
+    },
+    projectID: projectID
+  };
   return dispatch => {
-  // axios.delete(url,{headers: headers} ).then(response => {
-  //     console.log(response);
+  axios.post(url,schema,{headers: headers} ).then(response => {
+      console.log(response);
     
-      dispatch(deleteSpecificComponentReducer(id));
-    // }).catch(err => {
-    //   console.log(err);
-    // });
+      dispatch(deleteSpecificComponentReducer(componentID));
+    }).catch(err => {
+      console.log(err);
+    });
 }
   // return dispatch => {
   //       dispatch(deleteSpecificComponentReducer(1));
