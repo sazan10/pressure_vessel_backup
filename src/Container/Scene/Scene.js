@@ -169,7 +169,7 @@ class Scene extends Component {
   }
 
   animate = () => {
-    this.controls.update();
+    this.controls.update(); 
     this.renderScene();
     this.frameId = window.requestAnimationFrame(this.animate);
   }
@@ -198,7 +198,7 @@ class Scene extends Component {
           this.clearScene();
         }
       }
-      if (this.props.component.length >= 0) {
+      if (this.props.component.length >= 0 && this.scene) {
         for (let i = 0; i < this.props.component.length; i++) {
           if (this.props.component[i] !== null) {
             if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
@@ -295,10 +295,12 @@ class Scene extends Component {
                 grouper2.add(head);
                 let height_for_top = 0;
                 for (let i = 0; i < this.props.component.length; i++) {
+                  if(this.props.component[i]){
                   if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
                     height_for_top = height_for_top + parseFloat(this.props.component[i].length) * (12 / this.scaler);
                   }
                 }
+              }
                 let cg_head = height_for_top + (4 * minor) / (3 * math.pi);
                 this.keepHeightRecord(this.props.component[i], -500, cg_head);
                 grouper2.translateY(height_for_top);

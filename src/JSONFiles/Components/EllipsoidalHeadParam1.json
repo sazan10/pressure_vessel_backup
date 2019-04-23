@@ -181,7 +181,7 @@
             "required": true
         },
         "value": "1",
-        "label": "Nominal Str Range Thickness (inch)",
+        "label": "Nominal Str Flange Thickness (inch)",
         "step": "any",
         "valid": true
     },

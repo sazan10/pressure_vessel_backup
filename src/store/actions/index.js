@@ -35,6 +35,7 @@ export {
     axiosDataSend,
     requestReport,
     requestProjectID,
+    requestNewProjectID,
     openFormDialog,
     downloadReport,
     axiosReport,

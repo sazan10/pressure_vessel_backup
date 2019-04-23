@@ -208,7 +208,7 @@ class Scene_horizontal extends Component {
           this.clearScene();
         }
       }
-      if (this.props.component.length >= 0) {
+      if (this.props.component.length >= 0 && this.scene) {
         for (let i = 0; i < this.props.component.length; i++) {
           if(this.props.component[i]!==null)
           {

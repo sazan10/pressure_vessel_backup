@@ -46,6 +46,7 @@ export const LOAD_PREVIOUS = 'LOAD_PREVIOUS';
 export const UPDATE_NUM = 'UPDATE_NUM';
 
 export const REQUEST_REPORT = "REQUEST_REPORT";
+export const REQUEST_NEW_REPORT = "REQUEST_NEW_REPORT";
 export const REPORT_FAIL = "REPORT_FAIL";
 
 export const DOWNLOAD_REPORT = "DOWNLOAD_REPORT";

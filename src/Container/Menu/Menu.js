@@ -55,7 +55,7 @@ class Menu extends Component {
                 this.props.deleteLastComponent();
                 break;
             case "Delete":
-                this.props.deleteSpecificComponent();
+                this.props.deleteSpecificComponent(this.props.selectedComponentID);
                 break;
             default:
                 break;
@@ -118,7 +118,7 @@ const mapDispatchToProps = dispatch => {
         importForm: (title) => dispatch(actions.importForm(title)),
         componentClicked: (value) => dispatch(actions.componentClicked(value)),
         deleteLastComponent: () => dispatch(actions.deleteLastComponent()),
-        deleteSpecificComponent: () => dispatch(actions.deleteSpecificComponent()),
+        deleteSpecificComponent: (id) => dispatch(actions.deleteSpecificComponent(id)),
         showSpinner: (value) => dispatch(actions.showSpinner(value))
     };
 };
