@@ -143,7 +143,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
             response.data.thickness !== undefined &&
             !response.data.thicknessResponse
           ) {
-            if (data.thickness < response.data.thickness) {
+
               data1 = {
                 ...data,
                 ...{
@@ -154,7 +154,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
                   value: response.data
                 }
               };
-            }
+            
           } else {
             data1 = {
               ...data,
