@@ -338,6 +338,7 @@ export const updateComponent = data => {
 //updating the project id, project name, components and component ID in redux state
 export const importSpecificProject = id => {
   // let url = `report/reports/${id}/project/`;
+  console.log(headers);
   const url = "api/state/open";
   let req=actionTypes.REQUEST_REPORT;
   return dispatch => {
@@ -347,9 +348,9 @@ export const importSpecificProject = id => {
         {
           params: {
             projectID: id
-          }
-        },
-        { headers: headers }
+          },
+          headers: headers
+        }
       )
       .then(response => {
         console.log(response);
