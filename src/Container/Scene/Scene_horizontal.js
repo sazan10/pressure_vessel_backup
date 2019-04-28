@@ -88,14 +88,16 @@ class Scene_horizontal extends Component {
     this.start();
   }
   onDocumentMouseDown = (event) => {
+  
+    var raycaster = new THREE.Raycaster(); // create once
+    var mouse = new THREE.Vector2(); // create once
     let rect = document.getElementById("scener").getBoundingClientRect();
-    let projector = new THREE.Projector();
-    let vector = new THREE.Vector3((event.clientX-rect.left) / window.innerWidth * 2 - 1, -((event.clientY-rect.top) / window.innerHeight) * 2 + 1, 0.5),INTERSECTED;
-    projector.unprojectVector(vector, this.camera);
-    let raycaster = new THREE.Raycaster(this.camera.position, vector.sub(this.camera.position).normalize());
+    mouse.x = (event.clientX - rect.left) / window.innerWidth * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / window.innerHeight)* 2 + 1;
+    raycaster.setFromCamera( mouse, this.camera );
     if (this.shapes.length >= 1) {
-     // console.log(this.shapes);
-      let intersects = raycaster.intersectObjects(this.shapes,true);
+     // let intersects = raycaster.intersectObjects(this.shapes, true);
+    var intersects = raycaster.intersectObjects( this.shapes, true);
       if (intersects.length > 0) {
        // console.log("intersect",intersects);
         intersects[0].object.material.transparent = true;
@@ -141,10 +143,9 @@ class Scene_horizontal extends Component {
           res=[-1,"noComponent"]
         }
         //console.log("pressed object number",res[0],res[1]);
-        this.props.modelImport(res[1],1);
-        this.props.updateSelectedComponentID(parseInt(res[0]));
-        this.props.treeUpdate(false);
-   
+       this.props.updateSelectedComponentID(parseInt(res[0]));
+       this.props.treeUpdate(false);
+       this.props.modelImport(res[1],1);
        this.props.returnComponentID(parseInt(res[0]));
        this.props.componentClicked(true);
 

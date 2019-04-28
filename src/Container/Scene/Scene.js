@@ -85,16 +85,23 @@ class Scene extends Component {
   }
 
   onDocumentMouseDown = (event) => {
-    let rect = document.getElementById("scener").getBoundingClientRect();
-    let projector = new THREE.Projector();
-    let vector = new THREE.Vector3((event.clientX - rect.left) / window.innerWidth * 2 - 1, -((event.clientY - rect.top) / window.innerHeight) * 2 + 1, 0.5),
-      INTERSECTED;
-    projector.unprojectVector(vector, this.camera);
-    let raycaster = new THREE.Raycaster(this.camera.position, vector.sub(this.camera.position).normalize());
-    if (this.shapes.length >= 1) {
-      let intersects = raycaster.intersectObjects(this.shapes, true);
-      if (intersects.length > 0) {
+    // let rect = document.getElementById("scener").getBoundingClientRect();
+    // let projector = new THREE.Projector();
+    // let vector = new THREE.Vector3((event.clientX - rect.left) / window.innerWidth * 2 - 1, -((event.clientY - rect.top) / window.innerHeight) * 2 + 1, 0.5),
+    //   INTERSECTED;
+    // projector.unprojectVector(vector, this.camera);
+    // let raycaster = new THREE.Raycaster(this.camera.position, vector.sub(this.camera.position).normalize());
 
+    var raycaster = new THREE.Raycaster(); // create once
+    var mouse = new THREE.Vector2(); // create once
+    let rect = document.getElementById("scener").getBoundingClientRect();
+    mouse.x = (event.clientX - rect.left) / window.innerWidth * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / window.innerHeight)* 2 + 1;
+    raycaster.setFromCamera( mouse, this.camera );
+    if (this.shapes.length >= 1) {
+     // let intersects = raycaster.intersectObjects(this.shapes, true);
+    var intersects = raycaster.intersectObjects( this.shapes, true);
+     if (intersects.length > 0) {
         intersects[0].object.material.transparent = true;
         try {
           const sh = [...this.shapes];
