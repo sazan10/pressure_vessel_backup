@@ -75,11 +75,12 @@ class Scene extends Component {
     this.lengths = [];
     this.heights = {};
     this.weights = {};
-    this.heights_permanent={};
+    this.heights_permanent = {};
     this.cylinder_lengths = [];
     this.first_shell = true;
     this.heights_only = [];
     this.start();
+    this.selected_component = 0;
   }
 
   onDocumentMouseDown = (event) => {
@@ -92,62 +93,59 @@ class Scene extends Component {
     if (this.shapes.length >= 1) {
       let intersects = raycaster.intersectObjects(this.shapes, true);
       if (intersects.length > 0) {
+
         intersects[0].object.material.transparent = true;
-        try{
-          const sh=[...this.shapes];
-          sh.map((shape)=>{
-          console.log("shapes are",shape);
-          let sh_name=shape.name.split("&");
-          if(sh_name[1]===("Cylinder"||"Ellipsoidal Head"))
-          {
-          shape.material.opacity=1;
-          console.log("material",shape.name.split("&")[1]);
-          }
-          else{
-            console.log("jdkfjdlf");
-            shape.children.map((child)=>
-            {
-              console.log("children shapes",child);
-              child.material.opacity=1;
-              return 0;
-            })
-          }
-          return 0;
-          }
-          );
-        }
-        catch(e)
-        {
+
+        console.log("opacity before", intersects[0].object.material.opacity)
+        try {
+          const sh = [...this.shapes];
+          sh.map((shape) => {
+            console.log("shapes are", shape);
+            let sh_name = shape.name.split("&");
+            if (sh_name[1] === "Cylinder" || sh_name[1] === "Ellipsoidal Head") {
+              shape.material.opacity = 1;
+              console.log("material", shape.name.split("&")[1]);
+            } else {
+              console.log("jdkfjdlf");
+              shape.children.map((child) => {
+                console.log("children shapes", child);
+                child.material.opacity = 1;
+                return 0;
+              })
+            }
+            return 0;
+          });
+        } catch (e) {
           console.log(e)
-  }
+        }
+        if (intersects[0].object.material.opacity === 1) {
+          intersects[0].object.material.opacity = 0.5;
+        } else {
+          intersects[0].object.material.opacity = 1;
+        }
         let name = null;
         if (intersects[0].object.parent.name) {
           name = intersects[0].object.parent.name;
         } else {
           name = intersects[0].object.name;
         }
+        this.selected = name;
         let res = name.split("&");
         console.log("pressed object number", res[0], res[1]);
-        if (intersects[0].object.material.opacity === 0.5) {
-          intersects[0].object.material.opacity = 1;
-        } else {
-          intersects[0].object.material.opacity = 0.5;
-}
         //   intersects[0].object.material.opacity = 0.5;
         this.props.updateSelectedComponentID(res[0]);
         this.props.treeUpdate(false);
         this.props.modelImport(res[1], 1);
         this.props.returnComponentID(res[0]);
         this.props.componentClicked(true);
-
       }
     }
     this.controls.update();
   }
 
-  componentDidUpdate( prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     console.log(this.props.component, 'vertical');
-    if(prevProps.component !== this.props.component) {
+    if (prevProps.component !== this.props.component) {
       console.log("ComponentDidUpdate in vertical");
     }
   }
@@ -182,7 +180,7 @@ class Scene extends Component {
   }
 
   animate = () => {
-    this.controls.update(); 
+    this.controls.update();
     this.renderScene();
     this.frameId = window.requestAnimationFrame(this.animate);
   }
@@ -194,7 +192,8 @@ class Scene extends Component {
   renderScene = () => {
     this.renderer.render(this.scene, this.camera);
   }
-  render() {
+
+  render(){
     try {
       this.first_shell = true;
       this.height_position = 0;
@@ -249,7 +248,7 @@ class Scene extends Component {
                   side: THREE.DoubleSide
                 });
                 diameter = (parseFloat(this.props.component[i].sd / this.scaler) + parseFloat(this.props.component[i].thickness / this.scaler)) || (parseFloat(this.props.component[i].sd_s / this.scaler) + parseFloat(this.props.component[i].thickness / this.scaler));
-                let ringgeometry = Shell(diameter / 30, diameter, diameter, diameter / 30, ringmaterial);
+                let ringgeometry = Shell(diameter / 130, diameter, diameter, diameter / 130, ringmaterial);
                 let lengths = this.props.component[i].length * (12 / this.scaler); //length of current cylinder
                 this.height_position = this.height_position + this.cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
                 this.keepHeightRecord(this.props.component[i], this.height_position, this.height_position);
@@ -308,12 +307,12 @@ class Scene extends Component {
                 grouper2.add(head);
                 let height_for_top = 0;
                 for (let i = 0; i < this.props.component.length; i++) {
-                  if(this.props.component[i]){
-                  if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
-                    height_for_top = height_for_top + parseFloat(this.props.component[i].length) * (12 / this.scaler);
+                  if (this.props.component[i]) {
+                    if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
+                      height_for_top = height_for_top + parseFloat(this.props.component[i].length) * (12 / this.scaler);
+                    }
                   }
                 }
-              }
                 let cg_head = height_for_top + (4 * minor) / (3 * math.pi);
                 this.keepHeightRecord(this.props.component[i], -500, cg_head);
                 grouper2.translateY(height_for_top);
@@ -342,12 +341,11 @@ class Scene extends Component {
               //                 let i = this.heights[key];
               //                 this.heights_only.splice(key, 0, i); //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
               // }
-              console.log("heights",this.heights);
-              for (let key in this.heights) 
-              {
+              console.log("heights", this.heights);
+              for (let key in this.heights) {
                 key_value = key;
               }
-              console.log("key value",key_value)
+              console.log("key value", key_value)
               for (let i = 0; i < key_value; i++) {
                 this.heights_only.push(-500);
               }
@@ -356,14 +354,14 @@ class Scene extends Component {
                 if (this.heights[key]) {
                   i = this.heights[key];
                 }
-                this.heights_only[key]=i; //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
+                this.heights_only[key] = i; //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
               }
               console.log("heights", this.heights_only, this.heights, nozzle_height)
               let closest_index = getClosest.number(nozzle_height, this.heights_only);
 
               console.log("index key", closest_index)
               let closest_value = this.heights[closest_index];
-              console.log("closest value",closest_value)
+              console.log("closest value", closest_value)
               let index_key = returnKey(this.heights, closest_value);
 
               let nozzle = new THREE.Mesh();
@@ -454,59 +452,52 @@ class Scene extends Component {
               let cg_skirt = -(length / 2 + 2);
               this.keepHeightRecord(this.props.component[i], -500, cg_skirt);
               this.lengths.push(-500);
-          
+
             } else if (this.props.component[i].component === "Lifting Lug") {
-              let position=0;
-              let last_cylinder=0;
-              let cyl_diameter=0;
-              for (let i =0;i<this.props.component.length;i++)
-              {
-                if(this.props.component[i])
-                {
-                if(this.props.component[i].component==="Cylinder" || this.props.component[i].component==="Conical")
-                 {
-                   try{
-                  position=position+(this.props.component[i].length*12/this.scaler);
-                  console.log("inside value putitng",position,this.height_position,last_cylinder)
-                  last_cylinder=this.props.component[i].componentID;
-                  if(this.props.component[i].component==="Cylinder")
-                  {
-                    cyl_diameter=this.props.component[last_cylinder].sd / (2 * this.scaler);
-                  }
-                  else if (this.props.component[i].component==="Conical")
-                  {
-                    cyl_diameter=this.props.component[last_cylinder].sd_l / (2 * this.scaler);
-                  }
-                   }
-                   catch (Exception)
-                   {
+              let position = 0;
+              let last_cylinder = 0;
+              let cyl_diameter = 0;
+              for (let i = 0; i < this.props.component.length; i++) {
+                if (this.props.component[i]) {
+                  if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
+                    try {
+                      position = position + (this.props.component[i].length * 12 / this.scaler);
+                      console.log("inside value putitng", position, this.height_position, last_cylinder)
+                      last_cylinder = this.props.component[i].componentID;
+                      if (this.props.component[i].component === "Cylinder") {
+                        cyl_diameter = this.props.component[last_cylinder].sd / (2 * this.scaler);
+                      } else if (this.props.component[i].component === "Conical") {
+                        cyl_diameter = this.props.component[last_cylinder].sd_l / (2 * this.scaler);
+                      }
+                    } catch (Exception) {
                       console.log(Exception);
-                   }
+                    }
+                  }
+                }
               }
-            }
-          }
-              this.keepHeightRecord(this.props.component[i],-500, 0);
+
+              this.keepHeightRecord(this.props.component[i], -500, 0);
               let thickness = this.props.component[i].value.lug_thickness.req_value / this.scaler;
               let height = this.props.component[i].height_lug / this.scaler;
               let rad = this.props.component[i].length / this.scaler;
               let hole_diameter = this.props.component[i].hole_diameter / this.scaler;
               let angle = this.props.component[i].layout_angle;
               let lug1 = LiftingLug(height, thickness, rad, hole_diameter);
-            
-              
+
+
               lug1.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
               this.shapes.push(lug1);
-              let lug2=null; 
+              let lug2 = null;
               if (this.props.component[i].number === '2') {
                 lug2 = LiftingLug(height, thickness, rad, hole_diameter);
-              
+
               }
-              console.log("last cylinder for number",last_cylinder)
-              if (last_cylinder !== null && this.props.component[last_cylinder]!==null) {
-               //let height_pos = this.heights_permanent[last_cylinder] + (this.props.component[last_cylinder].length * (12 / this.scaler)) / 2 - height / 2.2;
-                let shell_rad =  cyl_diameter + this.props.component[last_cylinder].value.thickness / this.scaler; //finding the diameter of last shell
+              console.log("last cylinder for number", last_cylinder)
+              if (last_cylinder !== null && this.props.component[last_cylinder] !== null) {
+                //let height_pos = this.heights_permanent[last_cylinder] + (this.props.component[last_cylinder].length * (12 / this.scaler)) / 2 - height / 2.2;
+                let shell_rad = cyl_diameter + this.props.component[last_cylinder].value.thickness / this.scaler; //finding the diameter of last shell
                 let x_displace = (shell_rad) * math.sin(math.pi * (angle / 180));
-                let z_displace = (shell_rad) * math.cos(math.pi * (angle / 180));                
+                let z_displace = (shell_rad) * math.cos(math.pi * (angle / 180));
                 lug1.translateX(x_displace).translateZ(-z_displace).translateY(position).rotateY(-(angle / 180) * math.pi); //.translateY(height).translateZ(z_displace);
                 if (this.props.component[i].number === '2') {
                   lug2.translateX(-x_displace).translateZ(z_displace).translateY(position).rotateY(-(angle / 180) * math.pi + math.pi);
@@ -519,46 +510,49 @@ class Scene extends Component {
           }
         }
       }
-      return ( <div>< div width = '100%'
-      height = '100%'
-
-      ref = {
-        (mount) => {
-          this.mount = mount
-        }
-      }
-      id = "scener" />
-      <div>Vertical</div>
-      </div>
+      return ( < div > <div width = '100%'  
+                             height = '100%'
+                             ref = {
+                            (mount) => {
+                              this.mount = mount
+                            }
+                          }
+                          id = "scener"/>
+        <div> Vertical </div> </div>
       );
     } catch (err) {
       console.log(err);
     }
   }
 
+
+
   keepHeightRecord = (component, position, cg) => {
-    const b_key =component.componentID.toString(); 
+    const b_key = component.componentID.toString();
     if (!height_checker(component)) {
       if (!(component.componentID in this.heights)) {
         //this.heights[component.componentID] = position;
         //let height = Object.assign(this.heights,:{position}}, {'c': 3})
-       
-       this.heights= {...this.heights,
+
+        this.heights = {
+          ...this.heights,
           [b_key]: position,
-         } 
-         console.log("b in heights",b_key in this.heights_permanent)
-         if(!(b_key in this.heights_permanent))
-         {
-          this.heights_permanent= {...this.heights_permanent,
+        }
+        console.log("b in heights", b_key in this.heights_permanent)
+        if (!(b_key in this.heights_permanent)) {
+          this.heights_permanent = {
+            ...this.heights_permanent,
             [b_key]: position,
-           } 
-         }
-         console.log("last cylinder",this.heights_permanent);
+          }
+        }
+        console.log("last cylinder", this.heights_permanent);
         this.weights[component.componentID] = [component.component, cg, component.value.weight];
-      };
+      }
     }
   }
 }
+
+
 
 
 

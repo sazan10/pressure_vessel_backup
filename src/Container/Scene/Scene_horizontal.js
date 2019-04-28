@@ -255,7 +255,7 @@ class Scene_horizontal extends Component {
                   side: THREE.DoubleSide
                 });
                 diameter = (parseFloat(this.props.component[i].sd/this.scaler) + parseFloat(this.props.component[i].thickness/this.scaler)) || (parseFloat(this.props.component[i].sd_s/this.scaler) + parseFloat(this.props.component[i].thickness/this.scaler));
-                let ringgeometry = Shell(diameter/30, diameter, diameter, diameter/30, ringmaterial);
+                let ringgeometry = Shell(diameter/130, diameter, diameter, diameter/130, ringmaterial);
                 let lengths = this.props.component[i].length * (12/this.scaler); //length of current cylinder
                 this.height_position = this.height_position + this.cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
                 this.keepHeightRecord(this.props.component[i],this.height_position,this.height_position);
