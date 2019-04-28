@@ -129,7 +129,7 @@
       "required": true
     },
     "label": "Nominal Pipe Size",
-    "value": 0.5,
+    "value": 16,
     "valid": true
   },
   "schedules": {
