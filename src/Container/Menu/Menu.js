@@ -52,7 +52,7 @@ class Menu extends Component {
                 this.props.displayComponentTree(false);
                 break;
             case "Undo":
-                this.props.deleteLastComponent();
+                // this.props.deleteLastComponent();
                 break;
             case "Delete":
                 console.log("Delete Clicked");

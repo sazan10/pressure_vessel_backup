@@ -22,7 +22,7 @@
         "validation": {
             "required": true
         },
-        "placeholder": "0",
+        "placeholder": "",
         "value": "0",
         "label": "Component Name",
         "valid": true

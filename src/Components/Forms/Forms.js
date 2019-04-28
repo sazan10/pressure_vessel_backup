@@ -215,7 +215,10 @@ class DynamicForm extends React.Component {
       (prevProps.model !== this.props.model || this.props.new) &&
       !this.props.componentClick
     ) {
+      console.log(this.props.model);
+      if(prevProps.model !== this.props.model ) {
       this.checkForOrientationForHead(false);
+      }
       this.props.disableNew();
       this.props.model.componentID.placeholder = this.props.componentID;
       this.props.model.componentID.value = this.props.componentID;

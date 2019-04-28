@@ -22,7 +22,7 @@
             "required": true
         },
         "placeholder": "0",
-        "value": "0",
+        "value": "",
         "label": "Component Name",
         "valid": true
     },
