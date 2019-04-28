@@ -35,7 +35,7 @@ class Modal extends Component {
     else 
     {
       modall=(
-        <p className={classes.info}> WELCOME TO PRESSUREGEN. CLICK ON NEW TO START NEW PROJECT.</p>
+        <p className={classes.info}> WELCOME TO PRESSURE EXPRESS. <br></br><br></br>CLICK ON "NEW" TO START NEW PROJECT.</p>
       )
     }
     return (

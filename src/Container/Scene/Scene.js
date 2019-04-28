@@ -321,7 +321,7 @@ class Scene extends Component {
                 for (let i = 0; i < this.props.component.length; i++) {
                   if (this.props.component[i]) {
                     if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
-                      height_for_top = height_for_top + parseFloat(this.props.component[i].length) * (12 / this.scaler);
+                      height_for_top = height_for_top + parseFloat(this.props.component[i].length) * (12 / this.scaler)+srl/2;
                     }
                   }
                 }
