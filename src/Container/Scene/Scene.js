@@ -138,16 +138,17 @@ class Scene extends Component {
         res=name.split("&");
         this.name = res[1];
         this.compoID=res[0];
-        }
-        else{
-          res=[-1,"noComponent"]
-        }
-        //   intersects[0].object.material.opacity = 0.5;
         this.props.updateSelectedComponentID(res[0]);
         this.props.treeUpdate(false);
         this.props.modelImport(res[1], 1);
         this.props.returnComponentID(res[0]);
         this.props.componentClicked(true);
+        }
+        else{
+          res=[-1,"noComponent"]
+        }
+        //   intersects[0].object.material.opacity = 0.5;
+        
       }
     }
     this.controls.update();

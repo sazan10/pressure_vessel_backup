@@ -80,7 +80,7 @@ class TreeDemo extends React.Component {
       node.toggled = toggled;
     }
     this.setState({ cursor: node });
-    if (node.name !== "Components") {
+    if (node.name !== "Components" && node.name!=="noComponent") {
       const name = node.name.split(" ");
       if (name.length >= 3) {
         name[0] = name[0] + " " + name[1];
