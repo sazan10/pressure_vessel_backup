@@ -120,20 +120,22 @@ class Scene extends Component {
         } catch (e) {
           console.log(e)
         }
-        // if (intersects[0].object.material.opacity === 1) {
-        //   intersects[0].object.material.opacity = 0.5;
-        // } else {
-        //   intersects[0].object.material.opacity = 1;
-        // }
+        if (intersects[0].object.material.opacity === 1) {
+          intersects[0].object.material.opacity = 0.5;
+        } else {
+          intersects[0].object.material.opacity = 1;
+        }
         let name = null;
         if (intersects[0].object.parent.name) {
           name = intersects[0].object.parent.name;
         } else {
           name = intersects[0].object.name;
         }
-        this.selected = name;
+
         let res = name.split("&");
         console.log("pressed object number", res[0], res[1]);
+        this.name = res[1];
+        this.compoID=res[0];
         //   intersects[0].object.material.opacity = 0.5;
         this.props.updateSelectedComponentID(res[0]);
         this.props.treeUpdate(false);
@@ -207,6 +209,11 @@ class Scene extends Component {
       this.shapes = [];
       let last_cylinder = null;
       this.scaler = 100;
+      let t={  color: '#037d23',
+      emissive: 0x072534,
+      side: THREE.DoubleSide,
+      transparent:true,
+      opacity:1};
       if (this.scene) {
         if (this.scene.children) {
           this.clearScene();
@@ -215,6 +222,14 @@ class Scene extends Component {
       if (this.props.component.length >= 0 && this.scene) {
         for (let i = 0; i < this.props.component.length; i++) {
           if (this.props.component[i] !== null) {
+            console.log("name of selected",this.name, this.compoID,this.props.component[i].component,this.props.component[i].componentID);
+            if(this.name===this.props.component[i].component.toString() && this.compoID==this.props.component[i].componentID.toString()){
+              
+              t.opacity=0.5;
+            }
+            else{
+              t.opacity=1;
+            }
             if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
               let diameter_bot = 0;
               let diameter_top = 0;
@@ -233,11 +248,8 @@ class Scene extends Component {
               let number = parseFloat(this.props.component[i].number);
               let thickness = parseFloat(this.props.component[i].thickness / this.scaler);
               let shell = new THREE.Mesh();
-              let shell_material = new THREE.MeshPhongMaterial({
-                color: '#037d23',
-                emissive: 0x072534,
-                side: THREE.DoubleSide
-              });
+              t.color='#037d23';
+              let shell_material = new THREE.MeshPhongMaterial(t);
               shell = Shell(thickness, diameter_bot, diameter_top, this.length, shell_material);
               shell.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
               if (this.first_shell) {
@@ -245,10 +257,8 @@ class Scene extends Component {
                 this.keepHeightRecord(this.props.component[i], this.height_position, this.height_position);
                 this.first_shell = false;
               } else {
-                let ringmaterial = new THREE.MeshBasicMaterial({
-                  color: 0xffff00,
-                  side: THREE.DoubleSide
-                });
+                t.color='0xffff00'
+                let ringmaterial = new THREE.MeshBasicMaterial(t);
                 diameter = (parseFloat(this.props.component[i].sd / this.scaler) + parseFloat(this.props.component[i].thickness / this.scaler)) || (parseFloat(this.props.component[i].sd_s / this.scaler) + parseFloat(this.props.component[i].thickness / this.scaler));
                 let ringgeometry = Shell(diameter / 130, diameter, diameter, diameter / 130, ringmaterial);
                 let lengths = this.props.component[i].length * (12 / this.scaler); //length of current cylinder
@@ -277,11 +287,9 @@ class Scene extends Component {
                 this.lengths.push(-500);
                 let inner_maj = major - head_thickness;
                 let head1 = new SpheroidHeadBufferGeometry(major, minor, inner_maj, minor - minor / 3, 400);
-                let material = new THREE.MeshPhongMaterial({
-                  color: '#0b7dba',
-                  emissive: 0x072534,
-                });
-                let flange = Shell(head_thickness, this.shell_diameter, this.shell_diameter, srl, this.material);
+                t.color= '#0b7dba';
+                let material = new THREE.MeshPhongMaterial(t);
+                let flange = Shell(head_thickness, this.shell_diameter, this.shell_diameter, srl, material);
                 let head = new THREE.Mesh(head1, material);
                 let grouper = new THREE.Group();
                 flange.translateY(-srl / 2);
@@ -296,14 +304,11 @@ class Scene extends Component {
               } else {
                 this.lengths.push(minor);
                 let head1 = new SpheroidHeadBufferGeometry(major, minor, major - head_thickness, minor - head_thickness, 400);
-                let material = new THREE.MeshPhongMaterial({
-                  color: '#0b7dba',
-                  emissive: 0x072534,
-                  side: THREE.DoubleSide
-                });
+                t.color='#0b7dba';
+                let material = new THREE.MeshPhongMaterial(t);
                 let head = new THREE.Mesh(head1, material);
                 let grouper2 = new THREE.Group();
-                let flange2 = Shell(head_thickness, this.shell_diameter, this.shell_diameter, srl, this.material);
+                let flange2 = Shell(head_thickness, this.shell_diameter, this.shell_diameter, srl, material);
                 head.translateY(srl / 2);
                 grouper2.add(flange2);
                 grouper2.add(head);
@@ -325,11 +330,8 @@ class Scene extends Component {
             } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "LWN") {
               let length = this.props.component[i].externalNozzleProjection / this.scaler;
               let orientation = this.props.component[i].orientation;
-              let nozzle_material = new THREE.MeshPhongMaterial({
-                color: '#0b7dba',
-                emissive: 0x072534,
-                side: THREE.DoubleSide
-              });
+              t.color='#0b7dba';
+              let nozzle_material = new THREE.MeshPhongMaterial(t);
               let orientation_in_rad = (orientation / 180) * math.pi;
               this.lengths.push(-1000);
               let nozzle_height = this.props.component[i].height * (12 / this.scaler);
@@ -435,14 +437,10 @@ class Scene extends Component {
               let length = parseFloat(this.props.component[i].length / this.scaler);
               let sd = parseFloat(this.props.component[i].sd / this.scaler);
               let thickness = parseFloat(this.props.component[i].thickness / this.scaler);
-              let skirt_material = new THREE.MeshPhongMaterial({
-                color: '#CD5C5C',
-                emissive: 0x072534,
-                side: THREE.DoubleSide
-              });
+              t.color='#CD5C5C';
+              let skirt_material = new THREE.MeshPhongMaterial(t);
               let skirt = Shell(thickness, sd, sd, length, skirt_material);
               let skirt_flange_length = length / 4;
-              console.log("skirt",this.props.component[i],thickness,sd,skirt_flange_length,skirt_material,length)
               let skirt_flange = Shell(thickness, sd + sd / 10, sd + sd / 10, skirt_flange_length, skirt_material);
               skirt.translateY(-length / 2);
               skirt_flange.translateY(-length - skirt_flange_length / 2);
@@ -478,6 +476,7 @@ class Scene extends Component {
                   }
                 }
               }
+
               this.keepHeightRecord(this.props.component[i], -500, 0);
               let thickness = this.props.component[i].value.lug_thickness.req_value / this.scaler;
               let height = this.props.component[i].height_lug / this.scaler;
@@ -485,11 +484,13 @@ class Scene extends Component {
               let hole_diameter = this.props.component[i].hole_diameter / this.scaler;
               let angle = this.props.component[i].layout_angle;
               let lug1 = LiftingLug(height, thickness, rad, hole_diameter);
+
               lug1.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
               this.shapes.push(lug1);
               let lug2 = null;
               if (this.props.component[i].number === '2') {
                 lug2 = LiftingLug(height, thickness, rad, hole_diameter);
+
               }
               console.log("last cylinder for number", last_cylinder)
               if (last_cylinder !== null && this.props.component[last_cylinder] !== null) {
