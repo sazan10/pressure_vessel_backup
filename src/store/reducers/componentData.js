@@ -20,7 +20,7 @@ const initialState = {
     projectName: null,//
     thickness: null,
     formDialogOpen: false,//
-    orientation: "vertical",//
+    orientation: "horizontal",//
     showSpinner: false//
 };
 
@@ -45,7 +45,7 @@ const updateData = (state, action) => {
     let comp = action.data;
     //const componentID = action.componentID;
     console.log(action.data.thickness);
-    console.log("component",action.data.component);
+    console.log("component received",action.data.component);
     if (action.data.component === "Cylinder") {
         // let comp = action.data;
        // const num = action.data.number;
@@ -173,7 +173,7 @@ const updateLastItem = (state, action) => {
 
 //update the new components downloaded from the server after the specific project is selected .
 const updateComponents = (state, action) => {
-    console.log(action);
+    console.log("component downloaded from backend",action);
 
     return updateObject(state, {component : action.components});
 }

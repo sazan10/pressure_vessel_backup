@@ -145,7 +145,6 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
             response.data.thickness !== undefined &&
             !response.data.thicknessResponse
           ) {
-            
               data1 = {
                 ...data,
                 ...{
