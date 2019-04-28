@@ -1,9 +1,9 @@
 import * as THREE from 'three'
 import { toCSG, fromCSG } from 'three-2-csg';
 import * as math from 'mathjs';
-const LiftingLug=(height1=10,width1=5,radius1=5,hole_radius1=2)=> {
+let material1=new THREE.MeshPhongMaterial({ color: '#500dba', emissive: 0x072534, side: THREE.DoubleSide });;
+const LiftingLug=(height1=10,width1=5,radius1=5,hole_radius1=2,material=material1)=> {
     
-let material=new THREE.MeshPhongMaterial({ color: '#500dba', emissive: 0x072534, side: THREE.DoubleSide });;
 
 let hole_radius=parseFloat(hole_radius1);
 let radius=parseFloat(radius1);

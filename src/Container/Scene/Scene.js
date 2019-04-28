@@ -125,9 +125,15 @@ class Scene extends Component {
           name = intersects[0].object.name;
         }
 
-        let res = name.split("&");
+        let res=null;
+        if(name){
+        res=name.split("&");
         this.name = res[1];
         this.compoID=res[0];
+        }
+        else{
+          res=[-1,"noComponent"]
+        }
         //   intersects[0].object.material.opacity = 0.5;
         this.props.updateSelectedComponentID(res[0]);
         this.props.treeUpdate(false);
@@ -203,7 +209,9 @@ class Scene extends Component {
       emissive: 0x072534,
       side: THREE.DoubleSide,
       transparent:true,
-      opacity:1};
+      opacity:1,
+      shininess:100
+    };
       if (this.scene) {
         if (this.scene.children) {
           this.clearScene();
@@ -464,13 +472,15 @@ class Scene extends Component {
               let rad = this.props.component[i].length / this.scaler;
               let hole_diameter = this.props.component[i].hole_diameter / this.scaler;
               let angle = this.props.component[i].layout_angle;
-              let lug1 = LiftingLug(height, thickness, rad, hole_diameter);
+              t.color='#500dba';
+              let material = new THREE.MeshPhongMaterial(t)
+              let lug1 = LiftingLug(height, thickness, rad, hole_diameter,material);
 
               lug1.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
               this.shapes.push(lug1);
               let lug2 = null;
               if (this.props.component[i].number === '2') {
-                lug2 = LiftingLug(height, thickness, rad, hole_diameter);
+                lug2 = LiftingLug(height, thickness, rad, hole_diameter,material);
 
               }
               if (last_cylinder !== null && this.props.component[last_cylinder] !== null) {
