@@ -1,7 +1,7 @@
 import React, {
   Component
 } from 'react';
-import * as THREE from 'three'
+import * as THREE from 'three';
 import * as TrackballControls from 'three-trackballcontrols';
 import * as actions from '../../store/actions/index';
 import Shell from '../../Components/Parts/Shell';
