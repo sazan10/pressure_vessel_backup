@@ -57,7 +57,7 @@ class TreeDemo extends React.Component {
     console.log("setTree", components);
     const tree = { name: "Components", toggled: true, children: [] };
     components.map(component => {
-      if (component.component !== undefined) {
+      if (component !== null && component.component !== undefined) {
         return tree.children.push({
           name: component.component + " " + component.componentID
         });
