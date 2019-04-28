@@ -118,11 +118,11 @@ class Scene extends Component {
         } catch (e) {
           console.log(e)
         }
-        if (intersects[0].object.material.opacity === 1) {
-          intersects[0].object.material.opacity = 0.5;
-        } else {
-          intersects[0].object.material.opacity = 1;
-        }
+        // if (intersects[0].object.material.opacity === 1) {
+        //   intersects[0].object.material.opacity = 0.5;
+        // } else {
+        //   intersects[0].object.material.opacity = 1;
+        // }
         let name = null;
         if (intersects[0].object.parent.name) {
           name = intersects[0].object.parent.name;
