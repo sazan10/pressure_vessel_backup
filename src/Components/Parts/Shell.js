@@ -11,13 +11,13 @@ let length = parseFloat(length1);
 
 
 // cyl
-let cylinder = new THREE.CylinderGeometry(radius_bot, radius_top,length, 40 );
+let cylinder = new THREE.CylinderGeometry(radius_bot, radius_top,length, 80);
 let cylinderMesh = new THREE.Mesh( cylinder, mat );
 
 
 let cylinderCSG = toCSG( cylinderMesh ); // converting ThreeJS object to CSG
 
-let cylinder2 = new THREE.CylinderGeometry(radius_bot+thickness, radius_top+thickness,length, 40 );
+let cylinder2 = new THREE.CylinderGeometry(radius_bot+thickness, radius_top+thickness,length, 80 );
 let cylinderMesh2 = new THREE.Mesh(cylinder2, mat);
  
 let cylinder2CSG=toCSG(cylinderMesh2);

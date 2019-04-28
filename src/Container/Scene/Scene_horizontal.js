@@ -14,7 +14,7 @@ import math from 'mathjs';
 import height_checker from '../../Components/Scene/height_checker';
 import getClosest from 'get-closest'
 import returnKey from '../../Components/Scene/returnKey';
-import isEmpty from '../../Components/Scene/object_empty'
+import isEmpty from '../../Components/Scene/object_empty';
 import {
   connect
 } from 'react-redux';
@@ -227,7 +227,7 @@ class Scene_horizontal extends Component {
       }
       if (this.props.component.length >= 0 && this.scene) {
         for (let i = 0; i < this.props.component.length; i++) {
-          if(this.props.component[i]!==null)
+          if(!isEmpty(this.props.component[i]))
           {
             if(this.name===this.props.component[i].component.toString() && this.compoID==this.props.component[i].componentID.toString()){
               t.opacity=0.5;
@@ -445,7 +445,6 @@ class Scene_horizontal extends Component {
           
           else if (this.props.component[i].component === "Lifting Lug") {
             try {
-              
               this.keepHeightRecord(this.props.component[i],-500,0);
               let weightXCG = 0;
               let weightsum = 0;
@@ -455,6 +454,7 @@ class Scene_horizontal extends Component {
                   weightsum += newState[i][2];
                   weightXCG += newState[i][1] * newState[i][2];
                 }
+                console.log("weights",weightsum,weightXCG)
                 for(let i=0;i<this.props.component.length;i++)
                 {
                   
