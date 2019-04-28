@@ -28,7 +28,6 @@ class Scene extends Component {
     current: {},
   };
   componentDidMount() {
-    console.log("ComponentDidMount in vertical", this.props.component);
     const width = window.innerWidth;
     const height = window.innerHeight;
     this.scene = new THREE.Scene();
@@ -97,20 +96,14 @@ class Scene extends Component {
       if (intersects.length > 0) {
 
         intersects[0].object.material.transparent = true;
-
-        console.log("opacity before", intersects[0].object.material.opacity)
         try {
           const sh = [...this.shapes];
           sh.map((shape) => {
-            console.log("shapes are", shape);
             let sh_name = shape.name.split("&");
             if (sh_name[1] === "Cylinder" || sh_name[1] === "Ellipsoidal Head") {
               shape.material.opacity = 1;
-              console.log("material", shape.name.split("&")[1]);
             } else {
-              console.log("jdkfjdlf");
               shape.children.map((child) => {
-                console.log("children shapes", child);
                 child.material.opacity = 1;
                 return 0;
               })
@@ -133,7 +126,6 @@ class Scene extends Component {
         }
 
         let res = name.split("&");
-        console.log("pressed object number", res[0], res[1]);
         this.name = res[1];
         this.compoID=res[0];
         //   intersects[0].object.material.opacity = 0.5;
@@ -148,9 +140,7 @@ class Scene extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.props.component, 'vertical');
     if (prevProps.component !== this.props.component) {
-      console.log("ComponentDidUpdate in vertical");
     }
   }
 
@@ -222,9 +212,7 @@ class Scene extends Component {
       if (this.props.component.length >= 0 && this.scene) {
         for (let i = 0; i < this.props.component.length; i++) {
           if (this.props.component[i] !== null) {
-            console.log("name of selected",this.name, this.compoID,this.props.component[i].component,this.props.component[i].componentID);
             if(this.name===this.props.component[i].component.toString() && this.compoID==this.props.component[i].componentID.toString()){
-              
               t.opacity=0.5;
             }
             else{
@@ -345,11 +333,9 @@ class Scene extends Component {
               //                 let i = this.heights[key];
               //                 this.heights_only.splice(key, 0, i); //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
               // }
-              console.log("heights", this.heights);
               for (let key in this.heights) {
                 key_value = key;
               }
-              console.log("key value", key_value)
               for (let i = 0; i < key_value; i++) {
                 this.heights_only.push(-500);
               }
@@ -360,12 +346,9 @@ class Scene extends Component {
                 }
                 this.heights_only[key] = i; //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
               }
-              console.log("heights", this.heights_only, this.heights, nozzle_height)
               let closest_index = getClosest.number(nozzle_height, this.heights_only);
 
-              console.log("index key", closest_index)
               let closest_value = this.heights[closest_index];
-              console.log("closest value", closest_value)
               let index_key = returnKey(this.heights, closest_value);
 
               let nozzle = new THREE.Mesh();
@@ -379,7 +362,6 @@ class Scene extends Component {
               let raised_face_diameter = this.props.component[i].value.raised_face_diameter / this.scaler;
               let raised_face_thickness = this.props.component[i].value.raised_face_thickness / this.scaler;
               if (this.props.component[index_key]) {
-                console.log("nozzle", this.props.component[i].componentID, "associated with", this.props.component[index_key])
                 if (this.props.component[index_key].component === "Cylinder") {
                   let shell_rad = parseFloat(this.props.component[index_key].sd) / (2 * this.scaler);
                   let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
@@ -463,7 +445,6 @@ class Scene extends Component {
                   if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
                     try {
                       position = position + (this.props.component[i].length * 12 / this.scaler);
-                      console.log("inside value putitng", position, this.height_position, last_cylinder)
                       last_cylinder = this.props.component[i].componentID;
                       if (this.props.component[i].component === "Cylinder") {
                         cyl_diameter = this.props.component[last_cylinder].sd / (2 * this.scaler);
@@ -492,7 +473,6 @@ class Scene extends Component {
                 lug2 = LiftingLug(height, thickness, rad, hole_diameter);
 
               }
-              console.log("last cylinder for number", last_cylinder)
               if (last_cylinder !== null && this.props.component[last_cylinder] !== null) {
                 //let height_pos = this.heights_permanent[last_cylinder] + (this.props.component[last_cylinder].length * (12 / this.scaler)) / 2 - height / 2.2;
                 let shell_rad = cyl_diameter + this.props.component[last_cylinder].value.thickness / this.scaler; //finding the diameter of last shell
@@ -538,14 +518,12 @@ class Scene extends Component {
           ...this.heights,
           [b_key]: position,
         }
-        console.log("b in heights", b_key in this.heights_permanent)
         if (!(b_key in this.heights_permanent)) {
           this.heights_permanent = {
             ...this.heights_permanent,
             [b_key]: position,
           }
         }
-        console.log("last cylinder", this.heights_permanent);
         this.weights[component.componentID] = [component.component, cg, component.value.weight];
       }
     }
