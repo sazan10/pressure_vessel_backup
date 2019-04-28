@@ -72,6 +72,8 @@ class Scene extends Component {
     this.scene.add(this.axesHelper);
     this.shell_diameter = 0;
     this.length = 0;
+    this.name=null;
+    this.compID=null;
     this.lengths = [];
     this.heights = {};
     this.weights = {};
@@ -440,6 +442,7 @@ class Scene extends Component {
               });
               let skirt = Shell(thickness, sd, sd, length, skirt_material);
               let skirt_flange_length = length / 4;
+              console.log("skirt",this.props.component[i],thickness,sd,skirt_flange_length,skirt_material,length)
               let skirt_flange = Shell(thickness, sd + sd / 10, sd + sd / 10, skirt_flange_length, skirt_material);
               skirt.translateY(-length / 2);
               skirt_flange.translateY(-length - skirt_flange_length / 2);
@@ -475,7 +478,6 @@ class Scene extends Component {
                   }
                 }
               }
-
               this.keepHeightRecord(this.props.component[i], -500, 0);
               let thickness = this.props.component[i].value.lug_thickness.req_value / this.scaler;
               let height = this.props.component[i].height_lug / this.scaler;
@@ -483,14 +485,11 @@ class Scene extends Component {
               let hole_diameter = this.props.component[i].hole_diameter / this.scaler;
               let angle = this.props.component[i].layout_angle;
               let lug1 = LiftingLug(height, thickness, rad, hole_diameter);
-
-
               lug1.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
               this.shapes.push(lug1);
               let lug2 = null;
               if (this.props.component[i].number === '2') {
                 lug2 = LiftingLug(height, thickness, rad, hole_diameter);
-
               }
               console.log("last cylinder for number", last_cylinder)
               if (last_cylinder !== null && this.props.component[last_cylinder] !== null) {

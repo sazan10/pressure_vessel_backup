@@ -120,7 +120,7 @@
         "validation": {
             "required": true
         },
-        "value": "0",
+        "value": "0.5",
         "label": "Thickness (inch)",
         "step": "any",
         "valid": true
