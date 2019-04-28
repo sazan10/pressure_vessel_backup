@@ -20,7 +20,6 @@ const clickMenu = ( state, action ) => {
 };
 
 const importComponentModel = (state, action) => {
-    console.log("inside import contentmodel",action.model)
     return updateObject(state,{componentModel: action.model, new: true});
 };
 

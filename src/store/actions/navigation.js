@@ -19,14 +19,11 @@ export const disableNew = () => {
 export const importModel = (title, num) => {
  
   return dispatch => {
-  console.log("Inside actions " + title );
     dispatch(updateTitle(title));
     import(`../../JSONFiles/Components/${title.replace(
       " ",
       ""
     )}Param${num}.json`).then(function(response) {
-      console.log("inside response",response.default);
-
       dispatch(returnModel(response.default));
     });
   };
@@ -66,7 +63,6 @@ export const importForm = title => {
         .get(url,{headers: headers})
         .then(response => {
           const projects =[];
-          console.log(response.data, "in navigation66ftv");
           response.data.map(project => {
             return projects.push({id: project.id, projectName: project.projectName})
           })
@@ -96,7 +92,6 @@ export const returnForm = model => {
 };
 
 export const returnModel = model => {
-  console.log("inside return ",model)
   return {
     type: actionTypes.IMPORT_COMPONENT_MODEL,
     model: model

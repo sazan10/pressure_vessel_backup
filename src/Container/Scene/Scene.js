@@ -260,8 +260,8 @@ class Scene extends Component {
                 this.keepHeightRecord(this.props.component[i], this.height_position, this.height_position);
                 this.first_shell = false;
               } else {
-                t.color='0xffff00'
-                let ringmaterial = new THREE.MeshBasicMaterial(t);
+                t.color='#ffff00'
+                let ringmaterial = new THREE.MeshPhongMaterial(t);
                 diameter = (parseFloat(this.props.component[i].sd / this.scaler) + parseFloat(this.props.component[i].thickness / this.scaler)) || (parseFloat(this.props.component[i].sd_s / this.scaler) + parseFloat(this.props.component[i].thickness / this.scaler));
                 let ringgeometry = Shell(diameter / 130, diameter, diameter, diameter / 130, ringmaterial);
                 let lengths = this.props.component[i].length * (12 / this.scaler); //length of current cylinder

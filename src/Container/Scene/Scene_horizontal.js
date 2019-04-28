@@ -27,7 +27,6 @@ class Scene_horizontal extends Component {
     current: {},
   };
   componentDidMount() {
-    console.log("ComponentDidMount in horizontal", this.props.component);
     const width = window.innerWidth;
     const height = window.innerHeight;
     //ADD CAMERA
@@ -163,9 +162,7 @@ class Scene_horizontal extends Component {
 
   }
   componentDidUpdate( prevProps, prevState) {
-    console.log(this.props.component, 'horizontal');
     if(prevProps.component !== this.props.component) {
-      console.log("ComponentDidUpdate in horizontal");
     }
   }
 
@@ -265,7 +262,7 @@ class Scene_horizontal extends Component {
               this.keepHeightRecord(this.props.component[i],this.height_position,this.height_position);             
                this.first_shell = false;
             } else {
-              t.color='0xffff00'
+              t.color='#ffff00'
               let ringmaterial = new THREE.MeshBasicMaterial(t);
                 diameter = (parseFloat(this.props.component[i].sd/this.scaler) + parseFloat(this.props.component[i].thickness/this.scaler)) || (parseFloat(this.props.component[i].sd_s/this.scaler) + parseFloat(this.props.component[i].thickness/this.scaler));
                 let ringgeometry = Shell(diameter/130, diameter, diameter, diameter/130, ringmaterial);
@@ -355,7 +352,6 @@ class Scene_horizontal extends Component {
             {
               key_value = key;
             }
-            console.log("key value",key_value)
             for (let i = 0; i < key_value; i++) {
               this.heights_only.push(-500);
             }
@@ -372,7 +368,6 @@ class Scene_horizontal extends Component {
 //           let i = this.heights[key];
 //           this.heights_only.splice(key, 0, i); //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
 // }
-          console.log("index key",closest_index,this.heights_only,this.heights,nozzle_height)
 
             let closest_index = getClosest.number(nozzle_height, this.heights_only);
             let closest_value = this.heights[closest_index];
@@ -455,20 +450,15 @@ class Scene_horizontal extends Component {
               let weightXCG = 0;
               let weightsum = 0;
               if (!isEmpty(this.weights)) {
-                console.log("weights",this.weights);
                 let newState = Object.assign([], this.weights);
-                console.log(newState);
                 for (let i = 0; i < newState.length; i++) {
-                  console.log("loop",i);
                   weightsum += newState[i][2];
                   weightXCG += newState[i][1] * newState[i][2];
-                  console.log("loop",i,newState[i][2],newState[i][1]);
                 }
                 for(let i=0;i<this.props.component.length;i++)
                 {
                   
                 }
-                console.log("weights",weightsum,weightXCG);
                 let overall_CG = weightXCG / weightsum;
                 let thickness = this.props.component[i].value.lug_thickness.req_value/this.scaler;
                 let height = this.props.component[i].height_lug/this.scaler;
@@ -476,7 +466,6 @@ class Scene_horizontal extends Component {
                 let hole_diameter = this.props.component[i].hole_diameter/this.scaler;
                 let distance = this.props.component[i].distance/this.scaler;
                 let angle = this.props.component[i].layout_angle;
-                console.log("lifing lug",height, thickness, rad, hole_diameter)
                 t.color='#500dba';
                 let material = new THREE.MeshPhongMaterial(t)
                 let lug1 = LiftingLug(height, thickness, rad, hole_diameter,material);
@@ -494,7 +483,6 @@ class Scene_horizontal extends Component {
                   let z_displace = (shell_rad) * math.sin(math.pi * (angle / 180));
                   //let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
                   //lug1.translateZ(10);
-                  console.log(overall_CG,x_displace,z_displace,angle);
                   lug1.translateX(overall_CG + distance).translateZ(-x_displace).translateY(z_displace).rotateX((angle / 180) * math.pi - math.pi / 2) //.rotateX(-(angle/180)*math.pi);//.translateY(height).translateZ(z_displace);
                   lug1.name=this.props.component[i].componentID+ "&"+this.props.component[i].component;
                   if (this.props.component[i].number === '2') {
