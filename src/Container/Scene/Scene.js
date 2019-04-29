@@ -388,7 +388,6 @@ class Scene extends Component {
                   nozzle.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
                   this.scene.add(nozzle);
                   this.shapes.push(nozzle);
-
                 } else if (this.props.component[index_key].component === "Conical") {
                   let rad_bot = this.props.component[index_key].sd_s / (2 * this.scaler);
                   let rad_top = this.props.component[index_key].sd_l / (2 * this.scaler);

@@ -448,17 +448,25 @@ class Scene_horizontal extends Component {
               this.keepHeightRecord(this.props.component[i],-500,0);
               let weightXCG = 0;
               let weightsum = 0;
+              console.log("weights",this.weights);
               if (!isEmpty(this.weights)) {
                 let newState = Object.assign([], this.weights);
-                for (let i = 0; i < newState.length; i++) {
-                  weightsum += newState[i][2];
-                  weightXCG += newState[i][1] * newState[i][2];
-                }
-                console.log("weights",weightsum,weightXCG)
-                for(let i=0;i<this.props.component.length;i++)
-                {
-                  
-                }
+                console.log("weights newstate",newState);
+                // for (let i = 0; i < newState.length; i++) {
+                //   if(newState[i])
+                //   {
+                //   weightsum += newState[i][2];
+                //   weightXCG += newState[i][1] * newState[i][2];
+                //   }
+                // }
+                this.weights.map((weight_compo)=>{
+                  if(weight_compo)
+                  {
+                    weightsum+=weight_compo[2];
+                    weightXCG+=weight_compo[1]*weight_compo[2];
+                  }
+                })
+                console.log("weights",weightsum,weightXCG);
                 let overall_CG = weightXCG / weightsum;
                 let thickness = this.props.component[i].value.lug_thickness.req_value/this.scaler;
                 let height = this.props.component[i].height_lug/this.scaler;
@@ -496,7 +504,7 @@ class Scene_horizontal extends Component {
           } else if (this.props.component[i].component === "Saddle") {
             t.color='#abcdef';
             let material=new THREE.MeshPhongMaterial(t);
-            let saddle = Saddle(this.props.component[last_cylinder].sd / (2*this.scaler) + this.props.component[last_cylinder].value.thickness/this.scaler, this.props.component[i].width/this.scaler, this.props.component[i].base_height/this.scaler, this.props.component[i].base_length/this.scaler, (this.props.component[i].saddle_angle / 180) * math.pi,t);
+            let saddle = Saddle(this.props.component[last_cylinder].sd / (2*this.scaler) + this.props.component[last_cylinder].value.thickness/this.scaler, this.props.component[i].width/this.scaler, this.props.component[i].base_height/this.scaler, this.props.component[i].base_length/this.scaler, (this.props.component[i].saddle_angle / 180) * math.pi,material);
             let position = this.props.component[i].position/this.scaler;
             let distance = this.props.component[i].distance/this.scaler;
             saddle.translateZ(distance);
