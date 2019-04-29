@@ -440,7 +440,7 @@ class Scene extends Component {
               let skirt_material = new THREE.MeshPhongMaterial(t);
               let skirt = Shell(thickness, sd, sd, length, skirt_material);
               let skirt_flange_length = length / 4;
-              let skirt_flange = Shell(thickness, sd + sd / 10, sd + sd / 10, skirt_flange_length, skirt_material);
+              let skirt_flange = Shell(thickness+sd/30, sd , sd , skirt_flange_length, skirt_material);
               skirt.translateY(-length / 2);
               skirt_flange.translateY(-length - skirt_flange_length / 2);
               let group = new THREE.Group();
