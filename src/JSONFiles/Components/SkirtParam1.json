@@ -20,7 +20,7 @@
         "validation": {
             "required": true
         },
-        "placeholder": "0",
+        "placeholder": "",
         "value": "",
         "label": "Component Name",
         "valid": true
@@ -92,7 +92,7 @@
             "required": true
         },
         "value": "72",
-        "label": "Shell Diameter (inch)",
+        "label": "Shell Diameter Int(inch)",
         "step": "any",
         "valid": true
     },

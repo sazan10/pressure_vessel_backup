@@ -21,7 +21,11 @@ const initialState = {
     thickness: null,
     formDialogOpen: false,//
     orientation: "horizontal",//
-    showSpinner: false//
+    showSpinner: false,//
+    pressure: 300,
+    temperature: 300,
+    shellDiameter: 0
+
 };
 
 const onDataSend = (state, action) => {
@@ -238,6 +242,12 @@ const showSpinner = (state, action) => {
     return updateObject(state, {showSpinner: action.value});
 }
 
+const updatePTD = (state, action) => {
+    return updateObject(state, {pressure: action.pressure,
+        temperature: action.temperature,
+    shellDiameter: action.shellDiameter});
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.DATA_SEND: return onDataSend(state, action);
@@ -260,6 +270,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.DELETE_SPECIFIC_COMPONENT: return deleteSpecificComponent(state, action);
         case actionTypes.SELECTED_COMPONENT_ID: return updateSelectedComponentID(state, action);
         case actionTypes.SHOW_SPINNER: return showSpinner(state, action);
+        case actionTypes.UPDATE_P_T_D: return updatePTD(state, action);
         default:
             return state;
     }

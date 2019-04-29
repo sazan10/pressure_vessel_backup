@@ -22,7 +22,7 @@
         "validation": {
             "required": true
         },
-        "placeholder": "0",
+        "placeholder": "",
         "value": "",
         "label": "Component Name",
         "valid": true
@@ -93,7 +93,7 @@
         "validation": {
             "required": true
         },
-        "value": "300",
+        "value": "15",
         "label": "External Pressure (Kpsi)",
         "step": "any",
         "valid": true

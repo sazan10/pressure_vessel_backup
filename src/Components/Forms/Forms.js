@@ -45,6 +45,7 @@ class DynamicForm extends React.Component {
   };
 
   updateStateModel = model => {
+    console.log(model);
     this.setState(
       {
         form: model
@@ -103,7 +104,7 @@ class DynamicForm extends React.Component {
         }
       ];
       if(isComponentClicked) {
-        this.updateStateModel({ form: updatedModel});
+        this.updateStateModel(updatedModel);
         
       } else {
         this.setState({ form: updatedModel});
@@ -222,6 +223,18 @@ class DynamicForm extends React.Component {
       this.props.disableNew();
       this.props.model.componentID.placeholder = this.props.componentID;
       this.props.model.componentID.value = this.props.componentID;
+
+      if(this.props.thickness !== null && this.props.thickness !== undefined) {
+        try {
+          this.props.model.ip.placeholder = this.props.model.ip.value =this.props.ip;
+          this.props.model.temp1.placeholder = this.props.model.temp1.value =this.props.temp1;
+          this.props.model.sd.placeholder = this.props.model.sd.value =this.props.sd;
+          this.props.model.thickness.placeholder = this.props.model.thickness.value = this.props.thickness;
+       
+        } catch {
+          console.log("P or T or SD or TH update failed");
+        }
+      }
       if (
         this.props.title === "Lifting Lug" &&
         this.props.orientation === "horizontal"
@@ -246,6 +259,7 @@ class DynamicForm extends React.Component {
         this.updateStateModel(this.props.model);
       }
       this.checkForOrientationForHead(true);
+      console.log(" inside component click");
     }
 
     //to update the new calculated thickness in the form
@@ -258,7 +272,7 @@ class DynamicForm extends React.Component {
         updatedform.thickness.placeholder = this.props.thickness;
         // console.log(updatedform);
         this.setState({ form: updatedform });
-        this.props.deleteThickness();
+        // this.props.deleteThickness();
       }
     }
 
@@ -324,6 +338,8 @@ class DynamicForm extends React.Component {
     // console.log(this.state.form);
     const formElementsArray = [];
     for (let key in this.state.form) {
+      if(key === "componentID")
+        continue;
       formElementsArray.push({
         id: key,
         config: this.state.form[key]
@@ -407,7 +423,10 @@ const mapStateToProps = state => {
     conical: state.componentData.conical,
     componentByID: state.componentData.componentByID,
     componentClick: state.componentData.componentClicked,
-    orientation: state.componentData.orientation
+    orientation: state.componentData.orientation,
+    ip: state.componentData.pressure,
+    temp1: state.componentData.temperature,
+    sd: state.componentData.shellDiameter
   };
 };
 

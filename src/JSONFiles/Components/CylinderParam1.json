@@ -23,7 +23,7 @@
             "required": true
         },
         "placeholder": "",
-        "value": "0",
+        "value": "",
         "label": "Component Name",
         "valid": true
     },
@@ -88,12 +88,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "45 Kpsi"
+            "placeholder": "15 Kpsi"
         },
         "validation": {
             "required": true
         },
-        "value": "300",
+        "value": "15",
         "label": "External Pressure (Kpsi)",
         "step": "any",
         "valid": true
@@ -136,7 +136,7 @@
             "required": true
         },
         "value": "72",
-        "label": "Shell Diameter (inch)",
+        "label": "Shell Diameter Int (inch)",
         "step": "any",
         "valid": true
     },

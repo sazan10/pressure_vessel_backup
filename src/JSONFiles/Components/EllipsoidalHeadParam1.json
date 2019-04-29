@@ -23,7 +23,7 @@
             "required": true
         },
         "placeholder": "",
-        "value": "0",
+        "value": "",
         "label": "Component Name",
         "valid": true
     },
@@ -88,12 +88,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "45 Kpsi"
+            "placeholder": "15 Kpsi"
         },
         "validation": {
             "required": true
         },
-        "value": "300",
+        "value": "15",
         "label": "External Pressure (Kpsi)",
         "step": "any",
         "valid": true
@@ -102,12 +102,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "45 Kpsi"
+            "placeholder": "150 F"
         },
         "validation": {
             "required": true
         },
-        "value": "300",
+        "value": "150",
         "label": "Temp2 (F)",
         "step": "any",
         "valid": true
@@ -136,7 +136,7 @@
             "required": true
         },
         "value": "72",
-        "label": "Shell Diameter (inch)",
+        "label": "Shell Diameter Int (inch)",
         "step": "any",
         "valid": true
     },
@@ -172,12 +172,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "1"
+            "placeholder": "2"
         },
         "validation": {
             "required": true
         },
-        "value": "1",
+        "value": "2",
         "label": "Straight Flange Length (inch)",
         "step": "any",
         "valid": true

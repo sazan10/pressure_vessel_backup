@@ -44,7 +44,8 @@ export {
     deleteLastComponent,
     deleteSpecificComponent,
     updateSelectedComponentID,
-    showSpinner
+    showSpinner,
+    updatePTD
 } from './componentData';
 
 // export {

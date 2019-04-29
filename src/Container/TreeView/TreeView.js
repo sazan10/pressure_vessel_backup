@@ -59,7 +59,7 @@ class TreeDemo extends React.Component {
     components.map(component => {
       if (component !== null && component.component !== undefined) {
         return tree.children.push({
-          name: component.component + " " + component.componentID
+          name: component.componentName
         });
       }
     });
@@ -80,7 +80,8 @@ class TreeDemo extends React.Component {
       node.toggled = toggled;
     }
     this.setState({ cursor: node });
-    if (node.name !== "Components") {
+    console.log(node.name);
+    if (node.name !== "Components" && node.name !== 'no Component') {
       const name = node.name.split(" ");
       if (name.length >= 3) {
         name[0] = name[0] + " " + name[1];

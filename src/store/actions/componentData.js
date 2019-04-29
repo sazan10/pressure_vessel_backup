@@ -155,6 +155,8 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
                   value: response.data
                 }
               };
+
+              dispatch(updatePTD(data.ip, data.temp1, data.sd));
             
           } else {
             data1 = {
@@ -210,6 +212,17 @@ const sendComponent = (data, url, id) => {
     };
     dispatch(axiosDataSend(schema, url));
   };
+};
+
+//updating the last pressure, temperature and shell diameter values for next component so that the user does not need to change again
+
+export const updatePTD = (pressure, temp, shellDia) => {
+  return {
+    type: actionTypes.UPDATE_P_T_D,
+    pressure: pressure,
+    temperature: temp,
+    shellDiameter: shellDia
+  }
 };
 
 export const showSpinner = value => {
