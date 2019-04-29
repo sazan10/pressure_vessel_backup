@@ -130,7 +130,7 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "50 inch"
+            "placeholder": "72 inch"
         },
         "validation": {
             "required": true

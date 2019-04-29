@@ -18,13 +18,13 @@ const initialState = {
     selectedComponentID: 0,
     projectID: null,//
     projectName: null,//
-    thickness: null,
+    thickness: 0.75,
     formDialogOpen: false,//
     orientation: "horizontal",//
     showSpinner: false,//
     pressure: 300,
     temperature: 300,
-    shellDiameter: 0
+    shellDiameter: 72
 
 };
 
