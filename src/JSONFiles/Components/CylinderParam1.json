@@ -152,7 +152,10 @@
         "value": "8",
         "label": "Length (feet)",
         "step": "any",
+        "type":"number",
+        "max":"15",
         "valid": true
+    
     },
     "thickness": {
         "elementType": "input",

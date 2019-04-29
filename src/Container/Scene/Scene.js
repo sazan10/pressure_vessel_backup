@@ -265,7 +265,7 @@ class Scene extends Component {
                 t.color='#ffff00'
                 let ringmaterial = new THREE.MeshPhongMaterial(t);
                 diameter = (parseFloat(this.props.component[i].sd / this.scaler) + parseFloat(this.props.component[i].thickness / this.scaler)) || (parseFloat(this.props.component[i].sd_s / this.scaler) + parseFloat(this.props.component[i].thickness / this.scaler));
-                let ringgeometry = Shell(diameter / 130, diameter, diameter, diameter / 130, ringmaterial);
+                let ringgeometry = Shell(diameter / 110, diameter, diameter, diameter / 110, ringmaterial);
                 let lengths = this.props.component[i].length * (12 / this.scaler); //length of current cylinder
                 this.height_position = this.height_position + this.cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
                 this.keepHeightRecord(this.props.component[i], this.height_position, this.height_position);
@@ -321,13 +321,13 @@ class Scene extends Component {
                 for (let i = 0; i < this.props.component.length; i++) {
                   if (this.props.component[i]) {
                     if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
-                      height_for_top = height_for_top + parseFloat(this.props.component[i].length) * (12 / this.scaler)+srl/2;
+                      height_for_top = height_for_top + parseFloat(this.props.component[i].length) * (12 / this.scaler);
                     }
                   }
                 }
                 let cg_head = height_for_top + (4 * minor) / (3 * math.pi);
                 this.keepHeightRecord(this.props.component[i], -500, cg_head);
-                grouper2.translateY(height_for_top);
+                grouper2.translateY(height_for_top+srl/2);
                 this.scene.add(grouper2);
                 head.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
                 this.shapes.push(grouper2);

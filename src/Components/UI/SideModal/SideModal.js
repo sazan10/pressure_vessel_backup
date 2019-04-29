@@ -24,18 +24,19 @@ class Modal extends Component {
           title="Registration"
           defaultValues={this.state.current}
           model={this.props.model}
+          msg=""
       />
       </Auxx>
     );
     }
     else if (this.props.projectID)
     modall=(
-      <p className={classes.info}> CLICK ON COMPONENT TO START ADDING COMPONENTS .</p>
+      <p className={classes.info}> CLICK ON COMPONENT TO START ADDING COMPONENTS</p>
     )
     else 
     {
       modall=(
-        <p className={classes.info}> WELCOME TO PRESSURE EXPRESS. <br></br><br></br>CLICK ON "NEW" TO START NEW PROJECT.</p>
+        <p className={classes.info}> WELCOME TO VESSEL EXPRESS <br></br><br></br>CLICK ON "NEW" TO START NEW PROJECT</p>
       )
     }
     return (
