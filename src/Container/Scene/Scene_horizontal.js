@@ -15,12 +15,14 @@ import height_checker from '../../Components/Scene/height_checker';
 import getClosest from 'get-closest'
 import returnKey from '../../Components/Scene/returnKey';
 import isEmpty from '../../Components/Scene/object_empty';
+import objecSize from '../../Components/Scene/object_size';
 import {
   connect
 } from 'react-redux';
 import {
   SpheroidHeadBufferGeometry
 } from '../../Components/Parts/SpheroidHead_v2';
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 class Scene_horizontal extends Component {
   state = {
@@ -77,12 +79,14 @@ class Scene_horizontal extends Component {
     this.lengths = [];
     this.heights = {};
     this.weights = {};
+    this.weight_permanent={};
     this.name=null;
     this.compID=null;
     this.scaler=100;
     this.cylinder_lengths = [];
     this.first_shell = true;
     this.heights_only = [];
+    this.heights_only_lug = [];
     this.controls.update();
     this.start();
   }
@@ -213,6 +217,7 @@ class Scene_horizontal extends Component {
       this.cylinder_lengths = [];
       this.lengths = [];
       let last_cylinder = null;
+      let lug_index=null;
       let t={  color: '#037d23',
       emissive: 0x072534,
       side: THREE.DoubleSide,
@@ -220,6 +225,9 @@ class Scene_horizontal extends Component {
       opacity:1,
       shininess:100
     };
+    let lug1=null;
+    let lug2 = null;
+    let height=0,angle=0,distance1=0,distance2=0;
       if (this.scene) {
         if (this.scene.children) {
           this.clearScene();
@@ -227,6 +235,7 @@ class Scene_horizontal extends Component {
       }
       if (this.props.component.length >= 0 && this.scene) {
         for (let i = 0; i < this.props.component.length; i++) {
+
           if(!isEmpty(this.props.component[i]))
           {
             if(this.name===this.props.component[i].component.toString() && this.compoID==this.props.component[i].componentID.toString()){
@@ -326,13 +335,13 @@ class Scene_horizontal extends Component {
               for (let i = 0; i < this.props.component.length; i++) {
                 if(this.props.component[i]){
                 if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
-                  height_for_top = height_for_top + this.props.component[i].length * (12/this.scaler) +srl/2;
+                  height_for_top = height_for_top + this.props.component[i].length * (12/this.scaler) ;
                 }
               }
             }
               let cg_head=height_for_top+(4*minor)/(3*math.pi);
               this.keepHeightRecord(this.props.component[i],-500,cg_head);
-              grouper2.translateX(height_for_top).rotateZ(-math.pi / 2);
+              grouper2.translateX(height_for_top+srl/2).rotateZ(-math.pi / 2);
               this.scene.add(grouper2);
               head.name=this.props.component[i].componentID + "&"+ this.props.component[i].component;
               this.shapes.push(grouper2);
@@ -445,13 +454,14 @@ class Scene_horizontal extends Component {
           
           else if (this.props.component[i].component === "Lifting Lug") {
             try {
+              lug_index=parseInt(this.props.component[i].componentID);
               this.keepHeightRecord(this.props.component[i],-500,0);
               let weightXCG = 0;
               let weightsum = 0;
               console.log("weights",this.weights);
               if (!isEmpty(this.weights)) {
                 let newState = Object.assign([], this.weights);
-                console.log("weights newstate",newState);
+                
                 // for (let i = 0; i < newState.length; i++) {
                 //   if(newState[i])
                 //   {
@@ -459,43 +469,25 @@ class Scene_horizontal extends Component {
                 //   weightXCG += newState[i][1] * newState[i][2];
                 //   }
                 // }
-                this.weights.map((weight_compo)=>{
-                  if(weight_compo)
-                  {
-                    weightsum+=weight_compo[2];
-                    weightXCG+=weight_compo[1]*weight_compo[2];
-                  }
-                })
-                console.log("weights",weightsum,weightXCG);
-                let overall_CG = weightXCG / weightsum;
+                let key =0;
+ 
                 let thickness = this.props.component[i].value.lug_thickness.req_value/this.scaler;
-                let height = this.props.component[i].height_lug/this.scaler;
+                height = this.props.component[i].height_lug/this.scaler;
                 let rad = this.props.component[i].length/this.scaler;
                 let hole_diameter = this.props.component[i].hole_diameter/this.scaler;
-                let distance = this.props.component[i].distance/this.scaler;
-                let angle = this.props.component[i].layout_angle;
+                distance1 = this.props.component[i].lug1_cg_distance/this.scaler;
+                distance2 = this.props.component[i].lug2_cg_distance/this.scaler;
+                angle = this.props.component[i].layout_angle;
                 t.color='#500dba';
                 let material = new THREE.MeshPhongMaterial(t)
-                let lug1 = LiftingLug(height, thickness, rad, hole_diameter,material);
-                this.scene.add(lug1);
+                lug1 = LiftingLug(height, thickness, rad, hole_diameter,material);
                 this.shapes.push(lug1);
-                let lug2 = null;
+               
                 if (this.props.component[i].number === '2') {
                   lug2 = LiftingLug(height, thickness, rad, hole_diameter,material);
-                  this.scene.add(lug2);
                 }
                 if (last_cylinder >=0) {
-                  let height_pos = this.heights[last_cylinder] + (this.props.component[last_cylinder].length * (12/this.scaler)) / 2 - height / 2.2;
-                  let shell_rad = this.props.component[last_cylinder].sd /(2*this.scaler) + this.props.component[last_cylinder].value.thickness/this.scaler; //finding the diameter of last shell
-                  let x_displace = (shell_rad) * math.cos(math.pi * (angle / 180));
-                  let z_displace = (shell_rad) * math.sin(math.pi * (angle / 180));
-                  //let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
-                  //lug1.translateZ(10);
-                  lug1.translateX(overall_CG + distance).translateZ(-x_displace).translateY(z_displace).rotateX((angle / 180) * math.pi - math.pi / 2) //.rotateX(-(angle/180)*math.pi);//.translateY(height).translateZ(z_displace);
-                  lug1.name=this.props.component[i].componentID+ "&"+this.props.component[i].component;
-                  if (this.props.component[i].number === '2') {
-                    lug2.translateX(overall_CG - distance).translateZ(-x_displace).translateY(z_displace).rotateX((angle / 180) * math.pi - math.pi / 2) //.rotateX((-angle/180)*math.pi);
-                  }
+         
                 }
               }
             } catch (err) {
@@ -514,6 +506,64 @@ class Scene_horizontal extends Component {
             this.keepHeightRecord(this.props.component[i],-500,0);
             this.start();
           }
+        }
+        if(lug1 && i===(this.props.component.length-1))
+        {
+          let key=0;
+          let weightsum=0;
+          let weightXCG=0;
+          let key_value = 0
+          this.heights_only_lug=[];
+            for (key in this.weights) {
+                  if(this.weights[key])
+                  {
+                  weightsum += this.weights[key][2];
+                  console.log("lifting lug",this.weights[key][2])
+                  weightXCG += this.weights[key][1] * this.weights[key][2];
+                  }
+                }
+                console.log("lifting lug",this.heights,lug1)
+
+                for (let key in this.heights) {
+                  key_value = key;
+                }
+                for (let i = 0; i < key_value; i++) {
+                  this.heights_only_lug.push(-500);
+                }
+                for (let key in this.heights) {
+                  let i = 0;
+                  if (this.heights[key]) {
+                    i = this.heights[key];
+                  }
+                  this.heights_only_lug[key] = i; //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
+                }
+                let overall_CG = weightXCG / weightsum;
+                let lug1_position=overall_CG-distance1;
+                let lug2_position=overall_CG+distance2;
+                let closest_index1 = getClosest.number(lug1_position, this.heights_only_lug);
+                let closest_index2=getClosest.number(lug2_position,this.heights_only_lug);
+                let closest_value1 = this.heights[closest_index1];
+                let closest_value2 = this.heights[closest_index2];
+                let index_key1 = returnKey(this.heights, closest_value1);
+                let index_key2 = returnKey(this.heights, closest_value2);
+                console.log("lifting lug",closest_index1,closest_value1,index_key1,index_key2,weightsum,weightXCG)
+                let shell_rad1 = this.props.component[index_key1].sd /(2*this.scaler) + this.props.component[index_key1].value.thickness/this.scaler; //finding the diameter of last shell
+                let shell_rad2 = this.props.component[index_key2].sd /(2*this.scaler) + this.props.component[index_key2].value.thickness/this.scaler; //finding the diameter of last shell
+                let x_displace1 = (shell_rad1) * math.cos(math.pi * (angle / 180));
+
+                let x_displace2 = (shell_rad2) * math.cos(math.pi * (angle / 180));
+                let z_displace1 = (shell_rad1) * math.sin(math.pi * (angle / 180));
+
+                let z_displace2 = (shell_rad2) * math.sin(math.pi * (angle / 180));
+                //let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
+                //lug1.translateZ(10);
+                this.scene.add(lug1);
+                lug1.translateX(lug1_position).translateZ(-x_displace1).translateY(z_displace1).rotateX((angle / 180) * math.pi - math.pi / 2) //.rotateX(-(angle/180)*math.pi);//.translateY(height).translateZ(z_displace);
+                lug1.name=this.props.component[lug_index].componentID+ "&"+this.props.component[lug_index].component;
+                if (lug2) {
+                  this.scene.add(lug2);
+                  lug2.translateX(lug2_position).translateZ(-x_displace2).translateY(z_displace2).rotateX((angle / 180) * math.pi - math.pi / 2) //.rotateX((-angle/180)*math.pi);
+                }
         }
       }
     }

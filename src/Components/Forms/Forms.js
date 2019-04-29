@@ -224,12 +224,17 @@ class DynamicForm extends React.Component {
       this.props.model.componentID.placeholder = this.props.componentID;
       this.props.model.componentID.value = this.props.componentID;
 
-      if(this.props.thickness !== null && this.props.thickness !== undefined) {
+      if(this.props.model.thickness !== undefined && this.props.model.thickness !== null) {
         try {
-          this.props.model.ip.placeholder = this.props.model.ip.value =this.props.ip;
-          this.props.model.temp1.placeholder = this.props.model.temp1.value =this.props.temp1;
-          this.props.model.sd.placeholder = this.props.model.sd.value =this.props.sd;
-          this.props.model.thickness.placeholder = this.props.model.thickness.value = this.props.thickness;
+          console.log("changing values");
+          this.props.model.ip.placeholder = this.props.ip;
+          this.props.model.ip.value =this.props.ip;
+          this.props.model.temp1.placeholder = this.props.temp1;
+          this.props.model.temp1.value =this.props.temp1;
+          this.props.model.sd.placeholder = this.props.sd;
+          this.props.model.sd.value =this.props.sd;
+          this.props.model.thickness.placeholder = this.props.thickness;
+          this.props.model.thickness.value = this.props.thickness;
        
         } catch {
           console.log("P or T or SD or TH update failed");
