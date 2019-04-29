@@ -82,7 +82,7 @@ class DynamicForm extends React.Component {
       }
       // this.checkForOrientationForHead(true);
     }
-    
+   
   }
 
   checkForOrientationForHead = (isComponentClicked) => {
@@ -90,7 +90,6 @@ class DynamicForm extends React.Component {
       this.props.title === "Ellipsoidal Head" &&
       this.props.orientation === "horizontal"
     ) {
-      console.log(this.props.model);
       const updatedModel = this.props.model;
       updatedModel.position.elementConfig.options = [
         {
@@ -125,7 +124,6 @@ class DynamicForm extends React.Component {
     // console.log(updatedForm);
     // console.log(data);
     for (let key in data) {
-      console.log(key, updatedForm[key], data[key]);
       if (key !== "componentID") {
         if (updatedForm[key] !== undefined) {
           updatedForm[key] = {
@@ -180,7 +178,6 @@ class DynamicForm extends React.Component {
         [key]: this.state.form[key].value
       };
     }
-    console.log("OnSubmit", data);
 
     let valid = this.state.valid;
     for (let key in this.state.form) {
@@ -208,6 +205,10 @@ class DynamicForm extends React.Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+  if(prevProps.title!==this.props.title)
+  {
+    this.setState({message:""});
+  }
     // console.log(this.props.componentByID);
     //to check if new type of component is to be added or the same type of component is needed to be added again
     //and update the componentID automatically
@@ -215,7 +216,6 @@ class DynamicForm extends React.Component {
       (prevProps.model !== this.props.model || this.props.new) &&
       !this.props.componentClick
     ) {
-      console.log("forms",this.props.model);
       if(prevProps.model !== this.props.model ) {
       this.checkForOrientationForHead(false);
       }
@@ -294,23 +294,35 @@ class DynamicForm extends React.Component {
       const pattern = /^\d+$/;
       isValid = pattern.test(value) && isValid;
     }
+    if(rules.length)
+    {
+      isValid= 0<value<15;
+    }
 
     return isValid;
   }
 
   //dont change the component ID manually
   inputChangedHandler = (event, controlName) => {
-    // console.log(event, controlName);
-    if (controlName !== "componentID") {
+  if (controlName !== "componentID") {
+      let validity=true;
+      if(controlName==="length" && ((event.target.value<0) || (event.target.value>15)) && (this.props.title==="Cylinder" || this.props.title==="Conical")) {
+          validity=false;
+          this.setState({ message: "Length should be less than 15"});
+        }
+        else {
+          validity= this.checkValidity(
+            event.target.value,
+            this.state.form[controlName].validation
+          )
+          this.setState({ message: ""});
+        }
       const updatedForm = {
         ...this.state.form,
         [controlName]: {
           ...this.state.form[controlName],
           value: event.target.value,
-          valid: this.checkValidity(
-            event.target.value,
-            this.state.form[controlName].validation
-          ),
+          valid:validity,
           touched: true
         }
       };
@@ -345,7 +357,7 @@ class DynamicForm extends React.Component {
             elementConfig={formElement.config.elementConfig}
             value={formElement.config.value}
             invalid={!formElement.config.valid}
-            shouldValidate={formElement.config.validation}
+            shouldValidate={formElement.config.validation.required}
             touched={formElement.config.touched}
             changed={event => this.inputChangedHandler(event, formElement.id)}
           />
@@ -360,13 +372,16 @@ class DynamicForm extends React.Component {
   };
 
   render() {
+  
     // console.log(this.props.model);
 
     return (
       <div>
         <form onSubmit={this.onSubmitHandler}>
           {this.renderForm()}
-          {this.state.message}
+          <div style={{color:"red"}}>
+          {this.state.message }
+          </div>
 
           <Button
             color="primary"
