@@ -78,7 +78,6 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
       };
     }
     url = "/api/cylinder/data";
-    console.log("it should hit", data.component, id);
     if (data.component === "Ellipsoidal Head") {
       data1 = {
         headParam: data,
@@ -129,13 +128,11 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
         componentID: componentID
       };
     }
-    console.log("Before sending to server of component " + data.component);
     axios
       .post(url, data1, {
         headers: headers
       })
       .then(response => {
-        console.log("after sending to server of component ", data.component, response);
         if (
           response.data.thickness !== null ||
           response.data.thicknessResponse != null
@@ -167,9 +164,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
               }
             };
           }
-          console.log("Data to be added",data1);
           dispatch(updateLastItem(data.component, data1));
-          console.log("Updated last item");
           if (data.componentID < componentID) {
             //ask for server to save the values in database without doing calculations
             dispatch(updateComponent(data1));
@@ -183,9 +178,7 @@ export const onSubmitAndUpdate = (data, id, componentID) => {
                 dispatch(updateComponentID(componentID));
               }
             } else {
-              console.log("to add component except cylinder");
               dispatch(dataUpdate(data1, componentID));
-              console.log(" added component except cylinder");
               componentID = componentID + 1;
               dispatch(updateComponentID(componentID));
             }
@@ -246,7 +239,6 @@ export const deleteLastComponent = () => {
 };
 
 export const deleteSpecificComponent = (projectID, componentID) => {
-  console.log("in delete specific component", componentID);
   const url = "api/state/delete";
   const schema = {
     schema: { 
@@ -256,7 +248,6 @@ export const deleteSpecificComponent = (projectID, componentID) => {
   };
   return dispatch => {
   axios.post(url,schema,{headers: headers} ).then(response => {
-      console.log("after delete",response);
     
       dispatch(deleteSpecificComponentReducer(componentID));
     }).catch(err => {
@@ -351,7 +342,6 @@ export const updateComponent = data => {
 //updating the project id, project name, components and component ID in redux state
 export const importSpecificProject = id => {
   // let url = `report/reports/${id}/project/`;
-  console.log(headers);
   const url = "api/state/open";
   let req=actionTypes.REQUEST_REPORT;
   return dispatch => {
@@ -365,9 +355,7 @@ export const importSpecificProject = id => {
           headers: headers
         }
       )
-      .then(response => {
-        console.log(response);
-        
+      .then(response => {  
         dispatch(
           onReportIDReceive(
             response.data.projectID,
@@ -396,7 +384,6 @@ export const axiosDataSend = (data, url) => {
         headers: headers
       })
       .then(response => {
-        console.log("response from backend",response.data);
         // dispatch(onDataSendTo(response.data.thickness, data));
         // console.log("after dispatch");
       })
@@ -422,7 +409,6 @@ export const requestReport = (projectName, orientation,requestType) => {
 };
 
 export const onReportIDReceive = (projectID, projectName, orientation,requestType) => {
-  console.log(projectName);
   return {
     type: requestType,
     projectID: projectID,

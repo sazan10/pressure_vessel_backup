@@ -48,8 +48,6 @@ const updateData = (state, action) => {
     let data = null;
     let comp = action.data;
     //const componentID = action.componentID;
-    console.log(action.data.thickness);
-    console.log("component received",action.data.component);
     if (action.data.component === "Cylinder") {
         // let comp = action.data;
        // const num = action.data.number;
@@ -84,7 +82,6 @@ const updateData = (state, action) => {
         // for (let i = 0; i < num; i++) {
         data.push(comp);
         // }
-        console.log(data);
     }
     
     
@@ -99,7 +96,6 @@ const updateData = (state, action) => {
             ...state.component
         ];
         data.push(action.data);
-        console.log("Nozzle1");
         return updateObject(state, { component: data});
     }
     else if(action.data.component==="Ellipsoidal Head"){
@@ -126,7 +122,6 @@ const updateData = (state, action) => {
         data.push(action.data);
     }
     else if (action.data.component === "Lifting Lug") {
-    console.log("logger data");
         try {
             comp = updateObject(comp, { componentID: action.componentID });
         }
@@ -171,13 +166,11 @@ const componentUpdate = (state, action) => {
 
 const updateLastItem = (state, action) => {
     const component = action.componentType.toLowerCase().replace(" ","");
-    console.log(component);
     return updateObject(state, {[component] : action.data});
 }
 
 //update the new components downloaded from the server after the specific project is selected .
 const updateComponents = (state, action) => {
-    console.log("component downloaded from backend",action);
 
     return updateObject(state, {component : action.components});
 }
@@ -221,14 +214,12 @@ const downloadReport = (state, action) => {
 const deleteLastComponent = (state, action) => {
     const updatedComponents = [...state.component];
     const updatedID = state.componentID - 1;
-    console.log(state.component, updatedComponents);
     updatedComponents.pop();
     return updateObject(state, {component: updatedComponents, componentID: updatedID   });
 }
 
 const deleteSpecificComponent = (state, action) => {
     const updateComponents = [...state.component];
-    console.log("should delete",action.id);
     updateComponents[action.id] = null;
     return updateObject(state, {component: updateComponents});
 }

@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import Auxx from "../../../hoc/Auxx/Auxx";
 import DynamicForm from "../../Forms/Forms";
 class Modal extends Component {
-
   componentWillReceiveProps() {
     // console.log("COmponntDIdUpdate" + this.state.component);
   }
@@ -28,6 +27,16 @@ class Modal extends Component {
       />
       </Auxx>
     );
+    }
+    else if (this.props.projectID)
+    modall=(
+      <p className={classes.info}> CLICK ON COMPONENT TO START ADDING COMPONENTS .</p>
+    )
+    else 
+    {
+      modall=(
+        <p className={classes.info}> WELCOME TO PRESSURE EXPRESS. <br></br><br></br>CLICK ON "NEW" TO START NEW PROJECT.</p>
+      )
     }
     return (
       <div className={classes.Modal}>
