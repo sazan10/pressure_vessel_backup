@@ -22,6 +22,7 @@ import {
 import {
   SpheroidHeadBufferGeometry
 } from '../../Components/Parts/SpheroidHead_v2';
+import { select } from '@redux-saga/core/effects';
 
 class Scene extends Component {
 
@@ -34,13 +35,13 @@ class Scene extends Component {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x696969);
     this.camera = new THREE.PerspectiveCamera(
-      75,
+      90,
       width / height,
-      0.1,
-      1000000
+      0.001,1000000
     );
+    // this.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
+    // this.scene.add(this.camera);
     this.camera.position.z = 5;
-    this.camera.position.y = 0;
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -49,16 +50,10 @@ class Scene extends Component {
     document.getElementById("scener").addEventListener('click', this.onDocumentMouseDown, false);
     window.addEventListener('resize', this.onWindowResize, false);
     this.controls = new TrackballControls(this.camera, this.renderer.domElement);
-    this.controls.rotateSpeed = 1.0;
-    this.controls.zoomSpeed = 1.2;
-    this.controls.panSpeed = 0.8;
-    this.controls.noZoom = false;
-    this.controls.noPan = false;
-    this.controls.staticMoving = true;
-    this.controls.dynamicDampingFactor = 0.3;
-    this.controls.keys = [65, 83, 68];
+    this.controlSetup();
     this.shapes = [];
     let ambient = new THREE.AmbientLight(0xbbbbbb);
+    
     this.scene.add(ambient);
     let directionalLight = new THREE.DirectionalLight(0xffffff);
     directionalLight.position.set(0, 0, 1);
@@ -154,14 +149,34 @@ class Scene extends Component {
         this.props.displayComponentTree(true);
       }
     }
-    this.controls.update();
+   // this.controls.update();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.component !== this.props.component) {
-    }
-  }
+    console.log("view change",this.props.view)
 
+    console.log("called component did update");
+    if (prevProps.view !== this.props.view) {
+      console.log("condition met")
+      this.controls.reset();
+    
+    switch (this.props.view){
+      case "SIDE":
+        this.camera.position.set(10, 0, 0);
+        break;
+      case "FRONT":
+        this.camera.position.set(0, 0, 10);
+        break;
+      case "TOP":
+        this.camera.position.set(0.0001, 10, 0);
+        break;
+      
+    }
+    this.camera.updateProjectionMatrix();
+    this.controlSetup();
+    this.controls.update();
+  }
+  }
   onWindowResize = () => {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
@@ -526,7 +541,16 @@ class Scene extends Component {
     }
   }
 
-
+  controlSetup=()=>
+  {
+    this.controls.rotateSpeed = 2.0;
+    this.controls.zoomSpeed = 1.2;
+    this.controls.panSpeed = 1;
+    this.controls.noZoom = false;
+    this.controls.noPan = false;
+    this.controls.staticMoving = true;
+    this.controls.dynamicDampingFactor = 0.3;
+  }
 
   keepHeightRecord = (component, position, cg) => {
     const b_key = component.componentID.toString();
@@ -558,8 +582,8 @@ class Scene extends Component {
 const mapStateToProps = state => {
   return {
     component: state.componentData.component,
-    title: state.navigation.title
-
+    title: state.navigation.title,
+    view:state.componentData.view
   };
 };
 

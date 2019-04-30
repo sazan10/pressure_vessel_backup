@@ -377,6 +377,12 @@ export const updateComponents = components => {
   };
 };
 
+export const changeView = view => {
+  return {
+    type: actionTypes.CHANGE_VIEW,
+    view: view
+  };
+};
 export const axiosDataSend = (data, url) => {
   return dispatch => {
     axios

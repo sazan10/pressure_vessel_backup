@@ -465,7 +465,6 @@ class Scene_horizontal extends Component {
               console.log("weights",this.weights);
               if (!isEmpty(this.weights)) {
                 let newState = Object.assign([], this.weights);
-                
                 // for (let i = 0; i < newState.length; i++) {
                 //   if(newState[i])
                 //   {
@@ -474,7 +473,6 @@ class Scene_horizontal extends Component {
                 //   }
                 // }
                 let key =0;
- 
                 let thickness = this.props.component[i].value.lug_thickness.req_value/this.scaler;
                 height = this.props.component[i].height_lug/this.scaler;
                 let rad = this.props.component[i].length/this.scaler;
@@ -483,7 +481,7 @@ class Scene_horizontal extends Component {
                 distance2 = this.props.component[i].lug2_cg_distance/this.scaler;
                 angle = this.props.component[i].layout_angle;
                 t.color='#500dba';
-                let material = new THREE.MeshPhongMaterial(t)
+                let material = new THREE.MeshPhongMaterial(t);
                 lug1 = LiftingLug(height, thickness, rad, hole_diameter,material);
                 this.shapes.push(lug1);
                

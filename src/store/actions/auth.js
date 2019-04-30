@@ -102,6 +102,12 @@ export const setAuthRedirectPath = path => {
   };
 };
 
+export const changeView = view => {
+  return {
+    type: actionTypes.CHANGE_VIEW
+  };
+};
+
 export const axiosAuth = (authData, url, headers) => {
   return dispatch => {
     // console.log("Reached yeah");

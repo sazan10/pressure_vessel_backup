@@ -97,5 +97,25 @@
       "selected": false,
       "key": "Support"
     }
+  ],
+  "Views": [
+    {
+      "id": 0,
+      "title": "Top View",
+      "selected": false,
+      "key": "Views"
+    },
+    {
+      "id": 1,
+      "title": "Side View",
+      "selected": false,
+      "key": "Views"
+    },
+    {
+      "id": 2,
+      "title": "Front View",
+      "selected": false,
+      "key": "Views"
+    }
   ]
 }

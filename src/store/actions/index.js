@@ -45,7 +45,8 @@ export {
     deleteSpecificComponent,
     updateSelectedComponentID,
     showSpinner,
-    updatePTD
+    updatePTD,
+    changeView
 } from './componentData';
 
 // export {

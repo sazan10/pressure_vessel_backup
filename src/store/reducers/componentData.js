@@ -24,7 +24,8 @@ const initialState = {
     showSpinner: false,//
     pressure: 300,
     temperature: 300,
-    shellDiameter: 72
+    shellDiameter: 72,
+    view:"front"
 
 };
 
@@ -175,6 +176,11 @@ const updateComponents = (state, action) => {
     return updateObject(state, {component : action.components});
 }
 
+const changeView = (state, action) => {
+
+    return updateObject(state, {view : action.view});
+}
+
 ///////
 const reportFail = (state, action) => {
     console.log(action.error.data.errors.msg);
@@ -262,6 +268,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SELECTED_COMPONENT_ID: return updateSelectedComponentID(state, action);
         case actionTypes.SHOW_SPINNER: return showSpinner(state, action);
         case actionTypes.UPDATE_P_T_D: return updatePTD(state, action);
+        case actionTypes.CHANGE_VIEW: return changeView(state,action);
         default:
             return state;
     }

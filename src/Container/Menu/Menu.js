@@ -58,6 +58,15 @@ class Menu extends Component {
                 console.log("Delete Clicked");
                 this.props.deleteSpecificComponent(this.props.projectID, this.props.selectedComponentID);
                 break;
+            case "Top View":
+                this.props.changeView("TOP");
+                break;
+            case "Side View":
+                this.props.changeView("SIDE");
+                break;
+            case "Front View":
+                this.props.changeView("FRONT");
+                break;
             default:
                 break;
         }
@@ -120,7 +129,8 @@ const mapDispatchToProps = dispatch => {
         componentClicked: (value) => dispatch(actions.componentClicked(value)),
         deleteLastComponent: () => dispatch(actions.deleteLastComponent()),
         deleteSpecificComponent: (projectID, componentID) => dispatch(actions.deleteSpecificComponent(projectID, componentID)),
-        showSpinner: (value) => dispatch(actions.showSpinner(value))
+        showSpinner: (value) => dispatch(actions.showSpinner(value)),
+        changeView: (value) => dispatch(actions.changeView(value))
     };
 };
 
