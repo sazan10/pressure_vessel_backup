@@ -52,15 +52,15 @@ class VesselBuilder extends Component {
     if (prevProps.error !== this.props.error) {
       this.setState({ open: true });
     }
-    if(this.props.showSpinnerr && (prevProps.showSpinnerr !== this.props.showSpinnerr)){
-      html2canvas(document.querySelector("#scene")).then(canvas => {
-        console.log(canvas);
-        // document.body.appendChild(canvas);
-        window.open(canvas.toDataURL("image/png"));
-        this.props.showSpinner(false);
-      });
+    // if(this.props.showSpinnerr && (prevProps.showSpinnerr !== this.props.showSpinnerr)){
+    //   html2canvas(document.querySelector("#scene")).then(canvas => {
+    //     console.log(canvas);
+    //     // document.body.appendChild(canvas);
+    //     window.open(canvas.toDataURL("image/png"));
+    //     this.props.showSpinner(false);
+    //   });
       
-    }
+    // }
   }
 
   handleClose = () => {

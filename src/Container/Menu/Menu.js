@@ -5,7 +5,7 @@ import IconNavbar from '../../Components/UI/IconNavbar/IconNavbar';
 import { connect } from 'react-redux';
 import * as data from "../../JSONFiles/Navigation/File.json";
 import * as actions from '../../store/actions/index';
-
+import Logout from '../Auth/Logout/Logout';
 class Menu extends Component {
 
     state = {
@@ -90,6 +90,7 @@ class Menu extends Component {
         return <div>
             <div>
                 {menu}
+                <Logout/>
             </div>
             <div>
                 {icons}
