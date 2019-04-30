@@ -51,14 +51,7 @@ class Scene_horizontal extends Component {
     this.group = new THREE.Group();
     //ADD CUBE
     this.controls = new TrackballControls(this.camera, this.renderer.domElement);
-    this.controls.rotateSpeed = 1.0;
-    this.controls.zoomSpeed = 1.2;
-    this.controls.panSpeed = 0.8;
-    this.controls.noZoom = false;
-    this.controls.noPan = false;
-    this.controls.staticMoving = true;
-    this.controls.dynamicDampingFactor = 0.3;
-    this.controls.keys = [65, 83, 68];
+    this.controlSetup();
     this.shapes = [];
     let ambient = new THREE.AmbientLight(0xbbbbbb);
     this.scene.add(ambient);
@@ -169,9 +162,30 @@ class Scene_horizontal extends Component {
   componentWillReceiveProps(nextProps) {
 
   }
-  componentDidUpdate( prevProps, prevState) {
-    if(prevProps.component !== this.props.component) {
+  componentDidUpdate(prevProps, prevState) {
+    console.log("view change",this.props.view)
+
+    console.log("called component did update");
+    if (prevProps.view !== this.props.view) {
+      console.log("condition met")
+      this.controls.reset();
+    
+    switch (this.props.view){
+      case "SIDE":
+        this.camera.position.set(10, 0, 0);
+        break;
+      case "FRONT":
+        this.camera.position.set(0, 0, 10);
+        break;
+      case "TOP":
+        this.camera.position.set(0.0001, 10, 0);
+        break;
+      
     }
+    this.camera.updateProjectionMatrix();
+    this.controlSetup();
+    this.controls.update();
+  }
   }
 
   clearScene = () => {
@@ -604,13 +618,24 @@ class Scene_horizontal extends Component {
       };
     }
   }
+  controlSetup=()=>
+  {
+    this.controls.rotateSpeed = 2.0;
+    this.controls.zoomSpeed = 1.2;
+    this.controls.panSpeed = 1;
+    this.controls.noZoom = false;
+    this.controls.noPan = false;
+    this.controls.staticMoving = true;
+    this.controls.dynamicDampingFactor = 0.3;
+  }
 }
 
 
 const mapStateToProps = state => {
   return {
     component: state.componentData.component,
-    title: state.navigation.title
+    title: state.navigation.title,
+    view:state.componentData.view
   };
 };
 
@@ -645,7 +670,9 @@ const mapDispatchToProps = dispatch => {
     },
     onupdateSelectedComponentID: (id) => {
       dispatch(id)
-    }
+    },
+    displayComponentTree: value =>
+    dispatch(actions.displayComponentTree(value))
   };
 };
 
