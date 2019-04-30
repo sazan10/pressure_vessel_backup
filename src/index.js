@@ -7,9 +7,14 @@ import { BrowserRouter } from "react-router-dom";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import * as serviceWorker from "./serviceWorker";
 import thunk from "redux-thunk";
+import createSagaMiddleware from 'redux-saga';
+
+
 import navigationReducer from "./store/reducers/navigation";
 import authReducer from './store/reducers/auth';
 import componentDataReducer from './store/reducers/componentData';
+import {watchAuth} from './store/sagas/index';
+
 // import reportReducer from './store/reducers/report';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -21,10 +26,14 @@ const rootReducer = combineReducers({
   // report: reportReducer
 });
 
+const sagaMiddleware = createSagaMiddleware();
+
 const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunk, sagaMiddleware))
 );
+
+sagaMiddleware.run(watchAuth);
 
 const app = (
   <Provider store={store}>
