@@ -85,9 +85,8 @@ class TreeDemo extends React.Component {
     this.setState({ cursor: node });
     if (node.component !== "Components" && node.component!=="noComponent") {
       const name = node.component.split(" ");
-      if (name.length >= 3) {
+      if (name.length >= 2) {
         name[0] = name[0] + " " + name[1];
-        name[1] = name[2];
       }
       console.log("Tree view component selected", name[0], node.id);
       this.props.updateSelectedComponentID(parseInt(node.id));
