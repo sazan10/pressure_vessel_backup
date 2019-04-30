@@ -145,10 +145,13 @@ class Scene extends Component {
         this.props.componentClicked(true);
         }
         else{
-          res=[-1,"noComponent"]
+          res=[-1,"noComponent"];
+       
         }
-        //   intersects[0].object.material.opacity = 0.5;
-        
+        //intersects[0].object.material.opacity = 0.5;
+      }
+      else{
+        this.props.displayComponentTree(true);
       }
     }
     this.controls.update();
@@ -582,7 +585,9 @@ const mapDispatchToProps = dispatch => {
     },
     onupdateSelectedComponentID: (id) => {
       dispatch(id)
-    }
+    },
+    displayComponentTree: value =>
+    dispatch(actions.displayComponentTree(value))
   };
 };
 

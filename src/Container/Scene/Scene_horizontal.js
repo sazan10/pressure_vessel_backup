@@ -141,17 +141,21 @@ class Scene_horizontal extends Component {
         res=name.split("&");
         this.name = res[1];
         this.compoID=res[0];
+        this.props.updateSelectedComponentID(parseInt(res[0]));
+        this.props.treeUpdate(false);
+        this.props.modelImport(res[1],1);
+        this.props.returnComponentID(parseInt(res[0]));
+        this.props.componentClicked(true);
         }
         else{
           res=[-1,"noComponent"]
         }
         //console.log("pressed object number",res[0],res[1]);
-       this.props.updateSelectedComponentID(parseInt(res[0]));
-       this.props.treeUpdate(false);
-       this.props.modelImport(res[1],1);
-       this.props.returnComponentID(parseInt(res[0]));
-       this.props.componentClicked(true);
 
+
+      }
+      else {
+        this.props.displayComponentTree(true);
       }
     }
     this.controls.update();
