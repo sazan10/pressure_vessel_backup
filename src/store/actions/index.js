@@ -33,7 +33,6 @@ export {
     updateComponent,
     updateComponents,
     importSpecificProject,
-    componentClicked,
     returnComponentByID,
     onSubmitAndUpdate,
     sendComponentID,
@@ -41,7 +40,6 @@ export {
     requestReport,
     requestProjectID,
     requestNewProjectID,
-    openFormDialog,
     downloadReport,
     axiosReport,
     requestFail,
@@ -49,10 +47,14 @@ export {
     deleteLastComponent,
     deleteSpecificComponent,
     updateSelectedComponentID,
-    showSpinner,
     updatePTD
 } from './componentData';
 
+export {
+    showSpinner,
+    openFormDialog,
+    componentClicked
+} from './flags';
 // export {
 //     requestReport,
 //     axiosReport,

@@ -7,7 +7,6 @@ const initialState = {
     cylinder: null,
     ellipsoidalhead: null,
     componentByID: null,
-    componentClicked: false,//
     nozzle: null,
     skirt: null,
     saddle: null,
@@ -19,9 +18,7 @@ const initialState = {
     projectID: null,//
     projectName: null,//
     thickness: 0.75,
-    formDialogOpen: false,//
     orientation: "horizontal",//
-    showSpinner: false,//
     pressure: 300,
     temperature: 300,
     shellDiameter: 72
@@ -181,14 +178,6 @@ const returnComponentByID = (state, action) => {
     return updateObject(state, {componentByID: componentByID})
 }
 
-const componentClicked = (state, action) => {
-    return updateObject(state, {componentClicked: action.value});
-}
-
-/////////
-const openFormDialog = (state, action) => {
-    return updateObject(state, {formDialogOpen: action.value    })
-}
 const downloadReport = (state, action) => {
 
 }
@@ -210,11 +199,6 @@ const updateSelectedComponentID = (state, action) => {
     return updateObject(state, {selectedComponentID: action.id});
 }
 
-///////////////////////////
-const showSpinner = (state, action) => {
-    return updateObject(state, {showSpinner: action.value});
-}
-
 const updatePTD = (state, action) => {
     return updateObject(state, {pressure: action.pressure,
         temperature: action.temperature,
@@ -234,15 +218,12 @@ const reducer = (state = initialState, action) => {
         case actionTypes.DOWNLOAD_REPORT: return downloadReport(state, action);
         case actionTypes.DATA_UPDATE1: return updateData1(state,action);
         case actionTypes.DELETE_THICKNESS: return deleteThickness(state, action);
-        case actionTypes.OPEN_FORM_DIALOG: return openFormDialog(state, action);
         case actionTypes.UPDATE_LAST_ITEM: return updateLastItem(state, action);
         case actionTypes.UPDATE_COMPONENTS: return updateComponents(state, action);
         case actionTypes.RETURN_COMPONENT_BY_ID: return returnComponentByID(state, action);
-        case actionTypes.COMPONENT_CLICKED: return componentClicked(state, action);
         case actionTypes.DELETE_LAST_COMPONENT: return deleteLastComponent(state, action);
         case actionTypes.DELETE_SPECIFIC_COMPONENT: return deleteSpecificComponent(state, action);
         case actionTypes.SELECTED_COMPONENT_ID: return updateSelectedComponentID(state, action);
-        case actionTypes.SHOW_SPINNER: return showSpinner(state, action);
         case actionTypes.UPDATE_P_T_D: return updatePTD(state, action);
         default:
             return state;

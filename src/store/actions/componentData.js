@@ -39,13 +39,6 @@ export const dataUpdate = (data, componentID) => {
   };
 };
 
-export const componentClicked = value => {
-  return {
-    type: actionTypes.COMPONENT_CLICKED,
-    value: value
-  };
-};
-
 export const onSubmitAndUpdate = (data, id, componentID) => {
   return dispatch => {
     let url = null;
@@ -218,13 +211,6 @@ export const updatePTD = (pressure, temp, shellDia) => {
   }
 };
 
-export const showSpinner = value => {
-  return {
-    type: actionTypes.SHOW_SPINNER,
-    value: value
-  };
-};
-
 const roundThickness = thickness => {
   let t = Math.floor(thickness * 10000);
   const round = Math.ceil(t / 125);
@@ -288,12 +274,6 @@ export const returnComponentByID = componentID => {
   };
 };
 
-export const openFormDialog = value => {
-  return {
-    type: actionTypes.OPEN_FORM_DIALOG,
-    value: value
-  };
-};
 
 export const deleteThickness = () => {
   return {

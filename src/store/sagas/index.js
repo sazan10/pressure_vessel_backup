@@ -8,8 +8,7 @@ export function* watchAuth() {
     yield takeEvery(actionTypes.AUTH_CHECK_TIMEOUT, checkAuthTimeoutSaga);
     yield takeEvery(actionTypes.AUTH_USER, authUserSaga);
     yield takeEvery(actionTypes.AUTH_CHECK_STATE, authCheckStateSaga);
-    yield takeEvery(actionTypes.IMPORT_AUTH_MODEL, importAuthModelSaga);
-    
+    yield takeEvery(actionTypes.IMPORT_AUTH_MODEL, importAuthModelSaga); 
 }
 
 export function* watchNavigation() {

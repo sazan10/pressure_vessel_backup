@@ -4,9 +4,7 @@ import axios from "../../axios-orders";
 
 export function* importModelSaga(action) {
   yield put(actions.updateTitle(action.title));
-  const response = yield import(
-    `../../JSONFiles/Components/${action.title.replace(" ", "")}Param1.json`
-  );
+  const response = yield import(`../../JSONFiles/Components/${action.title.replace(" ", "")}Param1.json`);
   yield put(actions.returnModel(response.default));
 }
 

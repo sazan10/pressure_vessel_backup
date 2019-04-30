@@ -13,6 +13,7 @@ import createSagaMiddleware from 'redux-saga';
 import navigationReducer from "./store/reducers/navigation";
 import authReducer from './store/reducers/auth';
 import componentDataReducer from './store/reducers/componentData';
+import flagsReducer from './store/reducers/flags';
 import {watchAuth, watchNavigation} from './store/sagas/index';
 
 // import reportReducer from './store/reducers/report';
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   navigation: navigationReducer,
   auth: authReducer,
   componentData: componentDataReducer,
+  flags: flagsReducer
   // report: reportReducer
 });
 

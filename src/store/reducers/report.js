@@ -6,17 +6,22 @@ const initialState = {
     id: null
 };
 
+///////
 const reportFail = (state, action) => {
-    return updateObject(state, { error: action.error})
+    console.log(action.error.data.errors.msg);
+    const error = action.error.data.errors.msg.toString();
+    console.log(error);
+    return updateObject(state, { error: action.error })
 }
 
+///////
 const requestReport = (state, action) => {
-    return updateObject(state, { id: action.id })
-    
-}
+    return updateObject(state, { projectID: action.projectID, projectName: action.projectName, orientation: action.orientation })
 
-const downloadReport = (state, action) => {
-    
+}
+const requestNewReport = (state, action) => {
+    return updateObject(state, { componentID:0,component:[],projectID: action.projectID, projectName: action.projectName, orientation: action.orientation })
+
 }
 
 const reducer = ( state = initialState, action ) => {
