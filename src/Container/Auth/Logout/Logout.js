@@ -5,17 +5,28 @@ import Button from '@material-ui/core/Button/Button';
 import * as actions from '../../../store/actions/index';
 
 class Logout extends Component {
+
+    state = {
+        logout: false
+    }
     componentDidMount () {
-        this.props.onLogout();
+     
     }
 
     onLogout =() => {
-        return <Redirect to="/"/>;
+        console.log("Logout clicked");
+        this.setState({logout: true});
+        this.props.onLogout();
     }
 
     render () {
+        let logout = null;
+        if(this.state.logout) {
+            logout = <Redirect to="/" />;
+        }
         return(
-        <Button onClick={this.onLogout} />
+            <div  style={{'right':'0px','display':'inline-flex','position': 'absolute'}} ><Button onClick={this.onLogout}>Logout</Button>{logout}</div>
+            
         );
     }
 }

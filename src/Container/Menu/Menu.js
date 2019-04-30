@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import * as data from "../../JSONFiles/Navigation/File.json";
 import * as actions from '../../store/actions/index';
 import Logout from '../Auth/Logout/Logout';
+import Username from '../../Components/UI/Username/Username';
 class Menu extends Component {
 
     state = {
@@ -88,12 +89,14 @@ class Menu extends Component {
         ));
 
         return <div>
-            <div>
+            <div >
                 {menu}
-                <Logout/>
+                <Username username={this.props.username?this.props.username:localStorage.getItem('userId')}/>
+                
             </div>
             <div>
                 {icons}
+                <Logout/>
             </div>
         </div>;
     }
@@ -104,7 +107,8 @@ const mapStateToProps = state => {
         componentID: state.componentData.componentID,
         projectID: state.componentData.projectID,
         orientation: state.componentData.orientation,
-        selectedComponentID: state.componentData.selectedComponentID
+        selectedComponentID: state.componentData.selectedComponentID,
+        username: state.auth.userId
     };
 };
 
