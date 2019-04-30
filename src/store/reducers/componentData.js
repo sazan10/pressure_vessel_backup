@@ -29,13 +29,10 @@ const initialState = {
 };
 
 const onDataSend = (state, action) => {
-    // state.component.push(action.component);
     return updateObject(state, { thickness: action.resp });
 };
 
 const updateData1 = (state, action) => {
-    // state.component.push(action.component);
-   
     return updateObject(state, {height: action.height });
 };
 
@@ -47,11 +44,7 @@ const onDataSendFail = (state, action) => {
 const updateData = (state, action) => {
     let data = null;
     let comp = action.data;
-    //const componentID = action.componentID;
     if (action.data.component === "Cylinder") {
-        // let comp = action.data;
-       // const num = action.data.number;
-        // const num = 1;
         try {
             comp = updateObject(comp, { thickness: action.data.thickness.toString(), number: 1, componentID: action.componentID });
         }
@@ -61,14 +54,9 @@ const updateData = (state, action) => {
         data = [
             ...state.component
         ];
-        // 
-        // for (let i = 0; i < num; i++) {
         data.push(comp);
-        // }
+
     } else if  (action.data.component === "Conical") {
-        // let comp = action.data;
-       // const num = action.data.number;
-        // const num = 1;
         try {
             comp = updateObject(comp, { thickness: action.data.thickness.toString(), componentID: action.componentID });
         }
@@ -78,13 +66,8 @@ const updateData = (state, action) => {
         data = [
             ...state.component
         ];
-        // 
-        // for (let i = 0; i < num; i++) {
         data.push(comp);
-        // }
     }
-    
-    
     else if (action.data.component === "Nozzle") {
         try {
             comp = updateObject(comp, { componentID: action.componentID });
@@ -156,7 +139,6 @@ const idUpdate = (state, action) => {
 }
 
 const componentUpdate = (state, action) => {
-    // console.log(action.data.componentID);
     const data = [
         ...state.component
     ];

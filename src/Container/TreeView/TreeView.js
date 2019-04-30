@@ -121,7 +121,7 @@ const mapDispatchToProps = dispatch => {
     //import the specific model like cylinder or nozzle etc for the component chosen based on
     //titleName
     modelImport: (titleName, value) => {
-      dispatch(actions.importModel(titleName, value));
+      dispatch(actions.importComponentModel(titleName, value));
     },
     //to update the selected component in redux to display it in the side bar
     //based on the id chosen by the user by clicking a specific component in tree

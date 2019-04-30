@@ -13,7 +13,7 @@ import createSagaMiddleware from 'redux-saga';
 import navigationReducer from "./store/reducers/navigation";
 import authReducer from './store/reducers/auth';
 import componentDataReducer from './store/reducers/componentData';
-import {watchAuth} from './store/sagas/index';
+import {watchAuth, watchNavigation} from './store/sagas/index';
 
 // import reportReducer from './store/reducers/report';
 
@@ -34,6 +34,7 @@ const store = createStore(
 );
 
 sagaMiddleware.run(watchAuth);
+sagaMiddleware.run(watchNavigation);
 
 const app = (
   <Provider store={store}>

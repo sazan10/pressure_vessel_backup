@@ -117,7 +117,7 @@ const mapDispatchToProps = dispatch => {
         onMenuClick: (title) => dispatch(actions.clickMenu(title)),
         requestReport: () => dispatch(actions.requestReport()),
         downloadReport: (projectID) => dispatch(actions.downloadReport(projectID)),
-        importModel: (title, num) => dispatch(actions.importModel(title, num)),
+        importModel: (title, num) => dispatch(actions.importComponentModel(title, num)),
         sendComponentID: (componentType, componentID, projectID) => dispatch(actions.sendComponentID(componentType, componentID, projectID)),
         openFormDialog: (value) => dispatch(actions.openFormDialog(value)),
         displayComponentTree: (value) => dispatch(actions.displayComponentTree(value)),

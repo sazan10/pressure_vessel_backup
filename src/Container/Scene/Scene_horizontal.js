@@ -633,7 +633,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.displayComponentTree(value))
     },
     modelImport: (titleName, value) => {
-      dispatch(actions.importModel(titleName, value))
+      dispatch(actions.importComponentModel(titleName, value))
     },
     returnComponentID: (id) => {
       dispatch(actions.returnComponentByID(id))
