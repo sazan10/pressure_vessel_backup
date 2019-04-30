@@ -227,12 +227,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "27.0581 inch"
+            "placeholder": "20 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "27.0581",
+        "value": "20",
         "label": "Lug1 CG Distance(inch)",
         "step": "any",
         "valid": true
@@ -241,12 +241,12 @@
         "elementType": "input",
         "elementConfig": {
             "type": "input",
-            "placeholder": "13.2925 inch"
+            "placeholder": "20 inch"
         },
         "validation": {
             "required": true
         },
-        "value": "13.2925",
+        "value": "20",
         "label": "Lug2 CG Distance(inch)",
         "step": "any",
         "valid": true

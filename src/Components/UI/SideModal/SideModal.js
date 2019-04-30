@@ -31,7 +31,7 @@ class Modal extends Component {
     }
     else if (this.props.projectID)
     modall=(
-      <p className={classes.info}> CLICK ON COMPONENT TO START ADDING COMPONENTS</p>
+      <p className={classes.info}> CLICK ON "COMPONENT" TO START ADDING COMPONENTS</p>
     )
     else 
     {
