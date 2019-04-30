@@ -72,7 +72,6 @@ class Scene extends Component {
     this.lengths = [];
     this.heights = {};
     this.weights = {};
-    this.heights_permanent = {};
     this.cylinder_lengths = [];
     this.first_shell = true;
     this.heights_only = [];
@@ -153,13 +152,8 @@ class Scene extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("view change",this.props.view)
-
-    console.log("called component did update");
     if (prevProps.view !== this.props.view) {
-      console.log("condition met")
-      this.controls.reset();
-    
+      this.controls.reset();  
     switch (this.props.view){
       case "SIDE":
         this.camera.position.set(10, 0, 0);
@@ -320,7 +314,7 @@ class Scene extends Component {
                 head.translateY(-srl).rotateZ(3.14);
                 grouper.add(head);
                 this.scene.add(grouper);
-                head.name = this.props.component[i].componentID + "&" + "Ellipsoidal Head";
+                grouper.name = this.props.component[i].componentID + "&" + "Ellipsoidal Head";
                 this.shapes.push(grouper);
                 let cg_head = -(4 * minor) / (3 * math.pi)
                 this.keepHeightRecord(this.props.component[i], -500, cg_head);
@@ -347,7 +341,7 @@ class Scene extends Component {
                 this.keepHeightRecord(this.props.component[i], -500, cg_head);
                 grouper2.translateY(height_for_top+srl/2);
                 this.scene.add(grouper2);
-                head.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
+                grouper2.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
                 this.shapes.push(grouper2);
               }
             } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "LWN") {
@@ -510,7 +504,6 @@ class Scene extends Component {
 
               }
               if (last_cylinder !== null && this.props.component[last_cylinder] !== null) {
-                //let height_pos = this.heights_permanent[last_cylinder] + (this.props.component[last_cylinder].length * (12 / this.scaler)) / 2 - height / 2.2;
                 let shell_rad = cyl_diameter + this.props.component[last_cylinder].value.thickness / this.scaler; //finding the diameter of last shell
                 let x_displace = (shell_rad) * math.sin(math.pi * (angle / 180));
                 let z_displace = (shell_rad) * math.cos(math.pi * (angle / 180));
@@ -562,12 +555,6 @@ class Scene extends Component {
         this.heights = {
           ...this.heights,
           [b_key]: position,
-        }
-        if (!(b_key in this.heights_permanent)) {
-          this.heights_permanent = {
-            ...this.heights_permanent,
-            [b_key]: position,
-          }
         }
         this.weights[component.componentID] = [component.component, cg, component.value.weight];
       }

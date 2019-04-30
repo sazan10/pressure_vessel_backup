@@ -83,8 +83,7 @@ class Scene_horizontal extends Component {
     this.controls.update();
     this.start();
   }
-  onDocumentMouseDown = (event) => {
-  
+  onDocumentMouseDown = (event) => {  
     var raycaster = new THREE.Raycaster(); // create once
     var mouse = new THREE.Vector2(); // create once
     let rect = document.getElementById("scener").getBoundingClientRect();
@@ -129,6 +128,7 @@ class Scene_horizontal extends Component {
         else{            
           name=intersects[0].object.name;
         }
+        console.log("intersect",name)
        let res=null;
         if(name){
         res=name.split("&");
@@ -143,9 +143,6 @@ class Scene_horizontal extends Component {
         else{
           res=[-1,"noComponent"]
         }
-        //console.log("pressed object number",res[0],res[1]);
-
-
       }
       else {
         this.props.displayComponentTree(true);
@@ -163,13 +160,8 @@ class Scene_horizontal extends Component {
 
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log("view change",this.props.view)
-
-    console.log("called component did update");
     if (prevProps.view !== this.props.view) {
-      console.log("condition met")
       this.controls.reset();
-    
     switch (this.props.view){
       case "SIDE":
         this.camera.position.set(10, 0, 0);
@@ -333,7 +325,7 @@ class Scene_horizontal extends Component {
               grouper.rotateZ(-math.pi / 2);
               this.scene.add(grouper);
               this.shapes.push(grouper);
-              head.name=this.props.component[i].componentID +  "&"+"Ellipsoidal Head";             
+              grouper.name=this.props.component[i].componentID +  "&"+"Ellipsoidal Head";             
                this.head_no = 1;
               let cg_head= -(4*minor)/(3*math.pi)
               this.keepHeightRecord(this.props.component[i],-500,cg_head);
@@ -361,7 +353,7 @@ class Scene_horizontal extends Component {
               this.keepHeightRecord(this.props.component[i],-500,cg_head);
               grouper2.translateX(height_for_top+srl/2).rotateZ(-math.pi / 2);
               this.scene.add(grouper2);
-              head.name=this.props.component[i].componentID + "&"+ this.props.component[i].component;
+              grouper2.name=this.props.component[i].componentID + "&"+ this.props.component[i].component;
               this.shapes.push(grouper2);
             }
           } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "LWN") 
@@ -476,7 +468,6 @@ class Scene_horizontal extends Component {
               this.keepHeightRecord(this.props.component[i],-500,0);
               let weightXCG = 0;
               let weightsum = 0;
-              console.log("weights",this.weights);
               if (!isEmpty(this.weights)) {
                 let newState = Object.assign([], this.weights);
                 // for (let i = 0; i < newState.length; i++) {
@@ -534,12 +525,9 @@ class Scene_horizontal extends Component {
                   if(this.weights[key])
                   {
                   weightsum += this.weights[key][2];
-                  console.log("lifting lug",this.weights[key][2])
                   weightXCG += this.weights[key][1] * this.weights[key][2];
                   }
                 }
-                console.log("lifting lug",this.heights,lug1)
-
                 for (let key in this.heights) {
                   key_value = key;
                 }
@@ -562,7 +550,6 @@ class Scene_horizontal extends Component {
                 let closest_value2 = this.heights[closest_index2];
                 let index_key1 = returnKey(this.heights, closest_value1);
                 let index_key2 = returnKey(this.heights, closest_value2);
-                console.log("lifting lug",closest_index1,closest_value1,index_key1,index_key2,weightsum,weightXCG)
                 let shell_rad1 = this.props.component[index_key1].sd /(2*this.scaler) + this.props.component[index_key1].value.thickness/this.scaler; //finding the diameter of last shell
                 let shell_rad2 = this.props.component[index_key2].sd /(2*this.scaler) + this.props.component[index_key2].value.thickness/this.scaler; //finding the diameter of last shell
                 let x_displace1 = (shell_rad1) * math.cos(math.pi * (angle / 180));
