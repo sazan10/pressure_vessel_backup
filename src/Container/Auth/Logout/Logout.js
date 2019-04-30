@@ -1,16 +1,33 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import Button from '@material-ui/core/Button/Button';
 import * as actions from '../../../store/actions/index';
 
 class Logout extends Component {
+
+    state = {
+        logout: false
+    }
     componentDidMount () {
+     
+    }
+
+    onLogout =() => {
+        console.log("Logout clicked");
+        this.setState({logout: true});
         this.props.onLogout();
     }
 
     render () {
-        return <Redirect to="/"/>;
+        let logout = null;
+        if(this.state.logout) {
+            logout = <Redirect to="/" />;
+        }
+        return(
+            <div  style={{'right':'0px','display':'inline-flex','position': 'absolute'}} ><Button onClick={this.onLogout}>Logout</Button>{logout}</div>
+            
+        );
     }
 }
 
