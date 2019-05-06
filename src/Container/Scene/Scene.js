@@ -140,7 +140,6 @@ class Scene extends Component {
         }
         else{
           res=[-1,"noComponent"];
-       
         }
         //intersects[0].object.material.opacity = 0.5;
       }
@@ -148,7 +147,7 @@ class Scene extends Component {
         this.props.displayComponentTree(true);
       }
     }
-   // this.controls.update();
+   //this.controls.update();
   }
 
   componentDidUpdate(prevProps, prevState) {
