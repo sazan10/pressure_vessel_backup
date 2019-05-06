@@ -14,7 +14,9 @@ import navigationReducer from "./store/reducers/navigation";
 import authReducer from './store/reducers/auth';
 import componentDataReducer from './store/reducers/componentData';
 import flagsReducer from './store/reducers/flags';
-import {watchAuth, watchNavigation} from './store/sagas/index';
+import projectDataReducer from './store/reducers/projectData';
+import componentsReducer from './store/reducers/components';
+import {watchAuth, watchNavigation, watchProjectData, watchComponentData, watchComponents} from './store/sagas/index';
 
 // import reportReducer from './store/reducers/report';
 
@@ -24,8 +26,9 @@ const rootReducer = combineReducers({
   navigation: navigationReducer,
   auth: authReducer,
   componentData: componentDataReducer,
-  flags: flagsReducer
-  // report: reportReducer
+  flags: flagsReducer,
+  projectData: projectDataReducer,
+  components: componentsReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -37,6 +40,9 @@ const store = createStore(
 
 sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchNavigation);
+sagaMiddleware.run(watchProjectData);
+sagaMiddleware.run(watchComponentData);
+sagaMiddleware.run(watchComponents);
 
 const app = (
   <Provider store={store}>

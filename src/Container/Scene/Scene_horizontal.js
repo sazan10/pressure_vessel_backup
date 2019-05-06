@@ -607,7 +607,7 @@ class Scene_horizontal extends Component {
 
 const mapStateToProps = state => {
   return {
-    component: state.componentData.component,
+    component: state.components.component,
     title: state.navigation.title
   };
 };
@@ -627,7 +627,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.updateSelectedComponentID(id));
     },
     onDataUpdate: (data, componentID, height) => {
-      dispatch(actions.dataUpdate1(data, componentID, height))
+      dispatch(actions.updateHeight(data, componentID, height))
     },
     treeUpdate: (value) => {
       dispatch(actions.displayComponentTree(value))

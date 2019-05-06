@@ -52,8 +52,8 @@ const mapStateToProps = state => {
       title: state.navigation.title,
       model: state.navigation.componentModel,
       num: state.navigation.num,
-      projectID: state.componentData.projectID,
-      projectName: state.componentData.projectName,
+      projectID: state.projectData.projectID,
+      projectName: state.projectData.projectName,
   };
 };
 

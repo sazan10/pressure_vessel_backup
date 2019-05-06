@@ -15,7 +15,8 @@ class FormDialog extends React.Component {
     open: false,
 
     projectName: null,
-    orientation: ""
+    orientation: "vertical",
+    disable: true
   };
 
   componentDidMount() {
@@ -53,6 +54,12 @@ class FormDialog extends React.Component {
   handleChange = (event, name) => {
     // console.log(event.target.value, name);
     this.setState({ [name]: event.target.value });
+    if(this.state.projectName !== null) {
+      this.setState({disable: false});
+    } else {
+      this.setState({disable: true});
+    }
+
   }
 
   handleClick = (event, id) => {
@@ -63,7 +70,7 @@ class FormDialog extends React.Component {
   }
 
   render() {
-    let form = <FormDialogComp submit={this.submit} handleChange={this.handleChange} handleClose={this.handleClose} model={this.props.formModel} orientation={this.state.orientation}/>;
+    let form = <FormDialogComp submit={this.submit} disabled={this.state.disable} handleChange={this.handleChange} handleClose={this.handleClose} model={this.props.formModel} orientation={this.state.orientation}/>;
     if( this.props.title === "Open" && this.props.projects.length !== 0) {
       form = <List model={this.props.projects} handleClick={this.handleClick}></List> 
     } else if(this.props.title === "Open") {

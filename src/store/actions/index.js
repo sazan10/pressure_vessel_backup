@@ -26,28 +26,13 @@ export {
 
 export {
     onDataSendFail,
-    dataUpdate,
-    dataUpdate1,
+    updateThickness,
+    updateHeight,
     deleteThickness,
     updateComponentID,
-    updateComponent,
-    updateComponents,
-    importSpecificProject,
-    returnComponentByID,
-    onSubmitAndUpdate,
-    sendComponentID,
-    axiosDataSend,
-    requestReport,
-    requestProjectID,
-    requestNewProjectID,
-    downloadReport,
-    axiosReport,
-    requestFail,
-    onReportIDReceive,
-    deleteLastComponent,
-    deleteSpecificComponent,
     updateSelectedComponentID,
-    updatePTD
+    updatePTD,
+    clearComponentID
 } from './componentData';
 
 export {
@@ -55,9 +40,29 @@ export {
     openFormDialog,
     componentClicked
 } from './flags';
-// export {
-//     requestReport,
-//     axiosReport,
-//     requestFail,
-//     onReportIDReceive
-// } from './report';
+export {
+    requestProjectID,
+    requestNewProjectID,
+    requestNewProject,
+    requestFail,
+    onProjectIDReceived,
+    downloadReport
+} from './projectData';
+
+export {
+    deleteLastComponent,
+    deleteSpecificComponent,
+    deleteSpecificComponentReducer,
+    axiosDataSend,
+    clearComponentData,
+    updateComponent,
+    updateComponents,
+    importSpecificProject,
+    returnComponentByID,
+    onSubmitAndUpdate,
+    dataUpdate,
+    sendComponentToJSON,
+    sendComponentID,
+    updateLastItem
+
+} from './components';

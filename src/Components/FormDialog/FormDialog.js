@@ -13,6 +13,7 @@ const styles = theme => ({
     flexWrap: "wrap"
   }
 });
+
 const FormDialog = props => {
   const { classes } = props;
   // console.log("Form Dialog", props.model);
@@ -34,6 +35,17 @@ const FormDialog = props => {
       orientation={props.orientation}
     />
   ));
+
+  let submitButton = (
+    <Button disabled type="submit" color="primary">
+      Create
+    </Button>
+  );
+  if(!props.disabled) {
+    submitButton = <Button type="submit" color="primary">
+      Create
+    </Button>
+  }
   return (
     <div>
       <DialogTitle id="form-dialog-title">New Project</DialogTitle>
@@ -44,9 +56,7 @@ const FormDialog = props => {
             <Button onClick={props.handleClose} color="primary">
               Cancel
             </Button>
-            <Button type="submit" color="primary">
-              Create
-            </Button>
+            {submitButton}
           </DialogActions>
         </form>
       </DialogContent>

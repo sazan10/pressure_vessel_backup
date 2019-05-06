@@ -108,7 +108,7 @@ class TreeDemo extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    components: state.componentData.component
+    components: state.components.component
   };
 };
 

@@ -3,7 +3,10 @@ import { updateObject } from '../utility';
 
 const initialState = {
     error: null,
-    id: null
+    projectName: null,
+    projectID: null,
+    orientation: 'vertical'
+
 };
 
 ///////
@@ -20,14 +23,15 @@ const requestReport = (state, action) => {
 
 }
 const requestNewReport = (state, action) => {
-    return updateObject(state, { componentID:0,component:[],projectID: action.projectID, projectName: action.projectName, orientation: action.orientation })
+    return updateObject(state, { projectID: action.projectID, projectName: action.projectName, orientation: action.orientation })
 
 }
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.REPORT_FAIL: return reportFail(state, action);
-        case actionTypes.REQUEST_REPORT: return requestReport(state, action);
+        case actionTypes.ON_PROJECT_ID_RECEIVED: return requestReport(state, action);
+        case actionTypes.REQUEST_NEW_REPORT: return requestNewReport(state, action);
         default:
             return state;
     }
