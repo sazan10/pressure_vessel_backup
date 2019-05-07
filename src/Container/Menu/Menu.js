@@ -114,8 +114,8 @@ class Menu extends Component {
 const mapStateToProps = state => {
     return {
         componentID: state.componentData.componentID,
-        projectID: state.componentData.projectID,
-        orientation: state.componentData.orientation,
+        projectID: state.projectData.projectID,
+        orientation: state.projectData.orientation,
         selectedComponentID: state.componentData.selectedComponentID,
         username: state.auth.userId
     };
@@ -124,9 +124,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onMenuClick: (title) => dispatch(actions.clickMenu(title)),
-        requestReport: () => dispatch(actions.requestReport()),
+        requestNewProject: () => dispatch(actions.requestNewProject()),
         downloadReport: (projectID) => dispatch(actions.downloadReport(projectID)),
-        importModel: (title, num) => dispatch(actions.importModel(title, num)),
+        importModel: (title, num) => dispatch(actions.importComponentModel(title, num)),
         sendComponentID: (componentType, componentID, projectID) => dispatch(actions.sendComponentID(componentType, componentID, projectID)),
         openFormDialog: (value) => dispatch(actions.openFormDialog(value)),
         displayComponentTree: (value) => dispatch(actions.displayComponentTree(value)),

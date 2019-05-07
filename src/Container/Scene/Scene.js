@@ -546,9 +546,10 @@ class Scene extends Component {
 
 const mapStateToProps = state => {
   return {
-    component: state.componentData.component,
+    component: state.components.component,
     title: state.navigation.title,
     view:state.componentData.view
+
   };
 };
 
@@ -558,13 +559,13 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.updateSelectedComponentID(id));
     },
     onDataUpdate: (data, componentID, height) => {
-      dispatch(actions.dataUpdate1(data, componentID, height))
+      dispatch(actions.updateHeight(data, componentID, height))
     },
     treeUpdate: (value) => {
       dispatch(actions.displayComponentTree(value))
     },
     modelImport: (titleName, value) => {
-      dispatch(actions.importModel(titleName, value))
+      dispatch(actions.importComponentModel(titleName, value))
     },
     returnComponentID: (id) => {
       dispatch(actions.returnComponentByID(id))

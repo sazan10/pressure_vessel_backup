@@ -52,12 +52,6 @@ class Auth extends Component {
         this.props.importAuthModel(!this.state.isSignup);
     }
 
-    // componentDidMount() {
-    //     if (!this.props.buildingBurger && this.props.authRedirectPath !== '/') {
-    //         this.props.onSetAuthRedirectPath();
-    //     }
-    // }
-
     checkValidity(value, rules) {
         let isValid = true;
         if (!rules) {

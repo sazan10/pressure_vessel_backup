@@ -150,13 +150,13 @@ class VesselBuilder extends Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
-    projectID: state.componentData.projectID,
-    formDialogOpen: state.componentData.formDialogOpen,
+    projectID: state.projectData.projectID,
+    formDialogOpen: state.flags.formDialogOpen,
     components: state.componentData.component,
     componentTree: state.navigation.componentTree,
-    orientation: state.componentData.orientation,
+    orientation: state.projectData.orientation,
     error: state.componentData.error,
-    showSpinnerr: state.componentData.showSpinner
+    showSpinnerr: state.flags.showSpinner
   };
 };
 

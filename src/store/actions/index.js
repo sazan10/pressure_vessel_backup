@@ -1,12 +1,11 @@
 export {
     clickMenu,
-    importModel,
+    importComponentModel,
     importForm,
+    importProjects,
+    returnForm,
     disableNew,
     returnModel,
-    loadNext,
-    loadPrevious,
-    updateNum,
     displayComponentTree,
     updateTitle
 } from './navigation';
@@ -14,44 +13,57 @@ export {
 export {
     auth,
     logout,
+    logoutSucceed,
     importAuthModel,
     setAuthRedirectPath,
-    authCheckState
+    authCheckState,
+    authStart,
+    authSuccess,
+    authFail,
+    checkAuthTimeout,
+    returnAuthModel
 } from './auth';
 
 export {
     onDataSendFail,
-    dataUpdate,
-    dataUpdate1,
+    updateThickness,
+    updateHeight,
     deleteThickness,
     updateComponentID,
-    updateComponent,
-    updateComponents,
-    importSpecificProject,
-    componentClicked,
-    returnComponentByID,
-    onSubmitAndUpdate,
-    sendComponentID,
-    axiosDataSend,
-    requestReport,
-    requestProjectID,
-    requestNewProjectID,
-    openFormDialog,
-    downloadReport,
-    axiosReport,
-    requestFail,
-    onReportIDReceive,
-    deleteLastComponent,
-    deleteSpecificComponent,
     updateSelectedComponentID,
-    showSpinner,
     updatePTD,
+    clearComponentID,
     changeView
 } from './componentData';
 
-// export {
-//     requestReport,
-//     axiosReport,
-//     requestFail,
-//     onReportIDReceive
-// } from './report';
+export {
+    showSpinner,
+    openFormDialog,
+    componentClicked
+} from './flags';
+export {
+    requestProjectID,
+    requestNewProjectID,
+    requestNewProject,
+    requestFail,
+    onProjectIDReceived,
+    downloadReport
+} from './projectData';
+
+export {
+    deleteLastComponent,
+    deleteSpecificComponent,
+    deleteSpecificComponentReducer,
+    axiosDataSend,
+    clearComponentData,
+    updateComponent,
+    updateComponents,
+    importSpecificProject,
+    returnComponentByID,
+    onSubmitAndUpdate,
+    dataUpdate,
+    sendComponentToJSON,
+    sendComponentID,
+    updateLastItem
+
+} from './components';

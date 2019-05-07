@@ -24,6 +24,7 @@ const importComponentModel = (state, action) => {
 };
 
 const importFormModel = (state, action) => {
+    // console.log(action.model);
     return updateObject(state,{formModel: action.model, new: true});
 };
 
@@ -60,7 +61,7 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.CLICK_MENU: return clickMenu(state, action);
         case actionTypes.DISABLE_NEW: return disableNew(state, action);
         case actionTypes.IMPORT_COMPONENT_MODEL: return importComponentModel(state, action);
-        case actionTypes.IMPORT_FORM_MODEL: return importFormModel(state, action);
+        case actionTypes.LOAD_FORM_MODEL: return importFormModel(state, action);
         case actionTypes.LOAD_NEXT: return loadNext(state, action);
         case actionTypes.LOAD_PREVIOUS: return loadPrevious(state, action);
         case actionTypes.UPDATE_NUM: return updateNum(state, action);

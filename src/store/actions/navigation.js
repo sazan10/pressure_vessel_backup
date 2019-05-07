@@ -16,21 +16,14 @@ export const disableNew = () => {
   };
 };
 
-export const importModel = (title, num) => {
- 
-  return dispatch => {
-    dispatch(updateTitle(title));
-    import(`../../JSONFiles/Components/${title.replace(
-      " ",
-      ""
-    )}Param${num}.json`).then(function(response) {
-      dispatch(returnModel(response.default));
-    });
-  };
+export const importComponentModel = (title, num) => {
+  return {
+    type: actionTypes.IMPORT_MODEL,
+    title: title,
+  }
 };
 
-export const updateTitle=(title)=>
-{
+export const updateTitle=(title)=>{
   return {
     type: actionTypes.UPDATE_TITLE,
     title:title
@@ -40,39 +33,15 @@ export const updateTitle=(title)=>
 
 export const importForm = title => {
   if (title === "New") {
-    return dispatch => {
-      // console.log("Inside actions " + title );
-      import(`../../JSONFiles/FormDialog/${title.replace(" ", "")}.json`).then(
-        function(response) {
-          // console.log(response.default);
-          dispatch(returnForm(response.default));
-        }
-      );
-    };
+    return {
+      type: actionTypes.IMPORT_NEW_MODEL,
+      title: title
+    }
   } else if (title === "Open") {
-    return dispatch => {
-      const url = "/report/reports/";
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: "JWT " + localStorage.getItem("token")
-      };
-      const data = {
-        type: "projects"
-      };
-      axios
-        .get(url,{headers: headers})
-        .then(response => {
-          const projects =[];
-          response.data.map(project => {
-            return projects.push({id: project.id, projectName: project.projectName})
-          })
-          
-          dispatch(importProjects(projects));
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    };
+    return {
+      type: actionTypes.IMPORT_OPEN_MODEL,
+      title: title
+    }
   }
 };
  
@@ -86,7 +55,7 @@ export const importProjects = (projects) => {
 
 export const returnForm = model => {
   return {
-    type: actionTypes.IMPORT_FORM_MODEL,
+    type: actionTypes.LOAD_FORM_MODEL,
     model: model
   };
 };
@@ -95,28 +64,6 @@ export const returnModel = model => {
   return {
     type: actionTypes.IMPORT_COMPONENT_MODEL,
     model: model
-  };
-};
-
-export const loadNext = title => {
-  return {
-    type: actionTypes.LOAD_NEXT,
-    title: title,
-    num: 2
-  };
-};
-
-export const loadPrevious = title => {
-  return {
-    type: actionTypes.LOAD_PREVIOUS,
-    num: 1
-  };
-};
-
-export const updateNum = num => {
-  return {
-    type: actionTypes.UPDATE_NUM,
-    num: num
   };
 };
 

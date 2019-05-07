@@ -220,12 +220,12 @@
     "elementType": "input",
     "elementConfig": {
       "type": "input",
-      "placeholder": "10"
+      "placeholder": "0.125"
     },
     "validation": {
       "required": true
     },
-    "value": "10",
+    "value": "0.125",
     "label": "Cylinder Thickness (inch)",
     "step": "any",
     "valid": true
@@ -234,12 +234,12 @@
     "elementType": "input",
     "elementConfig": {
       "type": "input",
-      "placeholder": "0.125 inch"
+      "placeholder": "10 inch"
     },
     "validation": {
       "required": true
     },
-    "value": "0.125",
+    "value": "10",
     "label": "Nozzle Diameter (inch)",
     "step": "any",
     "valid": true

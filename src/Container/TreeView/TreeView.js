@@ -62,6 +62,7 @@ class TreeDemo extends React.Component {
     this.setState({ tree: tree });
   };
 
+  //Function is called when an item in treeview is clicked
   onToggle = (node, toggled) => {
     if (this.state.cursor) {
       const cursor = {
@@ -98,7 +99,7 @@ class TreeDemo extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    components: state.componentData.component
+    components: state.components.component
   };
 };
 
@@ -111,7 +112,7 @@ const mapDispatchToProps = dispatch => {
     //import the specific model like cylinder or nozzle etc for the component chosen based on
     //titleName
     modelImport: (titleName, value) => {
-      dispatch(actions.importModel(titleName, value));
+      dispatch(actions.importComponentModel(titleName, value));
     },
     //to update the selected component in redux to display it in the side bar
     //based on the id chosen by the user by clicking a specific component in tree

@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import Input from "../../Container/Auth/Input/Input";
 import Button from "../UI/Button/Button";
 import PropTypes from "prop-types";
+import * as LiftingLugAddition from '../../JSONFiles/Components/LiftingLugAddition.json';
 
 const initialState = {
   form: {},
@@ -16,19 +17,7 @@ const initialState = {
   message: ""
 };
 
-const liftingLugAddition = {
-  elementType: "input",
-  elementConfig: {
-    type: "input"
-  },
-  validation: {
-    required: true
-  },
-  placeholder: "0",
-  value: "10",
-  label: "Distance from CG",
-  valid: true
-};
+
 class DynamicForm extends React.Component {
   constructor() {
     // console.log("Form Refreshed");
@@ -58,13 +47,14 @@ class DynamicForm extends React.Component {
   };
 
   componentDidMount() {
+    console.log(LiftingLugAddition.default.liftingLugAddition);
     if (!this.props.componentClick) {
       if (
         this.props.title === "Lifting Lug" &&
         this.props.orientation === "horizontal"
       ) {
         const updatedModel = this.props.model;
-        updatedModel["distance"] = liftingLugAddition;
+        updatedModel["distance"] = LiftingLugAddition.default.liftingLugAddition;
         this.setState({ form: updatedModel });
       } else {
         this.setState({ form: this.props.model });
@@ -76,7 +66,7 @@ class DynamicForm extends React.Component {
         this.props.orientation === "horizontal"
       ) {
         const updatedModel = this.props.model;
-        updatedModel["distance"] = liftingLugAddition;
+        updatedModel["distance"] = LiftingLugAddition.default.liftingLugAddition;
         this.updateStateModel(updatedModel);
       } else {
         this.updateStateModel(this.props.model);
@@ -245,7 +235,7 @@ class DynamicForm extends React.Component {
         this.props.orientation === "horizontal"
       ) {
         const updatedModel = this.props.model;
-        updatedModel["distance"] = liftingLugAddition;
+        updatedModel["distance"] = LiftingLugAddition.default.liftingLugAddition;
         this.setState({ form: updatedModel });
       } else {
         this.setState({ form: this.props.model });
@@ -258,7 +248,7 @@ class DynamicForm extends React.Component {
         this.props.orientation === "horizontal"
       ) {
         const updatedModel = this.props.model;
-        updatedModel["distance"] = liftingLugAddition;
+        updatedModel["distance"] = LiftingLugAddition.default.liftingLugAddition;
         this.updateStateModel(updatedModel);
       } else {
         this.updateStateModel(this.props.model);
@@ -431,19 +421,19 @@ const mapStateToProps = state => {
     model: state.navigation.componentModel,
     num: state.navigation.num,
     thickness: state.componentData.thickness,
-    projectID: state.componentData.projectID,
+    projectID: state.projectData.projectID,
     error: state.componentData.error,
     componentID: state.componentData.componentID,
     new: state.navigation.new,
-    cylinder: state.componentData.cylinder,
-    ellipsoidalhead: state.componentData.ellipsoidalhead,
-    nozzle: state.componentData.nozzle,
-    skirt: state.componentData.skirt,
-    saddle: state.componentData.saddle,
-    conical: state.componentData.conical,
-    componentByID: state.componentData.componentByID,
-    componentClick: state.componentData.componentClicked,
-    orientation: state.componentData.orientation,
+    cylinder: state.components.cylinder,
+    ellipsoidalhead: state.components.ellipsoidalhead,
+    nozzle: state.components.nozzle,
+    skirt: state.components.skirt,
+    saddle: state.components.saddle,
+    conical: state.components.conical,
+    componentByID: state.components.componentByID,
+    componentClick: state.flags.componentClicked,
+    orientation: state.projectData.orientation,
     ip: state.componentData.pressure,
     temp1: state.componentData.temperature,
     sd: state.componentData.shellDiameter
@@ -452,7 +442,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    importModel: (title, num) => dispatch(actions.importModel(title, num)),
+    importModel: (title, num) => dispatch(actions.importComponentModel(title, num)),
     disableNew: () => dispatch(actions.disableNew()),
     onSubmitAndUpdate: (data, id, componentID) =>
       dispatch(actions.onSubmitAndUpdate(data, id, componentID)),

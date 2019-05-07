@@ -7,9 +7,17 @@ import { BrowserRouter } from "react-router-dom";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import * as serviceWorker from "./serviceWorker";
 import thunk from "redux-thunk";
+import createSagaMiddleware from 'redux-saga';
+
+
 import navigationReducer from "./store/reducers/navigation";
 import authReducer from './store/reducers/auth';
 import componentDataReducer from './store/reducers/componentData';
+import flagsReducer from './store/reducers/flags';
+import projectDataReducer from './store/reducers/projectData';
+import componentsReducer from './store/reducers/components';
+import {watchAuth, watchNavigation, watchProjectData, watchComponentData, watchComponents} from './store/sagas/index';
+
 // import reportReducer from './store/reducers/report';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -18,13 +26,23 @@ const rootReducer = combineReducers({
   navigation: navigationReducer,
   auth: authReducer,
   componentData: componentDataReducer,
-  // report: reportReducer
+  flags: flagsReducer,
+  projectData: projectDataReducer,
+  components: componentsReducer
 });
+
+const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunk, sagaMiddleware))
 );
+
+sagaMiddleware.run(watchAuth);
+sagaMiddleware.run(watchNavigation);
+sagaMiddleware.run(watchProjectData);
+sagaMiddleware.run(watchComponentData);
+sagaMiddleware.run(watchComponents);
 
 const app = (
   <Provider store={store}>
