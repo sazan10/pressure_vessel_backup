@@ -54,7 +54,11 @@ class Scene extends Component {
     let ambient = new THREE.AmbientLight(0xbbbbbb);
     this.scene.add(ambient);
     let directionalLight = new THREE.DirectionalLight(0xffffff);
-    directionalLight.position.set(0, 0, 1);
+    let directionalLight2 = new THREE.DirectionalLight(0xffffff);
+    directionalLight2.position.set(0, 0, -1000);
+    this.scene.add(directionalLight2);
+
+    directionalLight.position.set(0, 0, 1000);
     this.scene.add(directionalLight);
     this.material = new THREE.MeshPhongMaterial({
       color: '#0b7dba',
