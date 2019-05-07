@@ -455,7 +455,6 @@ export const requestFail = error => {
 };
 
 export const downloadReport = id => {
-  console.log("In download report");
   return dispatch => {
     const url = "/report/generate";
     const data = {

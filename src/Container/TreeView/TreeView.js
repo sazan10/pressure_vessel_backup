@@ -42,19 +42,12 @@ class TreeDemo extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.components !== this.props.components) {
-      console.log(
-        "previous components are",
-        prevProps.components,
-        "latest components are",
-        this.props.components
-      );
       this.setTree(this.props.components);
     }
   }
 
   //building the tree based on components
   setTree = components => {
-    console.log("setTree", components);
     const tree = { name: "Components", toggled: true, children: [] };
     components.map(component => {
       if (component !== null && component.component !== undefined) {
@@ -70,7 +63,6 @@ class TreeDemo extends React.Component {
   };
 
   onToggle = (node, toggled) => {
-    console.log(node.component);
     if (this.state.cursor) {
       const cursor = {
         ...this.state.cursor,
@@ -88,7 +80,6 @@ class TreeDemo extends React.Component {
       if (name.length >= 2) {
         name[0] = name[0] + " " + name[1];
       }
-      console.log("Tree view component selected", name[0], node.id);
       this.props.updateSelectedComponentID(parseInt(node.id));
       this.props.treeUpdate(false);
       this.props.modelImport(name[0], 1);

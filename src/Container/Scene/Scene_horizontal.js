@@ -100,7 +100,7 @@ class Scene_horizontal extends Component {
           const sh = [...this.shapes];
           sh.map((shape) => {
             let sh_name = shape.name.split("&");
-            if (sh_name[1] === "Cylinder" || sh_name[1] === "Ellipsoidal Head") {
+            if (sh_name[1] === "Cylinder" || sh_name[1] === "Conical") {
               shape.material.opacity = 1;
             } else {
               shape.children.map((child) => {
@@ -128,8 +128,7 @@ class Scene_horizontal extends Component {
         else{            
           name=intersects[0].object.name;
         }
-        console.log("intersect",name)
-       let res=null;
+        let res=null;
         if(name){
         res=name.split("&");
         this.name = res[1];
