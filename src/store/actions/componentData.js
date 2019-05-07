@@ -63,4 +63,11 @@ export const clearComponentID = () => {
   }
 }
 
+export const changeView = view => {
+  return {
+    type: actionTypes.CHANGE_VIEW,
+    view: view
+  };
+};
+
 

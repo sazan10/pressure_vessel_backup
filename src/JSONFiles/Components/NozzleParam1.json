@@ -188,20 +188,6 @@
     "step": "any",
     "valid": true
   },
-  "internalNozzleProjection": {
-    "elementType": "input",
-    "elementConfig": {
-      "type": "input",
-      "placeholder": "0"
-    },
-    "validation": {
-      "required": true
-    },
-    "value": "0",
-    "label": "Internal Proj",
-    "step": "any",
-    "valid": true
-  },
   "class_value": {
     "elementType": "input",
     "elementConfig": {

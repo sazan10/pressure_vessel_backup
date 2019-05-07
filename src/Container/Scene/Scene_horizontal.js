@@ -51,14 +51,7 @@ class Scene_horizontal extends Component {
     this.group = new THREE.Group();
     //ADD CUBE
     this.controls = new TrackballControls(this.camera, this.renderer.domElement);
-    this.controls.rotateSpeed = 1.0;
-    this.controls.zoomSpeed = 1.2;
-    this.controls.panSpeed = 0.8;
-    this.controls.noZoom = false;
-    this.controls.noPan = false;
-    this.controls.staticMoving = true;
-    this.controls.dynamicDampingFactor = 0.3;
-    this.controls.keys = [65, 83, 68];
+    this.controlSetup();
     this.shapes = [];
     let ambient = new THREE.AmbientLight(0xbbbbbb);
     this.scene.add(ambient);
@@ -90,8 +83,7 @@ class Scene_horizontal extends Component {
     this.controls.update();
     this.start();
   }
-  onDocumentMouseDown = (event) => {
-  
+  onDocumentMouseDown = (event) => {  
     var raycaster = new THREE.Raycaster(); // create once
     var mouse = new THREE.Vector2(); // create once
     let rect = document.getElementById("scener").getBoundingClientRect();
@@ -136,22 +128,24 @@ class Scene_horizontal extends Component {
         else{            
           name=intersects[0].object.name;
         }
+        console.log("intersect",name)
        let res=null;
         if(name){
         res=name.split("&");
         this.name = res[1];
         this.compoID=res[0];
+        this.props.updateSelectedComponentID(parseInt(res[0]));
+        this.props.treeUpdate(false);
+        this.props.modelImport(res[1],1);
+        this.props.returnComponentID(parseInt(res[0]));
+        this.props.componentClicked(true);
         }
         else{
           res=[-1,"noComponent"]
         }
-        //console.log("pressed object number",res[0],res[1]);
-       this.props.updateSelectedComponentID(parseInt(res[0]));
-       this.props.treeUpdate(false);
-       this.props.modelImport(res[1],1);
-       this.props.returnComponentID(parseInt(res[0]));
-       this.props.componentClicked(true);
-
+      }
+      else {
+        this.props.displayComponentTree(true);
       }
     }
     this.controls.update();
@@ -165,9 +159,25 @@ class Scene_horizontal extends Component {
   componentWillReceiveProps(nextProps) {
 
   }
-  componentDidUpdate( prevProps, prevState) {
-    if(prevProps.component !== this.props.component) {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.view !== this.props.view) {
+      this.controls.reset();
+    switch (this.props.view){
+      case "SIDE":
+        this.camera.position.set(10, 0, 0);
+        break;
+      case "FRONT":
+        this.camera.position.set(0, 0, 10);
+        break;
+      case "TOP":
+        this.camera.position.set(0.0001, 10, 0);
+        break;
+      
     }
+    this.camera.updateProjectionMatrix();
+    this.controlSetup();
+    this.controls.update();
+  }
   }
 
   clearScene = () => {
@@ -315,7 +325,7 @@ class Scene_horizontal extends Component {
               grouper.rotateZ(-math.pi / 2);
               this.scene.add(grouper);
               this.shapes.push(grouper);
-              head.name=this.props.component[i].componentID +  "&"+"Ellipsoidal Head";             
+              grouper.name=this.props.component[i].componentID +  "&"+"Ellipsoidal Head";             
                this.head_no = 1;
               let cg_head= -(4*minor)/(3*math.pi)
               this.keepHeightRecord(this.props.component[i],-500,cg_head);
@@ -343,7 +353,7 @@ class Scene_horizontal extends Component {
               this.keepHeightRecord(this.props.component[i],-500,cg_head);
               grouper2.translateX(height_for_top+srl/2).rotateZ(-math.pi / 2);
               this.scene.add(grouper2);
-              head.name=this.props.component[i].componentID + "&"+ this.props.component[i].component;
+              grouper2.name=this.props.component[i].componentID + "&"+ this.props.component[i].component;
               this.shapes.push(grouper2);
             }
           } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "LWN") 
@@ -458,10 +468,8 @@ class Scene_horizontal extends Component {
               this.keepHeightRecord(this.props.component[i],-500,0);
               let weightXCG = 0;
               let weightsum = 0;
-              console.log("weights",this.weights);
               if (!isEmpty(this.weights)) {
                 let newState = Object.assign([], this.weights);
-                
                 // for (let i = 0; i < newState.length; i++) {
                 //   if(newState[i])
                 //   {
@@ -470,7 +478,6 @@ class Scene_horizontal extends Component {
                 //   }
                 // }
                 let key =0;
- 
                 let thickness = this.props.component[i].value.lug_thickness.req_value/this.scaler;
                 height = this.props.component[i].height_lug/this.scaler;
                 let rad = this.props.component[i].length/this.scaler;
@@ -479,7 +486,7 @@ class Scene_horizontal extends Component {
                 distance2 = this.props.component[i].lug2_cg_distance/this.scaler;
                 angle = this.props.component[i].layout_angle;
                 t.color='#500dba';
-                let material = new THREE.MeshPhongMaterial(t)
+                let material = new THREE.MeshPhongMaterial(t);
                 lug1 = LiftingLug(height, thickness, rad, hole_diameter,material);
                 this.shapes.push(lug1);
                
@@ -518,12 +525,9 @@ class Scene_horizontal extends Component {
                   if(this.weights[key])
                   {
                   weightsum += this.weights[key][2];
-                  console.log("lifting lug",this.weights[key][2])
                   weightXCG += this.weights[key][1] * this.weights[key][2];
                   }
                 }
-                console.log("lifting lug",this.heights,lug1)
-
                 for (let key in this.heights) {
                   key_value = key;
                 }
@@ -546,7 +550,6 @@ class Scene_horizontal extends Component {
                 let closest_value2 = this.heights[closest_index2];
                 let index_key1 = returnKey(this.heights, closest_value1);
                 let index_key2 = returnKey(this.heights, closest_value2);
-                console.log("lifting lug",closest_index1,closest_value1,index_key1,index_key2,weightsum,weightXCG)
                 let shell_rad1 = this.props.component[index_key1].sd /(2*this.scaler) + this.props.component[index_key1].value.thickness/this.scaler; //finding the diameter of last shell
                 let shell_rad2 = this.props.component[index_key2].sd /(2*this.scaler) + this.props.component[index_key2].value.thickness/this.scaler; //finding the diameter of last shell
                 let x_displace1 = (shell_rad1) * math.cos(math.pi * (angle / 180));
@@ -602,13 +605,24 @@ class Scene_horizontal extends Component {
       };
     }
   }
+  controlSetup=()=>
+  {
+    this.controls.rotateSpeed = 2.0;
+    this.controls.zoomSpeed = 1.2;
+    this.controls.panSpeed = 1;
+    this.controls.noZoom = false;
+    this.controls.noPan = false;
+    this.controls.staticMoving = true;
+    this.controls.dynamicDampingFactor = 0.3;
+  }
 }
 
 
 const mapStateToProps = state => {
   return {
     component: state.components.component,
-    title: state.navigation.title
+    title: state.navigation.title,
+    view:state.componentData.view
   };
 };
 
@@ -643,7 +657,9 @@ const mapDispatchToProps = dispatch => {
     },
     onupdateSelectedComponentID: (id) => {
       dispatch(id)
-    }
+    },
+    displayComponentTree: value =>
+    dispatch(actions.displayComponentTree(value))
   };
 };
 

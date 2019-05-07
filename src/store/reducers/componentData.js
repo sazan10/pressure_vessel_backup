@@ -9,7 +9,8 @@ const initialState = {
     thickness: 0.75,
     pressure: 300,
     temperature: 300,
-    shellDiameter: 72
+    shellDiameter: 72,
+    view:"front"
 
 };
 
@@ -46,6 +47,10 @@ const clearComponentID = (state, action) => {
     return updateObject(state, {componentID: 0});
 }
 
+const changeView = (state, action) => {
+    return updateObject(state, {view: action.view});
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.UPDATE_THICKNESS: return updateThickness(state, action);
@@ -56,6 +61,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SELECTED_COMPONENT_ID: return updateSelectedComponentID(state, action);
         case actionTypes.UPDATE_P_T_D: return updatePTD(state, action);
         case actionTypes.CLEAR_COMPONENT_ID: return clearComponentID(state, action);
+        case actionTypes.CHANGE_VIEW: return changeView(state,action);
         default:
             return state;
     }

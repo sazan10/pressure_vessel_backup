@@ -22,6 +22,7 @@ import {
 import {
   SpheroidHeadBufferGeometry
 } from '../../Components/Parts/SpheroidHead_v2';
+import { select } from '@redux-saga/core/effects';
 
 class Scene extends Component {
 
@@ -34,13 +35,13 @@ class Scene extends Component {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x696969);
     this.camera = new THREE.PerspectiveCamera(
-      75,
+      90,
       width / height,
-      0.1,
-      1000000
+      0.001,1000000
     );
+    // this.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
+    // this.scene.add(this.camera);
     this.camera.position.z = 5;
-    this.camera.position.y = 0;
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -49,16 +50,10 @@ class Scene extends Component {
     document.getElementById("scener").addEventListener('click', this.onDocumentMouseDown, false);
     window.addEventListener('resize', this.onWindowResize, false);
     this.controls = new TrackballControls(this.camera, this.renderer.domElement);
-    this.controls.rotateSpeed = 1.0;
-    this.controls.zoomSpeed = 1.2;
-    this.controls.panSpeed = 0.8;
-    this.controls.noZoom = false;
-    this.controls.noPan = false;
-    this.controls.staticMoving = true;
-    this.controls.dynamicDampingFactor = 0.3;
-    this.controls.keys = [65, 83, 68];
+    this.controlSetup();
     this.shapes = [];
     let ambient = new THREE.AmbientLight(0xbbbbbb);
+    
     this.scene.add(ambient);
     let directionalLight = new THREE.DirectionalLight(0xffffff);
     directionalLight.position.set(0, 0, 1);
@@ -77,7 +72,6 @@ class Scene extends Component {
     this.lengths = [];
     this.heights = {};
     this.weights = {};
-    this.heights_permanent = {};
     this.cylinder_lengths = [];
     this.first_shell = true;
     this.heights_only = [];
@@ -145,20 +139,37 @@ class Scene extends Component {
         this.props.componentClicked(true);
         }
         else{
-          res=[-1,"noComponent"]
+          res=[-1,"noComponent"];
         }
-        //   intersects[0].object.material.opacity = 0.5;
-        
+        //intersects[0].object.material.opacity = 0.5;
+      }
+      else{
+        this.props.displayComponentTree(true);
       }
     }
-    this.controls.update();
+   //this.controls.update();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.component !== this.props.component) {
+    if (prevProps.view !== this.props.view) {
+      this.controls.reset();  
+    switch (this.props.view){
+      case "SIDE":
+        this.camera.position.set(10, 0, 0);
+        break;
+      case "FRONT":
+        this.camera.position.set(0, 0, 10);
+        break;
+      case "TOP":
+        this.camera.position.set(0.0001, 10, 0);
+        break;
+      
     }
+    this.camera.updateProjectionMatrix();
+    this.controlSetup();
+    this.controls.update();
   }
-
+  }
   onWindowResize = () => {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
@@ -302,7 +313,7 @@ class Scene extends Component {
                 head.translateY(-srl).rotateZ(3.14);
                 grouper.add(head);
                 this.scene.add(grouper);
-                head.name = this.props.component[i].componentID + "&" + "Ellipsoidal Head";
+                grouper.name = this.props.component[i].componentID + "&" + "Ellipsoidal Head";
                 this.shapes.push(grouper);
                 let cg_head = -(4 * minor) / (3 * math.pi)
                 this.keepHeightRecord(this.props.component[i], -500, cg_head);
@@ -329,7 +340,7 @@ class Scene extends Component {
                 this.keepHeightRecord(this.props.component[i], -500, cg_head);
                 grouper2.translateY(height_for_top+srl/2);
                 this.scene.add(grouper2);
-                head.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
+                grouper2.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
                 this.shapes.push(grouper2);
               }
             } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "LWN") {
@@ -492,7 +503,6 @@ class Scene extends Component {
 
               }
               if (last_cylinder !== null && this.props.component[last_cylinder] !== null) {
-                //let height_pos = this.heights_permanent[last_cylinder] + (this.props.component[last_cylinder].length * (12 / this.scaler)) / 2 - height / 2.2;
                 let shell_rad = cyl_diameter + this.props.component[last_cylinder].value.thickness / this.scaler; //finding the diameter of last shell
                 let x_displace = (shell_rad) * math.sin(math.pi * (angle / 180));
                 let z_displace = (shell_rad) * math.cos(math.pi * (angle / 180));
@@ -523,7 +533,16 @@ class Scene extends Component {
     }
   }
 
-
+  controlSetup=()=>
+  {
+    this.controls.rotateSpeed = 2.0;
+    this.controls.zoomSpeed = 1.2;
+    this.controls.panSpeed = 1;
+    this.controls.noZoom = false;
+    this.controls.noPan = false;
+    this.controls.staticMoving = true;
+    this.controls.dynamicDampingFactor = 0.3;
+  }
 
   keepHeightRecord = (component, position, cg) => {
     const b_key = component.componentID.toString();
@@ -535,12 +554,6 @@ class Scene extends Component {
         this.heights = {
           ...this.heights,
           [b_key]: position,
-        }
-        if (!(b_key in this.heights_permanent)) {
-          this.heights_permanent = {
-            ...this.heights_permanent,
-            [b_key]: position,
-          }
         }
         this.weights[component.componentID] = [component.component, cg, component.value.weight];
       }
@@ -555,7 +568,8 @@ class Scene extends Component {
 const mapStateToProps = state => {
   return {
     component: state.components.component,
-    title: state.navigation.title
+    title: state.navigation.title,
+    view:state.componentData.view
 
   };
 };
@@ -582,7 +596,9 @@ const mapDispatchToProps = dispatch => {
     },
     onupdateSelectedComponentID: (id) => {
       dispatch(id)
-    }
+    },
+    displayComponentTree: value =>
+    dispatch(actions.displayComponentTree(value))
   };
 };
 

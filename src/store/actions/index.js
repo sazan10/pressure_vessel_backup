@@ -32,7 +32,8 @@ export {
     updateComponentID,
     updateSelectedComponentID,
     updatePTD,
-    clearComponentID
+    clearComponentID,
+    changeView
 } from './componentData';
 
 export {
