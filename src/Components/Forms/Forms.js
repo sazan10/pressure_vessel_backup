@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import Input from "../../Container/Auth/Input/Input";
 import Button from "../UI/Button/Button";
 import PropTypes from "prop-types";
+import * as LiftingLugAddition from '../../JSONFiles/Components/LiftingLugAddition.json';
 
 const initialState = {
   form: {},
@@ -16,19 +17,7 @@ const initialState = {
   message: ""
 };
 
-const liftingLugAddition = {
-  elementType: "input",
-  elementConfig: {
-    type: "input"
-  },
-  validation: {
-    required: true
-  },
-  placeholder: "0",
-  value: "10",
-  label: "Distance from CG",
-  valid: true
-};
+
 class DynamicForm extends React.Component {
   constructor() {
     // console.log("Form Refreshed");
@@ -58,13 +47,14 @@ class DynamicForm extends React.Component {
   };
 
   componentDidMount() {
+    console.log(LiftingLugAddition.default.liftingLugAddition);
     if (!this.props.componentClick) {
       if (
         this.props.title === "Lifting Lug" &&
         this.props.orientation === "horizontal"
       ) {
         const updatedModel = this.props.model;
-        updatedModel["distance"] = liftingLugAddition;
+        updatedModel["distance"] = LiftingLugAddition.default.liftingLugAddition;
         this.setState({ form: updatedModel });
       } else {
         this.setState({ form: this.props.model });
@@ -76,7 +66,7 @@ class DynamicForm extends React.Component {
         this.props.orientation === "horizontal"
       ) {
         const updatedModel = this.props.model;
-        updatedModel["distance"] = liftingLugAddition;
+        updatedModel["distance"] = LiftingLugAddition.default.liftingLugAddition;
         this.updateStateModel(updatedModel);
       } else {
         this.updateStateModel(this.props.model);
@@ -245,7 +235,7 @@ class DynamicForm extends React.Component {
         this.props.orientation === "horizontal"
       ) {
         const updatedModel = this.props.model;
-        updatedModel["distance"] = liftingLugAddition;
+        updatedModel["distance"] = LiftingLugAddition.default.liftingLugAddition;
         this.setState({ form: updatedModel });
       } else {
         this.setState({ form: this.props.model });
@@ -258,7 +248,7 @@ class DynamicForm extends React.Component {
         this.props.orientation === "horizontal"
       ) {
         const updatedModel = this.props.model;
-        updatedModel["distance"] = liftingLugAddition;
+        updatedModel["distance"] = LiftingLugAddition.default.liftingLugAddition;
         this.updateStateModel(updatedModel);
       } else {
         this.updateStateModel(this.props.model);

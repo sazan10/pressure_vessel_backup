@@ -15,8 +15,9 @@ export function* requestNewProjectSaga(action) {
       projectName: action.projectName,
       orientation: action.orientation
     };
+    // console.log(data);
     const response = yield axios.post(url, data, { headers: headers });
-    console.log(response);
+    // console.log(response);
     yield put(actions.clearComponentData());
     console.log("components cleared");
     yield put(

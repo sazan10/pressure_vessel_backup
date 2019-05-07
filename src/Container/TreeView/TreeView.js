@@ -69,6 +69,7 @@ class TreeDemo extends React.Component {
     this.setState({ tree: tree });
   };
 
+  //Function is called when an item in treeview is clicked
   onToggle = (node, toggled) => {
     console.log(node.component);
     if (this.state.cursor) {
