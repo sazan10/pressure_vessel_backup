@@ -42,7 +42,7 @@ export function* axiosDataSendSaga(action) {
 export function* importSpecificProjectSaga(action) {
   // let url = `report/reports/${id}/project/`;
   const url = "api/state/open";
-  console.log(action.projectID);
+  //console.log(action.projectID);
   try {
     const response = yield axios.get(url, {
       params: {
@@ -50,7 +50,7 @@ export function* importSpecificProjectSaga(action) {
       },
       headers: headers
     });
-    console.log("in import specific project", response);
+   // console.log("in import specific project", response);
 
     yield put(
       actions.onProjectIDReceived(
@@ -71,7 +71,7 @@ export function* onSubmitAndUpdateSaga(action) {
     const response = yield axios.post(action.url, action.data1, {
       headers: headers
     });
-    console.log(response);
+   // console.log(response);
     if (
       response.data.thickness !== null ||
       response.data.thicknessResponse != null

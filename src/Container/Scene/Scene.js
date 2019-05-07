@@ -93,7 +93,6 @@ class Scene extends Component {
           const sh = [...this.shapes];
           sh.map((shape) => {
             let sh_name = shape.name.split("&");
-            console.log("shape selected",sh_name,shape)
             if (sh_name[1] === "Cylinder" || sh_name[1]==="Conical") {
               shape.material.opacity = 1;
             } else {

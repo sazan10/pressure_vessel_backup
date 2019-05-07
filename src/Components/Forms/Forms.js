@@ -34,8 +34,7 @@ class DynamicForm extends React.Component {
   };
 
   updateStateModel = model => {
-    console.log(model);
-    this.setState(
+      this.setState(
       {
         form: model
       },
@@ -47,7 +46,6 @@ class DynamicForm extends React.Component {
   };
 
   componentDidMount() {
-    console.log(LiftingLugAddition.default.liftingLugAddition);
     if (!this.props.componentClick) {
       if (
         this.props.title === "Lifting Lug" &&
@@ -216,7 +214,6 @@ class DynamicForm extends React.Component {
 
       if(this.props.model.thickness !== undefined && this.props.model.thickness !== null) {
         try {
-          console.log("changing values");
           this.props.model.ip.placeholder = this.props.ip;
           this.props.model.ip.value =this.props.ip;
           this.props.model.temp1.placeholder = this.props.temp1;
@@ -254,7 +251,6 @@ class DynamicForm extends React.Component {
         this.updateStateModel(this.props.model);
       }
       this.checkForOrientationForHead(true);
-      console.log(" inside component click");
     }
 
     //to update the new calculated thickness in the form
