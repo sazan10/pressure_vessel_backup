@@ -25,7 +25,6 @@ import {
 import { select } from '@redux-saga/core/effects';
 
 class Scene extends Component {
-
   state = {
     current: {},
   };
@@ -53,10 +52,13 @@ class Scene extends Component {
     this.controlSetup();
     this.shapes = [];
     let ambient = new THREE.AmbientLight(0xbbbbbb);
-    
     this.scene.add(ambient);
     let directionalLight = new THREE.DirectionalLight(0xffffff);
-    directionalLight.position.set(0, 0, 1);
+    let directionalLight2 = new THREE.DirectionalLight(0xffffff);
+    directionalLight2.position.set(0, 0, -1000);
+    this.scene.add(directionalLight2);
+
+    directionalLight.position.set(0, 0, 1000);
     this.scene.add(directionalLight);
     this.material = new THREE.MeshPhongMaterial({
       color: '#0b7dba',
@@ -80,13 +82,6 @@ class Scene extends Component {
   }
 
   onDocumentMouseDown = (event) => {
-    // let rect = document.getElementById("scener").getBoundingClientRect();
-    // let projector = new THREE.Projector();
-    // let vector = new THREE.Vector3((event.clientX - rect.left) / window.innerWidth * 2 - 1, -((event.clientY - rect.top) / window.innerHeight) * 2 + 1, 0.5),
-    //   INTERSECTED;
-    // projector.unprojectVector(vector, this.camera);
-    // let raycaster = new THREE.Raycaster(this.camera.position, vector.sub(this.camera.position).normalize());
-
     var raycaster = new THREE.Raycaster(); // create once
     var mouse = new THREE.Vector2(); // create once
     let rect = document.getElementById("scener").getBoundingClientRect();
@@ -102,7 +97,7 @@ class Scene extends Component {
           const sh = [...this.shapes];
           sh.map((shape) => {
             let sh_name = shape.name.split("&");
-            if (sh_name[1] === "Cylinder" || sh_name[1] === "Ellipsoidal Head") {
+            if (sh_name[1] === "Cylinder" || sh_name[1]==="Conical") {
               shape.material.opacity = 1;
             } else {
               shape.children.map((child) => {
@@ -310,7 +305,7 @@ class Scene extends Component {
                 let grouper = new THREE.Group();
                 flange.translateY(-srl / 2);
                 grouper.add(flange)
-                head.translateY(-srl).rotateZ(3.14);
+             head.translateY(-srl).rotateZ(math.pi);
                 grouper.add(head);
                 this.scene.add(grouper);
                 grouper.name = this.props.component[i].componentID + "&" + "Ellipsoidal Head";
@@ -407,18 +402,10 @@ class Scene extends Component {
                   let diff = rad_top - rad_bot;
                   let pos_of_noz = 0;
                   let noz = 0;
-                  if (index_key >= 0) //checking if nozzle is required for the first cylinder or other, cause for first it will be equal to nozzle height, but for others the height is from the origin, but we need the height only from the corresponding cylinder 
-                  {
-                    noz = nozzle_height - (this.heights_only[index_key] - height_of_cone / 2);
-                  } else {
-                    noz = nozzle_height;
-                  }
-                  if (diff >= 0) //check if is positive to check position of nozzle below or above the height of corresponding cylinder
-                  {
-                    pos_of_noz = rad_bot + ((noz / (height_of_cone)) * diff);
-                  } else {
-                    pos_of_noz = rad_bot - (((noz / height_of_cone)) * math.abs(diff));
-                  }
+                  //checking if nozzle is required for the first cylinder or other, cause for first it will be equal to nozzle height, but for others the height is from the origin, but we need the height only from the corresponding cylinder 
+                  noz= (index_key >= 0) ? nozzle_height - (this.heights_only[index_key] - height_of_cone / 2):nozzle_height;
+                  //check if is positive to check position of nozzle below or above the height of corresponding cylinder
+                  pos_of_noz =(diff >= 0) ? rad_bot + ((noz / (height_of_cone)) * diff): rad_bot - (((noz / height_of_cone)) * math.abs(diff));
                   let phi = math.asin((barrel_outer_diameter / 2 / pos_of_noz)); //calculating angle wrt to centre
                   let x_displace = (pos_of_noz) * math.cos(phi);
                   nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size);
@@ -448,11 +435,11 @@ class Scene extends Component {
               let thickness = parseFloat(this.props.component[i].thickness / this.scaler);
               t.color='#CD5C5C';
               let skirt_material = new THREE.MeshPhongMaterial(t);
-              let skirt = Shell(thickness, sd, sd, length, skirt_material);
+              let skirt = Shell(thickness, sd+thickness*2, sd+thickness*2, length, skirt_material);
               let skirt_flange_length = length / 4;
-              let skirt_flange = Shell(thickness+sd/30, sd , sd , skirt_flange_length, skirt_material);
-              skirt.translateY(-length / 2);
-              skirt_flange.translateY(-length - skirt_flange_length / 2);
+              let skirt_flange = Shell(thickness+sd/30, sd+thickness*2 , sd+thickness*2 , skirt_flange_length, skirt_material);
+              skirt.translateY(-length/2);
+              skirt_flange.translateY(-length-skirt_flange_length / 2);//skirt_flange.translateY(-length - skirt_flange_length / 2);
               let group = new THREE.Group();
               group.add(skirt);
               group.add(skirt_flange);
@@ -473,11 +460,7 @@ class Scene extends Component {
                     try {
                       position = position + (this.props.component[i].length * 12 / this.scaler);
                       last_cylinder = this.props.component[i].componentID;
-                      if (this.props.component[i].component === "Cylinder") {
-                        cyl_diameter = this.props.component[last_cylinder].sd / (2 * this.scaler);
-                      } else if (this.props.component[i].component === "Conical") {
-                        cyl_diameter = this.props.component[last_cylinder].sd_l / (2 * this.scaler);
-                      }
+                      cyl_diameter=(this.props.component[i].component === "Cylinder") ? this.props.component[last_cylinder].sd / (2 * this.scaler) : this.props.component[last_cylinder].sd_l / (2 * this.scaler);
                     } catch (Exception) {
                       console.log(Exception);
                     }
@@ -500,7 +483,6 @@ class Scene extends Component {
               let lug2 = null;
               if (this.props.component[i].number === '2') {
                 lug2 = LiftingLug(height, thickness, rad, hole_diameter,material);
-
               }
               if (last_cylinder !== null && this.props.component[last_cylinder] !== null) {
                 let shell_rad = cyl_diameter + this.props.component[last_cylinder].value.thickness / this.scaler; //finding the diameter of last shell
