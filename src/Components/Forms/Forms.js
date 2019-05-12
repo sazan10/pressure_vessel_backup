@@ -21,15 +21,10 @@ class DynamicForm extends React.Component {
   };
 
   updateStateModel = model => {
-<<<<<<< HEAD
-    console.log(model);
-    this.setState({form: model},
-=======
       this.setState(
       {
         form: model
       },
->>>>>>> 24e7af93374b28d3f1d510319378819167d0b975
       () => {
         //show the component parameters for clicked component
         if(this.props.componentClick){this.updateComponentByID()};
@@ -38,9 +33,6 @@ class DynamicForm extends React.Component {
   };
 
   componentDidMount() {
-<<<<<<< HEAD
-      this.updateStateModel(functions.checkLLAndHorizontal(this.props.title, this.props.orientation, this.props.model));
-=======
     if (!this.props.componentClick) {
       if (
         this.props.title === "Lifting Lug" &&
@@ -67,7 +59,6 @@ class DynamicForm extends React.Component {
       // this.checkForOrientationForHead(true);
     }
    
->>>>>>> 24e7af93374b28d3f1d510319378819167d0b975
   }
 
   checkForOrientationForHead = (isComponentClicked) => {
@@ -153,10 +144,6 @@ class DynamicForm extends React.Component {
 
       if(this.props.model.thickness !== undefined && this.props.model.thickness !== null) {
         try {
-<<<<<<< HEAD
-          console.log("changing values");
-          updatedModel = functions.updateComponentValues(updatedModel, this.props.ip, this.props.temp1, this.props.sd, this.props.thickness);
-=======
           this.props.model.ip.placeholder = this.props.ip;
           this.props.model.ip.value =this.props.ip;
           this.props.model.temp1.placeholder = this.props.temp1;
@@ -165,15 +152,11 @@ class DynamicForm extends React.Component {
           this.props.model.sd.value =this.props.sd;
           this.props.model.thickness.placeholder = this.props.thickness;
           this.props.model.thickness.value = this.props.thickness;
->>>>>>> 24e7af93374b28d3f1d510319378819167d0b975
        
         } catch {
           console.log("P or T or SD or TH update failed");
         }
       }
-<<<<<<< HEAD
-      this.updateStateModel(functions.checkLLAndHorizontal(this.props.title, this.props.orientation, updatedModel));
-=======
       if (
         this.props.title === "Lifting Lug" &&
         this.props.orientation === "horizontal"
@@ -198,7 +181,6 @@ class DynamicForm extends React.Component {
         this.updateStateModel(this.props.model);
       }
       this.checkForOrientationForHead(true);
->>>>>>> 24e7af93374b28d3f1d510319378819167d0b975
     }
 
     //to update the new calculated thickness in the form
