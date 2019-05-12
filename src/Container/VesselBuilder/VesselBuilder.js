@@ -82,7 +82,7 @@ class VesselBuilder extends Component {
       formDialog = <FormDialog open={this.props.formDialogOpen} />;
     }
 
-    let display = <div ><SideModal /></div>;
+    let display = <div ><SideModal projectID={this.props.projectID} model={this.props.model} title={this.props.title}/></div>;
     if (this.props.componentTree) {
       // console.log(this.props.components);
       display = (
@@ -151,12 +151,14 @@ const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     projectID: state.projectData.projectID,
+    title: state.navigation.title,
     formDialogOpen: state.flags.formDialogOpen,
     components: state.componentData.component,
     componentTree: state.navigation.componentTree,
     orientation: state.projectData.orientation,
     error: state.componentData.error,
-    showSpinnerr: state.flags.showSpinner
+    showSpinnerr: state.flags.showSpinner,
+    model: state.navigation.componentModel
   };
 };
 

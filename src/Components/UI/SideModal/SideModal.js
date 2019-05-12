@@ -1,35 +1,26 @@
-import React, { Component } from "react";
+import React from "react";
 import classes from "./SideModal.css";
-import {connect} from 'react-redux';
 import Auxx from "../../../hoc/Auxx/Auxx";
 import DynamicForm from "../../Forms/Forms";
-class Modal extends Component {
-  componentWillReceiveProps() {
-    // console.log("COmponntDIdUpdate" + this.state.component);
-  }
 
-  state = {
-    current: {},
-  };
+const  Modal = (props) =>  {
 
-  render() {   
     let modall = null;
-    const projectTitle = this.props.projectName;
-    if(this.props.model) {
+    const projectTitle = props.projectName;
+    if(props.model) {
     modall = (
       <Auxx>
-        <p>Project Name: {projectTitle}</p>
+        <p>Component Type: {props.title}</p>
         <DynamicForm
           className="form"
           title="Registration"
-          defaultValues={this.state.current}
-          model={this.props.model}
+          model={props.model}
           msg=""
       />
       </Auxx>
     );
     }
-    else if (this.props.projectID)
+    else if (props.projectID)
     modall=(
       <p className={classes.info}> CLICK ON "COMPONENT" TO START ADDING COMPONENTS</p>
     )
@@ -45,16 +36,6 @@ class Modal extends Component {
       </div>
     );
   }
-}
 
-const mapStateToProps = state => {
-  return {
-      title: state.navigation.title,
-      model: state.navigation.componentModel,
-      num: state.navigation.num,
-      projectID: state.projectData.projectID,
-      projectName: state.projectData.projectName,
-  };
-};
 
-export default connect( mapStateToProps, null)( Modal);
+export default ( Modal);
