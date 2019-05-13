@@ -23,7 +23,7 @@ import {
   SpheroidHeadBufferGeometry
 } from '../../Components/Parts/SpheroidHead_v2';
 import { select } from '@redux-saga/core/effects';
-
+ 
 class Scene extends Component {
   state = {
     current: {},
@@ -218,6 +218,14 @@ class Scene extends Component {
     this.renderer.render(this.scene, this.camera);
   }
 
+  clear_opacity=(component,t)=>{
+    if(this.name===component.component.toString() && this.compoID==component.componentID.toString()){
+      t.opacity=0.5;
+    }
+    else{
+      t.opacity=1;
+    }
+  }
   render(){
     try {
       let first_shell = true;
@@ -246,17 +254,29 @@ class Scene extends Component {
       if (this.props.component.length >= 0 && this.scene) {
         for (let i = 0; i < this.props.component.length; i++) {
           if (!isEmpty(this.props.component[i])) {
-            if(this.name===this.props.component[i].component.toString() && this.compoID==this.props.component[i].componentID.toString()){
-              t.opacity=0.5;
-            }
-            else{
-              t.opacity=1;
-            }
+            this.clear_opacity(this.props.component[i],t)
             switch (this.props.component[i].component)
             {
               case "Cylinder":
               case "Conical":
-                {
+                {let diameter_bot = 0;
+                let diameter_top = 0;
+                let diameter = 0;
+              if (this.props.component[i].component === "Cylinder") {
+                diameter_bot = parseFloat(this.props.component[i].sd / scaler);
+                diameter_top = diameter_bot;
+              } else {
+                diameter_bot = parseFloat(this.props.component[i].sd_l / scaler);
+                diameter_top = parseFloat(this.props.component[i].sd_s) / scaler;
+              }
+              cylinder_length = parseFloat(this.props.component[i].length) * (12 / scaler);
+              cylinder_lengths.push(cylinder_length);
+              lengths.push(cylinder_length);
+             // let number = parseFloat(this.props.component[i].number);
+              let thickness = parseFloat(this.props.component[i].thickness / scaler);
+              let shell = new THREE.Mesh();
+              t.color='#037d23';
+              let shell_material = new THREE.MeshPhongMaterial(t);
               shell = Shell(thickness, diameter_bot, diameter_top, cylinder_length, shell_material);
               shell.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
               if (first_shell) {

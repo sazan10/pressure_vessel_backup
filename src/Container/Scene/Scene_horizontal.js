@@ -221,7 +221,6 @@ class Scene_horizontal extends Component {
       this.shapes = [];
       let first_shell = true;
       let height_position = 0;
-      let scaler = 0;
       this.heights = {};
       this.weights = {};
       let cylinder_iterator = 0;
