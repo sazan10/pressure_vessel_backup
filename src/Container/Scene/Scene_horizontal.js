@@ -47,7 +47,7 @@ class Scene_horizontal extends Component {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(width, height);
     this.mount.appendChild(this.renderer.domElement);
-    document.getElementById("scener").addEventListener('click', this.onDocumentMouseDown, false);
+    document.getElementById("scener").addEventListener('mouseup', this.onDocumentMouseDown, false);
     this.group = new THREE.Group();
     //ADD CUBE
     this.controls = new TrackballControls(this.camera, this.renderer.domElement);
@@ -73,11 +73,14 @@ class Scene_horizontal extends Component {
     this.scene.add(this.axesHelper);
     this.shell_diameter = 0;
     this.length = 0;
+    this.lengths = [];
     this.heights = {};
     this.weights = {};
     this.weight_permanent={};
     this.name=null;
     this.compID=null;
+    this.scaler=100;
+    this.cylinder_lengths = [];
     this.first_shell = true;
     this.heights_only = [];
     this.heights_only_lug = [];
@@ -219,13 +222,13 @@ class Scene_horizontal extends Component {
     try {
       this.shapes = [];
       this.first_shell = true;
-      let height_position = 0;
-      let scaler = 100;
+      this.height_position = 0;
+      let scaler = 0;
       this.heights = {};
       this.weights = {};
       let cylinder_iterator = 0;
-      let cylinder_lengths = [];
-      let lengths = [];
+      this.cylinder_lengths = [];
+      this.lengths = [];
       let last_cylinder = null;
       let lug_index=null;
       let t={  color: '#037d23',
@@ -267,8 +270,8 @@ class Scene_horizontal extends Component {
             }
             this.shell_diameter = diameter_bot;
             this.length = parseFloat(this.props.component[i].length) * (12/this.scaler);
-            cylinder_lengths.push(this.length);
-            lengths.push(this.length);
+            this.cylinder_lengths.push(this.length);
+            this.lengths.push(this.length);
             let number = parseFloat(this.props.component[i].number);
             let thickness = parseFloat(this.props.component[i].thickness/this.scaler);
             let shell = new THREE.Mesh();
@@ -277,8 +280,8 @@ class Scene_horizontal extends Component {
             shell = Shell(thickness, diameter_bot, diameter_top, this.length, shell_material);
             shell.name=this.props.component[i].componentID + "&"+this.props.component[i].component ;
             if (this.first_shell) {
-              height_position = height_position + this.length / 2;
-              this.keepHeightRecord(this.props.component[i],height_position,height_position);             
+              this.height_position = this.height_position + this.length / 2;
+              this.keepHeightRecord(this.props.component[i],this.height_position,this.height_position);             
                this.first_shell = false;
             } else {
               t.color='#ffff00'
@@ -286,13 +289,13 @@ class Scene_horizontal extends Component {
                 diameter = (parseFloat(this.props.component[i].sd/this.scaler) + parseFloat(this.props.component[i].thickness/this.scaler)) || (parseFloat(this.props.component[i].sd_s/this.scaler) + parseFloat(this.props.component[i].thickness/this.scaler));
                 let ringgeometry = Shell(diameter/110, diameter, diameter, diameter/110, ringmaterial);
                 let lengths = this.props.component[i].length * (12/this.scaler); //length of current cylinder
-                height_position = height_position + cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
-                this.keepHeightRecord(this.props.component[i],height_position,height_position);
-                ringgeometry.translateX(height_position - this.length / 2).rotateZ(-math.pi / 2);
+                this.height_position = this.height_position + this.cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
+                this.keepHeightRecord(this.props.component[i],this.height_position,this.height_position);
+                ringgeometry.translateX(this.height_position - this.length / 2).rotateZ(-math.pi / 2);
                 this.scene.add(ringgeometry);
               
             }
-            shell.translateY(height_position); //height_position);  
+            shell.translateY(this.height_position); //this.height_position);  
             let cylinder_group = new THREE.Group();
             cylinder_group.add(shell);
             cylinder_group.rotateZ(-math.pi / 2);
@@ -310,7 +313,7 @@ class Scene_horizontal extends Component {
             let major = diameter + head_thickness;
             let srl = parseFloat(this.props.component[i].srl/this.scaler);
             if (this.props.component[i].position === '0') {
-              lengths.push(-500);
+              this.lengths.push(-500);
               let inner_maj = major - head_thickness;
               let head1 = new SpheroidHeadBufferGeometry(major, minor, inner_maj, minor - minor / 3, 400);
               t.color= '#0b7dba';
@@ -331,7 +334,7 @@ class Scene_horizontal extends Component {
               this.keepHeightRecord(this.props.component[i],-500,cg_head);
             }
             else {
-              lengths.push(minor);
+              this.lengths.push(minor);
               let head1 = new SpheroidHeadBufferGeometry(major, minor, major - head_thickness, minor - head_thickness, 400);
               t.color= '#0b7dba';
               let material = new THREE.MeshPhongMaterial(t);
@@ -363,7 +366,7 @@ class Scene_horizontal extends Component {
             let nozzle_material = new THREE.MeshPhongMaterial(t);
             let orientation = this.props.component[i].orientation;
             let orientation_in_rad = (orientation / 180) * math.pi;
-            lengths.push(-1000);
+            this.lengths.push(-1000);
             let nozzle_height = this.props.component[i].height*(12/this.scaler);
             this.heights_only = [];
             let key_value=0;

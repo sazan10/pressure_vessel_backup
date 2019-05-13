@@ -21,10 +21,8 @@ class DynamicForm extends React.Component {
   };
 
   updateStateModel = model => {
-      this.setState(
-      {
-        form: model
-      },
+    console.log(model);
+    this.setState({form: model},
       () => {
         //show the component parameters for clicked component
         if(this.props.componentClick){this.updateComponentByID()};
@@ -33,32 +31,7 @@ class DynamicForm extends React.Component {
   };
 
   componentDidMount() {
-    if (!this.props.componentClick) {
-      if (
-        this.props.title === "Lifting Lug" &&
-        this.props.orientation === "horizontal"
-      ) {
-        const updatedModel = this.props.model;
-        updatedModel["distance"] = LiftingLugAddition.default.liftingLugAddition;
-        this.setState({ form: updatedModel });
-      } else {
-        this.setState({ form: this.props.model });
-      }
-      // this.checkForOrientationForHead(false);
-    } else {
-      if (
-        this.props.title === "Lifting Lug" &&
-        this.props.orientation === "horizontal"
-      ) {
-        const updatedModel = this.props.model;
-        updatedModel["distance"] = LiftingLugAddition.default.liftingLugAddition;
-        this.updateStateModel(updatedModel);
-      } else {
-        this.updateStateModel(this.props.model);
-      }
-      // this.checkForOrientationForHead(true);
-    }
-   
+      this.updateStateModel(functions.checkLLAndHorizontal(this.props.title, this.props.orientation, this.props.model));
   }
 
   checkForOrientationForHead = (isComponentClicked) => {
@@ -144,43 +117,14 @@ class DynamicForm extends React.Component {
 
       if(this.props.model.thickness !== undefined && this.props.model.thickness !== null) {
         try {
-          this.props.model.ip.placeholder = this.props.ip;
-          this.props.model.ip.value =this.props.ip;
-          this.props.model.temp1.placeholder = this.props.temp1;
-          this.props.model.temp1.value =this.props.temp1;
-          this.props.model.sd.placeholder = this.props.sd;
-          this.props.model.sd.value =this.props.sd;
-          this.props.model.thickness.placeholder = this.props.thickness;
-          this.props.model.thickness.value = this.props.thickness;
+          console.log("changing values");
+          updatedModel = functions.updateComponentValues(updatedModel, this.props.ip, this.props.temp1, this.props.sd, this.props.thickness);
        
         } catch {
           console.log("P or T or SD or TH update failed");
         }
       }
-      if (
-        this.props.title === "Lifting Lug" &&
-        this.props.orientation === "horizontal"
-      ) {
-        const updatedModel = this.props.model;
-        updatedModel["distance"] = LiftingLugAddition.default.liftingLugAddition;
-        this.setState({ form: updatedModel });
-      } else {
-        this.setState({ form: this.props.model });
-      }
-    }
-
-    if (this.props.componentClick && prevProps.model !== this.props.model) {
-      if (
-        this.props.title === "Lifting Lug" &&
-        this.props.orientation === "horizontal"
-      ) {
-        const updatedModel = this.props.model;
-        updatedModel["distance"] = LiftingLugAddition.default.liftingLugAddition;
-        this.updateStateModel(updatedModel);
-      } else {
-        this.updateStateModel(this.props.model);
-      }
-      this.checkForOrientationForHead(true);
+      this.updateStateModel(functions.checkLLAndHorizontal(this.props.title, this.props.orientation, updatedModel));
     }
 
     //to update the new calculated thickness in the form

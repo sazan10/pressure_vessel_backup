@@ -102,7 +102,7 @@ class Scene extends Component {
     raycaster.setFromCamera( mouse, this.camera );
   if (this.shapes.length >= 1) {
      // let intersects = raycaster.intersectObjects(this.shapes, true);
-    var intersects = raycaster.intersectObjects(this.shapes, true);
+    var intersects = raycaster.intersectObjects( this.shapes, true);
      if (intersects.length > 0) {
         intersects[0].object.material.transparent = true;
         try {
@@ -253,10 +253,7 @@ class Scene extends Component {
             else{
               t.opacity=1;
             }
-            switch (this.props.component[i])
-            {
-              case "Cylinder":
-              case "Conical":
+            if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
               let diameter_bot = 0;
               let diameter_top = 0;
               let diameter = 0;
@@ -301,8 +298,7 @@ class Scene extends Component {
               this.radial_position = diameter / 2 + thickness;
               this.shapes.push(shell);
               last_cylinder = i;
-              break;
-            case "Ellipsoidal Head":
+            } else if (this.props.component[i].component === "Ellipsoidal Head") {
               let diameter = parseFloat(this.props.component[i].sd) / (2 * scaler);
               let head_thickness = parseFloat(this.props.component[i].thickness / scaler);
               this.shell_diameter = parseFloat(this.props.component[i].sd / scaler);
@@ -354,9 +350,7 @@ class Scene extends Component {
                 grouper2.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
                 this.shapes.push(grouper2);
               }
-              break;
-            case "Nozzle":
-            if(this.props.component[i].type_name === "LWN") {
+            } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "LWN") {
               let length = this.props.component[i].externalNozzleProjection / scaler;
               let orientation = this.props.component[i].orientation;
               t.color='#0b7dba';
@@ -434,7 +428,7 @@ class Scene extends Component {
                 }
               }
               this.keepHeightRecord(this.props.component[i], -500, 0);
-            } else if (this.props.component[i].type_name === "HB") {
+            } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "HB") {
               let length = this.props.component[i].length / scaler;
               let orientation = this.props.component[i].orientation;
               let orientation_in_rad = (orientation / 180) * math.pi;
@@ -447,9 +441,7 @@ class Scene extends Component {
               this.shapes.push(nozzle);
               this.keepHeightRecord(this.props.component[i], -500, 0);
 
-            }
-            break; 
-            case "Skirt":
+            } else if (this.props.component[i].component === "Skirt") {
               let length = parseFloat(this.props.component[i].length / scaler);
               let sd = parseFloat(this.props.component[i].sd / scaler);
               let thickness = parseFloat(this.props.component[i].thickness / scaler);
@@ -469,8 +461,8 @@ class Scene extends Component {
               let cg_skirt = -(length / 2 + 2);
               this.keepHeightRecord(this.props.component[i], -500, cg_skirt);
               lengths.push(-500);
-              break;
-            case "Lifting Lug":
+
+            } else if (this.props.component[i].component === "Lifting Lug") {
               let position = 0;
               let last_cylinder = 0;
               let cyl_diameter = 0;
@@ -486,8 +478,6 @@ class Scene extends Component {
                     }
                   }
                 }
-              break;
-              
               }
 
               this.keepHeightRecord(this.props.component[i], -500, 0);
