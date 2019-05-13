@@ -79,9 +79,6 @@ class Scene_horizontal extends Component {
     this.weight_permanent={};
     this.name=null;
     this.compID=null;
-    this.scaler=100;
-    this.cylinder_lengths = [];
-    this.first_shell = true;
     this.heights_only = [];
     this.heights_only_lug = [];
     this.controls.update();
@@ -220,14 +217,15 @@ class Scene_horizontal extends Component {
   }
   render() {
     try {
+      let scaler=100;
       this.shapes = [];
-      this.first_shell = true;
-      this.height_position = 0;
+      let first_shell = true;
+      let height_position = 0;
       let scaler = 0;
       this.heights = {};
       this.weights = {};
       let cylinder_iterator = 0;
-      this.cylinder_lengths = [];
+      let cylinder_lengths = [];
       this.lengths = [];
       let last_cylinder = null;
       let lug_index=null;
@@ -257,45 +255,49 @@ class Scene_horizontal extends Component {
             else{
               t.opacity=1;
             }
-          if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
+            switch (this.props.component[i].component)
+            {
+              case "Cylinder":
+              case "Conical":
+            {
             let diameter_bot = 0;
             let diameter_top = 0;
             let diameter = 0;
             if (this.props.component[i].component === "Cylinder") {
-              diameter_bot = parseFloat(this.props.component[i].sd/this.scaler);
+              diameter_bot = parseFloat(this.props.component[i].sd/scaler);
               diameter_top = diameter_bot;
             } else {
-              diameter_bot = parseFloat(this.props.component[i].sd_l/this.scaler);
-              diameter_top = parseFloat(this.props.component[i].sd_s/this.scaler);
+              diameter_bot = parseFloat(this.props.component[i].sd_l/scaler);
+              diameter_top = parseFloat(this.props.component[i].sd_s/scaler);
             }
             this.shell_diameter = diameter_bot;
-            this.length = parseFloat(this.props.component[i].length) * (12/this.scaler);
-            this.cylinder_lengths.push(this.length);
+            this.length = parseFloat(this.props.component[i].length) * (12/scaler);
+            cylinder_lengths.push(this.length);
             this.lengths.push(this.length);
             let number = parseFloat(this.props.component[i].number);
-            let thickness = parseFloat(this.props.component[i].thickness/this.scaler);
+            let thickness = parseFloat(this.props.component[i].thickness/scaler);
             let shell = new THREE.Mesh();
             t.color='#037d23';
             let shell_material = new THREE.MeshPhongMaterial(t);
             shell = Shell(thickness, diameter_bot, diameter_top, this.length, shell_material);
             shell.name=this.props.component[i].componentID + "&"+this.props.component[i].component ;
-            if (this.first_shell) {
-              this.height_position = this.height_position + this.length / 2;
-              this.keepHeightRecord(this.props.component[i],this.height_position,this.height_position);             
-               this.first_shell = false;
+            if (first_shell) {
+              height_position = height_position + this.length / 2;
+              this.keepHeightRecord(this.props.component[i],height_position,height_position);             
+               first_shell = false;
             } else {
               t.color='#ffff00'
               let ringmaterial = new THREE.MeshBasicMaterial(t);
-                diameter = (parseFloat(this.props.component[i].sd/this.scaler) + parseFloat(this.props.component[i].thickness/this.scaler)) || (parseFloat(this.props.component[i].sd_s/this.scaler) + parseFloat(this.props.component[i].thickness/this.scaler));
+                diameter = (parseFloat(this.props.component[i].sd/scaler) + parseFloat(this.props.component[i].thickness/scaler)) || (parseFloat(this.props.component[i].sd_s/scaler) + parseFloat(this.props.component[i].thickness/scaler));
                 let ringgeometry = Shell(diameter/110, diameter, diameter, diameter/110, ringmaterial);
-                let lengths = this.props.component[i].length * (12/this.scaler); //length of current cylinder
-                this.height_position = this.height_position + this.cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
-                this.keepHeightRecord(this.props.component[i],this.height_position,this.height_position);
-                ringgeometry.translateX(this.height_position - this.length / 2).rotateZ(-math.pi / 2);
+                let lengths = this.props.component[i].length * (12/scaler); //length of current cylinder
+                height_position = height_position + cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
+                this.keepHeightRecord(this.props.component[i],height_position,height_position);
+                ringgeometry.translateX(height_position - this.length / 2).rotateZ(-math.pi / 2);
                 this.scene.add(ringgeometry);
               
             }
-            shell.translateY(this.height_position); //this.height_position);  
+            shell.translateY(height_position); //height_position);  
             let cylinder_group = new THREE.Group();
             cylinder_group.add(shell);
             cylinder_group.rotateZ(-math.pi / 2);
@@ -304,14 +306,16 @@ class Scene_horizontal extends Component {
             this.radial_position = diameter / 2 + thickness;
             this.shapes.push(shell);
             last_cylinder = i;
-          } else if (this.props.component[i].component === "Ellipsoidal Head") {
-            let diameter = parseFloat(this.props.component[i].sd) / (2*this.scaler);
-            let head_thickness = parseFloat(this.props.component[i].thickness/this.scaler);
-            this.shell_diameter = parseFloat(this.props.component[i].sd/this.scaler);
+          } 
+          case "Ellipsoidal Head":
+          {
+            let diameter = parseFloat(this.props.component[i].sd) / (2*scaler);
+            let head_thickness = parseFloat(this.props.component[i].thickness/scaler);
+            this.shell_diameter = parseFloat(this.props.component[i].sd/scaler);
             let ratio = parseFloat(this.props.component[i].hr);
             let minor = diameter / ratio;
             let major = diameter + head_thickness;
-            let srl = parseFloat(this.props.component[i].srl/this.scaler);
+            let srl = parseFloat(this.props.component[i].srl/scaler);
             if (this.props.component[i].position === '0') {
               this.lengths.push(-500);
               let inner_maj = major - head_thickness;
@@ -348,7 +352,7 @@ class Scene_horizontal extends Component {
               for (let i = 0; i < this.props.component.length; i++) {
                 if(this.props.component[i]){
                 if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
-                  height_for_top = height_for_top + this.props.component[i].length * (12/this.scaler) ;
+                  height_for_top = height_for_top + this.props.component[i].length * (12/scaler) ;
                 }
               }
             }
@@ -359,15 +363,17 @@ class Scene_horizontal extends Component {
               grouper2.name=this.props.component[i].componentID + "&"+ this.props.component[i].component;
               this.shapes.push(grouper2);
             }
-          } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "LWN") 
+          } 
+          case "Nozzle":
+           if( this.props.component[i].type_name === "LWN") 
           {
-            let length = this.props.component[i].externalNozzleProjection/this.scaler;
+            let length = this.props.component[i].externalNozzleProjection/scaler;
             t.color='#0b7dba';
             let nozzle_material = new THREE.MeshPhongMaterial(t);
             let orientation = this.props.component[i].orientation;
             let orientation_in_rad = (orientation / 180) * math.pi;
             this.lengths.push(-1000);
-            let nozzle_height = this.props.component[i].height*(12/this.scaler);
+            let nozzle_height = this.props.component[i].height*(12/scaler);
             this.heights_only = [];
             let key_value=0;
             for (let key in this.heights) 
@@ -395,19 +401,19 @@ class Scene_horizontal extends Component {
             let closest_value = this.heights[closest_index];
             let index_key = returnKey(this.heights, closest_value);
             let nozzle = new THREE.Mesh();
-            let barrel_outer_diameter = this.props.component[i].value.barrel_outer_diameter/this.scaler;
-            let bolt_circle_diameter = this.props.component[i].value.blot_circle_diameter/this.scaler;
+            let barrel_outer_diameter = this.props.component[i].value.barrel_outer_diameter/scaler;
+            let bolt_circle_diameter = this.props.component[i].value.blot_circle_diameter/scaler;
             let bolt_hole_number = this.props.component[i].value.blot_hole_number;
-            let bolt_hole_size = this.props.component[i].value.blot_hole_size/this.scaler;
-            let bore = this.props.component[i].value.bore/this.scaler;
-            let flange_outer_diameter = this.props.component[i].value.flange_outer_diameter/this.scaler;
-            let flange_thickness = this.props.component[i].value.flange_thickness/this.scaler;
-            let raised_face_diameter = this.props.component[i].value.raised_face_diameter/this.scaler;
-            let raised_face_thickness = this.props.component[i].value.raised_face_thickness/this.scaler;
+            let bolt_hole_size = this.props.component[i].value.blot_hole_size/scaler;
+            let bore = this.props.component[i].value.bore/scaler;
+            let flange_outer_diameter = this.props.component[i].value.flange_outer_diameter/scaler;
+            let flange_thickness = this.props.component[i].value.flange_thickness/scaler;
+            let raised_face_diameter = this.props.component[i].value.raised_face_diameter/scaler;
+            let raised_face_thickness = this.props.component[i].value.raised_face_thickness/scaler;
            if(this.props.component[index_key])
            {
             if (this.props.component[index_key].component === "Cylinder") {
-              let shell_rad = this.props.component[index_key].sd / (2*this.scaler);
+              let shell_rad = this.props.component[index_key].sd / (2*scaler);
               let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
               let x_displace = (shell_rad) * math.cos(phi);
               nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size, nozzle_material);
@@ -417,9 +423,9 @@ class Scene_horizontal extends Component {
               this.shapes.push(nozzle);
 
             } else if (this.props.component[index_key].component === "Conical") {
-              let rad_bot = this.props.component[index_key].sd_s /( 2*this.scaler);
-              let rad_top = this.props.component[index_key].sd_l / (2*this.scaler);
-              let height_of_cone = this.props.component[index_key].length * (12/this.scaler);
+              let rad_bot = this.props.component[index_key].sd_s /( 2*scaler);
+              let rad_top = this.props.component[index_key].sd_l / (2*scaler);
+              let height_of_cone = this.props.component[index_key].length * (12/scaler);
               let diff = rad_top - rad_bot;
               let pos_of_noz = 0;
               let noz = 0;
@@ -446,13 +452,13 @@ class Scene_horizontal extends Component {
           }
           this.keepHeightRecord(this.props.component[i],-500,0);
 
-          } else if (this.props.component[i].component === "Nozzle" && this.props.component[i].type_name === "HB") 
+          } else if (this.props.component[i].type_name === "HB") 
           {
 
-            let length = this.props.component[i].length * (12/this.scaler);
+            let length = this.props.component[i].length * (12/scaler);
             let orientation = this.props.component[i].orientation;
             let orientation_in_rad = (orientation / 180) * math.pi;
-            let nozzle_height = this.props.component[i].height/this.scaler;
+            let nozzle_height = this.props.component[i].height/scaler;
             let nozzle = new THREE.Mesh();
             nozzle = Curve_nozzle(length, 1);
             nozzle.translateZ(-this.radial_position * math.cos(orientation_in_rad)).translateX(this.radial_position * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
@@ -462,10 +468,10 @@ class Scene_horizontal extends Component {
             this.keepHeightRecord(this.props.component[i],-500,0);
 
           }
-          else if (this.props.component[i].component === "Skirt") {
-          }
+          case  "Skirt":
+          break;
           
-          else if (this.props.component[i].component === "Lifting Lug") {
+          case "Lifting Lug": {
             try {
               lug_index=parseInt(this.props.component[i].componentID);
               this.keepHeightRecord(this.props.component[i],-500,0);
@@ -481,12 +487,12 @@ class Scene_horizontal extends Component {
                 //   }
                 // }
                 let key =0;
-                let thickness = this.props.component[i].value.lug_thickness.req_value/this.scaler;
-                height = this.props.component[i].height_lug/this.scaler;
-                let rad = this.props.component[i].length/this.scaler;
-                let hole_diameter = this.props.component[i].hole_diameter/this.scaler;
-                distance1 = this.props.component[i].lug1_cg_distance/this.scaler;
-                distance2 = this.props.component[i].lug2_cg_distance/this.scaler;
+                let thickness = this.props.component[i].value.lug_thickness.req_value/scaler;
+                height = this.props.component[i].height_lug/scaler;
+                let rad = this.props.component[i].length/scaler;
+                let hole_diameter = this.props.component[i].hole_diameter/scaler;
+                distance1 = this.props.component[i].lug1_cg_distance/scaler;
+                distance2 = this.props.component[i].lug2_cg_distance/scaler;
                 angle = this.props.component[i].layout_angle;
                 t.color='#500dba';
                 let material = new THREE.MeshPhongMaterial(t);
@@ -503,18 +509,21 @@ class Scene_horizontal extends Component {
             } catch (err) {
               console.log(err);
             }
-          } else if (this.props.component[i].component === "Saddle") {
+            break;
+          } case "Saddle": 
+          {
             t.color='#abcdef';
             let material=new THREE.MeshPhongMaterial(t);
-            let saddle = Saddle(this.props.component[last_cylinder].sd / (2*this.scaler) + this.props.component[last_cylinder].value.thickness/this.scaler, this.props.component[i].width/this.scaler, this.props.component[i].base_height/this.scaler, this.props.component[i].base_length/this.scaler, (this.props.component[i].saddle_angle / 180) * math.pi,material);
-            let position = this.props.component[i].position/this.scaler;
-            let distance = this.props.component[i].distance/this.scaler;
+            let saddle = Saddle(this.props.component[last_cylinder].sd / (2*scaler) + this.props.component[last_cylinder].value.thickness/scaler, this.props.component[i].width/scaler, this.props.component[i].base_height/scaler, this.props.component[i].base_length/scaler, (this.props.component[i].saddle_angle / 180) * math.pi,material);
+            let position = this.props.component[i].position/scaler;
+            let distance = this.props.component[i].distance/scaler;
             saddle.translateZ(distance);
             saddle.name=this.props.component[i].componentID+ "&"+this.props.component[i].component;
             this.scene.add(saddle);
             this.shapes.push(saddle);
             this.keepHeightRecord(this.props.component[i],-500,0);
             this.start();
+            break;
           }
         }
         if(lug1 && i===(this.props.component.length-1))
@@ -553,8 +562,8 @@ class Scene_horizontal extends Component {
                 let closest_value2 = this.heights[closest_index2];
                 let index_key1 = returnKey(this.heights, closest_value1);
                 let index_key2 = returnKey(this.heights, closest_value2);
-                let shell_rad1 = this.props.component[index_key1].sd /(2*this.scaler) + this.props.component[index_key1].value.thickness/this.scaler; //finding the diameter of last shell
-                let shell_rad2 = this.props.component[index_key2].sd /(2*this.scaler) + this.props.component[index_key2].value.thickness/this.scaler; //finding the diameter of last shell
+                let shell_rad1 = this.props.component[index_key1].sd /(2*scaler) + this.props.component[index_key1].value.thickness/scaler; //finding the diameter of last shell
+                let shell_rad2 = this.props.component[index_key2].sd /(2*scaler) + this.props.component[index_key2].value.thickness/scaler; //finding the diameter of last shell
                 let x_displace1 = (shell_rad1) * math.cos(math.pi * (angle / 180));
 
                 let x_displace2 = (shell_rad2) * math.cos(math.pi * (angle / 180));
@@ -572,7 +581,7 @@ class Scene_horizontal extends Component {
                 }
         }
       }
-    }
+    }}
       return ( <div>< div width = '100%'
         height = '100%'
 
