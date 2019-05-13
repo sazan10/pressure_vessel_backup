@@ -63,6 +63,7 @@ export const onSubmitAndUpdate = (data, projectID, componentID) => {
       };
     } else if (data.component === "Nozzle") {
       url = "/api/nozzle/data";
+      data={...data,"internalNozzleProjection":"0"}
       data1 = {
         nozzleParam: data,
         projectID: projectID,
