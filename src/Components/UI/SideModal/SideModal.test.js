@@ -10,8 +10,8 @@ configure({ adapter: new Adapter() });
 describe("<SideModal />", () => {
   it("should load dynamic form for components", () => {
     const wrapper = shallow(<SideModal />);
-    wrapper.setProps({ model: true, projectID: false });
-    expect(wrapper.find(DynamicForm)).toHaveLength(1);
+    wrapper.setProps({ model: null, projectID: false });
+    expect(wrapper.find(DynamicForm)).toHaveLength(0);
   });
 
   it("Start adding components", () => {
@@ -22,7 +22,7 @@ describe("<SideModal />", () => {
 
   it("should welcome the user and ask to create new project", () => {
     const wrapper = shallow(<SideModal />);
-    wrapper.setProps({ model: false, projectID: false });
+    wrapper.setProps({ model: {}, projectID: false });
     expect(wrapper.find("p")).toHaveLength(1);
   });
 });
