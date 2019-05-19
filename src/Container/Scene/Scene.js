@@ -103,10 +103,18 @@ class Scene extends Component {
     var intersects = raycaster.intersectObjects(this.shapes, true);
      if (intersects.length > 0) {
         intersects[0].object.material.transparent = true;
+        let name = null;
+        if (intersects[0].object.parent.name) {
+          name = intersects[0].object.parent.name;
+        } else {
+          name = intersects[0].object.name;
+        }
         try {
           const sh = [...this.shapes];
           sh.map((shape) => {
             let sh_name = shape.name.split("&");
+            if(this.name===sh_name[1])
+            {
             if (sh_name[1] === "Cylinder" || sh_name[1]==="Conical") {
               shape.material.opacity = 1;
             } else {
@@ -115,6 +123,7 @@ class Scene extends Component {
                 return 0;
               })
             }
+          }
             return 0;
           });
         } catch (e) {
@@ -125,20 +134,15 @@ class Scene extends Component {
         } else {
           intersects[0].object.material.opacity = 1;
         }
-        let name = null;
-        if (intersects[0].object.parent.name) {
-          name = intersects[0].object.parent.name;
-        } else {
-          name = intersects[0].object.name;
-        }
+     
 
         let res=null;
         if(name){
         res=name.split("&");
         this.name = res[1];
         this.compoID=res[0];
-        this.props.updateSelectedComponentID(res[0]);
-        this.props.treeUpdate(false);
+         this.props.updateSelectedComponentID(res[0]);
+         this.props.treeUpdate(false);
         this.props.modelImport(res[1], 1);
         this.props.returnComponentID(res[0]);
         this.props.componentClicked(true);
@@ -234,7 +238,6 @@ class Scene extends Component {
       this.heights = {};
       let cylinder_iterator = 0;
       let cylinder_lengths = [];
-      let lengths = [];
       this.shapes = [];
       let last_cylinder = null;
       let scaler = 100;
@@ -259,7 +262,8 @@ class Scene extends Component {
             {
               case "Cylinder":
               case "Conical":
-                {let diameter_bot = 0;
+                {
+                let diameter_bot = 0;
                 let diameter_top = 0;
                 let diameter = 0;
               if (this.props.component[i].component === "Cylinder") {
@@ -271,7 +275,6 @@ class Scene extends Component {
               }
               cylinder_length = parseFloat(this.props.component[i].length) * (12 / scaler);
               cylinder_lengths.push(cylinder_length);
-              lengths.push(cylinder_length);
              // let number = parseFloat(this.props.component[i].number);
               let thickness = parseFloat(this.props.component[i].thickness / scaler);
               let shell = new THREE.Mesh();
@@ -300,6 +303,7 @@ class Scene extends Component {
               this.scene.add(cylinder_group);
               cylinder_iterator = cylinder_iterator + 1;
               this.radial_position = diameter / 2 + thickness;
+              console.log("componenttype",shell)
               this.shapes.push(shell);
               last_cylinder = i;
               break;}
@@ -313,7 +317,6 @@ class Scene extends Component {
               let major = diameter + head_thickness;
               let srl = parseFloat(this.props.component[i].srl / scaler);
               if (this.props.component[i].position === '0') {
-                lengths.push(-500);
                 let inner_maj = major - head_thickness;
                 let head1 = new SpheroidHeadBufferGeometry(major, minor, inner_maj, minor - minor / 3, 400);
                 t.color= '#0b7dba';
@@ -327,11 +330,11 @@ class Scene extends Component {
                 grouper.add(head);
                 this.scene.add(grouper);
                 grouper.name = this.props.component[i].componentID + "&" + "Ellipsoidal Head";
+                console.log("componenttype",grouper)
                 this.shapes.push(grouper);
                 let cg_head = -(4 * minor) / (3 * math.pi)
                 this.keepHeightRecord(this.props.component[i], -500, cg_head);
               } else {
-                lengths.push(minor);
                 let head1 = new SpheroidHeadBufferGeometry(major, minor, major - head_thickness, minor - head_thickness, 400);
                 t.color='#0b7dba';
                 let material = new THREE.MeshPhongMaterial(t);
@@ -353,6 +356,7 @@ class Scene extends Component {
                 this.keepHeightRecord(this.props.component[i], -500, cg_head);
                 grouper2.translateY(height_for_top+srl/2);
                 this.scene.add(grouper2);
+                console.log("componenttype",grouper2)
                 grouper2.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
                 this.shapes.push(grouper2);
               }
@@ -366,7 +370,6 @@ class Scene extends Component {
               t.color='#0b7dba';
               let nozzle_material = new THREE.MeshPhongMaterial(t);
               let orientation_in_rad = (orientation / 180) * math.pi;
-              lengths.push(-1000);
               let nozzle_height = this.props.component[i].height * (12 / scaler);
               this.heights_only = []
               let key_value = 0
@@ -435,6 +438,7 @@ class Scene extends Component {
                   this.scene.add(nozzle);
                   nozzle.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
                   this.shapes.push(nozzle);
+                  console.log("componenttype",nozzle)
                 }
               }
               this.keepHeightRecord(this.props.component[i], -500, 0);
@@ -474,7 +478,6 @@ class Scene extends Component {
               this.shapes.push(group);
               let cg_skirt = -(length / 2 + 2);
               this.keepHeightRecord(this.props.component[i], -500, cg_skirt);
-              lengths.push(-500);
               break;
             }
             case "Lifting Lug":
