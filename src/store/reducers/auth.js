@@ -7,7 +7,6 @@ const initialState = {
     error: null,
     loading: false,
     authRedirectPath: '/builder',
-    id: null,
     isAuthenticated: true,
     model: null
 };
@@ -21,11 +20,8 @@ const authSuccess = (state, action) => {
     return updateObject( state, { 
         token: action.idToken,
         userId: action.userId,
-        error: null,
-        loading: false,
         isAuthenticated: true,
-        id: action.id
-     } );
+     });
 };
 
 const authFail = (state, action) => {

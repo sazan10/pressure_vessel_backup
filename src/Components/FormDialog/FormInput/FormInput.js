@@ -23,9 +23,9 @@ const styles = theme => ({
 
 
 
-const FormDialog = (props) => {
+export const FormInput = (props) => {
   const { classes } = props;
-  let element = null;
+  let element = <div></div>;
   switch (props.data.type) {
     case "text":
       element = <FormControl className={classes.formControl}>  <TextField autoFocus {...props.data} onChange={(event) => props.handleChange(event, 'projectName')} /></FormControl>;
@@ -50,15 +50,16 @@ const FormDialog = (props) => {
         </FormControl>
       break;
     default:
+    element = <FormControl></FormControl>
       break;
   }
   return element;
 }
 
-FormDialog.propTypes = {
-    data: PropTypes.object.isRequired,
-    handleChange: PropTypes.func.isRequired,
-    orientation: PropTypes.string.isRequired
-};
+// FormInput.propTypes = {
+//     data: PropTypes.object.isRequired,
+//     handleChange: PropTypes.func.isRequired,
+//     orientation: PropTypes.string.isRequired
+// };
 
-export default withStyles(styles)(FormDialog);
+export default withStyles(styles)(FormInput);

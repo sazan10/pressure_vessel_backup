@@ -1,10 +1,48 @@
 import { put } from "redux-saga/effects";
 import * as actions from "../actions/index";
 import axios from "../../axios-orders";
+import * as cylinder from "../../JSONFiles/Components/CylinderParam1.json";
+import * as ellipsoidalHead from "../../JSONFiles/Components/EllipsoidalHeadParam1.json";
+import * as conical from "../../JSONFiles/Components/ConicalParam1.json";
+import * as nozzle from "../../JSONFiles/Components/NozzleParam1.json";
+import * as saddle from "../../JSONFiles/Components/SaddleParam1.json";
+import * as skirt from "../../JSONFiles/Components/SkirtParam1.json";
+import * as liftingLug from "../../JSONFiles/Components/LiftingLugParam1.json";
+import * as newProject from "../../JSONFiles/FormDialog/New.json";
 
 export function* importModelSaga(action) {
   yield put(actions.updateTitle(action.title));
-  const response = yield import(`../../JSONFiles/Components/${action.title.replace(" ", "")}Param1.json`);
+  let response = cylinder;
+  // const response = yield import(`../../JSONFiles/Components/${action.title.replace(" ", "")}Param1.json`);
+  //console.log(response);
+  switch (action.title) {
+    case "Cylinder":
+      response = cylinder;
+      break;
+    case "Ellipsoidal Head":
+      response = ellipsoidalHead;
+      break;
+    case "Conical":
+      response = conical;
+      break;
+    case "Nozzle":
+      response = nozzle;
+      break;
+    case "Lifting Lug":
+      response = liftingLug;
+      break;
+    case "Skirt":
+      response = skirt;
+      break;
+    case "Saddle":
+      response = saddle;
+      break;
+
+    default:
+      break;
+  }
+
+  //console.log(response.default);
   yield put(actions.returnModel(response.default));
 }
 
@@ -31,6 +69,7 @@ export function* importOpenFormSaga(action) {
 }
 
 export function* importNewFormSaga(action) {
-  const response = yield import(`../../JSONFiles/FormDialog/New.json`);
+  // const response = yield import(`../../JSONFiles/FormDialog/New.json`);
+  const response = newProject;
   yield put(actions.returnForm(response.default));
 }

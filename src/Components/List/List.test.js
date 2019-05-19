@@ -1,23 +1,20 @@
 import React from "react";
 import { configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import IconNavbar from './IconNavbar';
+import List from './List';
 import Button from "@material-ui/core/Button";
+import ListItem from "@material-ui/core/ListItem";
 
 //enzyme is connected
 configure({ adapter: new Adapter() });
 
-describe("<IconNavbar />", () => {
-  it("if saddle and vertical then return null", () => {
-    const wrapper = shallow(<IconNavbar />);
-    wrapper.setProps({ title: "Saddle", orientation: "vertical" });
-    expect(wrapper.find(Button)).toHaveLength(0);
+describe("<List />", () => {
+  it("display list of projects", () => {
+    const wrapper = shallow(<List />);
+    wrapper.setProps({model:[{projectName: "hello", id: "1"}]});
+    expect(wrapper.find(ListItem)).toHaveLength(1);
   });
 
-  it("if skirt and horizontal then return null", () => {
-    const wrapper = shallow(<IconNavbar />);
-    wrapper.setProps({ title: "Skirt", orientation: "horizontal" });
-    expect(wrapper.find(Button)).toHaveLength(0);
-  });
+
 
 })

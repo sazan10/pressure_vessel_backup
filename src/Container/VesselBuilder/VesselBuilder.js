@@ -25,6 +25,9 @@ import html2canvas from "html2canvas";
 import * as actions from '../../store/actions/index';
 
 const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   palette: {
     primary: blue,
     secondary: {
@@ -36,13 +39,13 @@ const theme = createMuiTheme({
   }
 });
 
-class VesselBuilder extends Component {
+export class VesselBuilder extends Component {
   state = {
     open: false
   };
   componentDidMount() {
     if (!this.props.isAuthenticated) {
-      this.props.history.push("/");
+      // this.props.history.push("/");
     }
 
    
@@ -93,6 +96,7 @@ class VesselBuilder extends Component {
     }
 
     let scene = <Scene />;
+    // let scene = null;
     if (this.props.orientation === "vertical") {
       scene = (
         <div id="scene">
