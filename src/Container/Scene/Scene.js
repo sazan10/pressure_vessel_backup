@@ -18,7 +18,7 @@ import returnKey from '../../Components/Scene/returnKey';
 import isEmpty from '../../Components/Scene/object_empty';
 import cylinderRenderer from './cylinderRenderer';
 import keepHeightRecord from './keepHeightRecord';
-
+import ellipseRenderer from './ellipseRenderer';
 import {
   connect
 } from 'react-redux';
@@ -308,63 +308,13 @@ class Scene extends Component {
                 break;}
             case "Ellipsoidal Head":
             {
-              let diameter = parseFloat(this.props.component[i].sd) / (2 * scaler);
-              let head_thickness = parseFloat(this.props.component[i].thickness / scaler);
-              let head_diameter = parseFloat(this.props.component[i].sd / scaler);
-              let ratio = parseFloat(this.props.component[i].hr);
-              let minor = diameter / ratio;
-              let major = diameter + head_thickness;
-              let srl = parseFloat(this.props.component[i].srl / scaler);
-              if (this.props.component[i].position === '0') {
-                let inner_maj = major - head_thickness;
-                let head1 = new SpheroidHeadBufferGeometry(major, minor, inner_maj, minor - minor / 3, 400);
-                t.color= '#0b7dba';
-                let material = new THREE.MeshPhongMaterial(t);
-                let flange = Shell(head_thickness, head_diameter, head_diameter, srl, material);
-                let head = new THREE.Mesh(head1, material);
-                let grouper = new THREE.Group();
-                flange.translateY(-srl / 2);
-                grouper.add(flange)
-             head.translateY(-srl).rotateZ(math.pi);
-                grouper.add(head);
-                this.scene.add(grouper);
-                grouper.name = this.props.component[i].componentID + "&" + "Ellipsoidal Head";
-                console.log("componenttype",grouper);
-                this.shapes.push(grouper);
-                let cg_head = -(4 * minor) / (3 * math.pi)
-                let arr =keepHeightRecord(this.heights,this.weights,this.props.component[i], -500, cg_head);
-                if(arr)
-                {this.heights=arr[0];
-                this.weights=arr[1]}
-              } else {
-                let head1 = new SpheroidHeadBufferGeometry(major, minor, major - head_thickness, minor - head_thickness, 400);
-                t.color='#0b7dba';
-                let material = new THREE.MeshPhongMaterial(t);
-                let head = new THREE.Mesh(head1, material);
-                let grouper2 = new THREE.Group();
-                let flange2 = Shell(head_thickness, head_diameter, head_diameter, srl, material);
-                head.translateY(srl / 2);
-                grouper2.add(flange2);
-                grouper2.add(head);
-                let height_for_top = 0;
-                for (let i = 0; i < this.props.component.length; i++) {
-                  if (this.props.component[i]) {
-                    if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
-                      height_for_top = height_for_top + parseFloat(this.props.component[i].length) * (12 / scaler);
-                    }
-                  }
-                }
-                let cg_head = height_for_top + (4 * minor) / (3 * math.pi);
-                let arr =keepHeightRecord(this.heights,this.weights,this.props.component[i], -500, cg_head);
-                if(arr){this.heights=arr[0];
-                this.weights=arr[1]
-                }
-      
-                grouper2.translateY(height_for_top+srl/2);
-                this.scene.add(grouper2);
-                grouper2.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
-                this.shapes.push(grouper2);
-              }
+              let values =ellipseRenderer(this.props.component,this.props.component[i],this.heights,this.weights,scaler,t) ;
+              let ell=values[0];
+              ell.name=values[4] + "&" + values[3];
+              this.shapes.push(ell);
+              this.scene.add(ell);
+              this.heights=values[1];
+              this.weights=values[2];
               break;
             }
             case "Nozzle":
@@ -378,14 +328,7 @@ class Scene extends Component {
               let nozzle_height = this.props.component[i].height * (12 / scaler);
               this.heights_only = []
               let key_value = 0
-              // for (let key in this.heights) 
-              // {      
-              //   key_value=key;
-              //  }
-              //               for (let key in this.heights) {
-              //                 let i = this.heights[key];
-              //                 this.heights_only.splice(key, 0, i); //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
-              // }
+
               for (let key in this.heights) {
                 key_value = key;
               }
