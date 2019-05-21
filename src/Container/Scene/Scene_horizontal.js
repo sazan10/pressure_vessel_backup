@@ -12,7 +12,9 @@ import Standard_nozzle from '../../Components/Parts/Standard_nozzle';
 import comparator from '../../Components/Scene/comparator';
 import math from 'mathjs';
 import height_checker from '../../Components/Scene/height_checker';
-import getClosest from 'get-closest'
+import getClosest from 'get-closest';
+import cylinderRenderer from '../../Components/Renderers/cylinderRenderer';
+
 import returnKey from '../../Components/Scene/returnKey';
 import isEmpty from '../../Components/Scene/object_empty';
 import objecSize from '../../Components/Scene/object_size';
@@ -257,53 +259,37 @@ class Scene_horizontal extends Component {
               case "Cylinder":
               case "Conical":
             {
-            let diameter_bot = 0;
-            let diameter_top = 0;
-            let diameter = 0;
-            if (this.props.component[i].component === "Cylinder") {
-              diameter_bot = parseFloat(this.props.component[i].sd/scaler);
-              diameter_top = diameter_bot;
-            } else {
-              diameter_bot = parseFloat(this.props.component[i].sd_l/scaler);
-              diameter_top = parseFloat(this.props.component[i].sd_s/scaler);
-            }
-            this.shell_diameter = diameter_bot;
-            this.length = parseFloat(this.props.component[i].length) * (12/scaler);
-            cylinder_lengths.push(this.length);
-            let number = parseFloat(this.props.component[i].number);
-            let thickness = parseFloat(this.props.component[i].thickness/scaler);
-            let shell = new THREE.Mesh();
-            t.color='#037d23';
-            let shell_material = new THREE.MeshPhongMaterial(t);
-            shell = Shell(thickness, diameter_bot, diameter_top, this.length, shell_material);
-            shell.name=this.props.component[i].componentID + "&"+this.props.component[i].component ;
-            if (first_shell) {
-              height_position = height_position + this.length / 2;
-              this.keepHeightRecord(this.props.component[i],height_position,height_position);             
-               first_shell = false;
-            } else {
-              t.color='#ffff00'
-              let ringmaterial = new THREE.MeshBasicMaterial(t);
-                diameter = (parseFloat(this.props.component[i].sd/scaler) + parseFloat(this.props.component[i].thickness/scaler)) || (parseFloat(this.props.component[i].sd_s/scaler) + parseFloat(this.props.component[i].thickness/scaler));
-                let ringgeometry = Shell(diameter/110, diameter, diameter, diameter/110, ringmaterial);
-                let lengths = this.props.component[i].length * (12/scaler); //length of current cylinder
-                height_position = height_position + cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
-                this.keepHeightRecord(this.props.component[i],height_position,height_position);
-                ringgeometry.translateX(height_position - this.length / 2).rotateZ(-math.pi / 2);
-                this.scene.add(ringgeometry);
-              
-            }
-            shell.translateY(height_position); //height_position);  
-            let cylinder_group = new THREE.Group();
-            cylinder_group.add(shell);
-            cylinder_group.rotateZ(-math.pi / 2);
-            this.scene.add(cylinder_group);
-            cylinder_iterator = cylinder_iterator + 1;
-            this.radial_position = diameter / 2 + thickness;
-            this.shapes.push(shell);
-            last_cylinder = i;
-          } 
-          case "Ellipsoidal Head":
+              let values = cylinderRenderer(this.props.component[i], 
+                                            this.heights,
+                                            this.weights,
+                                            scaler,
+                                            t,
+                                            first_shell,
+                                            height_position,
+                                            cylinder_iterator,
+                                            cylinder_lengths,
+                                            "horizontal");
+              first_shell=values[2];
+              height_position=values[3];
+              let shell= values[5]
+              let ringgeometry=values[4]
+              this.heights=values[6]
+              this.weights=values[7]
+              if(ringgeometry)
+              {
+              this.scene.add(ringgeometry)
+              }
+              cylinder_iterator = cylinder_iterator + 1;
+              this.radial_position = values[0] / 2 + values[1]; 
+              if(shell)
+              {
+              this.scene.add(shell)
+              shell.name = values[9]+ "&" + values[8];
+              this.shapes.push(shell);  
+              }       
+              last_cylinder = i;
+            break;}        
+              case "Ellipsoidal Head":
           {
             let diameter = parseFloat(this.props.component[i].sd) / (2*scaler);
             let head_thickness = parseFloat(this.props.component[i].thickness/scaler);

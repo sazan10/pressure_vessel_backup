@@ -4,31 +4,16 @@ import React, {
 import * as THREE from 'three';
 import * as TrackballControls from 'three-trackballcontrols';
 import * as actions from '../../store/actions/index';
-import Shell from '../../Components/Parts/Shell';
-import Head from '../../Components/Parts/Head';
-import Curve_nozzle from '../../Components/Parts/Curve_nozzle';
-import Saddle from '../../Components/Parts/Saddle';
-import Standard_nozzle from '../../Components/Parts/Standard_nozzle';
-import LiftingLug from '../../Components/Parts/LiftingLug';
-import comparator from '../../Components/Scene/comparator';
-import math from 'mathjs';
-import height_checker from '../../Components/Scene/height_checker';
-import getClosest from 'get-closest'
-import returnKey from '../../Components/Scene/returnKey';
 import isEmpty from '../../Components/Scene/object_empty';
-import cylinderRenderer from './cylinderRenderer';
-import keepHeightRecord from './keepHeightRecord';
-import nozzleRenderer from './nozzleRenderer';
-import ellipseRenderer from './ellipseRenderer';
+import cylinderRenderer from '../../Components/Renderers/cylinderRenderer';
+import nozzleRenderer from '../../Components/Renderers/nozzleRenderer';
+import liftingLugRenderer from '../../Components/Renderers/liftingLugRenderer';
+import ellipseRenderer from '../../Components/Renderers/ellipseRenderer';
+import skirtRenderer from '../../Components/Renderers/skirtRenderer';
+
 import {
   connect
 } from 'react-redux';
-import {
-  SpheroidHeadBufferGeometry
-} from '../../Components/Parts/SpheroidHead_v2';
-import { select } from '@redux-saga/core/effects';
-import skirtRenderer from './skirtRenderer';
- 
 class Scene extends Component {
   state = {
     current: {},
@@ -239,7 +224,6 @@ class Scene extends Component {
 
   
   render(){
-
       let first_shell = true;
       let height_position = 0;
       this.weights = {};
@@ -281,16 +265,13 @@ class Scene extends Component {
                                                 height_position,
                                                 cylinder_iterator,
                                                 cylinder_lengths,
-                                                last_cylinder,
-                                                cylinder_length,);
+                                                "vertical");
                 first_shell=values[2];
                 height_position=values[3];
-                cylinder_length=[4] 
-                let shell= values[6]
-                let ringgeometry=values[5]
-               
-                this.heights=values[7]
-                this.weights=values[8]
+                let shell= values[5]
+                let ringgeometry=values[4]
+                this.heights=values[6]
+                this.weights=values[7]
                 if(ringgeometry)
                 {
                 this.scene.add(ringgeometry)
@@ -299,20 +280,24 @@ class Scene extends Component {
                 this.radial_position = values[0] / 2 + values[1]; 
                 if(shell)
                 {
-                  this.scene.add(values[11])
-                  shell.name = values[10]+ "&" + values[9];
+                  this.scene.add(shell)
+                  shell.name = values[9]+ "&" + values[8];
                   this.shapes.push(shell);  
                 }       
                 last_cylinder = i;
                 break;}
             case "Ellipsoidal Head":
             {
-              let values =ellipseRenderer(this.props.component,this.props.component[i],this.heights,this.weights,scaler,t) ;
+              let values =ellipseRenderer(this.props.component,
+                                          this.props.component[i],
+                                          this.heights,
+                                          this.weights,
+                                          scaler,t
+                                          ) ;
               let ell=values[0];
               ell.name=values[4] + "&" + values[3];
               this.shapes.push(ell);
               this.scene.add(ell);
-              
               this.heights=values[1];
               this.weights=values[2];
               break;
@@ -320,7 +305,13 @@ class Scene extends Component {
             case "Nozzle":
             {
             if(this.props.component[i].type_name === "LWN") {
-              let values=nozzleRenderer(this.props.component,this.props.component[i],scaler,t,this.heights,this.weights,this.heights_only);         
+              let values=nozzleRenderer(this.props.component,
+                                        this.props.component[i],
+                                        scaler,
+                                        t,
+                                        this.heights,
+                                        this.weights,
+                                        this.heights_only);         
               let nozzle =values[0];       
               this.heights=values[1];       
               this.weights=values[2];  
@@ -329,83 +320,56 @@ class Scene extends Component {
               this.scene.add(nozzle);
 
             } else if (this.props.component[i].type_name === "HB") {
-              let length = this.props.component[i].length / scaler;
-              let orientation = this.props.component[i].orientation;
-              let orientation_in_rad = (orientation / 180) * math.pi;
-              let nozzle_height = this.props.component[i].height / scaler;
-              let nozzle = new THREE.Mesh();
-              nozzle = Curve_nozzle(length, 1);
-              nozzle.translateZ(-this.radial_position * math.cos(orientation_in_rad)).translateX(this.radial_position * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
-              this.scene.add(nozzle);
-              nozzle.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
-              this.shapes.push(nozzle);
-             let arr = keepHeightRecord(this.heights,this.weights,this.props.component[i], -500, 0);
-             this.heights=arr[0];
-             this.weights=arr[1]
+            //   let length = this.props.component[i].length / scaler;
+            //   let orientation = this.props.component[i].orientation;
+            //   let orientation_in_rad = (orientation / 180) * math.pi;
+            //   let nozzle_height = this.props.component[i].height / scaler;
+            //   let nozzle = new THREE.Mesh();
+            //   nozzle = Curve_nozzle(length, 1);
+            //   nozzle.translateZ(-this.radial_position * math.cos(orientation_in_rad)).translateX(this.radial_position * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(-orientation_in_rad);
+            //   this.scene.add(nozzle);
+            //   nozzle.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
+            //   this.shapes.push(nozzle);
+            //  let arr = keepHeightRecord(this.heights,this.weights,this.props.component[i], -500, 0);
+            //  this.heights=arr[0];
+            //  this.weights=arr[1]
 
             }
              break; 
           }
             case "Skirt":
             {
-              let values=skirtRenderer(this.props.component[i],scaler,t,this.heights,this.weights);
+              let values=skirtRenderer(this.props.component[i],
+                                       scaler,
+                                       t,
+                                       this.heights,
+                                       this.weights);
               let skirt =values[0];
               skirt.name = values[4] + "&" + values[3];
               this.scene.add(skirt)
+              this.shapes.push(skirt);
               this.heights=values[1];
               this.weights=values[2];
               break;
             }
             case "Lifting Lug":
             {
-              let position = 0;
-              let last_cylinder = 0;
-              let cyl_diameter = 0;
-              for (let i = 0; i < this.props.component.length; i++) {
-                if (this.props.component[i]) {
-                  if (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical") {
-                    try {
-                      position = position + (this.props.component[i].length * 12 / scaler);
-                      last_cylinder = this.props.component[i].componentID;
-                      cyl_diameter=(this.props.component[i].component === "Cylinder") ? this.props.component[last_cylinder].sd / (2 * scaler) : this.props.component[last_cylinder].sd_l / (2 * scaler);
-                      }
-                     catch (Exception) {
-                      console.log(Exception);
-                    }
-                  }
-                }
-           
-              }
-              
-              let arr= keepHeightRecord(this.heights,this.weights,this.props.component[i], -500, 0);
-              this.heights=arr[0];
-              this.weights=arr[1]
-              let thickness = this.props.component[i].value.lug_thickness.req_value / scaler;
-              let height = this.props.component[i].height_lug / scaler;
-              let rad = this.props.component[i].length / scaler;
-              let hole_diameter = this.props.component[i].hole_diameter / scaler;
-              let angle = this.props.component[i].layout_angle;
-              t.color='#500dba';
-              let material = new THREE.MeshPhongMaterial(t)
-              let lug1 = LiftingLug(height, thickness, rad, hole_diameter,material);
-
-              lug1.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
+              let values=liftingLugRenderer(this.props.component[i],
+                                            this.props.component,
+                                            scaler,
+                                            t,
+                                            this.heights,
+                                            this.weights);
+              let lug1 =values[0];
+              let lug2=values[1];
+              lug1.name = values[5] + "&" + values[4];
+              lug2.name=values[5]+"&" +values[4];
+              this.scene.add(lug1);
+              this.scene.add(lug2);
               this.shapes.push(lug1);
-              let lug2 = null;
-              if (this.props.component[i].number === '2') {
-                lug2 = LiftingLug(height, thickness, rad, hole_diameter,material);
-              }
-              if (last_cylinder !== null && this.props.component[last_cylinder] !== null) {
-                let shell_rad = cyl_diameter + this.props.component[last_cylinder].value.thickness / scaler; //finding the diameter of last shell
-                let x_displace = (shell_rad) * math.sin(math.pi * (angle / 180));
-                let z_displace = (shell_rad) * math.cos(math.pi * (angle / 180));
-                lug1.translateX(x_displace).translateZ(-z_displace).translateY(position).rotateY(-(angle / 180) * math.pi); //.translateY(height).translateZ(z_displace);
-                if (this.props.component[i].number === '2') {
-                  lug2.translateX(-x_displace).translateZ(z_displace).translateY(position).rotateY(-(angle / 180) * math.pi + math.pi);
-                }
-                this.scene.add(lug1);
-                this.scene.add(lug2);
-              }
+              this.shapes.push(lug2);
+              this.heights=values[2];
+              this.weights=values[3];
               break;
             }
           }
@@ -438,9 +402,6 @@ class Scene extends Component {
   }
 
 }
-
-
-
 
 const mapStateToProps = state => {
   return {

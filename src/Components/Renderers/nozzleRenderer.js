@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import Standard_nozzle from '../../Components/Parts/Standard_nozzle';
-import keepHeightRecord from './keepHeightRecord';
-import returnKey from '../../Components/Scene/returnKey';
+import Standard_nozzle from '../Parts/Standard_nozzle';
+import keepHeightRecord from '../Scene/keepHeightRecord';
+import returnKey from '../Scene/returnKey';
 import math from 'mathjs';
 import getClosest from 'get-closest';
 
@@ -70,12 +70,9 @@ const nozzleRenderer=(components,component,scale1,t,heights,weights,heights_only
         nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size);
         nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(math.PI / 2 - orientation_in_rad);
         nozzle.name = component.componentID + "&" + component.component;
-        console.log("componenttype",nozzle)
       }
     }
-    console.log("arr_value",heights,weights);
     let arr=keepHeightRecord(heights,weights,component, -500, 0);
-    console.log("arr_value",arr);
     let values=[nozzle,arr[0],arr[1],heights_only,component.component,component.componentID];
 
     return values;

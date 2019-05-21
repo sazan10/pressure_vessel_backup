@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import Shell from '../../Components/Parts/Shell';
-import keepHeightRecord from './keepHeightRecord';
+import Shell from '../Parts/Shell';
+import keepHeightRecord from '../Scene/keepHeightRecord';
 
 const skirtRenderer=(component,scale1,t,heights,weights)=>{
     let scaler=scale1;
