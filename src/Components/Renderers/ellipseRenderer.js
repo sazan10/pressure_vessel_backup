@@ -5,7 +5,7 @@ import math from 'mathjs';
 import {
     SpheroidHeadBufferGeometry
   } from '../Parts/SpheroidHead_v2';
-const ellipseRenderer =(components,component,height,weight,scale1,t)=>
+const ellipseRenderer =(components,component,height,weight,scale1,t,vessel_type)=>
 {
     let scaler=scale1;
     let diameter = parseFloat(component.sd) / (2 * scaler);         
@@ -28,6 +28,11 @@ const ellipseRenderer =(components,component,height,weight,scale1,t)=>
        grouper.add(flange)
        head.translateY(-srl).rotateZ(math.pi);
        grouper.add(head);
+       if(vessel_type==="horizontal")
+       {
+        grouper.rotateZ(-math.pi / 2);
+
+       }
                 grouper.name = component.componentID + "&" + "Ellipsoidal Head";
                 let cg_head = -(4 * minor) / (3 * math.pi)
                  arr =keepHeightRecord(height,weight,component, -500, cg_head);
@@ -54,7 +59,14 @@ const ellipseRenderer =(components,component,height,weight,scale1,t)=>
                 let cg_head = height_for_top + (4 * minor) / (3 * math.pi);
                 let arr =keepHeightRecord(height,weight,component, -500, cg_head);
                 let values=[grouper2,arr[0],arr[1],component.component,component.componentID];
-                grouper2.translateY(height_for_top+srl/2);
+                if(vessel_type==="vertical")
+                {
+                  grouper2.translateY(height_for_top+srl/2);
+                }
+                else 
+                {
+                  grouper2.translateX(height_for_top+srl/2).rotateZ(-math.pi / 2);
+                }
                 grouper2.name = component.componentID + "&" + component.component;
                 return values;
 

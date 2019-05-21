@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import * as THREE from 'three';
 import { toCSG, fromCSG } from 'three-2-csg';
   const Curve_nozzle =(length_,scaler1=2)=> {
   

@@ -292,8 +292,8 @@ class Scene extends Component {
                                           this.props.component[i],
                                           this.heights,
                                           this.weights,
-                                          scaler,t
-                                          ) ;
+                                          scaler,t,
+                                          "vertical") ;
               let ell=values[0];
               ell.name=values[4] + "&" + values[3];
               this.shapes.push(ell);
@@ -311,7 +311,8 @@ class Scene extends Component {
                                         t,
                                         this.heights,
                                         this.weights,
-                                        this.heights_only);         
+                                        this.heights_only,
+                                        "vertical");         
               let nozzle =values[0];       
               this.heights=values[1];       
               this.weights=values[2];  

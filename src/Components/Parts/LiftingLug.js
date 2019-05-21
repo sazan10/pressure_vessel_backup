@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import * as THREE from 'three';
 import { toCSG, fromCSG } from 'three-2-csg';
 import * as math from 'mathjs';
 let material1=new THREE.MeshPhongMaterial({ color: '#500dba', emissive: 0x072534, side: THREE.DoubleSide });;

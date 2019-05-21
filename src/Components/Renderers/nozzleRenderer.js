@@ -7,7 +7,7 @@ import getClosest from 'get-closest';
 
 
 
-const nozzleRenderer=(components,component,scale1,t,heights,weights,heights_only)=>{
+const nozzleRenderer=(components,component,scale1,t,heights,weights,heights_only,vessel_type)=>{
     let scaler=scale1;
     let length = component.externalNozzleProjection / scaler;
     let orientation = component.orientation;
@@ -47,12 +47,12 @@ const nozzleRenderer=(components,component,scale1,t,heights,weights,heights_only
     let raised_face_diameter = component.value.raised_face_diameter / scaler;
     let raised_face_thickness = component.value.raised_face_thickness / scaler;
     if (components[index_key]) {
+      let x_displace;
       if (components[index_key].component === "Cylinder") {
         let shell_rad = parseFloat(components[index_key].sd) / (2 * scaler);
         let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
-        let x_displace = (shell_rad) * math.cos(phi);
+        x_displace = (shell_rad) * math.cos(phi);
         nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size, nozzle_material);
-        nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(math.PI / 2 - orientation_in_rad);
         nozzle.name = component.componentID + "&" + component.component;
       } else if (components[index_key].component === "Conical") {
         let rad_bot = components[index_key].sd_s / (2 * scaler);
@@ -66,10 +66,16 @@ const nozzleRenderer=(components,component,scale1,t,heights,weights,heights_only
         //check if is positive to check position of nozzle below or above the height of corresponding cylinder
         pos_of_noz =(diff >= 0) ? rad_bot + ((noz / (height_of_cone)) * diff): rad_bot - (((noz / height_of_cone)) * math.abs(diff));
         let phi = math.asin((barrel_outer_diameter / 2 / pos_of_noz)); //calculating angle wrt to centre
-        let x_displace = (pos_of_noz) * math.cos(phi);
+        x_displace = (pos_of_noz) * math.cos(phi);
         nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size);
-        nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(math.PI / 2 - orientation_in_rad);
         nozzle.name = component.componentID + "&" + component.component;
+      }
+      if(vessel_type==="vertical")
+      {
+        nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(math.PI / 2 - orientation_in_rad);
+      }
+      else{
+        nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateY(x_displace * math.sin(orientation_in_rad)).translateX(nozzle_height).rotateX(orientation_in_rad).rotateY(math.PI / 2);
       }
     }
     let arr=keepHeightRecord(heights,weights,component, -500, 0);
