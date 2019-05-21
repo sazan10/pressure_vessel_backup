@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import Shell from '../../Components/Parts/Shell';
-import keepHeightRecord from './keepHeightRecord';
+import Shell from '../Parts/Shell';
+import keepHeightRecord from '../Scene/keepHeightRecord';
 import math from 'mathjs';
 import {
     SpheroidHeadBufferGeometry
-  } from '../../Components/Parts/SpheroidHead_v2';
+  } from '../Parts/SpheroidHead_v2';
 const ellipseRenderer =(components,component,height,weight,scale1,t)=>
 {
     let scaler=scale1;
@@ -29,7 +29,6 @@ const ellipseRenderer =(components,component,height,weight,scale1,t)=>
        head.translateY(-srl).rotateZ(math.pi);
        grouper.add(head);
                 grouper.name = component.componentID + "&" + "Ellipsoidal Head";
-                console.log("componenttype",grouper);
                 let cg_head = -(4 * minor) / (3 * math.pi)
                  arr =keepHeightRecord(height,weight,component, -500, cg_head);
                 let values=[grouper,arr[0],arr[1],component.component,component.componentID];

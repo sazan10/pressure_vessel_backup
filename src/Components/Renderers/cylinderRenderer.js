@@ -1,17 +1,17 @@
 import * as THREE from 'three';
-import Shell from '../../Components/Parts/Shell';
-import keepHeightRecord from './keepHeightRecord';
-
-const cylinderRenderer =(component,height,weight,scale1,t,first_shell1,height_position1,cylinder_iterator,cylinder_lengths,cylinder_length1)=>
+import Shell from '../Parts/Shell';
+import keepHeightRecord from '../Scene/keepHeightRecord';
+import math from 'mathjs';
+const cylinderRenderer =(component,height,weight,scale1,t,first_shell1,height_position1,cylinder_iterator,cylinder_lengths,vessel_type)=>
 {  
 	let first_shell=first_shell1;
 	let scaler=scale1;
 	let height_position=height_position1
-	let cylinder_length=cylinder_length1
     let thickness=0;
     let ringgeometry;
     let shell = new THREE.Mesh();
     let arr=[];
+    let cylinder_length=0;
  let diameter_bot = 0;
                 let diameter_top = 0;
                 let diameter = 0;
@@ -43,13 +43,32 @@ const cylinderRenderer =(component,height,weight,scale1,t,first_shell1,height_po
                 let lengths = component.length * (12 / scaler); //length of current cylinder
                 height_position = height_position + cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
                  arr = keepHeightRecord(height,weight,component, height_position, height_position);
-          
-                ringgeometry.translateY(height_position - cylinder_length / 2);
               }
-              shell.translateY(height_position); //this.height_position);  
-              let cylinder_group = new THREE.Group();
-              cylinder_group.add(shell);
-              let values=[ diameter, thickness,first_shell,height_position,cylinder_length,ringgeometry,shell,arr[0],arr[1],component.component,component.componentID,cylinder_group];
+             //this.height_position);  
+              switch(vessel_type)
+              {
+                case "vertical":
+                {
+                  if(ringgeometry)
+                  {
+                    ringgeometry.translateY(height_position - cylinder_length / 2);
+                  }
+                  shell.translateY(height_position);
+                  break;
+                }
+                case "horizontal":
+                 {
+                   if(ringgeometry)
+                   {
+                    ringgeometry.translateX(height_position - cylinder_length / 2).rotateZ(-math.pi / 2);
+                   }
+                    shell.translateX(height_position).rotateZ(-math.pi / 2);
+                  break;
+                 }
+
+              }
+
+              let values=[ diameter, thickness,first_shell,height_position,ringgeometry,shell,arr[0],arr[1],component.component,component.componentID];
 return values;
         }
         
