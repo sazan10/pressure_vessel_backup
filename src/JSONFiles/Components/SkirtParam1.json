@@ -20,8 +20,8 @@
         "validation": {
             "required": true
         },
-        "placeholder": "",
-        "value": "",
+        "placeholder": "Skirt",
+        "value": "Skirt",
         "label": "Component Name",
         "valid": true
     },

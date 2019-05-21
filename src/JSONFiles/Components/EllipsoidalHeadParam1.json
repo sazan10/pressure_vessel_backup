@@ -22,8 +22,8 @@
         "validation": {
             "required": true
         },
-        "placeholder": "",
-        "value": "",
+        "placeholder": "Head",
+        "value": "Head",
         "label": "Component Name",
         "valid": true
     },

@@ -22,8 +22,8 @@
         "validation": {
             "required": true
         },
-        "placeholder": "",
-        "value": "",
+        "placeholder": "Shell",
+        "value": "Shell",
         "label": "Component Name",
         "valid": true
     },

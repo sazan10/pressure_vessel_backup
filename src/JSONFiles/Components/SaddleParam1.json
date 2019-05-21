@@ -21,8 +21,8 @@
         "validation": {
             "required": true
         },
-        "placeholder": "",
-        "value": "",
+        "placeholder": "Saddle",
+        "value": "Saddle",
         "label": "Component Name",
         "valid": true
     },

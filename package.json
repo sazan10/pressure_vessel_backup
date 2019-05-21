@@ -76,6 +76,7 @@
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.0",
+    "surge": "^0.20.5",
     "terser-webpack-plugin": "1.1.0",
     "three": "^0.102.1",
     "three-2-csg": "^1.0.2",
