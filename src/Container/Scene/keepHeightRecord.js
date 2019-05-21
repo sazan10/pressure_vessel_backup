@@ -2,6 +2,8 @@ import height_checker from '../../Components/Scene/height_checker';
 
 const keepHeightRecord = (heights, weights,component, position, cg) => {
     const b_key = component.componentID.toString();
+    let arr=[heights, weights];
+
     if (!height_checker(component)) {
         if(heights){
       if (!(component.componentID in heights)) {
@@ -15,10 +17,10 @@ const keepHeightRecord = (heights, weights,component, position, cg) => {
         weights[component.componentID] = [component.component, cg, component.value.weight];
       }
     }
-    let arr=[heights, weights]
-    return arr;
-}
+     arr=[heights, weights]
   
+}
+ return arr; 
   }
 
 export default keepHeightRecord;
