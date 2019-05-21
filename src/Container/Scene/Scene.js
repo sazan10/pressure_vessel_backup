@@ -27,6 +27,7 @@ import {
   SpheroidHeadBufferGeometry
 } from '../../Components/Parts/SpheroidHead_v2';
 import { select } from '@redux-saga/core/effects';
+import skirtRenderer from './skirtRenderer';
  
 class Scene extends Component {
   state = {
@@ -347,26 +348,12 @@ class Scene extends Component {
           }
             case "Skirt":
             {
-              let length = parseFloat(this.props.component[i].length / scaler);
-              let sd = parseFloat(this.props.component[i].sd / scaler);
-              let thickness = parseFloat(this.props.component[i].thickness / scaler);
-              t.color='#CD5C5C';
-              let skirt_material = new THREE.MeshPhongMaterial(t);
-              let skirt = Shell(thickness, sd+thickness*2, sd+thickness*2, length, skirt_material);
-              let skirt_flange_length = length / 4;
-              let skirt_flange = Shell(thickness+sd/30, sd+thickness*2 , sd+thickness*2 , skirt_flange_length, skirt_material);
-              skirt.translateY(-length/2);
-              skirt_flange.translateY(-length-skirt_flange_length / 2);//skirt_flange.translateY(-length - skirt_flange_length / 2);
-              let group = new THREE.Group();
-              group.add(skirt);
-              group.add(skirt_flange);
-              this.scene.add(group);
-              group.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
-              this.shapes.push(group);
-              let cg_skirt = -(length / 2 + 2);
-              let arr=keepHeightRecord(this.heights,this.weights,this.props.component[i], -500, cg_skirt);
-              this.heights=arr[0];
-              this.weights=arr[1]
+              let values=skirtRenderer(this.props.component[i],scaler,t,this.heights,this.weights);
+              let skirt =values[0];
+              skirt.name = values[4] + "&" + values[3];
+              this.scene.add(skirt)
+              this.heights=values[1];
+              this.weights=values[2];
               break;
             }
             case "Lifting Lug":
