@@ -65,6 +65,8 @@ const cylinderRenderer =(component,height,weight,scale1,t,first_shell1,height_po
                     shell.translateX(height_position).rotateZ(-math.pi / 2);
                   break;
                  }
+                 default:
+                  break;
 
               }
 

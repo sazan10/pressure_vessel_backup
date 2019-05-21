@@ -8,9 +8,10 @@ script:
   - npm test
   - npm run build
 deploy:
-  provider: surge
   skip_cleanup: true
-  domain: vesselbuilder.surge.sh
-  project: ./build/
+  provider: gae
+  project: "vesselbuilder-frontend"
 on:
   branch: master
+services:
+  - docker

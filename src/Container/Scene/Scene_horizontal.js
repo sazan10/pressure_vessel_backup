@@ -504,6 +504,7 @@ class Scene_horizontal extends Component {
             this.start();
             break;
           }
+          default: break;
         }
         if(lug1 && i===(this.props.component.length-1))
         {
