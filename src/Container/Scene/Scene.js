@@ -16,6 +16,10 @@ import height_checker from '../../Components/Scene/height_checker';
 import getClosest from 'get-closest'
 import returnKey from '../../Components/Scene/returnKey';
 import isEmpty from '../../Components/Scene/object_empty';
+import cylinderRenderer from './cylinderRenderer';
+import keepHeightRecord from './keepHeightRecord';
+import nozzleRenderer from './nozzleRenderer';
+import ellipseRenderer from './ellipseRenderer';
 import {
   connect
 } from 'react-redux';
@@ -23,6 +27,7 @@ import {
   SpheroidHeadBufferGeometry
 } from '../../Components/Parts/SpheroidHead_v2';
 import { select } from '@redux-saga/core/effects';
+import skirtRenderer from './skirtRenderer';
  
 class Scene extends Component {
   state = {
@@ -103,10 +108,18 @@ class Scene extends Component {
     var intersects = raycaster.intersectObjects(this.shapes, true);
      if (intersects.length > 0) {
         intersects[0].object.material.transparent = true;
+        let name = null;
+        if (intersects[0].object.parent.name) {
+          name = intersects[0].object.parent.name;
+        } else {
+          name = intersects[0].object.name;
+        }
         try {
           const sh = [...this.shapes];
           sh.map((shape) => {
             let sh_name = shape.name.split("&");
+            if(this.name===sh_name[1])
+            {
             if (sh_name[1] === "Cylinder" || sh_name[1]==="Conical") {
               shape.material.opacity = 1;
             } else {
@@ -115,30 +128,27 @@ class Scene extends Component {
                 return 0;
               })
             }
+          }
             return 0;
           });
         } catch (e) {
           console.log(e)
         }
+
         if (intersects[0].object.material.opacity === 1) {
           intersects[0].object.material.opacity = 0.5;
         } else {
           intersects[0].object.material.opacity = 1;
         }
-        let name = null;
-        if (intersects[0].object.parent.name) {
-          name = intersects[0].object.parent.name;
-        } else {
-          name = intersects[0].object.name;
-        }
+     
 
         let res=null;
         if(name){
         res=name.split("&");
         this.name = res[1];
         this.compoID=res[0];
-        this.props.updateSelectedComponentID(res[0]);
-        this.props.treeUpdate(false);
+         this.props.updateSelectedComponentID(res[0]);
+         this.props.treeUpdate(false);
         this.props.modelImport(res[1], 1);
         this.props.returnComponentID(res[0]);
         this.props.componentClicked(true);
@@ -226,15 +236,16 @@ class Scene extends Component {
       t.opacity=1;
     }
   }
+
+  
   render(){
-    try {
+
       let first_shell = true;
       let height_position = 0;
       this.weights = {};
       this.heights = {};
       let cylinder_iterator = 0;
       let cylinder_lengths = [];
-      let lengths = [];
       this.shapes = [];
       let last_cylinder = null;
       let scaler = 100;
@@ -259,185 +270,64 @@ class Scene extends Component {
             {
               case "Cylinder":
               case "Conical":
-                {let diameter_bot = 0;
-                let diameter_top = 0;
-                let diameter = 0;
-              if (this.props.component[i].component === "Cylinder") {
-                diameter_bot = parseFloat(this.props.component[i].sd / scaler);
-                diameter_top = diameter_bot;
-              } else {
-                diameter_bot = parseFloat(this.props.component[i].sd_l / scaler);
-                diameter_top = parseFloat(this.props.component[i].sd_s) / scaler;
-              }
-              cylinder_length = parseFloat(this.props.component[i].length) * (12 / scaler);
-              cylinder_lengths.push(cylinder_length);
-              lengths.push(cylinder_length);
-             // let number = parseFloat(this.props.component[i].number);
-              let thickness = parseFloat(this.props.component[i].thickness / scaler);
-              let shell = new THREE.Mesh();
-              t.color='#037d23';
-              let shell_material = new THREE.MeshPhongMaterial(t);
-              shell = Shell(thickness, diameter_bot, diameter_top, cylinder_length, shell_material);
-              shell.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
-              if (first_shell) {
-                height_position = height_position + cylinder_length / 2;
-                this.keepHeightRecord(this.props.component[i], height_position,height_position);
-                first_shell = false;
-              } else {
-                t.color='#ffff00'
-                let ringmaterial = new THREE.MeshPhongMaterial(t);
-                diameter = (parseFloat(this.props.component[i].sd / scaler) + parseFloat(this.props.component[i].thickness / scaler)) || (parseFloat(this.props.component[i].sd_s / scaler) + parseFloat(this.props.component[i].thickness / scaler));
-                let ringgeometry = Shell(diameter / 110, diameter, diameter, diameter / 110, ringmaterial);
-                let lengths = this.props.component[i].length * (12 / scaler); //length of current cylinder
-                height_position = height_position + cylinder_lengths[cylinder_iterator - 1] / 2 + lengths / 2; //update height position 
-                this.keepHeightRecord(this.props.component[i], height_position, height_position);
-                ringgeometry.translateY(height_position - cylinder_length / 2);
-                this.scene.add(ringgeometry);
-              }
-              shell.translateY(height_position); //this.height_position);  
-              let cylinder_group = new THREE.Group();
-              cylinder_group.add(shell);
-              this.scene.add(cylinder_group);
-              cylinder_iterator = cylinder_iterator + 1;
-              this.radial_position = diameter / 2 + thickness;
-              this.shapes.push(shell);
-              last_cylinder = i;
-              break;}
+                {
+                  
+                  let values = cylinderRenderer(this.props.component[i], 
+                                                this.heights,
+                                                this.weights,
+                                                scaler,
+                                                t,
+                                                first_shell,
+                                                height_position,
+                                                cylinder_iterator,
+                                                cylinder_lengths,
+                                                last_cylinder,
+                                                cylinder_length,);
+                first_shell=values[2];
+                height_position=values[3];
+                cylinder_length=[4] 
+                let shell= values[6]
+                let ringgeometry=values[5]
+               
+                this.heights=values[7]
+                this.weights=values[8]
+                if(ringgeometry)
+                {
+                this.scene.add(ringgeometry)
+                }
+                cylinder_iterator = cylinder_iterator + 1;
+                this.radial_position = values[0] / 2 + values[1]; 
+                if(shell)
+                {
+                  this.scene.add(values[11])
+                  shell.name = values[10]+ "&" + values[9];
+                  this.shapes.push(shell);  
+                }       
+                last_cylinder = i;
+                break;}
             case "Ellipsoidal Head":
             {
-              let diameter = parseFloat(this.props.component[i].sd) / (2 * scaler);
-              let head_thickness = parseFloat(this.props.component[i].thickness / scaler);
-              let head_diameter = parseFloat(this.props.component[i].sd / scaler);
-              let ratio = parseFloat(this.props.component[i].hr);
-              let minor = diameter / ratio;
-              let major = diameter + head_thickness;
-              let srl = parseFloat(this.props.component[i].srl / scaler);
-              if (this.props.component[i].position === '0') {
-                lengths.push(-500);
-                let inner_maj = major - head_thickness;
-                let head1 = new SpheroidHeadBufferGeometry(major, minor, inner_maj, minor - minor / 3, 400);
-                t.color= '#0b7dba';
-                let material = new THREE.MeshPhongMaterial(t);
-                let flange = Shell(head_thickness, head_diameter, head_diameter, srl, material);
-                let head = new THREE.Mesh(head1, material);
-                let grouper = new THREE.Group();
-                flange.translateY(-srl / 2);
-                grouper.add(flange)
-             head.translateY(-srl).rotateZ(math.pi);
-                grouper.add(head);
-                this.scene.add(grouper);
-                grouper.name = this.props.component[i].componentID + "&" + "Ellipsoidal Head";
-                this.shapes.push(grouper);
-                let cg_head = -(4 * minor) / (3 * math.pi)
-                this.keepHeightRecord(this.props.component[i], -500, cg_head);
-              } else {
-                lengths.push(minor);
-                let head1 = new SpheroidHeadBufferGeometry(major, minor, major - head_thickness, minor - head_thickness, 400);
-                t.color='#0b7dba';
-                let material = new THREE.MeshPhongMaterial(t);
-                let head = new THREE.Mesh(head1, material);
-                let grouper2 = new THREE.Group();
-                let flange2 = Shell(head_thickness, head_diameter, head_diameter, srl, material);
-                head.translateY(srl / 2);
-                grouper2.add(flange2);
-                grouper2.add(head);
-                let height_for_top = 0;
-                for (let i = 0; i < this.props.component.length; i++) {
-                  if (this.props.component[i]) {
-                    if (this.props.component[i].length && (this.props.component[i].component === "Cylinder" || this.props.component[i].component === "Conical")) {
-                      height_for_top = height_for_top + parseFloat(this.props.component[i].length) * (12 / scaler);
-                    }
-                  }
-                }
-                let cg_head = height_for_top + (4 * minor) / (3 * math.pi);
-                this.keepHeightRecord(this.props.component[i], -500, cg_head);
-                grouper2.translateY(height_for_top+srl/2);
-                this.scene.add(grouper2);
-                grouper2.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
-                this.shapes.push(grouper2);
-              }
+              let values =ellipseRenderer(this.props.component,this.props.component[i],this.heights,this.weights,scaler,t) ;
+              let ell=values[0];
+              ell.name=values[4] + "&" + values[3];
+              this.shapes.push(ell);
+              this.scene.add(ell);
+              
+              this.heights=values[1];
+              this.weights=values[2];
               break;
             }
             case "Nozzle":
             {
             if(this.props.component[i].type_name === "LWN") {
-              let length = this.props.component[i].externalNozzleProjection / scaler;
-              let orientation = this.props.component[i].orientation;
-              t.color='#0b7dba';
-              let nozzle_material = new THREE.MeshPhongMaterial(t);
-              let orientation_in_rad = (orientation / 180) * math.pi;
-              lengths.push(-1000);
-              let nozzle_height = this.props.component[i].height * (12 / scaler);
-              this.heights_only = []
-              let key_value = 0
-              // for (let key in this.heights) 
-              // {      
-              //   key_value=key;
-              //  }
-              //               for (let key in this.heights) {
-              //                 let i = this.heights[key];
-              //                 this.heights_only.splice(key, 0, i); //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
-              // }
-              for (let key in this.heights) {
-                key_value = key;
-              }
-              for (let i = 0; i < key_value; i++) {
-                this.heights_only.push(-500);
-              }
-              for (let key in this.heights) {
-                let i = 0;
-                if (this.heights[key]) {
-                  i = this.heights[key];
-                }
-                this.heights_only[key] = i; //retrieve height only ie values for respective key, here we cannot input nozzle heights , splice adds element to specific position with 0 replacement
-              }
-              let closest_index = getClosest.number(nozzle_height, this.heights_only);
+              let values=nozzleRenderer(this.props.component,this.props.component[i],scaler,t,this.heights,this.weights,this.heights_only);         
+              let nozzle =values[0];       
+              this.heights=values[1];       
+              this.weights=values[2];  
+              nozzle.name=values[5]+"&"+values[4]; 
+              this.shapes.push(nozzle);
+              this.scene.add(nozzle);
 
-              let closest_value = this.heights[closest_index];
-              let index_key = returnKey(this.heights, closest_value);
-
-              let nozzle = new THREE.Mesh();
-              let barrel_outer_diameter = this.props.component[i].value.barrel_outer_diameter / scaler;
-              let bolt_circle_diameter = this.props.component[i].value.blot_circle_diameter / scaler;
-              let bolt_hole_number = this.props.component[i].value.blot_hole_number;
-              let bolt_hole_size = this.props.component[i].value.blot_hole_size / scaler;
-              let bore = this.props.component[i].value.bore / scaler;
-              let flange_outer_diameter = this.props.component[i].value.flange_outer_diameter / scaler;
-              let flange_thickness = this.props.component[i].value.flange_thickness / scaler;
-              let raised_face_diameter = this.props.component[i].value.raised_face_diameter / scaler;
-              let raised_face_thickness = this.props.component[i].value.raised_face_thickness / scaler;
-              if (this.props.component[index_key]) {
-                if (this.props.component[index_key].component === "Cylinder") {
-                  let shell_rad = parseFloat(this.props.component[index_key].sd) / (2 * scaler);
-                  let phi = math.asin((barrel_outer_diameter / 2 / shell_rad));
-                  let x_displace = (shell_rad) * math.cos(phi);
-                  nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size, nozzle_material);
-                  nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(math.PI / 2 - orientation_in_rad);
-                  nozzle.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
-                  this.scene.add(nozzle);
-                  this.shapes.push(nozzle);
-                } else if (this.props.component[index_key].component === "Conical") {
-                  let rad_bot = this.props.component[index_key].sd_s / (2 * scaler);
-                  let rad_top = this.props.component[index_key].sd_l / (2 * scaler);
-                  let temp = this.props.component;
-                  let height_of_cone = this.props.component[index_key].length * (12 / scaler);
-                  let diff = rad_top - rad_bot;
-                  let pos_of_noz = 0;
-                  let noz = 0;
-                  //checking if nozzle is required for the first cylinder or other, cause for first it will be equal to nozzle height, but for others the height is from the origin, but we need the height only from the corresponding cylinder 
-                  noz= (index_key >= 0) ? nozzle_height - (this.heights_only[index_key] - height_of_cone / 2):nozzle_height;
-                  //check if is positive to check position of nozzle below or above the height of corresponding cylinder
-                  pos_of_noz =(diff >= 0) ? rad_bot + ((noz / (height_of_cone)) * diff): rad_bot - (((noz / height_of_cone)) * math.abs(diff));
-                  let phi = math.asin((barrel_outer_diameter / 2 / pos_of_noz)); //calculating angle wrt to centre
-                  let x_displace = (pos_of_noz) * math.cos(phi);
-                  nozzle = Standard_nozzle(length, 0, barrel_outer_diameter, bore, 0, flange_outer_diameter, raised_face_diameter, raised_face_thickness, flange_thickness, bolt_hole_number, bolt_circle_diameter, bolt_hole_size);
-                  nozzle.translateZ(-x_displace * math.cos(orientation_in_rad)).translateX(x_displace * math.sin(orientation_in_rad)).translateY(nozzle_height).rotateY(math.PI / 2 - orientation_in_rad);
-                  this.scene.add(nozzle);
-                  nozzle.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
-                  this.shapes.push(nozzle);
-                }
-              }
-              this.keepHeightRecord(this.props.component[i], -500, 0);
             } else if (this.props.component[i].type_name === "HB") {
               let length = this.props.component[i].length / scaler;
               let orientation = this.props.component[i].orientation;
@@ -449,32 +339,21 @@ class Scene extends Component {
               this.scene.add(nozzle);
               nozzle.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
               this.shapes.push(nozzle);
-              this.keepHeightRecord(this.props.component[i], -500, 0);
+             let arr = keepHeightRecord(this.heights,this.weights,this.props.component[i], -500, 0);
+             this.heights=arr[0];
+             this.weights=arr[1]
 
             }
-            break; 
+             break; 
           }
             case "Skirt":
             {
-              let length = parseFloat(this.props.component[i].length / scaler);
-              let sd = parseFloat(this.props.component[i].sd / scaler);
-              let thickness = parseFloat(this.props.component[i].thickness / scaler);
-              t.color='#CD5C5C';
-              let skirt_material = new THREE.MeshPhongMaterial(t);
-              let skirt = Shell(thickness, sd+thickness*2, sd+thickness*2, length, skirt_material);
-              let skirt_flange_length = length / 4;
-              let skirt_flange = Shell(thickness+sd/30, sd+thickness*2 , sd+thickness*2 , skirt_flange_length, skirt_material);
-              skirt.translateY(-length/2);
-              skirt_flange.translateY(-length-skirt_flange_length / 2);//skirt_flange.translateY(-length - skirt_flange_length / 2);
-              let group = new THREE.Group();
-              group.add(skirt);
-              group.add(skirt_flange);
-              this.scene.add(group);
-              group.name = this.props.component[i].componentID + "&" + this.props.component[i].component;
-              this.shapes.push(group);
-              let cg_skirt = -(length / 2 + 2);
-              this.keepHeightRecord(this.props.component[i], -500, cg_skirt);
-              lengths.push(-500);
+              let values=skirtRenderer(this.props.component[i],scaler,t,this.heights,this.weights);
+              let skirt =values[0];
+              skirt.name = values[4] + "&" + values[3];
+              this.scene.add(skirt)
+              this.heights=values[1];
+              this.weights=values[2];
               break;
             }
             case "Lifting Lug":
@@ -498,7 +377,9 @@ class Scene extends Component {
            
               }
               
-              this.keepHeightRecord(this.props.component[i], -500, 0);
+              let arr= keepHeightRecord(this.heights,this.weights,this.props.component[i], -500, 0);
+              this.heights=arr[0];
+              this.weights=arr[1]
               let thickness = this.props.component[i].value.lug_thickness.req_value / scaler;
               let height = this.props.component[i].height_lug / scaler;
               let rad = this.props.component[i].length / scaler;
@@ -542,9 +423,7 @@ class Scene extends Component {
                           id = "scener"/>
         <div> Vertical </div> </div>
       );
-    } catch (err) {
-      console.log(err);
-    }
+  
   }
 
   controlSetup=()=>
@@ -558,23 +437,7 @@ class Scene extends Component {
     this.controls.dynamicDampingFactor = 0.3;
   }
 
-  keepHeightRecord = (component, position, cg) => {
-    const b_key = component.componentID.toString();
-    if (!height_checker(component)) {
-      if (!(component.componentID in this.heights)) {
-        //this.heights[component.componentID] = position;
-        //let height = Object.assign(this.heights,:{position}}, {'c': 3})
-
-        this.heights = {
-          ...this.heights,
-          [b_key]: position,
-        }
-        this.weights[component.componentID] = [component.component, cg, component.value.weight];
-      }
-    }
-  }
 }
-
 
 
 

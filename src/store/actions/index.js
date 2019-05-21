@@ -1,12 +1,12 @@
 export {
     clickMenu,
-    importComponentModel,
+    importComponentModel,//
     importForm,
     importProjects,
     returnForm,
     disableNew,
     returnModel,
-    displayComponentTree,
+    displayComponentTree,//
     updateTitle
 } from './navigation';
 
@@ -30,7 +30,7 @@ export {
     updateHeight,
     deleteThickness,
     updateComponentID,
-    updateSelectedComponentID,
+    updateSelectedComponentID,//
     updatePTD,
     clearComponentID,
     changeView
@@ -39,7 +39,7 @@ export {
 export {
     showSpinner,
     openFormDialog,
-    componentClicked
+    componentClicked //
 } from './flags';
 export {
     requestProjectID,
@@ -59,7 +59,7 @@ export {
     updateComponent,
     updateComponents,
     importSpecificProject,
-    returnComponentByID,
+    returnComponentByID,//
     onSubmitAndUpdate,
     dataUpdate,
     sendComponentToJSON,
