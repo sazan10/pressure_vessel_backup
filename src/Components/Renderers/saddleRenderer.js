@@ -1,7 +1,7 @@
 import math from 'mathjs';
 import Saddle from '../Parts/Saddle';
 import * as THREE from 'three';
-import keepHeightRecord from '../Scene/keepHeightRecord';
+//import keepHeightRecord from '../Scene/keepHeightRecord';
 const saddleRenderer=(component,components,scaler,t,last_cylinder)=>{
     t.color='#abcdef';
     let material=new THREE.MeshPhongMaterial(t);

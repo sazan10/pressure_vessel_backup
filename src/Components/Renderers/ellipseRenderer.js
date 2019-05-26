@@ -33,11 +33,12 @@ const ellipseRenderer =(components,component,height,weight,scale1,t,vessel_type)
         grouper.rotateZ(-math.pi / 2);
 
        }
-                grouper.name = component.componentID + "&" + "Ellipsoidal Head";
-                let cg_head = -(4 * minor) / (3 * math.pi)
+                grouper.name = toString(component.componentID) + "&Ellipsoidal Head";
+                let cg_head = -(4 * minor) / (3 * math.pi);
                  arr =keepHeightRecord(height,weight,component, -500, cg_head);
+            
                 let values=[grouper,arr[0],arr[1],component.component,component.componentID];
-                 return values;
+                 return values;//values;
               } else {
                 let head1 = new SpheroidHeadBufferGeometry(major, minor, major - head_thickness, minor - head_thickness, 400);
                 t.color='#0b7dba';
@@ -59,6 +60,7 @@ const ellipseRenderer =(components,component,height,weight,scale1,t,vessel_type)
                 let cg_head = height_for_top + (4 * minor) / (3 * math.pi);
                 let arr =keepHeightRecord(height,weight,component, -500, cg_head);
                 let values=[grouper2,arr[0],arr[1],component.component,component.componentID];
+             
                 if(vessel_type==="vertical")
                 {
                   grouper2.translateY(height_for_top+srl/2);
