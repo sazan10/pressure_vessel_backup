@@ -21,8 +21,8 @@
         "validation": {
             "required": true
         },
-        "placeholder": "",
-        "value": "",
+        "placeholder": "Lifting Lug",
+        "value": "Lifting Lug",
         "label": "Component Name",
         "valid": true
     },

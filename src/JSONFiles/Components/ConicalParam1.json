@@ -22,8 +22,8 @@
         "validation": {
             "required": true
         },
-        "placeholder": "",
-        "value": "",
+        "placeholder": "Conical",
+        "value": "Conical",
         "label": "Component Name",
         "valid": true
     },

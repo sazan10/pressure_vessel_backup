@@ -21,8 +21,8 @@
     "validation": {
         "required": true
     },
-    "placeholder": "",
-    "value": "",
+    "placeholder": "Nozzle",
+    "value": "Nozzle",
     "label": "Component Name",
     "valid": true
 },

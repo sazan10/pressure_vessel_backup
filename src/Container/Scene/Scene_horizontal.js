@@ -370,6 +370,7 @@ class Scene_horizontal extends Component {
             this.shapes.push(saddle);
           break;
           }
+          default: break;
         }
         console.log("lugger", lug1,this.props.component.length-1,i)
         if(lug1 && i===(this.props.component.length-1))

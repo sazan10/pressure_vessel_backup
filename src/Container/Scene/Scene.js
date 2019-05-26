@@ -373,6 +373,8 @@ class Scene extends Component {
               this.weights=values[3];
               break;
             }
+            default:
+            break;
           }
             this.start();
           }

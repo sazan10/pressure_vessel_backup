@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "stable"
+  - "v9.11.2"
 cache:
   directories:
     - node_modules
@@ -8,8 +8,10 @@ script:
   - npm test
   - npm run build
 deploy:
-  provider: surge
   skip_cleanup: true
-  project: ./build/
+  provider: gae
+  project: "vesselbuilder-frontend"
 on:
   branch: master
+services:
+  - docker
