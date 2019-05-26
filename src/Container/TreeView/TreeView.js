@@ -3,30 +3,30 @@ import * as actions from "../../store/actions/index";
 import TreeViewComp from "../../Components/TreeViewComp/TreeViewComp";
 import { connect } from "react-redux";
 
-const data = {
-  name: "root",
-  toggled: true,
-  children: [
-    {
-      name: "parent",
-      children: [{ name: "child1" }, { name: "child2" }]
-    },
-    {
-      name: "loading parent",
-      loading: true,
-      children: []
-    },
-    {
-      name: "parent",
-      children: [
-        {
-          name: "nested parent",
-          children: [{ name: "nested child 1" }, { name: "nested child 2" }]
-        }
-      ]
-    }
-  ]
-};
+// const data = {
+//   name: "root",
+//   toggled: true,
+//   children: [
+//     {
+//       name: "parent",
+//       children: [{ name: "child1" }, { name: "child2" }]
+//     },
+//     {
+//       name: "loading parent",
+//       loading: true,
+//       children: []
+//     },
+//     {
+//       name: "parent",
+//       children: [
+//         {
+//           name: "nested parent",
+//           children: [{ name: "nested child 1" }, { name: "nested child 2" }]
+//         }
+//       ]
+//     }
+//   ]
+// };
 class TreeDemo extends React.Component {
   state = {
     active: null,
@@ -58,6 +58,7 @@ class TreeDemo extends React.Component {
           key: component.componentID
         });
       }
+      return null;
     });
     this.setState({ tree: tree });
   };

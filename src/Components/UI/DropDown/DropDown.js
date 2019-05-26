@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
-import {Link} from 'react-router-dom';
+// import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import classes from './DropDown.css';
 import * as actions from '../../../store/actions/index';
-import DeleteIcon from '@material-ui/icons/Delete';
+// import DeleteIcon from '@material-ui/icons/Delete';
 
 class Dropdown extends Component{
   constructor(props){

@@ -2,7 +2,7 @@ import React from "react";
 // import ReactDOM from 'react-dom';
 import { withRouter } from "react-router-dom";
 import * as actions from "../../store/actions/index";
-import classes from "./Forms.css";
+// import classes from "./Forms.css";
 import { connect } from "react-redux";
 import Button from "../UI/Button/Button";
 import PropTypes from "prop-types";

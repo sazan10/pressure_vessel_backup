@@ -114,22 +114,19 @@
       "react-app-polyfill/jsdom"
     ],
     "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx,mjs}",
+      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx,mjs}"
     ],
     "testEnvironment": "jsdom",
     "testURL": "http://localhost",
     "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.(js|jsx|ts|tsx|mjs)$": "<rootDir>/config/jest/jest-transformer.js",
+      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+      "^(?!.*\\.(json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
-    ],
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
-      "^.+\\.module\\.(css|sass|scss)$"
     ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
@@ -145,7 +142,8 @@
       "json",
       "web.jsx",
       "jsx",
-      "node"
+      "node",
+      "mjs"
     ]
   },
   "babel": {

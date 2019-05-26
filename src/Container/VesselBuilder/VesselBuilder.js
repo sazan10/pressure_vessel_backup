@@ -11,33 +11,33 @@ import FormDialog from "../FormDialog/FormDialog";
 import ErrorDialog from "../../Components/ErrorDialog/ErrorDialog";
 import Dialog from "@material-ui/core/Dialog";
 
-import { createMuiTheme } from "@material-ui/core/styles";
+// import { createMuiTheme } from "@material-ui/core/styles";
 
 import Spinner from "../../Components/UI/Spinner/Spinner";
 // import TreeView from "deni-react-treeview";
 import TreeView from "../TreeView/TreeView";
 
 // import TreeView from '../TreeView/TreeView';
-import blue from "@material-ui/core/colors/blue";
-import pink from "@material-ui/core/colors/pink";
+// import blue from "@material-ui/core/colors/blue";
+// import pink from "@material-ui/core/colors/pink";
 import SceneHorizontal from "../Scene/Scene_horizontal";
-import html2canvas from "html2canvas";
+// import html2canvas from "html2canvas";
 import * as actions from '../../store/actions/index';
 
-const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true,
-  },
-  palette: {
-    primary: blue,
-    secondary: {
-      light: "#ff79b0",
-      main: pink.A200,
-      dark: "#c60055",
-      contrastText: "#fff"
-    }
-  }
-});
+// const theme = createMuiTheme({
+//   typography: {
+//     useNextVariants: true,
+//   },
+//   palette: {
+//     primary: blue,
+//     secondary: {
+//       light: "#ff79b0",
+//       main: pink.A200,
+//       dark: "#c60055",
+//       contrastText: "#fff"
+//     }
+//   }
+// });
 
 export class VesselBuilder extends Component {
   state = {
@@ -95,8 +95,8 @@ export class VesselBuilder extends Component {
       );
     }
 
-    let scene = <Scene />;
-    // let scene = null;
+    // let scene = <Scene />;
+    let scene = null;
     if (this.props.orientation === "vertical") {
       scene = (
         <div id="scene">
@@ -136,11 +136,11 @@ export class VesselBuilder extends Component {
           </Grid>
         </Grid>
         <div style={{ width: "50%" }}>{formDialog}</div>
-        {/* <ErrorDialog
+        <ErrorDialog
           handleClose={this.handleClose}
           error={this.props.error}
           open={this.state.open}
-        /> */}
+        />
         {spinner}
       </div>
     );
