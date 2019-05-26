@@ -20,7 +20,9 @@ const keepHeightRecord = (heights, weights,component, position, cg) => {
      arr=[heights, weights]
   
 }
- return arr; 
-  }
+
+   return arr; 
+  
+}
 
 export default keepHeightRecord;
