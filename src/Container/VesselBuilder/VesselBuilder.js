@@ -95,8 +95,8 @@ export class VesselBuilder extends Component {
       );
     }
 
-    let scene = <Scene />;
-    // let scene = null;
+    // let scene = <Scene />;
+    let scene = null;
     if (this.props.orientation === "vertical") {
       scene = (
         <div id="scene">
