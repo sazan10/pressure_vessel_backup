@@ -36,7 +36,7 @@ describe("<FormDialog />", () => {
     const wrapper = shallow(<FormDialog />);
     wrapper.setProps({disabled: false });
     expect(wrapper.contains(<Button type="submit" color="primary">
-    Create
+    Creates
   </Button>)).toEqual(false);
     wrapper.unmount(<FormDialog />);
   });
