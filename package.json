@@ -125,12 +125,9 @@
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^(?!.*\\.(json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-  
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
-    
-    
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
       "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
