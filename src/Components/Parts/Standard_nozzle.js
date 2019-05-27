@@ -35,10 +35,10 @@ const Standard_nozzle = (
   let radius_outer_pipe_bottom = bore_outer_diameter / 2;
   let radius_inner_pipe_bottom = bore_inner_diameter / 2;
 
-  let radius_outer_cone_top = radius_outer_pipe_bottom;
-  let radius_inner_cone_top = radius_inner_pipe_bottom;
+  // let radius_outer_cone_top = radius_outer_pipe_bottom;
+  // let radius_inner_cone_top = radius_inner_pipe_bottom;
 
-  let radius_outer_cone_bottom = parseFloat(diam_out_cone_bot) / 2;
+  // let radius_outer_cone_bottom = parseFloat(diam_out_cone_bot) / 2;
   let radius_inner_cone_bottom = radius_inner_pipe_bottom;
 
 

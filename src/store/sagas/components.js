@@ -27,7 +27,7 @@ export function* deleteSpecificComponentSaga(action) {
 export function* axiosDataSendSaga(action) {
   try {
     // console.log('In axiosSaga',action.url, action.data);
-    const response = yield axios.post(action.url, action.data, {
+    yield axios.post(action.url, action.data, {
       headers: headers
     });
     // console.log(response);
