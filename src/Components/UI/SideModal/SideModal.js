@@ -6,7 +6,7 @@ import DynamicForm from "../../Forms/Forms";
 const  Modal = (props) =>  {
 
     let modall = null;
-    const projectTitle = props.projectName;
+    // const projectTitle = props.projectName;
     if(props.model) {
     modall = (
       <Auxx>

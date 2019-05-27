@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 import {logoutSaga, checkAuthTimeoutSaga, authUserSaga, authCheckStateSaga, importAuthModelSaga} from './auth';
 import{importModelSaga, importNewFormSaga, importOpenFormSaga} from './navigation';
 import {requestNewProjectSaga, downloadReportSaga} from './projectData';
-import {deleteSpecificComponentSaga, sendComponentIDsaga, axiosDataSendSaga, importSpecificProjectSaga, onSubmitAndUpdateSaga} from './components';
+import {deleteSpecificComponentSaga, axiosDataSendSaga, importSpecificProjectSaga, onSubmitAndUpdateSaga} from './components';
 
 export function* watchAuth() {
     yield takeEvery(actionTypes.AUTH_INITIATE_LOGOUT, logoutSaga);

@@ -1,6 +1,4 @@
-import axios from "../../axios-orders";
 import * as actionTypes from "./actionTypes";
-import * as actions from '../actions/index';
 
 export const onDataSendFail = error => {
   return {

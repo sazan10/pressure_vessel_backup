@@ -1,11 +1,9 @@
 import * as actionTypes from "./actionTypes";
-import axios from "../../axios-orders";
-import * as actions from './index';
 
-const headers = {
-    "Content-Type": "application/json",
-    "Authorization": "JWT " + localStorage.getItem("token")
-  };
+// const headers = {
+//     "Content-Type": "application/json",
+//     "Authorization": "JWT " + localStorage.getItem("token")
+//   };
   
   export const requestNewProject = (projectName, orientation) => {
     return {

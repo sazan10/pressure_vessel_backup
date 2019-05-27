@@ -4,31 +4,31 @@ import React, {
 import * as THREE from 'three'
 import * as TrackballControls from 'three-trackballcontrols';
 import * as actions from '../../store/actions/index';
-import Shell from '../../Components/Parts/Shell';
-import Curve_nozzle from '../../Components/Parts/Curve_nozzle';
-import Saddle from '../../Components/Parts/Saddle';
-import LiftingLug from '../../Components/Parts/LiftingLug';
-import Standard_nozzle from '../../Components/Parts/Standard_nozzle';
-import comparator from '../../Components/Scene/comparator';
-import math from 'mathjs';
-import keepHeightRecord from '../../Components/Scene/keepHeightRecord';
-import height_checker from '../../Components/Scene/height_checker';
-import getClosest from 'get-closest';
+// import Shell from '../../Components/Parts/Shell';
+// import Curve_nozzle from '../../Components/Parts/Curve_nozzle';
+// import Saddle from '../../Components/Parts/Saddle';
+// import LiftingLug from '../../Components/Parts/LiftingLug';
+// import Standard_nozzle from '../../Components/Parts/Standard_nozzle';
+// import comparator from '../../Components/Scene/comparator';
+// import math from 'mathjs';
+// import keepHeightRecord from '../../Components/Scene/keepHeightRecord';
+// import height_checker from '../../Components/Scene/height_checker';
+// import getClosest from 'get-closest';
 import cylinderRenderer from '../../Components/Renderers/cylinderRenderer';
 import ellipseRenderer from '../../Components/Renderers/ellipseRenderer';
 import nozzleRenderer from '../../Components/Renderers/nozzleRenderer';
 import saddleRenderer from '../../Components/Renderers/saddleRenderer';
 
-import returnKey from '../../Components/Scene/returnKey';
+// import returnKey from '../../Components/Scene/returnKey';
 import isEmpty from '../../Components/Scene/object_empty';
-import objecSize from '../../Components/Scene/object_size';
+// import objecSize from '../../Components/Scene/object_size';
 import {
   connect
 } from 'react-redux';
-import {
-  SpheroidHeadBufferGeometry
-} from '../../Components/Parts/SpheroidHead_v2';
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
+// import {
+//   SpheroidHeadBufferGeometry
+// } from '../../Components/Parts/SpheroidHead_v2';
+// import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 import liftingLugHoriRenderer from '../../Components/Renderers/liftingLugHoriRenderer';
 import liftingLugCreatorHori from '../../Components/Renderers/liftingLugCreatorHori';
 
@@ -179,6 +179,8 @@ class Scene_horizontal extends Component {
       case "TOP":
         this.camera.position.set(0.0001, 10, 0);
         break;
+        default:
+        break;
       
     }
     this.camera.updateProjectionMatrix();
@@ -233,7 +235,8 @@ class Scene_horizontal extends Component {
       let cylinder_iterator = 0;
       let cylinder_lengths = [];
       let last_cylinder = null;
-      let lug_index, lug_name,lug_angle;
+      let lug_index, lug_angle;
+      // let lug_name;
       let t={  color: '#037d23',
       emissive: 0x072534,
       side: THREE.DoubleSide,
@@ -243,7 +246,8 @@ class Scene_horizontal extends Component {
     };
     let lug1=null;
     let lug2 = null;
-    let height=0,angle=0,distance1=0,distance2=0;
+    let distance1=0,distance2=0;
+    // let height=0,angle=0;
       if (this.scene) {
         if (this.scene.children) {
           this.clearScene();
@@ -254,7 +258,7 @@ class Scene_horizontal extends Component {
 
           if(!isEmpty(this.props.component[i]))
           {
-            if(this.name===this.props.component[i].component.toString() && this.compoID==this.props.component[i].componentID.toString()){
+            if(this.name===this.props.component[i].component.toString() && this.compoID===this.props.component[i].componentID.toString()){
               t.opacity=0.5;
             }
             else{
@@ -356,7 +360,7 @@ class Scene_horizontal extends Component {
             console.log("lugger lug",lug1)
             lug2=values[1];
             lug_index=values[2];
-            lug_name=values[6]+"&"+values[5];
+            // lug_name=values[6]+"&"+values[5];
             distance1=values[3];
             distance2=values[4];
             lug_angle=values[7];

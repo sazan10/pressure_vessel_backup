@@ -33,7 +33,7 @@ const ellipseRenderer =(components,component,height,weight,scale1,t,vessel_type)
         grouper.rotateZ(-math.pi / 2);
 
        }
-                grouper.name = component.componentID + "&" + "Ellipsoidal Head";
+                grouper.name = component.componentID + "&Ellipsoidal Head";
                 let cg_head = -(4 * minor) / (3 * math.pi)
                  arr =keepHeightRecord(height,weight,component, -500, cg_head);
                 let values=[grouper,arr[0],arr[1],component.component,component.componentID];

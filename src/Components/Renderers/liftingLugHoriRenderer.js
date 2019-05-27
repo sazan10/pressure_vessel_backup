@@ -1,13 +1,13 @@
 import math from 'mathjs';
 import getClosest from 'get-closest';
 import returnKey from '../Scene/returnKey';
-import * as THREE from 'three';
+// import * as THREE from 'three';
 
 const liftingLugHoriRenderer=(alug1, alug2, components,heights,weights,heights_only_lug,distance1,distance2,angle,scaler,lug_index)=>
 {
     let lug1=alug1;
     let lug2=alug2;
-    console.log("lugger renderer",lug1,lug2,index_key1,index_key2,shell_rad1,shell_rad2,overall_CG)
+    // console.log("lugger renderer",lug1,lug2,index_key1,index_key2,shell_rad1,shell_rad2,overall_CG)
 
       let key=0;
       let weightsum=0;

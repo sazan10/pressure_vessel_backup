@@ -37,8 +37,8 @@ let result = fromCSG(subtractCSG); // converting CSG back into ThreeJS object
  group.add(base);
  //group.add(cylinderMesh);
 
- let cylinder2 = new THREE.CylinderGeometry(radius, radius,width1+2, 100 );
-let cylinderMesh2 = new THREE.Mesh(cylinder2, new THREE.MeshPhongMaterial({ color: '#0000dd', emissive: 0x072534, side: THREE.DoubleSide }));
+//  let cylinder2 = new THREE.CylinderGeometry(radius, radius,width1+2, 100 );
+// let cylinderMesh2 = new THREE.Mesh(cylinder2, new THREE.MeshPhongMaterial({ color: '#0000dd', emissive: 0x072534, side: THREE.DoubleSide }));
 
 group.rotateY(3.14/2);
 //this.scene.add(cylinderMesh2)

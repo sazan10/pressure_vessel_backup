@@ -1,11 +1,11 @@
-import axios from "../../axios-orders";
+
 import * as actionTypes from "./actionTypes";
 import * as actions from "../actions/index";
 
-const headers = {
-  "Content-Type": "application/json",
-  Authorization: "JWT " + localStorage.getItem("token")
-};
+// const headers = {
+//   "Content-Type": "application/json",
+//   Authorization: "JWT " + localStorage.getItem("token")
+// };
 
 export const dataUpdate = (data, componentID) => {
   return {

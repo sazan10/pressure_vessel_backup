@@ -1,10 +1,5 @@
 import * as THREE from 'three';
-<<<<<<< HEAD
-import { toCSG, fromCSG } from 'three-2-csg/lib';   
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-=======
 import { toCSG, fromCSG } from 'three-2-csg';
->>>>>>> bc14a4e58d627b92b2599c3ccdab173ab38d70e8
 let material = new THREE.MeshPhongMaterial({ color: '#037d23', emissive: 0x072534, side: THREE.DoubleSide });
   const Shell=(thickness1,diameter_bot,diameter_top,length1, mat=material)=> {
    

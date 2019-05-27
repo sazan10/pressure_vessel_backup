@@ -163,6 +163,8 @@ class Scene extends Component {
       case "TOP":
         this.camera.position.set(0.0001, 10, 0);
         break;
+        default:
+        break;
       
     }
     this.camera.updateProjectionMatrix();
@@ -214,7 +216,7 @@ class Scene extends Component {
   }
 
   clear_opacity=(component,t)=>{
-    if(this.name===component.component.toString() && this.compoID==component.componentID.toString()){
+    if(this.name===component.component.toString() && this.compoID===component.componentID.toString()){
       t.opacity=0.5;
     }
     else{
@@ -231,9 +233,9 @@ class Scene extends Component {
       let cylinder_iterator = 0;
       let cylinder_lengths = [];
       this.shapes = [];
-      let last_cylinder = null;
+      // let last_cylinder = null;
       let scaler = 100;
-      let cylinder_length=0;
+      // let cylinder_length=0;
       let t={ color: '#037d23',
       emissive: 0x072534,
       side: THREE.DoubleSide,
@@ -284,7 +286,7 @@ class Scene extends Component {
                   shell.name = values[9]+ "&" + values[8];
                   this.shapes.push(shell);  
                 }       
-                last_cylinder = i;
+                // last_cylinder = i;
                 break;}
             case "Ellipsoidal Head":
             {
