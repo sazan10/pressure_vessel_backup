@@ -6,13 +6,14 @@ const cylinderRenderer =(component,height,weight,scale1,t,first_shell1,height_po
 {  
 	let first_shell=first_shell1;
 	let scaler=scale1;
-	let height_position=height_position1
+	let height_position=height_position1;
     let thickness=0;
     let ringgeometry;
     let shell = new THREE.Mesh();
     let arr=[];
     let cylinder_length=0;
- let diameter_bot = 0;
+    let diameter_bot = 0;
+    console.log("d");
                 let diameter_top = 0;
                 let diameter = 0;
               if (component.component === "Cylinder") {
@@ -70,6 +71,9 @@ const cylinderRenderer =(component,height,weight,scale1,t,first_shell1,height_po
 
               }
 
+
+              
+// console.log("values must be ",diameter,thickness,first_shell,height_position,arr[0],arr[1],component.component,component.componentID);
               let values=[ diameter, thickness,first_shell,height_position,ringgeometry,shell,arr[0],arr[1],component.component,component.componentID];
 return values;
         }
