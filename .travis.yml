@@ -12,9 +12,12 @@ deploy:
   keyfile: client-secret.json
   provider: gae
   project: vesselbuilder-frontend
-  on: production
   default: true
   docker-build: remote
+  on:
+    branches:    # ← new!
+      only:      # ← new!
+        - master # ← new!
 true:
   branch: master
 services:
