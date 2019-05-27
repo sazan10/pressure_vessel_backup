@@ -9,8 +9,11 @@ script:
 - npm run build
 deploy:
   skip_cleanup: true
+  keyfile: client-secret.json
   provider: gae
   project: vesselbuilder-frontend
+  on: production
+  default: true
 true:
   branch: master
 services:
