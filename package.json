@@ -41,6 +41,7 @@
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "7.0.0",
     "get-closest": "0.0.4",
+    "graceful-fs": "https://github.com/mekwall/node-graceful-fs.git#patch-1",
     "html-webpack-plugin": "4.0.0-alpha.2",
     "html2canvas": "^1.0.0-rc.1",
     "i": "^0.3.6",
