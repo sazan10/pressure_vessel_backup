@@ -4,41 +4,14 @@ import React, {
 import * as THREE from 'three'
 import * as TrackballControls from 'three-trackballcontrols';
 import * as actions from '../../store/actions/index';
-<<<<<<< HEAD
-// import Shell from '../../Components/Parts/Shell';
-// import Curve_nozzle from '../../Components/Parts/Curve_nozzle';
-// import Saddle from '../../Components/Parts/Saddle';
-// import LiftingLug from '../../Components/Parts/LiftingLug';
-// import Standard_nozzle from '../../Components/Parts/Standard_nozzle';
-// import comparator from '../../Components/Scene/comparator';
-// import math from 'mathjs';
-// import keepHeightRecord from '../../Components/Scene/keepHeightRecord';
-// import height_checker from '../../Components/Scene/height_checker';
-// import getClosest from 'get-closest';
-=======
->>>>>>> master
 import cylinderRenderer from '../../Components/Renderers/cylinderRenderer';
 import ellipseRenderer from '../../Components/Renderers/ellipseRenderer';
 import nozzleRenderer from '../../Components/Renderers/nozzleRenderer';
 import saddleRenderer from '../../Components/Renderers/saddleRenderer';
-<<<<<<< HEAD
-
-// import returnKey from '../../Components/Scene/returnKey';
-import isEmpty from '../../Components/Scene/object_empty';
-// import objecSize from '../../Components/Scene/object_size';
-import {
-  connect
-} from 'react-redux';
-// import {
-//   SpheroidHeadBufferGeometry
-// } from '../../Components/Parts/SpheroidHead_v2';
-// import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
-=======
 import isEmpty from '../../Components/Scene/object_empty';
 import {
   connect
 } from 'react-redux';
->>>>>>> master
 import liftingLugHoriRenderer from '../../Components/Renderers/liftingLugHoriRenderer';
 import liftingLugCreatorHori from '../../Components/Renderers/liftingLugCreatorHori';
 
@@ -189,11 +162,7 @@ class Scene_horizontal extends Component {
       case "TOP":
         this.camera.position.set(0.0001, 10, 0);
         break;
-<<<<<<< HEAD
-        default:
-=======
       default:
->>>>>>> master
         break;
       
     }
@@ -250,7 +219,7 @@ class Scene_horizontal extends Component {
       let cylinder_lengths = [];
       let last_cylinder = null;
       let lug_index, lug_angle;
-      // let lug_name;
+      let lug_name;
       let t={  color: '#037d23',
       emissive: 0x072534,
       side: THREE.DoubleSide,
@@ -373,7 +342,7 @@ class Scene_horizontal extends Component {
             console.log("lugger lug",lug1)
             lug2=values[1];
             lug_index=values[2];
-            // lug_name=values[6]+"&"+values[5];
+            lug_name=values[6]+"&"+values[5];
             distance1=values[3];
             distance2=values[4];
             lug_angle=values[7];
@@ -404,7 +373,6 @@ class Scene_horizontal extends Component {
         if(lug2)
         {
           lug2.name=lug_name;
-
           this.scene.add(lug2);
           this.shapes.push(lug2);
         }
@@ -426,6 +394,8 @@ class Scene_horizontal extends Component {
       );
     } catch (err) {
       console.log(err);
+    } finally{
+      console.log("finally");
     }
   }
 

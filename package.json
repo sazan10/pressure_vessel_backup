@@ -121,8 +121,7 @@
     "testEnvironment": "jsdom",
     "testURL": "http://localhost",
     "transform": {
-      "^.+\\.(js|jsx|ts|tsx|mjs)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^(?!.*\\.(json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
@@ -143,8 +142,7 @@
       "json",
       "web.jsx",
       "jsx",
-      "node",
-      "mjs"
+      "node"
     ]
   },
   "babel": {

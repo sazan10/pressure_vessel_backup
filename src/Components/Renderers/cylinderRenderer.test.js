@@ -1,6 +1,6 @@
 import cylinderRenderer from "./cylinderRenderer";
 // import * as THREE from 'three';
-import Shell from '../Parts/Shell';
+// import Shell from '../Parts/Shell';
 
 const component ={
                 component: "Ellipsoidal Head",

@@ -163,13 +163,8 @@ class Scene extends Component {
       case "TOP":
         this.camera.position.set(0.0001, 10, 0);
         break;
-<<<<<<< HEAD
-        default:
-=======
      default:
->>>>>>> master
         break;
-      
     }
     this.camera.updateProjectionMatrix();
     this.controlSetup();
@@ -288,10 +283,6 @@ class Scene extends Component {
                   shell.name = values[9]+ "&" + values[8];
                   this.shapes.push(shell);  
                 }       
-<<<<<<< HEAD
-                // last_cylinder = i;
-=======
->>>>>>> master
                 break;}
             case "Ellipsoidal Head":
             {
