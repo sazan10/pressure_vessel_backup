@@ -1,17 +1,20 @@
 language: node_js
 node_js:
-  - "v9.11.2"
+- v9.11.2
 cache:
   directories:
-    - node_modules
+  - node_modules
 script:
-  - npm test
-  - npm run build
+- npm test
+- npm run build
 deploy:
   skip_cleanup: true
   provider: gae
-  project: "vesselbuilder-frontend"
-on:
+  project: vesselbuilder-frontend
+true:
   branch: master
 services:
-  - docker
+- docker
+before_install:
+- openssl aes-256-cbc -K $encrypted_3921fe90c68f_key -iv $encrypted_3921fe90c68f_iv
+  -in client-secret.json.enc -out client-secret.json -d
