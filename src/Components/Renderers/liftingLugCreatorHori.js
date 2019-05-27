@@ -7,10 +7,9 @@ const liftingLugCreatorHori=(component,weights,scaler,t)=>
 try {
     let lug_index=parseInt(component.componentID);
     //keepHeightRecord(component,-500,0);
-    // let weightXCG = 0;
-    // let weightsum = 0;
+;
     if (!isEmpty(weights)) {
-      // let newState = Object.assign([], weights);
+      //let newState = Object.assign([], weights);
       // for (let i = 0; i < newState.length; i++) {
       //   if(newState[i])
       //   {
@@ -18,7 +17,7 @@ try {
       //   weightXCG += newState[i][1] * newState[i][2];
       //   }
       // }
-      // let key =0;
+      //let key =0;
       let thickness = component.value.lug_thickness.req_value/scaler;
       let height = component.height_lug/scaler;
       let rad = component.length/scaler;

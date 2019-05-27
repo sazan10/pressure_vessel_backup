@@ -46,7 +46,7 @@
     "html2canvas": "^1.0.0-rc.1",
     "i": "^0.3.6",
     "identity-obj-proxy": "3.0.0",
-    "jest": "23.6.0",
+    "jest": "^23.6.0",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",
     "js-file-download": "^0.4.4",
@@ -121,7 +121,7 @@
     "testEnvironment": "jsdom",
     "testURL": "http://localhost",
     "transform": {
-      "^.+\\.(js|jsx|ts|tsx|mjs)$": "<rootDir>/config/jest/jest-transformer.js",
+      "^.+\\.(js|jsx|ts|tsx|mjs)$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^(?!.*\\.(json)$)": "<rootDir>/config/jest/fileTransform.js"

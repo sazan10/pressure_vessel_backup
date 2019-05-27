@@ -4,6 +4,7 @@ import React, {
 import * as THREE from 'three'
 import * as TrackballControls from 'three-trackballcontrols';
 import * as actions from '../../store/actions/index';
+<<<<<<< HEAD
 // import Shell from '../../Components/Parts/Shell';
 // import Curve_nozzle from '../../Components/Parts/Curve_nozzle';
 // import Saddle from '../../Components/Parts/Saddle';
@@ -14,10 +15,13 @@ import * as actions from '../../store/actions/index';
 // import keepHeightRecord from '../../Components/Scene/keepHeightRecord';
 // import height_checker from '../../Components/Scene/height_checker';
 // import getClosest from 'get-closest';
+=======
+>>>>>>> master
 import cylinderRenderer from '../../Components/Renderers/cylinderRenderer';
 import ellipseRenderer from '../../Components/Renderers/ellipseRenderer';
 import nozzleRenderer from '../../Components/Renderers/nozzleRenderer';
 import saddleRenderer from '../../Components/Renderers/saddleRenderer';
+<<<<<<< HEAD
 
 // import returnKey from '../../Components/Scene/returnKey';
 import isEmpty from '../../Components/Scene/object_empty';
@@ -29,6 +33,12 @@ import {
 //   SpheroidHeadBufferGeometry
 // } from '../../Components/Parts/SpheroidHead_v2';
 // import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
+=======
+import isEmpty from '../../Components/Scene/object_empty';
+import {
+  connect
+} from 'react-redux';
+>>>>>>> master
 import liftingLugHoriRenderer from '../../Components/Renderers/liftingLugHoriRenderer';
 import liftingLugCreatorHori from '../../Components/Renderers/liftingLugCreatorHori';
 
@@ -179,7 +189,11 @@ class Scene_horizontal extends Component {
       case "TOP":
         this.camera.position.set(0.0001, 10, 0);
         break;
+<<<<<<< HEAD
         default:
+=======
+      default:
+>>>>>>> master
         break;
       
     }
@@ -247,7 +261,6 @@ class Scene_horizontal extends Component {
     let lug1=null;
     let lug2 = null;
     let distance1=0,distance2=0;
-    // let height=0,angle=0;
       if (this.scene) {
         if (this.scene.children) {
           this.clearScene();
@@ -376,7 +389,6 @@ class Scene_horizontal extends Component {
           }
           default: break;
         }
-        console.log("lugger", lug1,this.props.component.length-1,i)
         if(lug1 && i===(this.props.component.length-1))
     {
          let values= liftingLugHoriRenderer(lug1,lug2,this.props.component,this.heights,this.weights,this.heights_only_lug,distance1,distance2,lug_angle,scaler,lug_index);
@@ -386,10 +398,13 @@ class Scene_horizontal extends Component {
         this.weights=values[3];
         this.heights_only_lug=values[4];
         console.log("lug",lug1)
+        lug1.name=lug_name;
         this.scene.add(lug1);
         this.shapes.push(lug1);
         if(lug2)
         {
+          lug2.name=lug_name;
+
           this.scene.add(lug2);
           this.shapes.push(lug2);
         }

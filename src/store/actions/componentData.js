@@ -1,5 +1,4 @@
 import * as actionTypes from "./actionTypes";
-
 export const onDataSendFail = error => {
   return {
     type: actionTypes.DATA_SEND_FAIL,

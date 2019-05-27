@@ -163,7 +163,11 @@ class Scene extends Component {
       case "TOP":
         this.camera.position.set(0.0001, 10, 0);
         break;
+<<<<<<< HEAD
         default:
+=======
+     default:
+>>>>>>> master
         break;
       
     }
@@ -233,9 +237,7 @@ class Scene extends Component {
       let cylinder_iterator = 0;
       let cylinder_lengths = [];
       this.shapes = [];
-      // let last_cylinder = null;
       let scaler = 100;
-      // let cylinder_length=0;
       let t={ color: '#037d23',
       emissive: 0x072534,
       side: THREE.DoubleSide,
@@ -257,7 +259,7 @@ class Scene extends Component {
               case "Cylinder":
               case "Conical":
                 {
-                  
+
                   let values = cylinderRenderer(this.props.component[i], 
                                                 this.heights,
                                                 this.weights,
@@ -286,7 +288,10 @@ class Scene extends Component {
                   shell.name = values[9]+ "&" + values[8];
                   this.shapes.push(shell);  
                 }       
+<<<<<<< HEAD
                 // last_cylinder = i;
+=======
+>>>>>>> master
                 break;}
             case "Ellipsoidal Head":
             {

@@ -6,7 +6,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import FormInput from "./FormInput/FormInput";
 import { withStyles } from "@material-ui/core/styles";
 
-
 const styles = theme => ({
   root: {
     display: "block",
