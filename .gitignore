@@ -24,3 +24,7 @@ yarn-error.log*
 
 # secret files
 client-secret.json
+
+#tests
+./src/Components/Renderers/cylinderRenderer.test.js
+./src/Components/Renderers/ellipseRenderer.test.js

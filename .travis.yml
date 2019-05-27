@@ -14,6 +14,7 @@ deploy:
   project: vesselbuilder-frontend
   on: production
   default: true
+  docker-build: remote
 true:
   branch: master
 services:
