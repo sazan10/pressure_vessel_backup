@@ -16,7 +16,7 @@ export function* deleteSpecificComponentSaga(action) {
     projectID: action.projectID
   };
   try {
-    const response = yield axios.post(url, schema, { headers: headers });
+    yield axios.post(url, schema, { headers: headers });
 
     yield put(actions.deleteSpecificComponentReducer(action.componentID));
   } catch (error) {
