@@ -92,7 +92,6 @@
     "workbox-webpack-plugin": "3.6.3",
     "write-file-atomic": "^3.0.0"
   },
-  "homepage" : "http://vesselexpress.calcgen.com",
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
