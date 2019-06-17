@@ -24,6 +24,7 @@ yarn-error.log*
 
 # secret files
 client-secret.json
+credentials.tar.gz
 
 #tests
 ./src/Components/Renderers/cylinderRenderer.test.js

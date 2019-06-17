@@ -23,7 +23,7 @@ true:
 services:
 - docker
 before_install:
-- openssl aes-256-cbc -K $encrypted_3921fe90c68f_key -iv $encrypted_3921fe90c68f_iv
-  -in client-secret.json.enc -out client-secret.json -d
+- openssl aes-256-cbc -K $encrypted_28eb71ac5624_key -iv $encrypted_28eb71ac5624_iv -in credentials.tar.gz.enc -out credentials.tar.gz -d
+- tar xvzf credentials.tar.gz 
 
 email: false
