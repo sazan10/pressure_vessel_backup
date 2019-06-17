@@ -25,7 +25,7 @@ yarn-error.log*
 # secret files
 client-secret.json
 credentials.tar.gz
-
+api_key.py
 #tests
 ./src/Components/Renderers/cylinderRenderer.test.js
 ./src/Components/Renderers/ellipseRenderer.test.js
