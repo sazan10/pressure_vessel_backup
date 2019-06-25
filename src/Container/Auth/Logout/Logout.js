@@ -26,9 +26,9 @@ class Logout extends Component {
                 <Button  style={{'float':'right','clear':'right','display':'inline-flex'}} onClick={this.props.clickSupport}> 
                     Support
                 </Button>
-                <Button  style={{'float':'right','clear':'right','display':'inline-flex'}} > 
+                {/* <Button  style={{'float':'right','clear':'right','display':'inline-flex'}} > 
                     Forum
-                </Button>
+                </Button> */}
                 <Button onClick={this.onLogout}>
                     Logout
                 </Button>
