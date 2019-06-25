@@ -155,7 +155,7 @@ export class VesselBuilder extends Component {
     if(this.state.showSupport)
     {
       showSupport1=(   <SupportModal show={true} backDropOff={this.dropModal}>
-        <Support onSubmitTicket={this.onSubmitTicket} uploadAttachment={this.uploadAttachments}></Support>
+        <Support backDropOff={this.dropModal}></Support>
         </SupportModal>);
     }
 

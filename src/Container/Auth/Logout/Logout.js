@@ -3,8 +3,6 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button/Button';
 import * as actions from '../../../store/actions/index';
-import Modal from '../../../Components/UI/Support/SupportModal';
-import Support from '../../../Components/UI/Support/Support';
 class Logout extends Component {
     state = {
         logout: false,

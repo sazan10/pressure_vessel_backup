@@ -19,16 +19,17 @@ const formInput=(props)=>{
         case "input":
         case "textarea":
         let input =null;
+
         if(props.label==="Subject")
         {
-            input=<input type={props.type} className={props.formControl} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder={props.placeholder} key={props.key1} required/>
+            input=<input type={props.type} className={props.formControl}  aria-describedby="emailHelp" placeholder={props.placeholder} key={props.key1} onChange={props.onChange} required/>
         }
         else if(props.label==="Description")
         {
-            input=<textarea type={props.type} className={props.formControl} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder={props.placeholder} key={props.key1} required/>
+            input=<textarea type={props.type} className={props.formControl}  aria-describedby="emailHelp" placeholder={props.placeholder} key={props.key1} onChange={props.onChange} required/>
         }
         else if(props.label==="Attachment") {
-            input=<input type={props.type} className={props.formControl} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder={props.placeholder} key={props.key1} onChange={props.uploadAttachment} />
+            input=<input type={props.type} className={props.formControl} aria-describedby="emailHelp" placeholder={props.placeholder} key={props.key1} onChange={props.uploadAttachment} />
         }
             return (
             <div className="form-group">
