@@ -1,27 +1,21 @@
-import React,{Component} from 'react';
+    import React from 'react';
 import Aux from '../../../hoc/Auxx/Auxx';
 import Button from '@material-ui/core/Button/Button';
+import FormInput from './formInput';
 
-const Support =()=>{
+const Support =(props)=>{
 
- 
+    //pic, app, description, subject, need
+ let apps=["Vessel Express"];
     return(
         <Aux>
             <div>
             <form>
-             <div class="form-group">
-            <label for="exampleInputEmail1">Email address </label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-            </div>
-            <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"/>
-            </div>
-            <div class="form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+            <FormInput inputType="select" name="App Name" option={apps}/>
+            <FormInput inputType="input" formControl ="form-control" type="text" label="Subject" placeholder="Subject"/>
+            <FormInput inputType="textarea" formControl="form-control" type="text" label="Description" placeholder="Description" />
+            <FormInput inputType="input" formControl="form-control-file" type= "file" label="Attachment" placeholder="Attachment"  uploadAttachment={props.uploadAttachment}/>
+  <button type="submit" className="btn btn-primary" onClick={props.onSubmitTicket}>Submit</button>
 </form>
                  
             </div>

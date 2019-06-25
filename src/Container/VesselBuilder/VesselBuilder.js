@@ -42,7 +42,10 @@ import * as actions from '../../store/actions/index';
 export class VesselBuilder extends Component {
   state = {
     open: false,
-    showSupport:false
+    showSupport:false,
+    mail:{
+
+    }
   };
   componentDidMount() {
     if (!this.props.isAuthenticated) {
@@ -78,6 +81,27 @@ export class VesselBuilder extends Component {
   dropModal=()=>{
     this.setState({showSupport:false})
   }
+  uploadAttachment=(e)=>{
+    let file = e.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload=(e)=>{
+      ;
+    }
+  }
+
+  onSubmitTicket=(data)=>{
+  //   axios.post('/ticketing/', data)
+  // .then( res => {
+  //     this.setState({ sent: true }, this.resetForm())
+  // })
+  // .catch( () => {
+  //   console.log('Message not sent')
+  //   alert("Message send failed. Check internet connection!")
+  //   this.resetForm2();
+  // })
+}
+  
   render() {
     // const menu = navbarData.menu.map(d =>
     //   d[Object.keys(d)].map(dd => (
@@ -131,7 +155,7 @@ export class VesselBuilder extends Component {
     if(this.state.showSupport)
     {
       showSupport1=(   <SupportModal show={true} backDropOff={this.dropModal}>
-        <Support></Support>
+        <Support onSubmitTicket={this.onSubmitTicket} uploadAttachment={this.uploadAttachments}></Support>
         </SupportModal>);
     }
 
