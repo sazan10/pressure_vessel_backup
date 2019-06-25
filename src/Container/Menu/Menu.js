@@ -12,7 +12,7 @@ class Menu extends Component {
     state = {
         title: "Files",
         normalColor: '#ffffff',
-        clickedColor: '#dddddd'
+        clickedColor: '#dddddd',
     }
 
     onClickHandler1 = (e) => {
@@ -73,6 +73,9 @@ class Menu extends Component {
         }
     }
 
+    showSupportComponent=()=>{
+        this.setState({showSupport:true})
+    }
     render() {
         /** The dropdown menu is created from File.json file */
         // console.log(data.default);
@@ -105,7 +108,8 @@ class Menu extends Component {
             </div>
             <div>
                 {icons}
-                <Logout/>
+                <Logout clickSupport={this.props.showSupport} />
+
             </div>
         </div>;
     }

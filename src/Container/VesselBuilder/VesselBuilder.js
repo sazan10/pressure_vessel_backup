@@ -10,13 +10,13 @@ import Menu from "../Menu/Menu";
 import FormDialog from "../FormDialog/FormDialog";
 import ErrorDialog from "../../Components/ErrorDialog/ErrorDialog";
 import Dialog from "@material-ui/core/Dialog";
-
+import Support from "../../Components/UI/Support/Support";
+import SupportModal from "../../Components/UI/Support/SupportModal";
 // import { createMuiTheme } from "@material-ui/core/styles";
 
 import Spinner from "../../Components/UI/Spinner/Spinner";
 // import TreeView from "deni-react-treeview";
 import TreeView from "../TreeView/TreeView";
-
 // import TreeView from '../TreeView/TreeView';
 // import blue from "@material-ui/core/colors/blue";
 // import pink from "@material-ui/core/colors/pink";
@@ -41,7 +41,8 @@ import * as actions from '../../store/actions/index';
 
 export class VesselBuilder extends Component {
   state = {
-    open: false
+    open: false,
+    showSupport:false
   };
   componentDidMount() {
     if (!this.props.isAuthenticated) {
@@ -70,6 +71,13 @@ export class VesselBuilder extends Component {
     this.setState({ open: false });
   };
 
+  showSupportComponent=()=>{
+    this.setState({showSupport:true})
+  }
+
+  dropModal=()=>{
+    this.setState({showSupport:false})
+  }
   render() {
     // const menu = navbarData.menu.map(d =>
     //   d[Object.keys(d)].map(dd => (
@@ -119,12 +127,19 @@ export class VesselBuilder extends Component {
         </Dialog>
       );
     }
+    let showSupport1=null;
+    if(this.state.showSupport)
+    {
+      showSupport1=(   <SupportModal show={true} backDropOff={this.dropModal}>
+        <Support></Support>
+        </SupportModal>);
+    }
 
     return (
       <div>
         <Grid container spacing={0}>
           <Grid item lg={12} sm={12} xs={4}>
-            <Menu />
+          <Menu showSupport={this.showSupportComponent}/>
           </Grid>
         </Grid>
         <Grid container spacing={0}>
@@ -141,6 +156,8 @@ export class VesselBuilder extends Component {
           error={this.props.error}
           open={this.state.open}
         />
+        {showSupport1}
+
         {spinner}
       </div>
     );
