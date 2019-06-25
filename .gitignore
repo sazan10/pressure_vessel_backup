@@ -29,3 +29,5 @@ api_key.py
 #tests
 ./src/Components/Renderers/cylinderRenderer.test.js
 ./src/Components/Renderers/ellipseRenderer.test.js
+./src/Components/Renderers/nozzleRenderer.test
+./src/Components/Renderers/saddleRenderer.test
