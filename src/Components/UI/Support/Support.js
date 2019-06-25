@@ -38,7 +38,7 @@ formSubmit = (e) => {
         data.append("description",this.state.description);
         data.append("pic",this.state.pic)
     console.log("sending data",data)
-    axios.post('/ticketing/',data,headers)
+    axios.post('/ticketing/',data,{ headers: headers })
     .then( res => {
 
     })
