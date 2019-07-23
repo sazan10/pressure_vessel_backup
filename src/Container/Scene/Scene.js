@@ -10,19 +10,32 @@ import nozzleRenderer from '../../Components/Renderers/nozzleRenderer';
 import liftingLugRenderer from '../../Components/Renderers/liftingLugRenderer';
 import ellipseRenderer from '../../Components/Renderers/ellipseRenderer';
 import skirtRenderer from '../../Components/Renderers/skirtRenderer';
+import OrbitControls from 'three-orbitcontrols';
 
 import {
   connect
 } from 'react-redux';
+
+let inset={
+  width: '105px',
+    height: '105px',
+    position:'absolute',
+    bottom:'0px',
+    /* or transparent; will show through only if renderer alpha: true */
+    margin: '5px',
+ 
+}
 class Scene extends Component {
   state = {
     current: {},
   };
  
   componentDidMount() {
+    let left = document.getElementById("scener").getBoundingClientRect();
     const width = window.innerWidth;
     const height = window.innerHeight;
     this.scene = new THREE.Scene();
+
     this.scene.background = new THREE.Color(0x696969);
     this.camera = new THREE.PerspectiveCamera(
       90,
@@ -37,6 +50,7 @@ class Scene extends Component {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.mount.appendChild(this.renderer.domElement);
     this.group = new THREE.Group();
+
     document.getElementById("scener").addEventListener('mouseup', this.onDocumentMouseDown, false);
 //     let squareWorker = new Worker("code/squareworker.js");
 
@@ -52,9 +66,34 @@ class Scene extends Component {
 // squareWorker.postMessage(24);
 
 
+
+let container2 = document.getElementById("inset");
+
+// renderer
+this.renderer2 = new THREE.WebGLRenderer();
+// this.scene.position.set(-3,0,0);
+this. renderer2.setClearColor( 0xfffaaa, 0);
+this.renderer2.setSize( 105, 105 );
+container2.appendChild(this.renderer2.domElement);
+
+// scene
+this.scene2 = new THREE.Scene();
+
+// camera
+this.camera2 = new THREE.PerspectiveCamera( 50,105 / 105, 1, 1000 );
+this.camera2.up = this.camera.up; // important!
+
+// axes
+this.axes2 = new THREE.AxisHelper( 100 );
+this.scene2.add(this.axes2);
+
     window.addEventListener('resize', this.onWindowResize, false);
-    this.controls = new TrackballControls(this.camera, this.renderer.domElement);
-    this.controlSetup();
+    // this.controls = new TrackballControls(this.camera, this.renderer.domElement);
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+
+    
+
+  
     this.shapes = [];
     let ambient = new THREE.AmbientLight(0xbbbbbb);
     this.scene.add(ambient);
@@ -62,15 +101,21 @@ class Scene extends Component {
     let directionalLight2 = new THREE.DirectionalLight(0xffffff);
     directionalLight2.position.set(0, 0, -1000);
     this.scene.add(directionalLight2);
-
+    this.controls.enabled=true;
+    this.controls.screenSpacePanning = true;
+    this.controls.enablePan=true;
+    // this.controls.mouseButtons = {ORBIT:THREE.MOUSE.RIGHT, ZOOM:THREE.MOUSE.MIDDLE,PAN: THREE.MOUSE.LEFT};
+    this.controls.update();
     directionalLight.position.set(0, 0, 1000);
     this.scene.add(directionalLight);
     this.material = new THREE.MeshPhongMaterial({
       color: '#0b7dba',
       emissive: 0x072534,
     });
+
     this.radial_position = 0;
     this.axesHelper = new THREE.AxesHelper(1000);
+
     this.scene.add(this.axesHelper);
     this.name=null;
     this.compID=null;
@@ -79,14 +124,18 @@ class Scene extends Component {
     this.heights_only = [];
     this.start();
     this.selected_component = 0;
+
+
+
+
   }
 
   onDocumentMouseDown = (event) => {
     var raycaster = new THREE.Raycaster(); // create once
     var mouse = new THREE.Vector2(); // create once
     let rect = document.getElementById("scener").getBoundingClientRect();
-    mouse.x = (event.clientX - rect.left) / window.innerWidth * 2 - 1;
-    mouse.y = -((event.clientY - rect.top) / window.innerHeight)* 2 + 1;
+    mouse.x = (event.clientX -rect.left) / (window.innerWidth) * 2 - 1;
+    mouse.y = -((event.clientY-rect.top) / (window.innerHeight))* 2 + 1;
     raycaster.setFromCamera( mouse, this.camera );
   if (this.shapes.length >= 1) {
      // let intersects = raycaster.intersectObjects(this.shapes, true);
@@ -172,9 +221,10 @@ class Scene extends Component {
   }
   }
   onWindowResize = () => {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
+    let left = document.getElementById("scener").getBoundingClientRect();
+    this.camera.aspect = (window.innerWidth) / (window.innerHeight);
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize((window.innerWidth), (window.innerHeight));
   }
 
   componentWillReceiveProps(nextProps) {}
@@ -193,6 +243,7 @@ class Scene extends Component {
       this.frameId = requestAnimationFrame(this.animate);
       this.controls.update();
       this.renderer.render(this.scene, this.camera);
+      this.renderer2.render(this.scene2,this.camera2);
     }
   }
 
@@ -201,9 +252,17 @@ class Scene extends Component {
   }
 
   animate = () => {
-    this.controls.update();
-    this.renderScene();
     this.frameId = window.requestAnimationFrame(this.animate);
+
+    this.controls.update();
+
+    this.camera2.position.copy( this.camera.position );
+    this.camera2.position.sub( this.controls.target ); // added by @libe
+    this.camera2.position.setLength(300);
+  
+    this.camera2.lookAt( this.scene2.position );
+    this.renderScene();
+ 
   }
 
   return_children = (object) => {
@@ -212,6 +271,7 @@ class Scene extends Component {
 
   renderScene = () => {
     this.renderer.render(this.scene, this.camera);
+    this.renderer2.render(this.scene2,this.camera2);
   }
 
   clear_opacity=(component,t)=>{
@@ -385,7 +445,10 @@ class Scene extends Component {
                               this.mount = mount
                             }
                           }
-                          id = "scener"/>
+                          id = "scener">
+                          <div id="inset" style={inset}/>
+                          </div>
+
         <div> Vertical </div> </div>
       );
   

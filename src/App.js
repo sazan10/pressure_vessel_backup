@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Auth from "./Container/Auth/Auth";
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Route, Switch, withRouter,Redirect } from "react-router-dom";
 import classes from "./App.css";
 import { connect } from "react-redux";
 import VesselBuilder from "./Container/VesselBuilder/VesselBuilder";
@@ -12,6 +12,7 @@ class App extends Component {
         <Switch>
           <Route path="/builder" component={VesselBuilder} />
           <Route exact path="/" component={Auth} />
+          <Redirect to="/"/>
         </Switch>
       </div>
     );

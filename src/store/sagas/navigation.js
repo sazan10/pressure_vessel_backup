@@ -13,6 +13,7 @@ import * as newProject from "../../JSONFiles/FormDialog/New.json";
 export function* importModelSaga(action) {
   yield put(actions.updateTitle(action.title));
   let response = cylinder;
+  console.log("inside saga");
   // const response = yield import(`../../JSONFiles/Components/${action.title.replace(" ", "")}Param1.json`);
   //console.log(response);
   switch (action.title) {

@@ -21,7 +21,7 @@ class Menu extends Component {
     }
 
     onClickHandler2 = (e) => {
-        //console.log(e);
+        //console.log("clicked",e);
         this.props.onMenuClick(e);
         this.props.componentClicked(false);
         switch (e) {

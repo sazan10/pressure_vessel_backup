@@ -132,7 +132,7 @@ export class VesselBuilder extends Component {
     if (this.props.orientation === "vertical") {
       scene = (
         <div id="scene">
-          <Scene />
+          <Scene/>     
         </div>
       );
     } else if (this.props.orientation === "horizontal") {

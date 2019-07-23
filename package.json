@@ -81,6 +81,7 @@
     "terser-webpack-plugin": "1.1.0",
     "three": "^0.102.1",
     "three-2-csg": "^1.0.2",
+    "three-orbitcontrols": "^2.102.2",
     "three-trackballcontrols": "0.0.7",
     "thunk": "0.0.1",
     "url-loader": "^1.1.2",
