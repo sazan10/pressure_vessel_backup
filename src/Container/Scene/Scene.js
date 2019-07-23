@@ -32,8 +32,8 @@ class Scene extends Component {
  
   componentDidMount() {
     let left = document.getElementById("scener").getBoundingClientRect();
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    const width = window.innerWidth-left.x;
+    const height = window.innerHeight-left.y;
     this.scene = new THREE.Scene();
 
     this.scene.background = new THREE.Color(0x696969);
@@ -134,8 +134,10 @@ this.scene2.add(this.axes2);
     var raycaster = new THREE.Raycaster(); // create once
     var mouse = new THREE.Vector2(); // create once
     let rect = document.getElementById("scener").getBoundingClientRect();
-    mouse.x = (event.clientX -rect.left) / (window.innerWidth) * 2 - 1;
-    mouse.y = -((event.clientY-rect.top) / (window.innerHeight))* 2 + 1;
+    console.log("coord",event.clientX,event.clientY);
+    console.log("unresize",rect);
+    mouse.x = (event.clientX -rect.x) / (window.innerWidth-rect.x) * 2 - 1;
+    mouse.y = -((event.clientY-rect.y) / (window.innerHeight-rect.y))* 2 + 1;
     raycaster.setFromCamera( mouse, this.camera );
   if (this.shapes.length >= 1) {
      // let intersects = raycaster.intersectObjects(this.shapes, true);
@@ -222,9 +224,10 @@ this.scene2.add(this.axes2);
   }
   onWindowResize = () => {
     let left = document.getElementById("scener").getBoundingClientRect();
-    this.camera.aspect = (window.innerWidth) / (window.innerHeight);
+    console.log("onresize",left)
+    this.camera.aspect = (window.innerWidth-left.x) / (window.innerHeight-left.y);
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize((window.innerWidth), (window.innerHeight));
+    this.renderer.setSize((window.innerWidth-left.x), (window.innerHeight-left.y));
   }
 
   componentWillReceiveProps(nextProps) {}
