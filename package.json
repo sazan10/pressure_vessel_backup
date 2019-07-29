@@ -83,6 +83,7 @@
     "three-2-csg": "^1.0.2",
     "three-orbitcontrols": "^2.102.2",
     "three-trackballcontrols": "0.0.7",
+    "three.textsprite": "^20.0.0",
     "thunk": "0.0.1",
     "url-loader": "^1.1.2",
     "utf8": "^3.0.0",

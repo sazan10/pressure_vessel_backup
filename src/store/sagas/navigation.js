@@ -42,7 +42,6 @@ export function* importModelSaga(action) {
     default:
       break;
   }
-
   //console.log(response.default);
   yield put(actions.returnModel(response.default));
 }

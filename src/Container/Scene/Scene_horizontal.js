@@ -2,36 +2,64 @@ import React, {
   Component
 } from 'react';
 import * as THREE from 'three'
-import * as TrackballControls from 'three-trackballcontrols';
+// import * as TrackballControls from 'three-trackballcontrols';
 import * as actions from '../../store/actions/index';
 import cylinderRenderer from '../../Components/Renderers/cylinderRenderer';
 import ellipseRenderer from '../../Components/Renderers/ellipseRenderer';
 import nozzleRenderer from '../../Components/Renderers/nozzleRenderer';
 import saddleRenderer from '../../Components/Renderers/saddleRenderer';
 import isEmpty from '../../Components/Scene/object_empty';
+import OrbitControls from 'three-orbitcontrols';
 import {
   connect
 } from 'react-redux';
 import liftingLugHoriRenderer from '../../Components/Renderers/liftingLugHoriRenderer';
 import liftingLugCreatorHori from '../../Components/Renderers/liftingLugCreatorHori';
+import Sprite from 'three.textsprite';
 
+
+let inset={
+  width: '105px',
+    height: '105px',
+    position:'absolute',
+    bottom:'0px',
+    /* or transparent; will show through only if renderer alpha: true */
+    margin: '5px',
+ 
+}
+let vessel_type={
+  width: '75px',
+    height: '75px',
+    position:'absolute',
+    top:'65px',
+    right:'40px',
+    /* or transparent; will show through only if renderer alpha: true */
+    margin: '5px',
+ 
+}
 class Scene_horizontal extends Component {
   state = {
     current: {},
   };
   componentDidMount() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    let rect = document.getElementById("scener").getBoundingClientRect();
+
+    const width = window.innerWidth-rect.x;
+    const height = window.innerHeight-rect.y;
     //ADD CAMERA
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color( 0x696969 );
-    this.camera = new THREE.PerspectiveCamera(
-      75,
-      width / height,
-      0.1,
-      1000
-    );
-    this.camera.position.z = 4;
+    // this.camera = new THREE.PerspectiveCamera(
+    //   75,
+    //   width / height,
+    //   0.1,
+    //   1000
+    // );
+    this.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0.1, 1000 );
+
+    this.camera.position.z = 10;
+    this.camera.zoom=100;// needs zooming as object is not viewed from this camera distance
+    this.camera.updateProjectionMatrix();
     //ADD SCENE
     //ADD RENDERER
     this.renderer = new THREE.WebGLRenderer();
@@ -41,7 +69,9 @@ class Scene_horizontal extends Component {
     document.getElementById("scener").addEventListener('mouseup', this.onDocumentMouseDown, false);
     this.group = new THREE.Group();
     //ADD CUBE
-    this.controls = new TrackballControls(this.camera, this.renderer.domElement);
+    // this.controls = new TrackballControls(this.camera, this.renderer.domElement);
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+
     this.controlSetup();
     this.shapes = [];
     let ambient = new THREE.AmbientLight(0xbbbbbb);
@@ -58,6 +88,51 @@ class Scene_horizontal extends Component {
       color: '#0b7dba',
       emissive: 0x072534,
     });
+
+    let container2 = document.getElementById("inset");
+
+    // renderer
+    this.renderer2 = new THREE.WebGLRenderer();
+    // this.scene.position.set(-3,0,0);
+    this.renderer2.setClearColor( 0xfffaaa,0);
+    this.renderer2.setSize( 105, 105 );
+    container2.appendChild(this.renderer2.domElement);
+    
+    // scene
+    this.scene2 = new THREE.Scene();
+    
+    // camera
+    this.camera2 = new THREE.PerspectiveCamera( 50,105 / 105, 1, 1000 );
+    this.camera2.up = this.camera.up; // important!
+    
+    // axes
+    this.axes2 = new THREE.AxisHelper( 100 );
+    this.scene2.add(this.axes2);
+    
+    this.sprite = new Sprite({
+      textSize: 0.1,
+      texture: {
+          text: 'Horizontal',
+          fontFamily: 'Arial, Helvetica, sans-serif',
+      },
+      material: {color: 0xffffff},
+    });
+    
+    let container3= document.getElementById("vessel_type");
+    this.renderer3 = new THREE.WebGLRenderer();
+    this.renderer3.setClearColor(0xfffaaa,0);
+    this.renderer3.setSize(75,75);
+    
+    container3.appendChild(this.renderer3.domElement);
+    this.scene3=new THREE.Scene();
+    //renderer
+    this.scene3.background = new THREE.Color(0x696969);
+    this.camera3 = new THREE.PerspectiveCamera( 5,105 / 105, 1, 1000 );
+    this.camera3.up = this.camera.up; // important!
+    this.scene3.add(this.sprite);
+    
+
+
     this.head_no = 0;
     this.radial_position = 0;
     this.axesHelper = new THREE.AxesHelper(1000);
@@ -78,8 +153,8 @@ class Scene_horizontal extends Component {
     var raycaster = new THREE.Raycaster(); // create once
     var mouse = new THREE.Vector2(); // create once
     let rect = document.getElementById("scener").getBoundingClientRect();
-    mouse.x = (event.clientX - rect.left) / window.innerWidth * 2 - 1;
-    mouse.y = -((event.clientY - rect.top) / window.innerHeight)* 2 + 1;
+    mouse.x = (event.clientX - rect.x) / (window.innerWidth-rect.x) * 2 - 1;
+    mouse.y = -((event.clientY - rect.y) / (window.innerHeight-rect.y))* 2 + 1;
     raycaster.setFromCamera( mouse, this.camera );
     if (this.shapes.length >= 1) {
      // let intersects = raycaster.intersectObjects(this.shapes, true);
@@ -141,9 +216,11 @@ class Scene_horizontal extends Component {
     this.controls.update();
   }
   onWindowResize = () => {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
+    let left = document.getElementById("scener").getBoundingClientRect();
+    console.log("onresize",left)
+    this.camera.aspect = (window.innerWidth-left.x) / (window.innerHeight-left.y);
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize((window.innerWidth-left.x), (window.innerHeight-left.y));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -166,6 +243,7 @@ class Scene_horizontal extends Component {
         break;
       
     }
+    this.camera.zoom=100;// needs zooming as object is not viewed from this camera distance
     this.camera.updateProjectionMatrix();
     this.controlSetup();
     this.controls.update();
@@ -186,6 +264,8 @@ class Scene_horizontal extends Component {
       this.frameId = requestAnimationFrame(this.animate);
       this.controls.update();
       this.renderer.render(this.scene, this.camera);
+      this.renderer2.render(this.scene2,this.camera2);
+      this.renderer3.render(this.scene3,this.camera3);
     }
   }
 
@@ -194,9 +274,21 @@ class Scene_horizontal extends Component {
   }
 
   animate = () => {
-    this.controls.update();
-    this.renderScene();
     this.frameId = window.requestAnimationFrame(this.animate);
+
+    this.controls.update();
+
+    this.camera2.position.copy( this.camera.position );
+    this.camera2.position.sub( this.controls.target ); // added by @libe
+    this.camera2.position.setLength(300);
+  
+    this.camera2.lookAt( this.scene2.position );
+    this.camera3.position.copy( this.camera.position );
+    this.camera3.position.sub( this.controls.target ); // added by @libe
+    this.camera3.position.setLength(5);
+    this.camera3.lookAt( this.scene3.position );
+    this.renderScene();
+ 
   }
 
   return_children = (object) => {
@@ -206,6 +298,8 @@ class Scene_horizontal extends Component {
 
   renderScene = () => {
     this.renderer.render(this.scene, this.camera);
+    this.renderer2.render(this.scene2,this.camera2);
+    this.renderer3.render(this.scene3,this.camera3);
   }
   render() {
     try {
@@ -389,7 +483,9 @@ class Scene_horizontal extends Component {
           }
         }
         id = "scener" />
-        <div>Horizontal</div>
+        <div id="inset" style={inset} />
+        <div id="vessel_type" style={vessel_type} />
+
         </div>
       );
     } catch (err) {

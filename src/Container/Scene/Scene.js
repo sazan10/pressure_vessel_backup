@@ -2,7 +2,6 @@ import React, {
   Component
 } from 'react';
 import * as THREE from 'three';
-import * as TrackballControls from 'three-trackballcontrols';
 import * as actions from '../../store/actions/index';
 import isEmpty from '../../Components/Scene/object_empty';
 import cylinderRenderer from '../../Components/Renderers/cylinderRenderer';
@@ -11,6 +10,7 @@ import liftingLugRenderer from '../../Components/Renderers/liftingLugRenderer';
 import ellipseRenderer from '../../Components/Renderers/ellipseRenderer';
 import skirtRenderer from '../../Components/Renderers/skirtRenderer';
 import OrbitControls from 'three-orbitcontrols';
+import Sprite from 'three.textsprite';
 
 import {
   connect
@@ -25,6 +25,16 @@ let inset={
     margin: '5px',
  
 }
+let vessel_type={
+  width: '75px',
+    height: '75px',
+    position:'absolute',
+    top:'65px',
+    right:'40px',
+    /* or transparent; will show through only if renderer alpha: true */
+    margin: '5px',
+ 
+}
 class Scene extends Component {
   state = {
     current: {},
@@ -35,22 +45,28 @@ class Scene extends Component {
     const width = window.innerWidth-left.x;
     const height = window.innerHeight-left.y;
     this.scene = new THREE.Scene();
-
+    
     this.scene.background = new THREE.Color(0x696969);
-    this.camera = new THREE.PerspectiveCamera(
-      90,
-      width / height,
-      0.001,1000000
-    );
+    // this.camera = new THREE.PerspectiveCamera(
+    //   90,
+    //   width / height,
+    //   0.001,1000000
+    // );
+    this.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0.1, 1000 );
     // this.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
     // this.scene.add(this.camera);
-    this.camera.position.z = 5;
+    this.camera.position.z =10; //Camera needs to be somewhat far, otherwise the object will be clipped 
+
+    this.camera.zoom=100;// needs zooming as object is not viewed from this camera distance
+    this.camera.updateProjectionMatrix(); //update projection matrix
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.mount.appendChild(this.renderer.domElement);
     this.group = new THREE.Group();
 
+    
+     
     document.getElementById("scener").addEventListener('mouseup', this.onDocumentMouseDown, false);
 //     let squareWorker = new Worker("code/squareworker.js");
 
@@ -68,15 +84,11 @@ class Scene extends Component {
 
 
 let container2 = document.getElementById("inset");
-
-// renderer
 this.renderer2 = new THREE.WebGLRenderer();
 // this.scene.position.set(-3,0,0);
-this. renderer2.setClearColor( 0xfffaaa, 0);
+this.renderer2.setClearColor( 0xfffaaa, 0);
 this.renderer2.setSize( 105, 105 );
 container2.appendChild(this.renderer2.domElement);
-
-// scene
 this.scene2 = new THREE.Scene();
 
 // camera
@@ -86,6 +98,34 @@ this.camera2.up = this.camera.up; // important!
 // axes
 this.axes2 = new THREE.AxisHelper( 100 );
 this.scene2.add(this.axes2);
+
+// scene
+this.sprite = new Sprite({
+  textSize: 0.1,
+  texture: {
+      text: 'Vertical',
+      fontFamily: 'Arial, Helvetica, sans-serif',
+  },
+  material: {color: 0xffffff},
+});
+
+let container3= document.getElementById("vessel_type");
+this.renderer3 = new THREE.WebGLRenderer();
+this.renderer3.setClearColor(0xfffaaa,0);
+this.renderer3.setSize(75,75);
+
+container3.appendChild(this.renderer3.domElement);
+this.scene3=new THREE.Scene();
+//renderer
+this.scene3.background = new THREE.Color(0x696969);
+this.camera3 = new THREE.PerspectiveCamera( 5,105 / 105, 1, 1000 );
+this.camera3.up = this.camera.up; // important!
+this.scene3.add(this.sprite);
+
+
+
+// sprite.lookAt(this.camera);
+
 
     window.addEventListener('resize', this.onWindowResize, false);
     // this.controls = new TrackballControls(this.camera, this.renderer.domElement);
@@ -117,6 +157,7 @@ this.scene2.add(this.axes2);
     this.axesHelper = new THREE.AxesHelper(1000);
 
     this.scene.add(this.axesHelper);
+
     this.name=null;
     this.compID=null;
     this.heights = {};
@@ -170,14 +211,11 @@ this.scene2.add(this.axes2);
         } catch (e) {
           console.log(e)
         }
-
         if (intersects[0].object.material.opacity === 1) {
           intersects[0].object.material.opacity = 0.5;
         } else {
           intersects[0].object.material.opacity = 1;
         }
-     
-
         let res=null;
         if(name){
         res=name.split("&");
@@ -217,6 +255,7 @@ this.scene2.add(this.axes2);
      default:
         break;
     }
+    this.camera.zoom=100;// needs zooming as object is not viewed from this camera distance
     this.camera.updateProjectionMatrix();
     this.controlSetup();
     this.controls.update();
@@ -247,6 +286,7 @@ this.scene2.add(this.axes2);
       this.controls.update();
       this.renderer.render(this.scene, this.camera);
       this.renderer2.render(this.scene2,this.camera2);
+      this.renderer3.render(this.scene3,this.camera3);
     }
   }
 
@@ -256,16 +296,16 @@ this.scene2.add(this.axes2);
 
   animate = () => {
     this.frameId = window.requestAnimationFrame(this.animate);
-
     this.controls.update();
-
     this.camera2.position.copy( this.camera.position );
     this.camera2.position.sub( this.controls.target ); // added by @libe
     this.camera2.position.setLength(300);
-  
     this.camera2.lookAt( this.scene2.position );
+    this.camera3.position.copy( this.camera.position );
+    this.camera3.position.sub( this.controls.target ); // added by @libe
+    this.camera3.position.setLength(5);
+    this.camera3.lookAt( this.scene3.position );
     this.renderScene();
- 
   }
 
   return_children = (object) => {
@@ -275,6 +315,7 @@ this.scene2.add(this.axes2);
   renderScene = () => {
     this.renderer.render(this.scene, this.camera);
     this.renderer2.render(this.scene2,this.camera2);
+    this.renderer3.render(this.scene3,this.camera3);
   }
 
   clear_opacity=(component,t)=>{
@@ -450,9 +491,9 @@ this.scene2.add(this.axes2);
                           }
                           id = "scener">
                           <div id="inset" style={inset}/>
+                          <div  id="vessel_type" style={vessel_type} />
                           </div>
-
-        <div> Vertical </div> </div>
+             </div>
       );
   
   }
