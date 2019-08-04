@@ -8,7 +8,8 @@ import cylinderRenderer from '../../Components/Renderers/cylinderRenderer';
 import nozzleRenderer from '../../Components/Renderers/nozzleRenderer';
 import liftingLugRenderer from '../../Components/Renderers/liftingLugRenderer';
 import ellipseRenderer from '../../Components/Renderers/ellipseRenderer';
-import skirtRenderer from '../../Components/Renderers/skirtRenderer';
+// import skirtRenderer from '../../Components/Renderers/skirtRenderer';
+import skirtRenderer2 from '../../Components/Renderers/skirtRenderer2';
 import OrbitControls from 'three-orbitcontrols';
 import Sprite from 'three.textsprite';
 
@@ -45,8 +46,10 @@ class Scene extends Component {
     const width = window.innerWidth-left.x;
     const height = window.innerHeight-left.y;
     this.scene = new THREE.Scene();
-    
-    this.scene.background = new THREE.Color(0x696969);
+    let col=0xdce3c8;
+    this.scene.background = new THREE.Color(col);
+
+
     // this.camera = new THREE.PerspectiveCamera(
     //   90,
     //   width / height,
@@ -56,7 +59,6 @@ class Scene extends Component {
     // this.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
     // this.scene.add(this.camera);
     this.camera.position.z =10; //Camera needs to be somewhat far, otherwise the object will be clipped 
-
     this.camera.zoom=100;// needs zooming as object is not viewed from this camera distance
     this.camera.updateProjectionMatrix(); //update projection matrix
     this.renderer = new THREE.WebGLRenderer();
@@ -69,7 +71,6 @@ class Scene extends Component {
      
     document.getElementById("scener").addEventListener('mouseup', this.onDocumentMouseDown, false);
 //     let squareWorker = new Worker("code/squareworker.js");
-
 //     addEventListener("message", event => {
 //       postMessage(event.data * event.data);
 //     });
@@ -86,10 +87,11 @@ class Scene extends Component {
 let container2 = document.getElementById("inset");
 this.renderer2 = new THREE.WebGLRenderer();
 // this.scene.position.set(-3,0,0);
-this.renderer2.setClearColor( 0xfffaaa, 0);
+this.renderer2.setClearColor( 0xdddddd, 0);
 this.renderer2.setSize( 105, 105 );
 container2.appendChild(this.renderer2.domElement);
 this.scene2 = new THREE.Scene();
+this.scene2.background = new THREE.Color(col);
 
 // camera
 this.camera2 = new THREE.PerspectiveCamera( 50,105 / 105, 1, 1000 );
@@ -106,18 +108,18 @@ this.sprite = new Sprite({
       text: 'Vertical',
       fontFamily: 'Arial, Helvetica, sans-serif',
   },
-  material: {color: 0xffffff},
+  material: {color: 0x000000},
 });
 
 let container3= document.getElementById("vessel_type");
 this.renderer3 = new THREE.WebGLRenderer();
-this.renderer3.setClearColor(0xfffaaa,0);
+this.renderer3.setClearColor(col,0);
 this.renderer3.setSize(75,75);
 
 container3.appendChild(this.renderer3.domElement);
 this.scene3=new THREE.Scene();
 //renderer
-this.scene3.background = new THREE.Color(0x696969);
+this.scene3.background = new THREE.Color(col);
 this.camera3 = new THREE.PerspectiveCamera( 5,105 / 105, 1, 1000 );
 this.camera3.up = this.camera.up; // important!
 this.scene3.add(this.sprite);
@@ -442,11 +444,16 @@ this.scene3.add(this.sprite);
           }
             case "Skirt":
             {
-              let values=skirtRenderer(this.props.component[i],
-                                       scaler,
-                                       t,
-                                       this.heights,
-                                       this.weights);
+              // let values=skirtRenderer(this.props.component[i],
+              //                          scaler,
+              //                          t,
+              //                          this.heights,
+              //                          this.weights);
+              let values=skirtRenderer2(this.props.component[i],
+                scaler,
+                t,
+                this.heights,
+                this.weights);
               let skirt =values[0];
               skirt.name = values[4] + "&" + values[3];
               this.scene.add(skirt)

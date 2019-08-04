@@ -48,7 +48,8 @@ class Scene_horizontal extends Component {
     const height = window.innerHeight-rect.y;
     //ADD CAMERA
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color( 0x696969 );
+    let col=0xdce3c8;
+    this.scene.background = new THREE.Color( col );
     // this.camera = new THREE.PerspectiveCamera(
     //   75,
     //   width / height,
@@ -94,13 +95,13 @@ class Scene_horizontal extends Component {
     // renderer
     this.renderer2 = new THREE.WebGLRenderer();
     // this.scene.position.set(-3,0,0);
-    this.renderer2.setClearColor( 0xfffaaa,0);
+    this.renderer2.setClearColor(col);
     this.renderer2.setSize( 105, 105 );
     container2.appendChild(this.renderer2.domElement);
     
     // scene
     this.scene2 = new THREE.Scene();
-    
+    this.scene2.background = new THREE.Color( col );
     // camera
     this.camera2 = new THREE.PerspectiveCamera( 50,105 / 105, 1, 1000 );
     this.camera2.up = this.camera.up; // important!
@@ -115,18 +116,18 @@ class Scene_horizontal extends Component {
           text: 'Horizontal',
           fontFamily: 'Arial, Helvetica, sans-serif',
       },
-      material: {color: 0xffffff},
+      material: {color: 0x000000},
     });
     
     let container3= document.getElementById("vessel_type");
     this.renderer3 = new THREE.WebGLRenderer();
-    this.renderer3.setClearColor(0xfffaaa,0);
+    this.renderer3.setClearColor(col);
     this.renderer3.setSize(75,75);
     
     container3.appendChild(this.renderer3.domElement);
     this.scene3=new THREE.Scene();
     //renderer
-    this.scene3.background = new THREE.Color(0x696969);
+    this.scene3.background = new THREE.Color(col);
     this.camera3 = new THREE.PerspectiveCamera( 5,105 / 105, 1, 1000 );
     this.camera3.up = this.camera.up; // important!
     this.scene3.add(this.sprite);

@@ -26,7 +26,7 @@ export function* authUserSaga(action) {
     }
     try{
     const response = yield axios.post(url, action.authData, { headers: action.headers });
-    
+    yield console.log("response", response)
     const data = response.data.data.token.split(".");
     let tokenDecoded = base64.decode(data[1]);
     tokenDecoded = utf8.decode(tokenDecoded);
@@ -38,6 +38,7 @@ export function* authUserSaga(action) {
     yield put(actions.authSuccess(response.data.data.token, tokenDecoded.username));
     yield put(actions.checkAuthTimeout(expirationTime - 3));
     } catch(error) {
+	yield console.log("errrrrorr",error);
         yield put(actions.authFail(error.response));
     }
 }
