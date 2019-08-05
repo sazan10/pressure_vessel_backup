@@ -68,10 +68,10 @@ let group = new THREE.Group();
        let z1= ((sd+thickness*2)/2+gusset_thickness/1.5)*Math.cos(angle_pos+small_angle);
        let x2= ((sd+thickness*2)/2+gusset_width/1.5)*Math.sin(angle_pos-small_angle);
        let z2= ((sd+thickness*2)/2+gusset_thickness/1.5)*Math.cos(angle_pos-small_angle);
-       console.log(pos,angle,angle_pos,x1,z1)
+      //  console.log(pos,angle,angle_pos,x1,z1)
        gusset_geometry[i].translateY(-length-skirt_flange_length-gusset_length/2).translateX(x1).translateZ(z1).rotateY(angle_pos);
        gusset_geometry[i+gusset_number].translateY(-length-skirt_flange_length-gusset_length/2).translateX(x2).translateZ(z2).rotateY(angle_pos);
-       console.log(gusset_geometry[i]);
+      //  console.log(gusset_geometry[i]);
        group.add(gusset_geometry[i]);
        group.add(gusset_geometry[i+gusset_number]);
      }

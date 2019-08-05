@@ -68,6 +68,9 @@ class Menu extends Component {
             case "Front View":
                 this.props.changeView("FRONT");
                 break;
+            case "Perspective View":
+                this.props.changeView("PERSPECTIVE");
+                break;
             default:
                 break;
         }

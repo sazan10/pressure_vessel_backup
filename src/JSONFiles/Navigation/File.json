@@ -116,6 +116,12 @@
       "title": "Front View",
       "selected": false,
       "key": "Views"
+    },
+    {
+      "id": 3,
+      "title": "Perspective View",
+      "selected": false,
+      "key": "Views"
     }
   ]
 }

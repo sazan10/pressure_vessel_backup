@@ -217,6 +217,7 @@ class Scene_horizontal extends Component {
     this.controls.update();
   }
   onWindowResize = () => {
+    
     let left = document.getElementById("scener").getBoundingClientRect();
     console.log("onresize",left)
     this.camera.aspect = (window.innerWidth-left.x) / (window.innerHeight-left.y);
@@ -239,6 +240,9 @@ class Scene_horizontal extends Component {
         break;
       case "TOP":
         this.camera.position.set(0.0001, 10, 0);
+        break;
+      case "PERSPECTIVE":
+        this.camera.position.set(7, 7, 10);
         break;
       default:
         break;

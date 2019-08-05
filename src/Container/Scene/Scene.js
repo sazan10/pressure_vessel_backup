@@ -58,7 +58,7 @@ class Scene extends Component {
     this.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0.1, 1000 );
     // this.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
     // this.scene.add(this.camera);
-    this.camera.position.z =10; //Camera needs to be somewhat far, otherwise the object will be clipped 
+    this.camera.position.set(7,7,10); //Camera needs to be somewhat far, otherwise the object will be clipped 
     this.camera.zoom=100;// needs zooming as object is not viewed from this camera distance
     this.camera.updateProjectionMatrix(); //update projection matrix
     this.renderer = new THREE.WebGLRenderer();
@@ -85,13 +85,13 @@ class Scene extends Component {
 
 
 let container2 = document.getElementById("inset");
-this.renderer2 = new THREE.WebGLRenderer();
+this.renderer2 = new THREE.WebGLRenderer({ alpha: true });
 // this.scene.position.set(-3,0,0);
-this.renderer2.setClearColor( 0xdddddd, 0);
+this.renderer2.setClearColor( 0x000000, 0);
 this.renderer2.setSize( 105, 105 );
 container2.appendChild(this.renderer2.domElement);
 this.scene2 = new THREE.Scene();
-this.scene2.background = new THREE.Color(col);
+// this.scene2.background = new THREE.Color(col);
 
 // camera
 this.camera2 = new THREE.PerspectiveCamera( 50,105 / 105, 1, 1000 );
@@ -112,14 +112,14 @@ this.sprite = new Sprite({
 });
 
 let container3= document.getElementById("vessel_type");
-this.renderer3 = new THREE.WebGLRenderer();
-this.renderer3.setClearColor(col,0);
+this.renderer3 = new THREE.WebGLRenderer({ alpha: true });
+this.renderer3.setClearColor(0x000000,0);
 this.renderer3.setSize(75,75);
 
 container3.appendChild(this.renderer3.domElement);
 this.scene3=new THREE.Scene();
 //renderer
-this.scene3.background = new THREE.Color(col);
+// this.scene3.background = new THREE.Color(col);
 this.camera3 = new THREE.PerspectiveCamera( 5,105 / 105, 1, 1000 );
 this.camera3.up = this.camera.up; // important!
 this.scene3.add(this.sprite);
@@ -165,6 +165,38 @@ this.scene3.add(this.sprite);
     this.heights = {};
     this.weights = {};
     this.heights_only = [];
+
+
+
+
+
+
+
+
+//     let  textGeo = new THREE.TextGeometry('Y', {
+//       size: 5,
+//       height: 2,
+//       curveSegments: 6,
+//       style: "normal"       
+//     });
+ 
+//  var  color = new THREE.Color();
+//  color.setRGB(255, 250, 250);
+//  var  textMaterial = new THREE.MeshBasicMaterial({ color: color });
+//  var  text = new THREE.Mesh(textGeo , textMaterial);
+ 
+//  text.position.x = this.axes2.geometry.vertices[1].x;
+//  text.position.y = this.axes2.geometry.vertices[1].y;
+//  text.position.z = this.axes2.geometry.vertices[1].z;
+//  text.rotation = this.camera2.rotation;
+//  this.scene2.add(text);
+
+
+
+
+
+
+
     this.start();
     this.selected_component = 0;
 
@@ -177,8 +209,8 @@ this.scene3.add(this.sprite);
     var raycaster = new THREE.Raycaster(); // create once
     var mouse = new THREE.Vector2(); // create once
     let rect = document.getElementById("scener").getBoundingClientRect();
-    console.log("coord",event.clientX,event.clientY);
-    console.log("unresize",rect);
+    // console.log("coord",event.clientX,event.clientY);
+    // console.log("unresize",rect);
     mouse.x = (event.clientX -rect.x) / (window.innerWidth-rect.x) * 2 - 1;
     mouse.y = -((event.clientY-rect.y) / (window.innerHeight-rect.y))* 2 + 1;
     raycaster.setFromCamera( mouse, this.camera );
@@ -254,6 +286,9 @@ this.scene3.add(this.sprite);
       case "TOP":
         this.camera.position.set(0.0001, 10, 0);
         break;
+      case "PERSPECTIVE":
+        this.camera.position.set(7, 7, 10);
+        break;
      default:
         break;
     }
@@ -265,7 +300,7 @@ this.scene3.add(this.sprite);
   }
   onWindowResize = () => {
     let left = document.getElementById("scener").getBoundingClientRect();
-    console.log("onresize",left)
+    // console.log("onresize",left)
     this.camera.aspect = (window.innerWidth-left.x) / (window.innerHeight-left.y);
     this.camera.updateProjectionMatrix();
     this.renderer.setSize((window.innerWidth-left.x), (window.innerHeight-left.y));
