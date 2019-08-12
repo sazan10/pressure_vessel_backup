@@ -6,6 +6,7 @@
 .Menu:hover {
     /* color: #fff; */
     background-color: #ddd;
+    cursor: pointer;
 }
 
 .Menu:active {

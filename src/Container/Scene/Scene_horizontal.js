@@ -31,8 +31,8 @@ let vessel_type={
   width: '75px',
     height: '75px',
     position:'absolute',
-    top:'65px',
-    right:'40px',
+    top:'50px',
+    right:'10px',
     /* or transparent; will show through only if renderer alpha: true */
     margin: '5px',
  
@@ -48,7 +48,7 @@ class Scene_horizontal extends Component {
     const height = window.innerHeight-rect.y;
     //ADD CAMERA
     this.scene = new THREE.Scene();
-    let col=0xdce3c8;
+    let col="#e4f4f7";
     this.scene.background = new THREE.Color( col );
     // this.camera = new THREE.PerspectiveCamera(
     //   75,
@@ -58,7 +58,7 @@ class Scene_horizontal extends Component {
     // );
     this.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0.1, 1000 );
 
-    this.camera.position.z = 10;
+    this.camera.position.set(10,10,10);
     this.camera.zoom=100;// needs zooming as object is not viewed from this camera distance
     this.camera.updateProjectionMatrix();
     //ADD SCENE
@@ -93,15 +93,14 @@ class Scene_horizontal extends Component {
     let container2 = document.getElementById("inset");
 
     // renderer
-    this.renderer2 = new THREE.WebGLRenderer();
+    this.renderer2 = new THREE.WebGLRenderer({ alpha: true });
     // this.scene.position.set(-3,0,0);
-    this.renderer2.setClearColor(col);
+    this.renderer2.setClearColor(0x000000,0);
     this.renderer2.setSize( 105, 105 );
     container2.appendChild(this.renderer2.domElement);
     
     // scene
     this.scene2 = new THREE.Scene();
-    this.scene2.background = new THREE.Color( col );
     // camera
     this.camera2 = new THREE.PerspectiveCamera( 50,105 / 105, 1, 1000 );
     this.camera2.up = this.camera.up; // important!
@@ -120,19 +119,51 @@ class Scene_horizontal extends Component {
     });
     
     let container3= document.getElementById("vessel_type");
-    this.renderer3 = new THREE.WebGLRenderer();
-    this.renderer3.setClearColor(col);
+    this.renderer3 = new THREE.WebGLRenderer({ alpha:true });
+    this.renderer3.setClearColor(0x000000,0);
     this.renderer3.setSize(75,75);
     
     container3.appendChild(this.renderer3.domElement);
     this.scene3=new THREE.Scene();
     //renderer
-    this.scene3.background = new THREE.Color(col);
     this.camera3 = new THREE.PerspectiveCamera( 5,105 / 105, 1, 1000 );
     this.camera3.up = this.camera.up; // important!
     this.scene3.add(this.sprite);
     
 
+    let spriteX = new Sprite({
+      textSize: 20,
+      texture: {
+          text: 'X',
+          fontFamily: 'Arial, Helvetica, sans-serif',
+            },
+      material: {color: "blue"},
+    });
+    
+    spriteX.position.x=110;
+    this.scene2.add(spriteX);
+    let spriteY = new Sprite({
+      textSize: 20,
+      texture: {
+          text: 'Y',
+          fontFamily: 'Arial, Helvetica, sans-serif',
+            },
+      material: {color: "blue"},
+    });
+    
+    spriteY.position.y=110;
+    this.scene2.add(spriteY);
+    let spriteZ = new Sprite({
+      textSize: 20,
+      texture: {
+          text: 'Z',
+          fontFamily: 'Arial, Helvetica, sans-serif',
+            },
+      material: {color: "blue"},
+    });
+    
+    spriteZ.position.z=110;
+    this.scene2.add(spriteZ);
 
     this.head_no = 0;
     this.radial_position = 0;
@@ -241,8 +272,8 @@ class Scene_horizontal extends Component {
       case "TOP":
         this.camera.position.set(0.0001, 10, 0);
         break;
-      case "PERSPECTIVE":
-        this.camera.position.set(7, 7, 10);
+      case "ISOMETRIC":
+        this.camera.position.set(10, 10, 10);
         break;
       default:
         break;
@@ -280,13 +311,10 @@ class Scene_horizontal extends Component {
 
   animate = () => {
     this.frameId = window.requestAnimationFrame(this.animate);
-
     this.controls.update();
-
     this.camera2.position.copy( this.camera.position );
     this.camera2.position.sub( this.controls.target ); // added by @libe
     this.camera2.position.setLength(300);
-  
     this.camera2.lookAt( this.scene2.position );
     this.camera3.position.copy( this.camera.position );
     this.camera3.position.sub( this.controls.target ); // added by @libe

@@ -166,8 +166,9 @@ export class VesselBuilder extends Component {
           <Menu showSupport={this.showSupportComponent}/>
           </Grid>
         </Grid>
-        <Grid container spacing={0}>
-          <Grid item lg={3} md={3} sm={3} xs={4}>
+        <Grid container spacing={0} >
+          <Grid style={{'border-style': 'solid',
+        'border-width':'0px 0.5px 0.5px 0.5px'}} item lg={3} md={3} sm={3} xs={4}>
             {display}
           </Grid>
           <Grid item lg={9} md={9} sm={9} xs={8}>

@@ -10,11 +10,13 @@ class DropDownMenu extends Component {
     /** The dropdown menu is created from File.json file */
     // console.log(this.props.title + " " + this.props.id + " " + this.props.stateKey);
     const menu = data.menu.map(d => (
+      
       <DropDown
         key={Object.keys(d)}
         titleHead={Object.keys(d)}
         list={d[Object.keys(d)]}
       />
+      
     ));
     return <div className={classes.body}>{menu}</div>;
   }

@@ -11,8 +11,8 @@ class Menu extends Component {
 
     state = {
         title: "Files",
-        normalColor: '#ffffff',
-        clickedColor: '#dddddd',
+        normalColor: '#dddddd',
+        clickedColor: '#eeeeee',
     }
 
     onClickHandler1 = (e) => {
@@ -68,8 +68,8 @@ class Menu extends Component {
             case "Front View":
                 this.props.changeView("FRONT");
                 break;
-            case "Perspective View":
-                this.props.changeView("PERSPECTIVE");
+            case "Isometric View":
+                this.props.changeView("ISOMETRIC");
                 break;
             default:
                 break;
@@ -103,7 +103,8 @@ class Menu extends Component {
             <IconNavbar  key={dd.id} selectItem={this.onClickHandler2} title={dd.title} orientation={this.props.orientation}></IconNavbar>
         ));
 
-        return <div>
+        return <div style={{'border-style': 'solid',
+        'border-width':'0.2px 0px 0.2px 0px','background-color':'#dddddd'}}>
             <div >
                 {menu}
                 <Username username={this.props.username?this.props.username:localStorage.getItem('userId')}/>
