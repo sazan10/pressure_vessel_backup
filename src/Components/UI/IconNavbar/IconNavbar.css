@@ -18,9 +18,19 @@
     background-color:#eeeeee;
     display:inline-flex;
     border-style: solid;
-    border-color:#bbbbbb;
-    border-width: 0px 0.5px 0px 0px;
+    /* border-color:#bbbbbb; */
+    border-color:gray #cccccc black black;
+    border-width: 0px 0.5px 0.5px 0px;
 }
+
+@media screen and (min--moz-device-pixel-ratio:0)
+{
+    .options{
+        border-width:0px 0.05px 0px 0px;
+        border-color:gray #cccccc black black;
+    }
+}
+
 .options:hover{
     background-color:#dddddd;
 }

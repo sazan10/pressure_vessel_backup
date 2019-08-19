@@ -1,14 +1,22 @@
 .Menu {
     display: inline-flex;
     padding: 0.2rem 1rem ;
+    border:solid black ;
+    border-width:0.05px 0px 0px 0px;
 }
-
+@media screen and (min--moz-device-pixel-ratio:0)
+{
+    .Menu{
+        border-width:0px 0px 0px 0px
+    }
+}
 .Menu:hover {
     /* color: #fff; */
-    background-color: #ddd;
+    border:solid gray ;
+    border-width:0.05px 0.05px 0.05px 0.05px;
     cursor: pointer;
 }
 
 .Menu:active {
-    background-color: #ddd;
+    background-color: #555555;
 }

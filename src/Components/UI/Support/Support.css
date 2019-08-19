@@ -1,0 +1,6 @@
+.input1 {
+    font-family: 'Courier New', Courier, monospace;
+}
+.input1:not(:placeholder-shown) {
+  border-color: hsl(0, 76%, 50%);
+}

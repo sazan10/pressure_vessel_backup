@@ -2,7 +2,7 @@
 import Aux from '../../../hoc/Auxx/Auxx';
 import FormInput from './formInput';
 import axios from "../../../axios-orders";
-
+import classes from './Support.css';
 class Support extends Component{
     state={
         app:"Vessel Express",
@@ -57,7 +57,7 @@ formSubmit = (e) => {
             <div>
             <form>
             <FormInput inputType="select" name="App Name" option={apps} />
-            <FormInput inputType="input" formControl ="form-control" type="text" label="Subject" onChange={e => this.setState({subject: e.target.value})} placeholder="Subject"/>
+            <FormInput inputType="input" formControl ="form-control" type="text" label="Subject" onChange={e => this.setState({subject: e.target.value})} placeholder="Subject" className={classes.input1} required ></FormInput>
             <FormInput inputType="textarea" formControl="form-control" type="text" label="Description" onChange={e => this.setState({ description: e.target.value})} placeholder="Description" />
             <FormInput inputType="input" formControl="form-control-file" type= "file" label="Attachment" placeholder="Attachment"  uploadAttachment={this.uploadAttachment}/>
   <button type="submit" className="btn btn-primary" onClick={this.formSubmit}>Submit</button>

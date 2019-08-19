@@ -77,6 +77,7 @@ class TreeDemo extends React.Component {
       node.toggled = toggled;
     }
     this.setState({ cursor: node });
+    try{
     if (node.component !== "Components" && node.component!=="noComponent") {
       const name = node.component.split(" ");
       if (name.length >= 2) {
@@ -88,6 +89,11 @@ class TreeDemo extends React.Component {
       this.props.returnComponentID(parseInt(node.id));
       this.props.componentClicked(true);
     }
+  }
+  catch(Exception)
+  {
+    
+  }
   };
 
   render() {
